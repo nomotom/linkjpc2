@@ -8,7 +8,6 @@ import logging
 import logging.config
 import sys
 
-
 def set_logging_pre(log_info, logger_name):
     from os import path
 
@@ -428,7 +427,7 @@ def gen_input_title_file(in_dir, input_title_file, log_info):
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
-    in_files = in_dir + '*.json'
+    in_files = in_dir + '*.jsonl'
     check = {}
     for in_file in glob(in_files):
         logger.info({
@@ -479,10 +478,11 @@ def prematch_mention_title(data_info_prep, pre_matching, title_matching, char_ma
     """
     import re
     import pandas as pd
+    import ljc_common as lc
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
-    in_files = data_info_prep.in_dir + '*.json'
+    in_files = data_info_prep.in_dir + '*.jsonl'
     logger.info({
         'action': 'prematch_mention_title',
         'in_files': in_files,
@@ -527,7 +527,15 @@ def prematch_mention_title(data_info_prep, pre_matching, title_matching, char_ma
         })
         with open(in_file, mode='r', encoding='utf-8') as i:
             fname = in_file.replace(data_info_prep.in_dir, '')
-            ene_cat = fname.replace('.json', '')
+            # ene_cat = fname.replace('.json', '')
+
+            ene_cat = lc.extract_cat(fname, log_info)
+            if ene_cat == '':
+                logger.error({
+                    'action': 'prematch_mention_title',
+                    'msg': 'illegal file name',
+                    'fname': fname
+                })
 
             for i_line in i:
                 rec = json.loads(i_line)
@@ -639,6 +647,14 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
         cat = cat_pre[0]
         fname = cat_pre[1]
         fname = fname.replace('.html', '')
+
+        logger.info({
+            'action': 'gen_html_info_file',
+            'filename': filename,
+            'fname': fname,
+        })
+
+
         with open(filename, 'r', encoding='utf-8') as f:
             check_elm = {}
 
@@ -657,12 +673,20 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
                 # start = 0
                 for link in links:
                     try:
+                        # href_char = link.get('href_char')
                         href_char = link.get('href')
+
                         if href_char:
-                            if 'index' not in href_char:
+                            # 20220819 tag for edition
+                            # <a href="/w/index.php?title=%E7%89%B9%E5%88%A5:%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E4%BD%9C%E6%88%90&amp;returnto=.tw&amp;returntoquery=curid%3D1357468" class="vector-menu-content-item user-links-collapsible-item" title="アカウントを作成してログインすることをお勧めしますが、必須ではありません">
+                            if ('action=edit' in href_char) or ('returntoquery' in href_char) or (
+                                    'en.wikipedia.org' in href_char):
                                 continue
-                            elif 'redlink' in href_char:
+                            elif 'index' not in href_char:
                                 continue
+                            # included in action=edit
+                            # elif 'redlink' in href_char:
+                            #     continue
                     except(NameError, ValueError):
                         continue
 
@@ -981,6 +1005,7 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info):
                 3623607	下半山村	合併市区町村	三間ノ川村	61	39	61	44	3623607	下半山村
     """
     import logging
+    import ljc_common as lc
 
     import pandas as pd
     import re
@@ -995,8 +1020,8 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info):
     })
     prt_list = []
 
-    ene = sample_e_dir + '*.json'
-    gold = sample_g_dir + '*.json'
+    ene = sample_e_dir + '*.jsonl'
+    gold = sample_g_dir + '*.jsonl'
 
     count_e_cat_attr = {}
     count_g_cat_attr = {}
@@ -1004,7 +1029,15 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info):
     for ene_file in glob(ene):
         with open(ene_file, mode='r', encoding='utf-8') as ef:
             e_fname = ene_file.replace(sample_e_dir, '')
-            e_cat = e_fname.replace('.json', '')
+            # e_cat = e_fname.replace('.json', '')
+
+            e_cat = lc.extract_cat(e_fname, log_info)
+            if e_cat == '':
+                logger.error({
+                    'action': 'prematch_mention_title',
+                    'msg': 'illegal file name',
+                    'fname': e_fname
+                })
 
             logger.info({
                 'action': 'ljc_main',
@@ -1026,7 +1059,14 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info):
     for g_file in glob(gold):
         with open(g_file, mode='r', encoding='utf-8') as gf:
             g_fname = g_file.replace(sample_g_dir, '')
-            g_cat = g_fname.replace('.json', '')
+            # g_cat = g_fname.replace('.json', '')
+            g_cat = lc.extract_cat(g_fname, log_info)
+            if g_cat == '':
+                logger.error({
+                    'action': 'prematch_mention_title',
+                    'msg': 'illegal file name',
+                    'g_fname': g_fname
+                })
 
             logger.info({
                 'action': 'ljc_main',
@@ -1407,6 +1447,12 @@ def gen_mention_gold_link_dist(html_info, sample_gold_dir, outfile, log_info):
             cat_pid_title_line = ':'.join([cat, pid, title, line_start])
             cat_pid_title = ':'.join([cat, pid, title])
 
+            logger.debug({
+                'action': 'gen_mention_gold_link_dist',
+                'line_start': line_start,
+                'cat_pid_title': cat_pid_title,
+            })
+
             if not check_cat_pid_title_line.get(cat_pid_title_line):
                 cat_pid_title_dic[cat_pid_title] = []
             cat_pid_title_dic[cat_pid_title].append(int(line_start))
@@ -1422,14 +1468,44 @@ def gen_mention_gold_link_dist(html_info, sample_gold_dir, outfile, log_info):
 
             for grow in greader:
                 g_org_pid = grow[0]
+                g_org_title = grow[1]
                 g_attr = grow[2]
                 g_mention_line_start = grow[4]
                 g_gold_title = grow[9]
+                logger.info({
+                    'action': 'gen_mention_gold_link_dist',
+                    'g_org_title': g_org_title,
+                    'g_attr': g_attr,
+                    'g_mention_line_start': g_mention_line_start,
+                    'g_gold_title': g_gold_title,
+                    'msg': 'skipped',
+                })
+
+                # skip if no link title
+                # 20220819
+                # if g_gold_title == '':
+                #     logger.debug({
+                #         'action': 'gen_mention_gold_link_dist',
+                #         'g_gold_title': g_gold_title,
+                #         'msg': 'skipped',
+                #     })
+                #     continue
                 g_cat_pid_title = ':'.join([ene_cat, g_org_pid, g_gold_title])
+
+                # check 20210819
+                logger.debug({
+                    'action': 'gen_mention_gold_link_dist',
+                    'g_org_tile': g_org_title,
+                    'g_cat_pid_title': g_cat_pid_title,
+                    'g_mention_line_start': g_mention_line_start
+                })
 
                 if cat_pid_title_dic.get(g_cat_pid_title):
                     tmp_lineid_list = cat_pid_title_dic[g_cat_pid_title]
                     found = 0
+                    # 20220819
+                    # if len(tmp_lineid_list) > 0:
+                    diff_min = 0
                     for lineid in tmp_lineid_list:
                         if int(g_mention_line_start) == lineid:
                             if ignore_zero:
@@ -1441,10 +1517,17 @@ def gen_mention_gold_link_dist(html_info, sample_gold_dir, outfile, log_info):
                         else:
                             if found == 0:
                                 diff_min = lineid - int(g_mention_line_start)
-                            elif abs(lineid - int(g_mention_line_start) < abs(diff_min)):
+                            elif abs(lineid - int(g_mention_line_start)) < abs(diff_min):
                                 diff_min = lineid - int(g_mention_line_start)
                                 found = 1
+
                     out_raw_list.append([ene_cat, g_attr, diff_min])
+                    logger.info({
+                        'action': 'gen_mention_gold_link_dist',
+                        'found': found,
+                        'lineid': lineid,
+                        'diff_min': diff_min
+                    })
 
     df = pd.DataFrame(out_raw_list, columns=['cat', 'attr', 'diff_min'])
     df.to_csv(outfile, sep='\t',  index=False)
@@ -1870,11 +1953,17 @@ def linkedjson2tsv(linked_json_dir, title2pid_org_file, log_info):
                 get_title[pid] = title
             rd.clear()
 
-    linked_json_files = linked_json_dir + '*.json'
+    # linked_json_files = linked_json_dir + '*.json'
+    linked_json_files = linked_json_dir + '*.jsonl'
 
     for linked_json in glob(linked_json_files):
         go_list = []
-        linked_tsv = linked_json.replace('.json', '.tsv')
+        # linked_tsv = linked_json.replace('.json', '.tsv')
+        if '_dist.jsonl' in linked_json:
+            linked_tsv = linked_json.replace('_dist.jsonl', '.tsv')
+        else:
+            linked_tsv = linked_json.replace('.jsonl', '.tsv')
+
         with open(linked_json, mode='r', encoding='utf-8') as g, open(linked_tsv, 'w', encoding='utf-8') as o:
             for g_line in g:
                 d_gline = json.loads(g_line)

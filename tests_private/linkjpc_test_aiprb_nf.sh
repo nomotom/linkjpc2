@@ -6,7 +6,9 @@ common_data_dir="${base_data_dir}ljc_data/common/"
 tmp_data_dir="${base_data_dir}ljc_data/test/"
 in_dir="${base_data_dir}linkjp-eval-211027/ene_annotation/"
 #out_dir_base="${base_dir}test_out/aiprb_nf/"
-out_dir_base="${base_dir}test_out/aiprb_nf_t2/"
+
+# out_dir_base="${base_dir}test_out/aiprb_nf_t2/"
+out_dir_base="${base_dir}test_out/aiprb_nf_t3/"
 
 
 ## cf. github公開版

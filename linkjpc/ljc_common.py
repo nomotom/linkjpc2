@@ -2,6 +2,33 @@ import linkjpc as ljc
 import config as cf
 import logging
 
+def extract_cat(filename, log_info):
+    """Extract category name from filename(*.json/*.jsonl)
+
+    :param filename:
+    :param log_info:
+    :return:
+        cat
+    """
+    logger = ljc.set_logging(log_info, 'myLogger')
+    logger.setLevel(logging.INFO)
+    cat = ''
+    if 'dist.jsonl' in filename:
+        cat = filename.replace('_dist.jsonl', '')
+    elif '.jsonl' in filename:
+        cat = filename.replace('.jsonl', '')
+    elif 'dist.json' in filename:
+        cat = filename.replace('_dist.json', '')
+    elif '.json' in filename:
+        cat = filename.replace('_dist.json', '')
+
+    if cat == '':
+        logger.error({
+            'action': 'lc.extract_cat',
+            'msg': 'file name error (neither json nor jsonl)'
+        })
+
+    return cat
 
 def reg_title2pid_ext(title2pid_ext_file, log_info):
     """Register title2pid_info pages info.

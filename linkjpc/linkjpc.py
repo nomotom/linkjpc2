@@ -537,12 +537,13 @@ def ljc_main(common_data_dir,
         'title2pid_ext_file': data_info.title2pid_ext_file,
     })
 
-    in_files = in_dir + '*.json'
+    in_files = in_dir + '*.jsonl'
     os.makedirs(out_dir, exist_ok=True)
 
     logger.info({
         'action': 'ljc_main',
         'in_dir': in_dir,
+        'in_files': in_files,
         'out_dir': out_dir,
     })
     (cf.d_title2pid, cf.d_pid_title_incoming_eneid) = lc.reg_title2pid_ext(data_info.title2pid_ext_file, log_info)
@@ -956,23 +957,46 @@ def ljc_main(common_data_dir,
             })
             sys.exit()
 
-        else:
-            logger.info({
-                'action': 'ljc_main',
-                'run': 'dn.check_linkable_info',
-                'nil_tgt': opt_info.nil_tgt,
-                'nil_cond': opt_info.nil_cond,
-                'nil_desc_exception': opt_info.nil_desc_exception,
-                'linkable_file': data_info.linkable_info_file,
-            })
+
+        logger.info({
+            'action': 'ljc_main',
+            'run': 'dn.check_linkable_info',
+            'nil_tgt': opt_info.nil_tgt,
+            'nil_cond': opt_info.nil_cond,
+            'nil_desc_exception': opt_info.nil_desc_exception,
+            'linkable_file': data_info.linkable_info_file,
+        })
         d_linkable = dn.check_linkable_info(data_info.linkable_info_file, log_info)
 
-    for in_file in glob(in_files):
-        list_rec_out = []
+        logger.info({
+            'action': 'ljc_main',
+            'run': 'dn.check_linkable_info',
+            'd_linkable': d_linkable,
+        })
 
+    logger.info({
+        'action': 'ljc_main',
+        'in_files': in_files,
+    })
+
+    for in_file in glob(in_files):
+
+        list_rec_out = []
+        logger.info({
+            'action': 'ljc_main',
+            'in_file': in_file,
+        })
         with open(in_file, mode='r', encoding='utf-8') as i:
             fname = in_file.replace(in_dir, '')
-            ene_cat = fname.replace('.json', '')
+            # ene_cat = fname.replace('.json', '')
+            ene_cat = lc.extract_cat(fname, log_info)
+            if ene_cat == '':
+                logger.error({
+                    'action': 'ljc_main',
+                    'msg': 'illegal file name',
+                    'fname': fname
+                })
+                sys.exit()
             outfile = out_dir + fname
             logger.info({
                 'action': 'ljc_main',
@@ -1239,7 +1263,9 @@ def ljc_main(common_data_dir,
                 final_cand_cnt = 0
 
                 if len(final_cand_list) == 0:
-                    rec['link_page_id'] = ''
+                    # 20220818
+                    # rec['link_page_id'] = ''
+                    rec['link_page_id'] = None
                     list_rec_out.append(copy.deepcopy(rec))
                 else:
                     for final_cand in final_cand_list:

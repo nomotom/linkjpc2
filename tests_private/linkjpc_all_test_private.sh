@@ -10,18 +10,31 @@
 ##out_dir_tmp_base="/Users/masako/tmp/test/tmp_test/"
 
 script="./linkjpc/linkjpc.py"
-base_dir="/Users/masako/Documents/SHINRA/2021-LinkJP/"
-base_data_dir="${base_dir}Download/"
-common_data_dir="${base_data_dir}ljc_data/common/"
-tmp_data_dir="${base_data_dir}ljc_data/test/"
-in_dir="${base_data_dir}linkjp-eval-211027/ene_annotation/"
-out_dir_base="${base_dir}test_out/anal_20211125/"
+base_dir_shinra2021="/Users/masako/Documents/SHINRA/2021-LinkJP/"
+base_dir_shinra2022="/Users/masako/Documents/SHINRA/2022-LinkJP/"
 
+base_data_dir_shinra2021="${base_dir_shinra2021}Download/"
+base_data_dir_shinra2022="${base_dir_shinra2022}Download/"
 
+common_data_dir="${base_data_dir_shinra2022}ljc_data/common/"
+tmp_data_dir="${base_data_dir_shinra2022}ljc_data/test/"
+in_dir="${base_data_dir_shinra2022}leaderboard-link-ans-20220816/ene_annotation/"
+# in_dir="${base_data_dir_shinra2022}linkjp-eval-211027/ene_annotation/"
+out_dir_base="${base_dir_shinra2022}test_out/shinra2021base_20220819/"
 
 # python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_wl_bmax10_fmax2/ --mod w -f n --wlink l -wl_bmax 10 -wl_fmax 2
 # python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_wl_bmax10_fmax2/ --mod w -f n --wlink l -wl_bmax 10 -wl_fmax 2
-python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_frpl_bmax_5_attr_w_al_am_bl_w/ --mod s:m:w -f ab --mint e -s_min 0.5 -s_prb mid --wlink frpl -wl_bmax 5 -ar_tgt w -al am -bl_tgt w
+# python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_frpl_bmax_5_attr_w_al_am_bl_w/ --mod s:m:w -f ab --mint e -s_min 0.5 -s_prb mid --wlink frpl -wl_bmax 5 -ar_tgt w -al am -bl_tgt w
+
+# 20220818
+python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+
+# 20220819
+#
+python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+
 
 
 ## 実験 #############################

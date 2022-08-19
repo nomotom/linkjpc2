@@ -18,7 +18,7 @@
 # sys_dir_base="/Users/masako/Documents/SHINRA/2021-LinkJP/test_out/final_rev3/"
 
 # 20220818
-sys_dir_base="/Users/masako/Documents/SHINRA/2022-LinkJP/test_out/shinra2021base_20220818/"
+sys_dir_base="/Users/masako/Documents/SHINRA/2022-LinkJP/test_out/shinra2021base_20220819/"
 
 # 出力　親ディレクトリ
 #1) aiprb
@@ -29,7 +29,7 @@ sys_dir_base="/Users/masako/Documents/SHINRA/2022-LinkJP/test_out/shinra2021base
 #out_dir_base="/Users/masako/Documents/SHINRA/2021-LinkJP/test_out/bert_aiprb_modules/score/"
 #out_dir_base="/Users/masako/Documents/SHINRA/2021-LinkJP/test_out/aiprb_n/score/"
 # out_dir_base="/Users/masako/Documents/SHINRA/2021-LinkJP/test_out/final_rev3/score/"
-out_dir_base="{$sys_dir_base}/score/"
+out_dir_base="${sys_dir_base}score/"
 
 
 #評価対象親ディレクトリに評価対象リストをおく
@@ -45,13 +45,14 @@ eval_target_list="${sys_dir_base}eval_target.txt"
 #score_dir_base="/Users/masako/Documents/SHINRA/2021-LinkJP/test_out/anal_20211016/"
 
 # Usamiさんに2021/11/30にslack DMでいただいた評価結果返却のコードを一部修正したもの
-scorer_all="/Users/masako/Documents/SHINRA/2021-LinkJP/scorer/linkjp_scorer_formal.py"
+# scorer_all="/Users/masako/Documents/SHINRA/2021-LinkJP/scorer/linkjp_scorer_formal.py"
+scorer_all="/Users/masako/Documents/SHINRA/2022-LinkJP/scorer/linkjp_scorer_formal_rev_2022.py"
 
 #GitHubで公開されているカテゴリ別評価ツール
 scorer_cat="/Users/masako/Documents/SHINRA/2021-LinkJP/scorer/linkjp_scorer"
 
 # gold_dir="/Users/masako/Documents/SHINRA/2021-LinkJP/Download/linkjp-eval-211027/link_annotation/"
-gold_dir="/Users/masako/Documents/SHINRA/2022-LinkJP/Download/leaderboard-link-ans-20220816/"
+gold_dir="/Users/masako/Documents/SHINRA/2022-LinkJP/Download/leaderboard-link-ans-20220816/link_annotation/"
 
 #grep 'script' ${script} | grep -v '##' | grep python | awk '{print $6}' |perl -pe 's/\${out_dir_base}//;' | perl -pe 's/\///g;'| perl -pe 's/\.tsv/\.json/;'|sort | uniq > ${target}
 
@@ -66,13 +67,13 @@ do
   # 全体のファイル
   python ${scorer_all} ${gold_dir} ${sys_dir_base}${line} ${out_dir_base}${line} ${attr_type}
   # カテゴリ別ファイル
-  python ${scorer_cat} airport ${gold_dir}Airport.json ${sys_dir_base}${line}/Airport.json ${attr_type} --ignore-link-type | perl -pe 's/^/Airport /;' | perl -pe 's/^Airport precision/cat precision/' > ${out_dir_base}${line}/Airport_score.txt
-  python ${scorer_cat} city ${gold_dir}City.json ${sys_dir_base}${line}/City.json ${attr_type} --ignore-link-type | perl -pe 's/^/City /;'| perl -pe 's/^City precision/cat precision/'> ${out_dir_base}${line}/City_score.txt
-  python ${scorer_cat} company ${gold_dir}Company.json ${sys_dir_base}${line}/Company.json ${attr_type} --ignore-link-type | perl -pe 's/^/Company /;' | perl -pe 's/^Company precision/cat precision/' > ${out_dir_base}${line}/Company_score.txt
-  python ${scorer_cat} compound ${gold_dir}Compound.json ${sys_dir_base}${line}/Compound.json ${attr_type} --ignore-link-type | perl -pe 's/^/Compound /;' | perl -pe 's/^Compound precision/cat precision/' > ${out_dir_base}${line}/Compound_score.txt
-  python ${scorer_cat} conference ${gold_dir}Conference.json ${sys_dir_base}${line}/Conference.json ${attr_type} --ignore-link-type | perl -pe 's/^/Conference /;' | perl -pe 's/^Conference precision/cat precision/' > ${out_dir_base}${line}/Conference_score.txt
-  python ${scorer_cat} person ${gold_dir}Person.json ${sys_dir_base}${line}/Person.json ${attr_type} --ignore-link-type | perl -pe 's/^/Person /;' | perl -pe 's/^Person precision/cat precision/' > ${out_dir_base}${line}/Person_score.txt
-  python ${scorer_cat} lake ${gold_dir}Lake.json ${sys_dir_base}${line}/Lake.json ${attr_type} --ignore-link-type | perl -pe 's/^/Lake /;' | perl -pe 's/^Lake precision/cat precision/' > ${out_dir_base}${line}/Lake_score.txt
+  python ${scorer_cat} airport ${gold_dir}Airport_dist.jsonl ${sys_dir_base}${line}/Airport_dist.jsonl ${attr_type} --ignore-link-type | perl -pe 's/^/Airport /;' | perl -pe 's/^Airport precision/cat precision/' > ${out_dir_base}${line}/Airport_score.txt
+  python ${scorer_cat} city ${gold_dir}City_dist.jsonl ${sys_dir_base}${line}/City_dist.jsonl ${attr_type} --ignore-link-type | perl -pe 's/^/City /;'| perl -pe 's/^City precision/cat precision/'> ${out_dir_base}${line}/City_score.txt
+  python ${scorer_cat} company ${gold_dir}Company_dist.jsonl ${sys_dir_base}${line}/Company_dist.jsonl ${attr_type} --ignore-link-type | perl -pe 's/^/Company /;' | perl -pe 's/^Company precision/cat precision/' > ${out_dir_base}${line}/Company_score.txt
+  python ${scorer_cat} compound ${gold_dir}Compound_dist.jsonl ${sys_dir_base}${line}/Compound_dist.jsonl ${attr_type} --ignore-link-type | perl -pe 's/^/Compound /;' | perl -pe 's/^Compound precision/cat precision/' > ${out_dir_base}${line}/Compound_score.txt
+  python ${scorer_cat} conference ${gold_dir}Conference_dist.jsonl ${sys_dir_base}${line}/Conference_dist.jsonl ${attr_type} --ignore-link-type | perl -pe 's/^/Conference /;' | perl -pe 's/^Conference precision/cat precision/' > ${out_dir_base}${line}/Conference_score.txt
+  python ${scorer_cat} person ${gold_dir}Person_dist.jsonl ${sys_dir_base}${line}/Person_dist.jsonl ${attr_type} --ignore-link-type | perl -pe 's/^/Person /;' | perl -pe 's/^Person precision/cat precision/' > ${out_dir_base}${line}/Person_score.txt
+  python ${scorer_cat} lake ${gold_dir}Lake_dist.jsonl ${sys_dir_base}${line}/Lake_dist.jsonl ${attr_type} --ignore-link-type | perl -pe 's/^/Lake /;' | perl -pe 's/^Lake precision/cat precision/' > ${out_dir_base}${line}/Lake_score.txt
 #  python ${scorer_cat} airport ${gold_dir}Airport.json ${sys_dir_base}${line}/Airport.json --ignore-link-type | perl -pe 's/^/airport /;' > ${out_dir_base}${line}/Airport_score.txt
 #  python ${scorer_cat} city ${gold_dir}City.json ${sys_dir_base}${line}/City.json --ignore-link-type | perl -pe 's/^/city /;' > ${out_dir_base}${line}/City_score.txt
 #  python ${scorer_cat} company ${gold_dir}Company.json ${sys_dir_base}${line}/Company.json --ignore-link-type | perl -pe 's/^/company /;' > ${out_dir_base}${line}/Company_score.txt

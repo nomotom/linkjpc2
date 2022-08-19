@@ -138,39 +138,52 @@ The directories are specified as command line arguments or options when you try 
 ## (1) project SHINRA data distribution
 ## (1-1) test data and html files (in_dir)
 ### IT1 (test data)
-- filename: 'Airport.json', 'CIty.json', Company.json', 'Compound.json', 'Conference.json', 'Lake.json', 'Person.json'
+- filename: '[ENE category].json'
 - description: Test data.
-- available from: [SHINRA2021LinkJP](http://shinra-project.info/shinra2021linkjp/) 公開データ/コード ([評価データ: 入力ファイル、対象のWikipediaページ](https://drive.google.com/file/d/1iEciat50vSaGJ9d9FQz20k8eRt2mMGN7/view?usp=sharing)) 
+- available from: [SHINRA2022](http://2022.shinra-project.info/data-download/) サブタスク固有データ/リンキング ([ベースラインデータ/リーダーボード入力データ]()) 
 - used in: (linkjpc) linkjpc, (linkjpc_prep) linkjpc_prep
 
 ### IT2 (original articles of test data (*.html))
 - filename: *.html
 - description: *.html files of the original articles of test data. The files are grouped by ENE categories (eg. 'Airport, 'CIty, etc.)
-- available from: [SHINRA2021LinkJP](http://shinra-project.info/shinra2021linkjp/) 公開データ/コード ([評価データ: 入力ファイル、対象のWikipediaページ](https://drive.google.com/file/d/1iEciat50vSaGJ9d9FQz20k8eRt2mMGN7/view?usp=sharing))
+- available from: [SHINRA2022](http://2022.shinra-project.info/data-download/) サブタスク固有データ/リンキング ([評価データ: 入力ファイル、対象のWikipediaページ]())
 - used in: (linkjpc_prep)gen_html_info_file
 
-## (1-2) (sample data and html files (sample_gold_dir)
+## (1-2) (sample data(=training data) and html files (sample_gold_dir)
 ### IT3 (sample gold data)
-- filename: 'Airport.json', 'City.json', 'Company.json', 'Compound.json', 'Conference.json', 'Lake.json', 'Person.json'
+- filename: '[ENE category].json'
 - description: Sample gold data.
-- available from: [SHINRA2021LinkJP](http://shinra-project.info/shinra2021linkjp/) 公開データ/コード ([サンプルデータ](https://drive.google.com/file/d/1b9Xm-Qd1sVfmDr8o4y3t-dVnGai15P-q/view?usp=sharing)) 
+- available from: [SHINRA2022](http://2022.shinra-project.info/data-download/) サブタスク固有データ/リンキング ([教師データ](https://drive.google.com/file/d/12aR95_a0oSTeEBG6fgBvxjDq-trEruWc/view?usp=sharing)) 
 - used in: (linkjpc_prep)gen_link_prob_file
 
 ### IT4 (original articles of sample data (*.html))
 - filename: ***.html**
 - description: *.html files of the original articles of sample data. The files are grouped by ENE categories (eg. Airport, City, etc.)
-- available from: [SHINRA2021LinkJP](http://shinra-project.info/shinra2021linkjp/) 公開データ/コード ([サンプルデータ](https://drive.google.com/file/d/1b9Xm-Qd1sVfmDr8o4y3t-dVnGai15P-q/view?usp=sharing)) 
+- available from: [SHINRA2022](http://2022.shinra-project.info/data-download/) サブタスク固有データ/リンキング ([教師データ](https://drive.google.com/file/d/1b9Xm-Qd1sVfmDr8o4y3t-dVnGai15P-q/view?usp=sharing)) 
 - used in: (linkjpc_prep)gen_html_info_file
 
 ## (1-3) other task data (common_data_dir)
 
 ### CD1 (f_cirrus_content_default) 
+ - (SHINRA2021: Wikipedia2019)
  - filename: '**jawiki-20190121-cirrussearch-content.json.gz**'
  - description: Wikipedia Cirrus Dump (content)
  - available from: [SHINRA2021-LinkJP](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) 公開データ/コード([リンク先のWikipediaデータ](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) (CirrussearchDump))
  - used in: (linkjpc_prep) gen_disambiuation_file
 
+ - (SHINRA2022: Wikipedia2019)
+ - filename: '**jawiki-20190121-cirrussearch-content.json.gz**'
+ - description: Wikipedia Cirrus Dump (content)
+ - available from: 森羅2022HP サブタスク共通データ Wikipedia2019 [CirrusSearchDump](https://storage.googleapis.com/shinra_data/wikipedia/wikipedia-ja-20190121-json.zip) 
+ - used in: (linkjpc_prep) gen_disambiuation_file
+
+ - (SHINRA2022: Wikipedia2021)
+ - filename: '**jawiki-20190121-cirrussearch-content.json.gz**'
+ - description: Wikipedia Cirrus Dump (content)
+ - available from:森羅2022HP サブタスク共通データ Wikipedia2022 [CirrusSearchDump](https://storage.googleapis.com/shinra_data/wikipedia/wikipedia-ja-20210823-json.gz)
+ - used in: (linkjpc_prep) gen_disambiuation_file
 ### CD2 (f_title2pid_org_default)
+ - (SHINRA2021: Wikipedia2019)
  - filename: '**jawiki-20190120-title2pageid.json**'
  - description: Title to pageid conversion info list
  - available from: [SHINRA2021-LinkJP](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) 公開データ/コード([リンク先のWikipediaデータ](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) (各種処理済データ)
@@ -180,20 +193,37 @@ The directories are specified as command line arguments or options when you try 
    - `{"page_id": 311957, "title": "風と共に去りぬ_(宝塚歌劇)", "is_redirect": false}`
  - used in: (linkjpc_prep) linkedjson2tsv, gen_redirect_info_file
 
+ - (SHINRA2022: Wikipedia2021)
+ - ??
+
 ### CD3 (f_enew_org_default)  
+ - (SHINRA2021: Wikipedia2019)
  - filename: '**ENEW_ENEtag_20210427.json**'
  - description: Original ENEW info (ENE Classification of Japanese Wikipedia pages).
  - available from:  [SHINRA Data Download](http://shinra-project.info/download/?lang=en) (ENE + Wikipedia DATA)  
  - notice: You need an account to get the data. Please create your SHINRA account at [SHINRA: Sign in](http://shinra-project.info/signin) page.
  - distributed by: project SHINRA
+ - sample:
+   - `{"pageid": 72942, "title": "バックス (ローマ神話)", "ENEs": {"AUTO.TOHOKU.201906": [{"prob": 0.9981889128684998, "ENE_id": "1.2"}]}}
+{"pageid": 401755, "title": "覚信尼", "ENEs": {"AUTO.TOHOKU.201906": [{"prob": 0.9999418258666992, "ENE_id": "1.1"}]}}` 
  - used in: (linkjpc_prep) gen_enew_info_file
 
+ - (SHINRA2022: Wikipedia2021)
+ - filename: '**shinra2022_Categorization_train_20220616.jsonl**'
+ - description: SHINRA2022 training data for Classification task).
+ - available from: 森羅2022 サブタスク固有データ　分類　[教師データ(JSONL)](https://drive.google.com/file/d/1w83JrR24rN-GsywkfpvOCfRXBgRKOtl_/view?usp=sharing)
+ - distributed by: project SHINRA
+ - sample:
+   - `{"page_id":"72942","title":"バックス (ローマ神話)","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.2"}]}}
+{"page_id":"401755","title":"覚信尼","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.1"}]}}` 
+ - used in: (linkjpc_prep) gen_enew_info_file
 ## (2) manually created data (common_data_dir)
 
 Download the data listed below from _URL(to be prepared)_ .  
 (Or you might create them by yourself :)
 
 ### CM1 (f_disambiguation_pat_default)
+ - (SHINRA2021: Wikipedia2019)
  - filename: '**jawiki-20190121-cirrussearch-content_wikipat_dis.tsv**'
  - description: Disambiguation page judgment rules list.
  - format: target, position, expression (*.tsv)
@@ -212,6 +242,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - used in: (linkjpc_prep) gen_enew_info_file
 
 ### CM3 (f_back_link_dump_default) 
+ - (SHINRA2021: Wikipedia2019)
  - filename: '**jawiki-20190120-pagelinks_dmp.tsv**'
  - description: Back link dump file converted from jawiki-20190120-pagelinks.sql.
  - format: back link pid, org_title (*.tsv)
@@ -220,7 +251,9 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: 
  ```mysql -u root -D pagelink < jawiki-20190120-pagelinks.sql```
  - used in: (linkjpc_prep) gen_back_link_info_file
- 
+ - (SHINRA2022: Wikipedia2019)
+
+
 ### CM4 (f_wl_lines_backward_ca_default)
  - filename: '**wl_lines_backward_ca.tsv**'
  - description: The file to specify maximum number of line to backward-search Wikipedia links in the page for each category-attribute pair.
