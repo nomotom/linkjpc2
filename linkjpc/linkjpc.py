@@ -36,6 +36,8 @@ def set_logging(log_info, logger_name):
 @click.argument('common_data_dir', type=click.Path(exists=True))
 @click.argument('tmp_data_dir', type=click.Path(exists=True))
 @click.argument('in_dir', type=click.Path(exists=True))
+@click.argument('sample_gold_dir',  type=click.Path(dir_okay=True))
+@click.argument('sample_input_dir',  type=click.Path(dir_okay=True))
 @click.argument('out_dir',  type=click.Path(dir_okay=True))
 # common
 @click.option('--filtering', '-f', type=click.Choice(['a',  'b', 'i', 'n', 'ai', 'ab', 'an', 'bi', 'bn', 'in',
@@ -293,6 +295,8 @@ def set_logging(log_info, logger_name):
 def ljc_main(common_data_dir,
              tmp_data_dir,
              in_dir,
+             sample_gold_dir,
+             sample_input_dir,
              out_dir,
              ans_max,
              attr_na_co,
@@ -356,6 +360,8 @@ def ljc_main(common_data_dir,
     :param common_data_dir: common data files directory
     :param tmp_data_dir: directory for data specifically used for the test data
     :param in_dir: input directory
+    :param sample_gold_dir
+    :param sample_input_dir
     :param out_dir: output directory
     :param ans_max:
     :param attr_na_co:
@@ -508,7 +514,8 @@ def ljc_main(common_data_dir,
     logger.info({
         'back_link_ng': opt_info.back_link_ng,
     })
-    data_info = cf.DataInfo(common_data_dir, tmp_data_dir, in_dir, out_dir)
+    # data_info = cf.DataInfo(common_data_dir, tmp_data_dir, in_dir, out_dir)
+    data_info = cf.DataInfo(common_data_dir, tmp_data_dir, in_dir, sample_gold_dir, sample_input_dir, out_dir)
     # files in common data dir
     data_info.common_data_dir = common_data_dir
     data_info.attr_range_file = data_info.common_data_dir + f_attr_rng
@@ -529,20 +536,29 @@ def ljc_main(common_data_dir,
     data_info.tinm_partial_match_file = data_info.tmp_data_dir + f_tinm
     data_info.tinm_trim_partial_match_file = data_info.tmp_data_dir + f_tinm_trim
 
+    # 20220822
+    data_info.in_ene_dir = in_dir + 'ene_annotation/'
+    # 20220822
+    # data_info.in_html_dir = in_dir + 'html/'
+
     logger.info({
         'common_data_dir': data_info.common_data_dir,
         'tmp_data_dir': data_info.tmp_data_dir,
         'in_dir': data_info.in_dir,
+        'in_ene_dir': data_info.in_ene_dir,
+        # 20220822
+        # 'in_html_dir': data_info.in_html_dir,
         'out_dir': data_info.out_dir,
         'title2pid_ext_file': data_info.title2pid_ext_file,
     })
 
-    in_files = in_dir + '*.jsonl'
+    # 20220822
+    in_files = data_info.in_ene_dir + '*.jsonl'
     os.makedirs(out_dir, exist_ok=True)
 
     logger.info({
         'action': 'ljc_main',
-        'in_dir': in_dir,
+        'in_ene_dir': data_info.in_ene_dir,
         'in_files': in_files,
         'out_dir': out_dir,
     })
@@ -987,7 +1003,9 @@ def ljc_main(common_data_dir,
             'in_file': in_file,
         })
         with open(in_file, mode='r', encoding='utf-8') as i:
-            fname = in_file.replace(in_dir, '')
+            # 20220822
+            # fname = in_file.replace(in_dir, '')
+            fname = in_file.replace(data_info.in_ene_dir, '')
             # ene_cat = fname.replace('.json', '')
             ene_cat = lc.extract_cat(fname, log_info)
             if ene_cat == '':
@@ -997,7 +1015,15 @@ def ljc_main(common_data_dir,
                     'fname': fname
                 })
                 sys.exit()
+            outfile_pre = out_dir + fname
+            if '_dist' in outfile_pre:
+                outfile = outfile_pre.replace('_dist', '')
+            else:
+                outfile = outfile_pre
+
+            # scorerの都合でファイル名は当面distをつけたままにする
             outfile = out_dir + fname
+
             logger.info({
                 'action': 'ljc_main',
                 'ene_cat': ene_cat,

@@ -224,7 +224,7 @@ Download the data listed below from _URL(to be prepared)_ .
 
 ### CM1 (f_disambiguation_pat_default)
  - (SHINRA2021: Wikipedia2019)
- - filename: '**jawiki-20190121-cirrussearch-content_wikipat_dis.tsv**'
+ - filename: '**wikipat_dis.tsv**'
  - description: Disambiguation page judgment rules list.
  - format: target, position, expression (*.tsv)
  - sample:
@@ -311,7 +311,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - used in: (linkjpc_prep) gen_mention_gold_link_dist
 
 ### CP2 (f_disambiguation_default)
- - filename: '**jawiki-20190121-cirrussearch-content_disambiguation.tsv**'
+ - filename: '**jawiki-20210823-cirrussearch-content_disambiguation.tsv**'
  - description: Disambiguation page list.
  - sample: 
    - `1128763 テトラ (曖昧さ回避)`

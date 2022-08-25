@@ -74,7 +74,35 @@ class OptInfo(object):
     attr_ok_co_default = 1.0
     attr_na_co_default = 0.9
     attr_ng_co_default = 0.1
-    cat_set = {'Airport', 'City', 'Company', 'Compound', 'Conference', 'Lake', 'Person'}
+    # cat_set = {'Airport', 'City', 'Company', 'Compound', 'Conference', 'Lake', 'Person'}
+    cat_set = {'Academic', 'Accommodation', 'Aircraft', 'Airport', 'Amphibia', 'Amusement_Park', 'Animal_Disease',
+               'Animal_Part', 'Archaeological_Place_Other', 'Art_Other', 'Arthropod', 'Astronomical_Object_Other',
+               'Astronomical_Object_Part', 'Award', 'Bacteria_Virus', 'Bay', 'Bird', 'Book', 'Brand', 'Bridge',
+               'Broadcast_Program', 'Cabinet', 'Canal', 'Car', 'Car_Stop', 'Castle', 'Cemetery', 'Channel',
+               'Character', 'City', 'Color', 'Company', 'Company_Group', 'Competition', 'Compound', 'Conference',
+               'Constellation', 'Continental_Region', 'Country', 'Culture', 'Currency', 'Dam', 'Decoration',
+               'Digital_Game', 'Dinosaur', 'Dish', 'Doctrine_Method_Other', 'Doctrine_Thought', 'Domestic_Region',
+               'Drug', 'Earthquake', 'Election', 'Ethnic_Group_Other', 'Event_Other', 'Examination', 'Exhibition',
+               'FOE_Other', 'Facility_Other', 'Facility_Part', 'Family', 'Fictional_Species', 'Firearms', 'Fish',
+               'Flood_Damage', 'Flora', 'Flora_Part', 'Food_Other', 'Fungus', 'GPE_Other', 'Galaxy', 'Game_Other',
+               'Geological_Region_Other', 'God', 'Government', 'Incident_Other', 'Individual_Animal_Other',
+               'Individual_Flora', 'Information_Appliance', 'Insect', 'International_Organization', 'Island',
+               'Lake', 'Language_Other', 'Law', 'Line_Other', 'Living_Thing_Other', 'Living_Thing_Part_Other',
+               'Location_Other', 'Magazine', 'Mammal', 'Market', 'Medical_Institution', 'Military',
+               'Military_Aircraft', 'Military_Base', 'Military_Ship', 'Military_Vehicle', 'Mineral', 'Mollusk',
+               'Money_Form', 'Mountain', 'Movie', 'Museum', 'Music', 'Musical_Instrument', 'National_Language',
+               'Nationality', 'Natural_Disaster_Other', 'Natural_Object_Other', 'Natural_Phenomenon', 'Newspaper',
+               'Nonprofit_Organization', 'Occasion_Other', 'Offense', 'Organization_Other', 'Painting', 'Palace',
+               'Park', 'Person', 'Plan', 'Planet_Satellite', 'Political_Incident', 'Political_Organization_Other',
+               'Political_Party', 'Port', 'Position_Vocation', 'Power_Plant', 'Printing_Other', 'Product_Other',
+               'Province', 'Public_Institution', 'Racehorse', 'Railroad', 'Railway_Facility', 'Religion',
+               'Religious_Festival', 'Reptile', 'Research_Institute', 'River', 'Road', 'Road_Facility', 'Rule_Other',
+               'School', 'Sea', 'Service', 'Ship', 'Shopping_Complex', 'Show', 'Show_Organization', 'Software', 'Spa',
+               'Spaceship', 'Sport', 'Sports_Facility', 'Sports_Federation', 'Sports_League', 'Sports_Team',
+               'Standard', 'Star', 'Station', 'Style', 'System', 'Technology', 'Theater', 'Theory', 'Toy',
+               'Traffic_Accident', 'Train', 'Treaty', 'Tunnel', 'Vehicle_Other', 'Video_Work', 'Virtual_Address_Other',
+               'War', 'Water_Route', 'Weapon_Other', 'Worship_Place', 'Zoo'}
+
     # the first layer (string)
     eneid_ignore = '1'
     # back link
@@ -193,26 +221,37 @@ class OptInfo(object):
 class DataInfo(object):
     # (0) project SHINRA data distribution (common_data_dir)
     # [CD1]
-    f_cirrus_content_default = 'jawiki-20190121-cirrussearch-content.json.gz'
+    # f_cirrus_content_default = 'jawiki-20190121-cirrussearch-content.json.gz'
+    # 20220822
+    f_cirrus_content_default = 'wikipedia-ja-20210823-json.gz'
+
     #
     # [CD2]
     f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
     #
     # [CD3]
-    f_enew_org_default = 'ENEW_ENEtag_20200427.json'
+    # f_enew_org_default = 'ENEW_ENEtag_20200427.json'
+    f_enew_org_default = 'shinra2022_Categorization_train_20220616.jsonl'
     #
     # [CD4]
-    f_back_link_dump_org_default = 'jawiki-20190120-pagelinks.sql'
+    # f_back_link_dump_org_default = 'jawiki-20190120-pagelinks.sql'
+    f_back_link_dump_org_default = 'jawiki-20210820-pagelinks.sql'
+
     #
     # (1) manually created data (common_data_dir)
     # [CM1]
-    f_disambiguation_pat_default = 'jawiki-20190121-cirrussearch-content_wikipat_dis.tsv'
+    # f_disambiguation_pat_default = 'jawiki-20190121-cirrussearch-content_wikipat_dis.tsv'
+    f_disambiguation_pat_default = 'wikipat_dis.tsv'
+
     #
     # [CM2]
-    f_enew_mod_list_default = 'ENEW_ENEtag_20200427_stoplist.tsv'
+    # f_enew_mod_list_default = 'ENEW_ENEtag_20200427_stoplist.tsv'
+    f_enew_mod_list_default = 'shinra2022_Categorization_train_20220616_stoplist.tsv'
     #
     # [CM3]
-    f_back_link_dump_default = 'jawiki-20190120-pagelinks_dmp.tsv'
+    # f_back_link_dump_default = 'jawiki-20190120-pagelinks_dmp.tsv'
+    f_back_link_dump_default = 'jawiki-20210820-pagelinks_dmp.tsv'
+
     #
     # [CM4]
     f_wl_lines_backward_ca_default = 'wl_lines_backward_ca.tsv'
@@ -221,7 +260,8 @@ class DataInfo(object):
     f_wl_lines_forward_ca_default = 'wl_lines_forward_ca.tsv'
     #
     # [CM6]
-    f_attr_rng_default = 'att_def.tsv'
+    # f_attr_rng_default = 'att_def.tsv'
+    f_attr_rng_default = 'att_def_20220823.tsv'
     #
     # (2) preprocessing
     # (2-1) sample_gold_data_dir
@@ -233,16 +273,21 @@ class DataInfo(object):
     f_common_html_info_default = 'common_html_tag_info.tsv'
     #
     # [CP2]
-    f_disambiguation_default = 'jawiki-20190121-cirrussearch-content_disambiguation.tsv'
+    f_disambiguation_default = 'jawiki-20210823-cirrussearch-content_disambiguation.tsv'
+    # f_disambiguation_default = 'jawiki-20190121-cirrussearch-content_disambiguation.tsv'
     #
     # [CP3]
-    f_redirect_info_default = 'jawiki-20190120-title2pageid_nodis.tsv'
+    f_redirect_info_default = 'jawiki-20210823_title2pageid-20190120_nodis.tsv'
     #
     # [CP4]
-    f_incoming_default = 'jawiki-20190121-cirrussearch-content_incoming_link.tsv'
+    # f_incoming_default = 'jawiki-20190121-cirrussearch-content_incoming_link.tsv'
+    f_incoming_default = 'jawiki-20210823-cirrussearch-content_incoming_link.tsv'
+
     #
     # [CP5]
-    f_enew_info_default = 'ENEW_ENEtag_20200427_mod.tsv'
+    # f_enew_info_default = 'ENEW_ENEtag_20200427_mod.tsv'
+    f_enew_info_default = 'shinra2022_Categorization_train_20220616_mod.tsv'
+
     #
     # [CP6]
     f_mention_gold_link_dist_default = 'mention_gold_link_dist.tsv'
@@ -251,7 +296,9 @@ class DataInfo(object):
     f_slink_default = 'cat_att_selflink.tsv'
     #
     # [CP8]
-    f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
+    # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
+    f_title2pid_ext_default = 'jawiki-20210823_title2pageid-20190120_ext.tsv'
+
     #
     # [CP9]
     f_link_prob_default = 'sample_cat_att_mention_linkcand.tsv'
@@ -292,6 +339,11 @@ class DataInfo(object):
                  common_data_dir,
                  tmp_data_dir,
                  in_dir,
+                 # 20220822
+                 sample_gold_dir,
+                 # 20220822
+                 sample_input_dir,
+                 # 20220824
                  out_dir,
                  f_attr_rng=f_attr_rng_default,
                  f_cirrus_content=f_cirrus_content_default,
@@ -322,8 +374,17 @@ class DataInfo(object):
         self.common_data_dir = common_data_dir
         self.tmp_data_dir = tmp_data_dir
         self.in_dir = in_dir
+        # 20220822
+        self.in_ene_dir = in_dir + 'ene_annotation/'
+        self.in_html_dir = in_dir + 'html/'
+
         self.out_dir = out_dir
         # common_data_dir
+
+        # 20220822
+        self.sample_gold_dir = sample_gold_dir
+        self.sample_input_dir = sample_input_dir
+
         self.attr_range_file = common_data_dir + f_attr_rng
         self.cirrus_content_file = common_data_dir + f_cirrus_content
         self.common_html_info_file = common_data_dir + f_common_html_info

@@ -8,6 +8,7 @@ import logging
 import logging.config
 import sys
 
+
 def set_logging_pre(log_info, logger_name):
     from os import path
 
@@ -27,6 +28,7 @@ def set_logging_pre(log_info, logger_name):
 @click.argument('sample_input_dir', type=click.Path(exists=True))
 @click.option('--gen_sample_gold_tsv', is_flag=True, default=False, show_default=True)
 @click.option('--gen_redirect', is_flag=True, default=False, show_default=True)
+@click.option('--gen_redirect2', is_flag=True, default=False, show_default=True)
 @click.option('--pre_matching', type=click.Choice(['mint', 'tinm', 'n']), default=cf.OptInfo.pre_matching_default,
               show_default=True)
 @click.option('--title_matching_mint', '-tmm', type=click.Choice(['trim', 'full']),
@@ -109,6 +111,7 @@ def ljc_prep_main(common_data_dir,
                   gen_sample_gold_tsv,
                   pre_matching,
                   gen_redirect,
+                  gen_redirect2,
                   title_matching_mint,
                   title_matching_tinm,
                   f_back_link,
@@ -226,36 +229,72 @@ def ljc_prep_main(common_data_dir,
     data_info_prep.tinm_partial_file = data_info_prep.tmp_data_dir + f_tinm_partial
     data_info_prep.tinm_trim_partial_file = data_info_prep.tmp_data_dir + f_tinm_trim_partial
 
-    # others
-    sample_data_dir_pre = data_info_prep.sample_gold_dir
-    sample_data_dir = sample_data_dir_pre.replace('link_annotation/', '')
-    data_info_prep.common_html_dir = sample_data_dir + 'html/'
-    data_info_prep.html_dir = data_info_prep.tmp_data_dir + 'html/'
+    # sample_gold_data
+    # 20220822
+    sample_gold_linked_dir = data_info_prep.sample_gold_dir + 'link_annotation/'
+    # 20220822 fromhere
+    # sample_data_dir_pre = data_info_prep.sample_gold_dir
+    # sample_data_dir = sample_data_dir_pre.replace('link_annotation/', '')
+    sample_input_ene_dir = data_info_prep.sample_input_dir + 'ene_annotation/'
+    sample_input_html_dir = data_info_prep.sample_input_dir + 'html/'
+    # data_info_prep.html_dir = data_info_prep.tmp_data_dir + 'html/'
+    # data_info_prep.in_dir = data_info_prep.in_dir
+    data_info_prep.in_ene_dir = data_info_prep.in_dir + 'ene_annotation/'
+    data_info_prep.in_html_dir = data_info_prep.in_dir + 'html/'
+    # 20220822 till here
 
     logger.info({
         'action': 'ljc_prep_main',
         'id': 'start',
-        'common_data_dir': common_data_dir,
-        'tmp_data_dir': tmp_data_dir,
-        'in_dir': in_dir,
-        'sample_gold_dir': sample_gold_dir,
+        'data_info_prep.common_data_dir': data_info_prep.common_data_dir,
+        'tmp_data_dir': data_info_prep.tmp_data_dir,
+        'in_dir': data_info_prep.in_dir,
+        'in_ene_dir': data_info_prep.in_ene_dir,
+        'in_html_dir': data_info_prep.in_html_dir,
+        'sample_gold_linked_dir': sample_gold_linked_dir,
+        'sample_input_html_dir': sample_input_html_dir,
         'sample_input_dir': sample_input_dir
     })
 
     if gen_sample_gold_tsv:
+        # logger.info({
+        #     'action': 'gen_sample_gold_tsv',
+        #     'sample_gold_linked_dir': sample_gold_linked_dir,
+        #     'title2pid_org_file': data_info_prep.title2pid_org_file,
+        # })
+
+        # 暫定対応　20220824
+        logger.info({
+            'action': 'gen_sample_gold_tsv',
+            'sample_gold_linked_dir': sample_gold_linked_dir,
+        })
+        linkedjson2tsv2(sample_gold_linked_dir, data_info_prep.title2pid_ext_file, log_info)
+
+        # linkedjson2tsv(sample_gold_linked_dir, data_info_prep.title2pid_org_file, log_info)
+
+    if gen_redirect2:
+
+        logger.info({
+            'action': 'gen_redirect2',
+            'disambiguation_pat_file': data_info_prep.disambiguation_pat_file,
+            'cirrus_content_file': data_info_prep.cirrus_content_file,
+        })
+        gen_disambiguation_file(data_info_prep.disambiguation_pat_file, data_info_prep.cirrus_content_file,
+                                data_info_prep.disambiguation_file, log_info)
         logger.info({
             'action': 'ljc_prep_main',
-            'run': 'linkedjson2tsv',
-            'sample_gold_dir': sample_gold_dir,
+            'run': 'gen_redirect_info_file',
+            'incoming_file': data_info_prep.incoming_file,
             'title2pid_org_file': data_info_prep.title2pid_org_file,
+            'disambiguation_file': data_info_prep.disambiguation_file,
+            'redirect_info_file': data_info_prep.redirect_info_file,
         })
-
-        linkedjson2tsv(sample_gold_dir, data_info_prep.title2pid_org_file, log_info)
+        gen_redirect_info_file2(data_info_prep.incoming_file, data_info_prep.title2pid_org_file, data_info_prep.disambiguation_file,
+                               data_info_prep.redirect_info_file, log_info)
 
     if gen_redirect:
         logger.info({
-            'action': 'ljc_prep_main',
-            'run': 'gen_disambiguation_file',
+            'run': 'gen_redirect',
             'disambiguation_pat_file': data_info_prep.disambiguation_pat_file,
             'cirrus_content_file': data_info_prep.cirrus_content_file,
             'disambiguation_file': data_info_prep.disambiguation_file,
@@ -274,8 +313,7 @@ def ljc_prep_main(common_data_dir,
 
     if gen_incoming_link:
         logger.info({
-            'action': 'ljc_prep_main',
-            'run': 'gen_incoming_link_file',
+            'action': 'gen_incoming_link',
             'cirrus_content_file': data_info_prep.cirrus_content_file,
             'incoming_file': data_info_prep.incoming_file
         })
@@ -283,7 +321,6 @@ def ljc_prep_main(common_data_dir,
 
     if gen_title2pid_ext:
         logger.info({
-            'action': 'ljc_prep_main',
             'run': 'gen_title2pid_ext',
             'enew_org_file': data_info_prep.enew_org_file,
             'enew_mod_list_file': data_info_prep.enew_mod_list_file,
@@ -304,17 +341,19 @@ def ljc_prep_main(common_data_dir,
 
     if gen_back_link:
         logger.info({
-            'action': 'ljc_prep_main',
-            'run': 'gen_input_title_file',
-            'in_dir': data_info_prep.in_dir,
+            'run': 'gen_back_link',
+            # 20220822
+            'in_ene_dir': data_info_prep.in_ene_dir,
+            'in_dir': in_dir,
             'input_title_file': data_info_prep.input_title_file,
             'back_link_dump': data_info_prep.back_link_dump_file,
             'back_link_file': data_info_prep.back_link_file,
         })
-        gen_input_title_file(data_info_prep.in_dir, data_info_prep.input_title_file, log_info)
+        gen_input_title_file(data_info_prep.in_ene_dir, data_info_prep.input_title_file, log_info)
         logger.info({
             'action': 'ljc_prep_main',
             'run': 'gen_back_link_info_file',
+            'in_ene_dir': data_info_prep.in_ene_dir,
             'input_title_file': data_info_prep.input_title_file,
             'back_link_file': data_info_prep.back_link_file,
             'back_link_dump_file': data_info_prep.back_link_dump_file,
@@ -324,25 +363,24 @@ def ljc_prep_main(common_data_dir,
                                 data_info_prep.back_link_dump_file, data_info_prep.title2pid_ext_file, log_info)
     if gen_common_html:
         logger.info({
-            'action': 'ljc_prep_main',
             'run': 'gen_common_html',
-            'common_html_dir': data_info_prep.common_html_dir,
+            # 20220822
+            'sample_input_html_dir': sample_input_html_dir,
             'common_html_info_file': data_info_prep.common_html_info_file
         })
-        gen_html_info_file(data_info_prep.common_html_dir, data_info_prep.common_html_info_file, log_info)
+        # 20220822
+        gen_html_info_file(sample_input_html_dir, data_info_prep.common_html_info_file, log_info)
 
     if gen_link_dist:
         logger.info({
-            'action': 'ljc_prep_main',
-            'run': 'gen_mention_gold_link_dist',
+            'run': 'gen_link_dist',
             'common_html_info_file': data_info_prep.common_html_info_file,
-            'sample_gold_dir': data_info_prep.sample_gold_dir,
+            'sample_gold_linked_dir': sample_gold_linked_dir,
             'common_data_dir': data_info_prep.common_data_dir,
             'mention_gold_link_dist_file': data_info_prep.mention_gold_link_dist_file,
-
         })
 
-        gen_mention_gold_link_dist(data_info_prep.common_html_info_file, data_info_prep.sample_gold_dir,
+        gen_mention_gold_link_dist(data_info_prep.common_html_info_file, sample_gold_linked_dir,
                                    data_info_prep.mention_gold_link_dist_file, log_info)
 
     if pre_matching == 'mint':
@@ -358,7 +396,10 @@ def ljc_prep_main(common_data_dir,
                 'run': 'prematch_mention_title',
 
             })
-            prematch_mention_title(data_info_prep, pre_matching, title_matching_mint, char_match_min, log_info)
+            # 20220822
+            prematch_mention_title(data_info_prep.in_ene_dir, data_info_prep, pre_matching, title_matching_mint, char_match_min, log_info)
+
+            # prematch_mention_title(data_info_prep, pre_matching, title_matching_mint, char_match_min, log_info)
     elif pre_matching == 'tinm':
         if not title_matching_tinm:
             logger.error({
@@ -367,7 +408,10 @@ def ljc_prep_main(common_data_dir,
             })
             sys.exit()
         else:
-            prematch_mention_title(data_info_prep, pre_matching, title_matching_tinm, char_match_min, log_info)
+            # 20220822
+            prematch_mention_title(data_info_prep.in_ene_dir, data_info_prep, pre_matching, title_matching_tinm, char_match_min, log_info)
+            # prematch_mention_title(data_info_prep, pre_matching, title_matching_tinm, char_match_min, log_info)
+
     elif pre_matching != 'n':
         logger.error({
             'action': 'ljc_prep_main',
@@ -377,46 +421,43 @@ def ljc_prep_main(common_data_dir,
 
     if gen_html:
         logger.info({
-            'action': 'ljc_prep_main',
             'run': 'gen_html',
-            'html_dir': data_info_prep.html_dir,
+            'html_dir': data_info_prep.in_html_dir,
             'html_info_file': data_info_prep.html_info_file
         })
-        gen_html_info_file(data_info_prep.html_dir, data_info_prep.html_info_file, log_info)
+        gen_html_info_file(data_info_prep.in_html_dir, data_info_prep.html_info_file, log_info)
 
     if gen_link_prob:
         logger.info({
-            'action': 'ljc_prep_main',
             'run': 'gen_link_prob',
             'link_prob_file': data_info_prep.link_prob_file,
+            'sample_gold_linked_dir': sample_gold_linked_dir
         })
-        gen_link_prob_file(data_info_prep.sample_gold_dir, data_info_prep.link_prob_file, log_info)
+        gen_link_prob_file(sample_gold_linked_dir, data_info_prep.link_prob_file, log_info)
 
     if gen_slink:
         logger.info({
-            'action': 'ljc_prep_main',
             'run': 'gen_slink',
-            'sample_gold_dir': data_info_prep.sample_gold_dir,
+            'sample_gold_linked_dir': sample_gold_linked_dir,
             'slink_file': data_info_prep.slink_file
         })
-        gen_self_link_info(data_info_prep.sample_gold_dir, data_info_prep.slink_file, log_info)
+        gen_self_link_info(sample_gold_linked_dir, data_info_prep.slink_file, log_info)
 
     if gen_linkable:
         logger.info({
-            'action': 'ljc_prep_main',
             'run': 'gen_linkable',
-            'sample_input_dir': data_info_prep.sample_input_dir,
-            'sample_gold_dir': data_info_prep.sample_gold_dir,
+            'sample_input_ene_dir': sample_input_ene_dir,
+            'sample_gold_linked_dir': sample_gold_linked_dir,
             'linkable_file': data_info_prep.linkable_file
         })
-        gen_linkable_info(data_info_prep.sample_input_dir, data_info_prep.sample_gold_dir, data_info_prep.linkable_file,
+        gen_linkable_info(sample_input_ene_dir, sample_gold_linked_dir, data_info_prep.linkable_file,
                           log_info)
 
 
-def gen_input_title_file(in_dir, input_title_file, log_info):
+def gen_input_title_file(in_ene_dir, input_title_file, log_info):
     """extract page titles from input files
     args:
-        in_dir
+        in_ene_dir
         input_title_file
         log_info
     output:
@@ -427,7 +468,7 @@ def gen_input_title_file(in_dir, input_title_file, log_info):
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
-    in_files = in_dir + '*.jsonl'
+    in_files = in_ene_dir + '*.jsonl'
     check = {}
     for in_file in glob(in_files):
         logger.info({
@@ -445,10 +486,44 @@ def gen_input_title_file(in_dir, input_title_file, log_info):
     df = pd.DataFrame(title_list)
     df.to_csv(input_title_file, sep='\t', header=False, index=False)
 
+# def gen_sample_pid_title_file(sample_in_ene_dir, sample_pid_title_file, log_info):
+#     """extract pageid and page titles from sample files
+#     args:
+#         sample_in_ene_dir
+#         input_title_file
+#         log_info
+#     output:
+#         input_title_file
+#     """
+#     import pandas as pd
+#
+#     logger = set_logging_pre(log_info, 'myPreLogger')
+#     logger.setLevel(logging.INFO)
+#
+#     in_files = in_ene_dir + '*.jsonl'
+#     check = {}
+#     for in_file in glob(in_files):
+#         logger.info({
+#             'action': 'extract_input_title',
+#             'in_file': in_file,
+#         })
+#         with open(in_file, mode='r', encoding='utf-8') as i:
+#             for i_line in i:
+#                 rec = json.loads(i_line)
+#                 title = rec['title']
+#                 if not check.get(title):
+#                     check[title] = 1
+#
+#     title_list = list(check.keys())
+#     df = pd.DataFrame(title_list)
+#     df.to_csv(input_title_file, sep='\t', header=False, index=False)
 
-def prematch_mention_title(data_info_prep, pre_matching, title_matching, char_match_min, log_info):
+# 20220822
+# def prematch_mention_title(data_info_prep, pre_matching, title_matching, char_match_min, log_info):
+def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_matching, char_match_min, log_info):
     """Pre-matching mention title.
     args:
+        in_ene_dir,
         data_info_prep:
         pre_matching
         title_matching
@@ -482,7 +557,9 @@ def prematch_mention_title(data_info_prep, pre_matching, title_matching, char_ma
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
-    in_files = data_info_prep.in_dir + '*.jsonl'
+    # in_files = data_info_prep.in_dir + '*.jsonl'
+    # 20220822
+    in_files = in_ene_dir + '*.jsonl'
     logger.info({
         'action': 'prematch_mention_title',
         'in_files': in_files,
@@ -526,7 +603,8 @@ def prematch_mention_title(data_info_prep, pre_matching, title_matching, char_ma
             'in_file': in_file,
         })
         with open(in_file, mode='r', encoding='utf-8') as i:
-            fname = in_file.replace(data_info_prep.in_dir, '')
+            fname = in_file.replace(in_ene_dir, '')
+            # fname = in_file.replace(data_info_prep.in_dir, '')
             # ene_cat = fname.replace('.json', '')
 
             ene_cat = lc.extract_cat(fname, log_info)
@@ -656,6 +734,10 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
 
 
         with open(filename, 'r', encoding='utf-8') as f:
+            logger.info({
+                'action': 'gen_html_info_file',
+                'filename': filename,
+            })
             check_elm = {}
 
             line_num = 0
@@ -672,38 +754,86 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
 
                 # start = 0
                 for link in links:
+                    tmp_title = ''
+                    logger.debug({
+                        'action': 'gen_html_info_file',
+                        'link': link,
+                    })
                     try:
                         # href_char = link.get('href_char')
                         href_char = link.get('href')
 
                         if href_char:
+                            logger.debug({
+                                'action': 'gen_html_info_file',
+                                'href_char(before)': href_char
+                            })
                             # 20220819 tag for edition
                             # <a href="/w/index.php?title=%E7%89%B9%E5%88%A5:%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E4%BD%9C%E6%88%90&amp;returnto=.tw&amp;returntoquery=curid%3D1357468" class="vector-menu-content-item user-links-collapsible-item" title="アカウントを作成してログインすることをお勧めしますが、必須ではありません">
                             if ('action=edit' in href_char) or ('returntoquery' in href_char) or (
                                     'en.wikipedia.org' in href_char):
                                 continue
-                            elif 'index' not in href_char:
-                                continue
+                            # elif 'index' not in href_char:
+                            #     logger.info({
+                            #         'action': 'gen_html_info_file',
+                            #         'no index in href_char': href_char
+                            #     })
+                            #     continue
                             # included in action=edit
                             # elif 'redlink' in href_char:
                             #     continue
+                            logger.debug({
+                                'action': 'gen_html_info_file',
+                                'href_char(after)': href_char
+                            })
+
                     except(NameError, ValueError):
                         continue
 
                     if 'rel' in link.attrs and 'nofollow' in link.attrs['rel']:
+                        logger.debug({
+                            'action': 'gen_html_info_file',
+                            'attrs(rel)': link.attrs,
+                            'rel(nofollow)': link.attrs['rel']
+                        })
                         continue
                     if 'accesskey' in link.attrs:
+                        logger.debug({
+                            'action': 'gen_html_info_file',
+                            'attrs(accesskey)': link.attrs,
+                        })
                         continue
                     if 'class' in link.attrs:
                         tmp_class = link.attrs['class']
                         if len(tmp_class[0]) > 0 and 'mw-redirect' not in tmp_class[0]:
+                            logger.debug({
+                                'action': 'gen_html_info_file',
+                                'not mw-redirect': tmp_class[0],
+                            })
                             continue
                     if 'title' not in link.attrs:
+                        logger.info({
+                            'action': 'gen_html_info_file',
+                            'attrs(no title)': link.attrs,
+                        })
                         continue
                     tmp_title = link.attrs['title']
+                    logger.info({
+                        'action': 'gen_html_info_file',
+                        'tmp_title': tmp_title,
+                    })
                     if len(tmp_title) == 0:
+                        logger.debug({
+                            'action': 'gen_html_info_file',
+                            'len(tmp_title) zero': len(tmp_title),
+                            'tmp_title': tmp_title
+                        })
                         continue
                     elif tmp_title.startswith(dis_pat_title_head):
+                        logger.debug({
+                            'action': 'gen_html_info_file',
+                            'tmp_title(start)': tmp_title
+                        })
                         continue
                     else:
                         check_hit = 0
@@ -729,6 +859,10 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
                     except ValueError:
                         continue
                     for tag in taglist:
+                        logger.info({
+                            'action': 'gen_html_info_file',
+                            'tag': tag
+                        })
                         # excluding symbols
                         text_start = tag.start() + 1
                         text_end = tag.end() - 1
@@ -740,6 +874,16 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
                             if not check_elm.get(elm):
                                 check_elm[elm] = 1
                                 html_info_list.append(tmp_dict)
+                                logger.debug({
+                                    'action': 'gen_html_info_file',
+                                    'cat': cat,
+                                    'pid': fname,
+                                    'line_id': str(line_id),
+                                    'html_text_start': str(text_start),
+                                    'html_text_end': str(text_end),
+                                    'html_text': link.text,
+                                    'title': tmp_title
+                                })
 
     labels = ['cat', 'pid', 'line_id', 'html_text_start', 'html_text_end', 'html_text', 'title']
 
@@ -990,8 +1134,8 @@ def check_self(row, log_info):
 def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info):
     """Generate linkable info
     args:
-        sample_in_dir
-        sample_gold_dir
+        sample_in_ene_dir
+        sample_gold_linked_dir
         linkable_info_file:
         log_info:
     return:
@@ -1121,8 +1265,7 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
     logger.info({
-        'action': 'ljc_prep_main',
-        'start': 'gen_self_link_info',
+        'run': 'gen_self_link_info',
         'gold_dir': gold_dir,
         'self_link_info_file': self_link_info_file
     })
@@ -1130,7 +1273,10 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
     ext = '.tsv'
 
     gold = gold_dir + '*.tsv'
-
+    logger.info({
+        'action': 'gen_self_link_info',
+        'gold': gold,
+    })
     sumup_cat_attr = {}
     sumup_self_cat_attr = {}
 
@@ -1285,7 +1431,7 @@ def gen_back_link_info_file(ptitle_list, back_link, back_link_dump, ext_file, lo
 def gen_link_prob_file(gold_dir, link_prob_file, log_info):
     """
     create probability info file based on link statistics in sample gold file
-    :param:gold_dir (eg. sample_gold_dir)
+    :param:gold_dir (eg. sample_gold_linked_dir)
     :param:link_prob_file
     :param:log_info
     :output: link_prob_file
@@ -1388,11 +1534,11 @@ def gen_link_prob_file(gold_dir, link_prob_file, log_info):
     df_a.to_csv(link_prob_file, sep='\t', header=False, index=False)
 
 
-def gen_mention_gold_link_dist(html_info, sample_gold_dir, outfile, log_info):
+def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_info):
     """get mention nearest gold link distance from sample gold html files and create mention_gold_link_dist file.
     args
         html_info
-        sample_gold_dir
+        sample_gold_linked_dir
         outfile
         log_info
     output
@@ -1425,10 +1571,10 @@ def gen_mention_gold_link_dist(html_info, sample_gold_dir, outfile, log_info):
 
     # ignore if in the same line
     ignore_zero = 1
-    gold_files = sample_gold_dir + '*.tsv'
+    gold_files = sample_gold_linked_dir + '*.tsv'
     logger.info({
         'action': 'gen_mention_gold_link_dist',
-        'gold_dir': sample_gold_dir,
+        'gold_dir': sample_gold_linked_dir,
         'html_info': html_info
     })
     with open(html_info, 'r', encoding='utf-8') as f:
@@ -1461,7 +1607,7 @@ def gen_mention_gold_link_dist(html_info, sample_gold_dir, outfile, log_info):
     out_raw_list = []
     for gfile in glob(gold_files):
         list_rec_out = []
-        gfile_part = gfile.replace(sample_gold_dir, '')
+        gfile_part = gfile.replace(sample_gold_linked_dir, '')
         ene_cat = gfile_part.replace('.tsv', '')
         with open(gfile, 'r', encoding='utf-8') as g:
             greader = csv.reader(g, delimiter='\t')
@@ -1600,6 +1746,87 @@ def check_pageid(pageid, log_info, **d_dis):
         return -1
     else:
         return 1
+
+def gen_redirect_info_file2(incoming, title2pageid, dis, redirect_info, log_info):
+    """ get title2pid from incoming file, and remove disambiguation pages and wrong-formatted pages from title2pageid and
+    create redirect info default file
+    Args:
+        incoming
+        title2pageid
+        dis
+        redirect_info
+        log_info
+    Returns:
+    Output:
+        redirect_info
+        Notice:
+            - In the title2pageid file,some 'redirect-to' pages lack page_ids.
+                 {"page_id": 1218449, "title": "岡山県の旧制教育機関", "is_redirect": true,
+                  "redirect_to": {"page_id": null, "title": null, "is_redirect": false}}
+              - white spaces in Wikipedia titles are replaced by '_'.
+    """
+    import csv
+    import json
+
+    logger = set_logging_pre(log_info, 'myPreLogger')
+    logger.setLevel(logging.INFO)
+
+    title_apid = {}
+    d_dis = get_disambiguation_info(dis, log_info)
+    logger.debug({
+        'action': 'gen_redirect_info_file2',
+        'status': 'read title and pageid from incoming',
+    })
+    title_apid = {}
+    with open(incoming, mode='r', encoding='utf-8') as ic:
+        # cnt = 0
+        for ic_line in ic:
+            # cnt += 1
+            ic_reader = csv.reader(ic, delimiter='\t')
+            for ic_row in ic_reader:
+
+                # if cnt == 1000:
+                #     break
+                ic_pid = ic_row[0]
+                ic_title = ic_row[1]
+                logger.debug({
+                    'action': 'gen_redirect_info_file2',
+                    'ic_pid': ic_title,
+                })
+                title_apid[ic_title] = str(ic_pid)
+    logger.debug({
+        'action': 'gen_redirect_info_file2',
+        'status': 'title2pageid start',
+        'ic_pid': ic_title,
+    })
+    with open(title2pageid, mode='r', encoding='utf-8') as r:
+        for r_line in r:
+            rd = json.loads(r_line)
+
+            from_pid = rd['page_id']
+
+            # disambiguation
+            if check_pageid(from_pid, log_info, **d_dis) != 1:
+                continue
+            from_title = rd['title'].replace('_', ' ')
+            # redirect page
+            if rd['is_redirect']:
+                if not rd['redirect_to']['page_id']:
+                    continue
+                else:
+                    to_pid = rd['redirect_to']['page_id']
+                    if check_pageid(to_pid, log_info, **d_dis) != 1:
+                        continue
+                    else:
+                        title_apid[from_title] = str(to_pid)
+            # non-redirect page
+            else:
+                title_apid[from_title] = str(from_pid)
+
+        with open(redirect_info, 'w') as o:
+            writer = csv.writer(o, delimiter='\t', lineterminator='\n')
+            for k, v in title_apid.items():
+                writer.writerow([k, v])
 
 
 def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
@@ -1807,14 +2034,18 @@ def gen_enew_info_file(enew_org, mod_list, enew_info, log_info):
     with open(enew_org, 'r', encoding="utf-8") as e:
         for line in e:
             t = json.loads(line)
-            pageid = t['pageid']
+            # pageid = t['pageid']
+            pageid = t['page_id']
             title = t['title']
 
             if t['ENEs']:
                 for k, v in t['ENEs'].items():
                     for m in v:
-                        if 'ENE_id' in m:
-                            eid = m['ENE_id']
+                        if 'ENE' in m:
+                        # if 'ENE_id' in m:
+                            # eid = m['ENE_id']
+                            eid = m['ENE']
+
                             t_key = str(pageid) + ':' + eid
                             if t_key not in check_mod:
                                 plist.append([str(pageid), eid, title])
@@ -1879,6 +2110,131 @@ def gen_incoming_link_file(cirrus_content, outfile, log_info):
         writer = csv.writer(o, delimiter='\t', lineterminator='\n')
         writer.writerows(id_title_link)
 
+def linkedjson2tsv2(linked_json_dir, title2pid_ext_file, log_info):
+    """Convert linked json file to linked tsv file
+        add title info based on title2pid_ext_file
+    args:
+        linked_json_dir
+        title2pid_ext_file
+        log_info
+    output:
+        linked_tsv (tsv)
+            format
+                pageid, title, attribute, text, start_line_id, start_offset, end_line_id, end_offset, link_pageid,
+                link_page_title
+            sample
+                2392906	桐谷華	地位職業	声優	38	20	38	22	1192	声優
+    notice
+        '\n' in text(mention) has been converted to '\\n'.
+    """
+
+    import json
+    import pandas as pd
+    from glob import glob
+
+    import logging
+    import re
+    logger = set_logging_pre(log_info, 'myPreLogger')
+    logger.setLevel(logging.INFO)
+
+    logger.info({
+        'action': 'linkedjson2tsv_simple',
+        'linked_json_dir': linked_json_dir,
+        # 'title2pid_org_file': title2pid_org_file,
+    })
+    get_title = {}
+
+    with open(title2pid_ext_file, mode='r', encoding='utf-8') as f:
+        reader = csv.reader(f, delimiter='\t')
+        for rows in reader:
+            to_title = rows[2]
+            to_pid_str = rows[1]
+            get_title[to_pid_str] = to_title
+
+    # with open(title2pid_org_file, mode='r', encoding='utf-8') as r:
+    #     for rline in r:
+    #         rd = {}
+    #         pid = ''
+    #         title = ''
+    #         rd = json.loads(rline)
+    #         if 'page_id' not in rd:
+    #             logger.error({
+    #                 'action': 'linkedjson2tsv',
+    #                 'error': 'missing page_id'
+    #             })
+    #             sys.exit()
+    #         elif not rd['page_id']:
+    #             logger.error({
+    #                 'action': 'linkedjson2tsv',
+    #                 'error': 'page_id null'
+    #             })
+    #             sys.exit()
+    #         else:
+    #             pid = str(rd['page_id'])
+    #         # title (not forwarded page)
+    #         if 'title' not in rd:
+    #             logger.error({
+    #                 'action': 'linkedjson2tsv',
+    #                 'error': 'title not in rd',
+    #                 'rline': rline
+    #             })
+    #             sys.exit()
+    #         elif not rd['title']:
+    #             logger.error({
+    #                 'action': 'linkedjson2tsv',
+    #                 'error': 'no title redirect to',
+    #                 'rline': rline
+    #             })
+    #             sys.exit()
+    #         else:
+    #             title = rd['title']
+    #             get_title[pid] = title
+    #         rd.clear()
+
+    # linked_json_files = linked_json_dir + '*.json'
+    linked_json_files = linked_json_dir + '*.jsonl'
+
+    for linked_json in glob(linked_json_files):
+        go_list = []
+        # linked_tsv = linked_json.replace('.json', '.tsv')
+        if '_dist.jsonl' in linked_json:
+            linked_tsv = linked_json.replace('_dist.jsonl', '.tsv')
+        else:
+            linked_tsv = linked_json.replace('.jsonl', '.tsv')
+
+        with open(linked_json, mode='r', encoding='utf-8') as g, open(linked_tsv, 'w', encoding='utf-8') as o:
+            for g_line in g:
+                g_key_list = []
+                d_gline = json.loads(g_line)
+                g_key_list = get_key_list_with_title(log_info, **d_gline)
+                
+                logger.debug({
+                    'action': 'linkedjson2tsv_simple',
+                    'g_key_list': g_key_list,
+                })
+                g_link_pageid = g_key_list[8]
+                # in case of multiple lines
+                text_pre = g_key_list[4]
+                g_key_list[4] = '\\n'.join(text_pre.splitlines())
+
+                if get_title.get(g_link_pageid):
+                    g_link_title = get_title[g_link_pageid]
+                    g_key_list.insert(9, g_link_title)
+                # g_title_pageid = g_key_list[0]
+                # if get_title.get(g_title_pageid):
+                #      g_org_title = get_title[g_title_pageid]
+                #      g_key_list.insert(1, g_org_title)
+                logger.debug({
+                    'action': 'linkedjson2tsv_simple',
+                    'text_pre': text_pre,
+                    'g_link_pageid': g_link_pageid,
+                    # 'g_link_title': g_link_title,
+                    # 'g_org_title': g_org_title,
+                })
+                go_list.append(g_key_list)
+
+            df_go = pd.DataFrame(go_list)
+            df_go.to_csv(o, sep='\t', header=False, index=False)
 
 def linkedjson2tsv(linked_json_dir, title2pid_org_file, log_info):
     """Convert linked json file to linked tsv file
@@ -1985,6 +2341,143 @@ def linkedjson2tsv(linked_json_dir, title2pid_org_file, log_info):
 
             df_go = pd.DataFrame(go_list)
             df_go.to_csv(o, sep='\t', header=False, index=False)
+
+def get_key_list_with_title(log_info, **tr):
+    """get key list with title from input json dictionary to distinguish each record
+    args:
+        log_info
+        **tr
+    return:
+        tmp_list
+            format: [pageid, title, attribute, text, start_line_id, start_offset, end_line_id, end_offset, link_id]
+    """
+
+    import sys
+    import logging
+    logger = set_logging_pre(log_info, 'myPreLogger')
+    logger.setLevel(logging.INFO)
+
+    try:
+        pid = tr['page_id']
+    except (KeyError, ValueError) as ex:
+        logger.error({
+            'action': 'get_key_list_with_title',
+            'error': ex,
+            'tr': tr
+        })
+        sys.exit()
+    try:
+        title = tr['title']
+    except (KeyError, ValueError) as ex:
+        logger.error({
+            'action': 'get_key_list_with_title',
+            'error': ex,
+            'tr': tr
+        })
+        sys.exit()
+    try:
+        at = tr['attribute']
+    except (KeyError, ValueError) as ex:
+        logger.error({
+            'action': 'get_key_list_with_title',
+            'error': ex,
+            'tr': tr
+        })
+        sys.exit()
+
+    if 'text_offset' not in tr:
+        logger.error({
+            'action': 'get_key_list_with_title',
+            'error': 'format_error: text_offset',
+            'tr': tr
+        })
+        sys.exit()
+    else:
+        if 'start' not in tr['text_offset']:
+            logger.error({
+                'action': 'get_key_list_with_title',
+                'error': 'format_error: start(text_offset)',
+                'tr': tr
+            })
+            sys.exit()
+        else:
+            if 'line_id' not in tr['text_offset']['start']:
+                logger.error({
+                    'action': 'get_key_list_with_title',
+                    'error': 'format_error: line_id(start)',
+                    'tr': tr
+                })
+                sys.exit()
+            else:
+                start_line_id = str(tr['text_offset']['start']['line_id'])
+
+            if 'offset' not in tr['text_offset']['start']:
+                logger.error({
+                    'action': 'get_key_list_with_title',
+                    'error': 'format_error: offset(start)',
+                    'tr': tr
+                })
+                sys.exit()
+            else:
+                start_offset = str(tr['text_offset']['start']['offset'])
+
+        if 'end' not in tr['text_offset']:
+            logger.error({
+                'action': 'get_key_list_with_title',
+                'error': 'format_error: end(text_offset)',
+                'tr': tr
+            })
+            sys.exit()
+        else:
+            if 'line_id' not in tr['text_offset']['end']:
+                logger.error({
+                    'action': 'get_key_list_with_title',
+                    'error': 'format_error: line_id(end)',
+                    'tr': tr
+                })
+                sys.exit()
+            else:
+                end_line_id = str(tr['text_offset']['end']['line_id'])
+
+            if 'offset' not in tr['text_offset']['end']:
+                logger.error({
+                    'action': 'get_key_list_with_title',
+                    'error': 'format_error: offset(end)',
+                    'tr': tr
+                })
+                sys.exit()
+            else:
+                end_offset = str(tr['text_offset']['end']['offset'])
+
+            if 'text' not in tr['text_offset']:
+                logger.error({
+                    'action': 'get_key_list_with_title',
+                    'error': 'format_error: text(text_offset)',
+                    'tr': tr
+                })
+                sys.exit()
+            else:
+                text = tr['text_offset']['text']
+
+    if 'link_page_id' not in tr:
+        link_id = None
+    else:
+        link_id = tr['link_page_id']
+
+    logger.debug({
+        'action': 'get_key_list_with_title',
+        'pid': pid,
+        'title': title,
+        'at': at,
+        'text': text,
+        'start_line_id': start_line_id,
+        'start_offset': start_offset,
+        'end_line_id': end_line_id,
+        'end_offset': end_offset,
+        'link_id': link_id
+    })
+    tmp_list = [pid, title, at, text, start_line_id, start_offset, end_line_id, end_offset, link_id]
+    return tmp_list
 
 
 def get_key_list(log_info, **tr):

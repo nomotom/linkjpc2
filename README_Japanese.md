@@ -115,7 +115,7 @@ $ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir
  ( _linkjpc_prep_all_test.sh_) を参考にしてください。
 ```
 
- (A) --gen_redirect -> --gen_incoming_link -> --gen_title2pid_ext -> --gen_back_link, --pre_matching, --gen_self_link_info 
+ (A) --gen_incoming_link -> --gen_redirect ->  --gen_title2pid_ext -> --gen_back_link, --pre_matching, --gen_self_link_info 
  (B) --gen_sample_gold_tsv --> --gen_link_dist, gen_link_prob, gen_self_link_info
  (C) --gen_common_html -> --gen_link_dist
  (D) --gen_html
