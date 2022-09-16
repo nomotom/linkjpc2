@@ -19,7 +19,12 @@ def append_filtering_cand_info(filtering_cand_list, link_info, log_info):
             pid = cand_info[0]
             mod = cand_info[1]
             val = cand_info[2]
-
+            # if len(pid) > 0:
+            #     logger.info({
+            #         'action': 'scoring',
+            #         'mention': mention_info.t_mention,
+            #         'keys_mint': keys_mint,
+            #     })
             # lack eneid and the title is inadequate (list page, etc.)
             if not cf.d_pid_title_incoming_eneid.get(pid):
                 continue

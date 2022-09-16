@@ -35,7 +35,8 @@ def match_mention_title(mod, opt_info, mention, log_info, **d_mention_pid_ratio)
 
     cand_list = []
     new_cand_list = []
-    check = {}
+    # check = {}
+    check_list = {}
     # check if partial match
     if d_mention_pid_ratio.get(mention):
         cand_cnt = 0
@@ -43,6 +44,16 @@ def match_mention_title(mod, opt_info, mention, log_info, **d_mention_pid_ratio)
         for pid_ratio_list in d_mention_pid_ratio[mention]:
             pid = pid_ratio_list[0]
             ratio = float(pid_ratio_list[1])
+            # if mention == '千葉' and pid == '774353':
+            #     logger.info({
+            #         'action': 'match_mention_title',
+            #         'pid': pid,
+            #         'mention': mention,
+            #         'ratio': ratio,
+            #         'char_match_min': char_match_min,
+            #         'char_match_cand_num_mint': opt_info.char_match_cand_num_max
+            #     })
+            # 'action': 'match_mention_title', 'pid': '774353', 'mention': '千葉', 'ratio': 0.67, 'char_match_min': 0.2, 'char_match_cand_num_mint': 1000}
             if ratio > 1.0:
                 logger.error({
                     'action': 'match_mention_title',
@@ -51,23 +62,96 @@ def match_mention_title(mod, opt_info, mention, log_info, **d_mention_pid_ratio)
                     'pid_ratio_list': pid_ratio_list,
                 })
                 sys.exit()
+            # if mention == '千葉' and pid == '774353':
+            #     logger.info({
+            #         'action': 'match_mention_title',
+            #         'check': 'before_if_ratio',
+            #         'mention': mention,
+            #         'pid': pid,
+            #         'mod': mod,
+            #         'ratio': ratio
+            #     })
+            #  'action': 'match_mention_title', 'check': 'before_if_ratio', 'mention': '千葉', 'pid': '774353', 'mod': 'm', 'ratio': 0.67}
             if ratio:
+                # if mention == '千葉' and pid == '774353':
+                #     logger.info({
+                #         'action': 'match_mention_title',
+                #         'check': 'if_ratio',
+                #         'mention': mention,
+                #         'pid': pid,
+                #         'mod': mod,
+                #         'ratio': ratio
+                #     })
+                # 'action': 'match_mention_title', 'check': 'if_ratio', 'mention': '千葉', 'pid': '774353', 'mod': 'm', 'ratio': 0.67}
                 # partial match
                 if ratio < 1.0:
                     if ratio < char_match_min:
+                        logger.debug({
+                            'action': 'match_mention_title',
+                            'msg': 'skipped ratio is less than char_match_min',
+                            'mention': mention,
+                            'ratio': ratio,
+                            'char_match_min': char_match_min,
+                        })
                         continue
                     elif match_type == 'e':
+                        logger.debug({
+                            'action': 'match_mention_title',
+                            'msg': 'skipped match_type is e and ratio is less than 1',
+                            'mention': mention,
+                            'ratio': ratio,
+                            'match_type': match_type,
+                        })
                         continue
-            if pid not in check:
+            # logger.info({
+            #     'action': 'match_mention_title',
+            #     'check': 'before_check_list',
+            #     'check_list': check_list,
+            # })
+            if pid not in check_list:
+                # if mention == '千葉' and pid == '774353':
+                #     logger.info({
+                #         'action': 'match_mention_title',
+                #         'check': 'before_append',
+                #         'mention': mention,
+                #         'cand_list': cand_list,
+                #         'pid': pid,
+                #         'mod': mod,
+                #         'ratio': ratio
+                #     })
                 cand_list.append([pid, mod, ratio])
-                check[pid] = 1
+                # check_list[pid] = 1
+                # if mention == '千葉' and pid == '774353':
+                #     logger.info({
+                #         'action': 'match_mention_title',
+                #         'check': 'after_append',
+                #         'mention': mention,
+                #         'cand_list': cand_list,
+                #         'pid': pid,
+                #         'mod': mod,
+                #         'ratio': ratio
+                #     })
                 if cand_cnt == opt_info.char_match_cand_num_max:
                     break
                 else:
                     cand_cnt += 1
-
+        # if mention == '千葉':
+        #     logger.info({
+        #         'action': 'match_mention_title',
+        #         'mention': mention,
+        #         'cand_list(final)': cand_list
+        #     })
+            # 'action': 'match_mention_title', 'mention': '千葉', 'cand_list(final)': []}
         if len(cand_list) > 0:
             new_cand_list = sorted(cand_list, key=itemgetter(2), reverse=True)
+
+            # if mention == '千葉':
+            #     logger.info({
+            #         'action': 'match_mention_title',
+            #         'mention': mention,
+            #         'new_cand_list': new_cand_list
+            #     })
+
             if len(new_cand_list) > 0:
                 cand_limit = min(opt_info.char_match_cand_num_max, len(new_cand_list))
                 del new_cand_list[cand_limit:]
@@ -125,4 +209,11 @@ def reg_matching_info(matching_info_file, ratio_min, log_info):
             if not d_mention_pid_ratio.get(rows[0]):
                 d_mention_pid_ratio[rows[0]] = []
             d_mention_pid_ratio[rows[0]].append((rows[1], rows[3]))
+
+            # if rows[0] == '千葉' and rows[1] == '774353':
+            #     logger.info({
+            #         'action': 'reg_matching_info',
+            #         'rows': rows,
+            #         # 'action': 'reg_matching_info', 'rows': ['千葉', '774353', '千葉県', '0.67']}
+            #     })
         return d_mention_pid_ratio

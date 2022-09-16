@@ -74,10 +74,10 @@ The directories are specified as command line arguments or options when you try 
 (entity linking)
 >- wl_lines_backward_ca.tsv ([CM4](#cm4-f_wl_lines_backward_ca_default))
 >- wl_lines_forward_ca.tsv ([CM5](#cm5-f_wl_lines_forward_ca_default)) 
->- att_def.tsv ([CM6](#CM6-f_attr_rng_default))
->- cat_att_selflink.tsv ([CP7](#cp7-f_slink_default))
+>- attr_def.tsv ([CM6](#CM6-f_attr_rng_default))
+>- cat_attr_self_link.tsv ([CP7](#cp7-f_slink_default))
 >- jawiki-20190120-title2pageid_ext.tsv ([CP8](#cp8-f_title2pid_ext_default))
->- sample_cat_att_mention_linkcand.tsv ([CP9](#cp9-f_link_prob_default))
+>- sample_cat_attr_mention_linkcand.tsv ([CP9](#cp9-f_link_prob_default))
 
 
 (preprocessing)
@@ -217,6 +217,9 @@ The directories are specified as command line arguments or options when you try 
    - `{"page_id":"72942","title":"バックス (ローマ神話)","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.2"}]}}
 {"page_id":"401755","title":"覚信尼","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.1"}]}}` 
  - used in: (linkjpc_prep) gen_enew_info_file
+
+
+
 ## (2) manually created data (common_data_dir)
 
 Download the data listed below from _URL(to be prepared)_ .  
@@ -277,7 +280,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - used in: (linkjpc) gw.reg_mention_gold_distance_ca
 
 ### CM6 (f_attr_rng_default)
- - filename: '**att_def.tsv**'
+ - filename: '**attr_def.tsv**'
  - format: ene_label_en, attribute_name, range, probability (*.tsv)
    - (range):    'ene':eneid
  - sample:
@@ -286,16 +289,87 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: manually
  - used in: (linkjpc)get_attr_range
 
+### CM7 (f_target_attr_default)
+ - filename: '**ene_definition_v9.0.0-20220714_target_attr.tsv**'
+ - format: ene_label_en, attribute_name, (*.tsv)
+ - sample:
+   - 1.1	人名	Person	別名・旧称
+   - 1.1	人名	Person	国籍
+ - created by: awk 
+ - used in: (linkjpc)gen_self_link_info
+ - 
+### CM8 (f_all_cat_default)
+ - filename: '**ene_definition_v9.0.0-20220714_all_cat.tsv**'
+ - format: ene_id, ene_label_en, ene_label_ja, (*.tsv)
+ - sample:
+   - 0	CONCEPT	ＣＯＮＣＥＰＴ
+　　- 1	Name	名前
+   - 1.0	Name_Other	名前＿その他
+   - 1.1	Person	人名
+   - 1.2	God	神名
+   - 1.3	Individual_Living_Thing	生物呼称名
+   - 1.3.0	Individual_Living_Thing_Other	生物呼称名＿その他
+   - 1.3.1	Individual_Animal	動物呼称名
+   - 9	IGNORED	ＩＧＮＯＲＥＤ
+ - notice:
+   - Some categories lack attributes.
+ - created by: awk 
+ - used in: 
+ - 
+### CM9 (f_self_link_pat_default)
+ - filename: '**self_link_pat.tsv**'
+ - format: pos, pat (*.tsv)
+ - sample:
+   - start   別名
+   - start   合併
+ - created by: manually
+ - used in: (linkjpc_prep)gen_self_link_by_attr_name
 
+### CM10 (f_self_link_by_attr_name_default)
+ - filename: '**self_link_by_attr_name.tsv**'
+ - format: attr
+ - sample:
+   - 別名・旧称
+   - 合併市区町村
+ - created by: manually
+ - used in: (linkjpc_prep)gen_self_link_by_attr_name
+
+### CM11 (f_redirect_dump_org_default)
+ - filename:'***jawiki-20210820-redirect_dmp_no_punct.tsv***'
+ - description: Wikipedia redirect dump 
+ - format: rd_from, rd_title, rd_namespace
+ - sample:
+   -- 557692	宮下杏菜	0
+   -- 557693	宮下杏菜	0
+ - original: 'jawiki-20210820-redirect_dmp.tsv' (based on: jawiki-20210820-redirect.sql.gz)
+ - modified version 
+   - redirect info with punctuation (titles with single symbol characters (!"#$%&'-=^~\|@`...)  have been deleted
+   - $ awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-redirect_dmp.tsv > jawiki-20210820-redirect_dmp_no_punct.tsv
+   - 'redirects to' titles in namespaces other than zero have been deleted
+
+### CP12 (f_page_dump_org_default)
+ - filename:'***jawiki-20210820-page_dmp_no_punct.tsv***'
+ - format:  page_id, page_title, page_is_redirect, page_namespace
+ - sample:　　　
+ -- 517804	宮下杏菜	0	0
+ -- 557692	宮下杏奈	1	0
+ -- 557693	広末由依	1	0
+ -- notice:
+ -- original:'jawiki-20220820-page_dmp.tsv' (based on: jawiki-20220820-page.sql.gz)
+ -- created by:
+  -- $ awk 'BEGIN{FS="\t"}$2 ~ /^[[:punct:]]$/{print}' jawiki-20220820-page_dmp.tsv > jawiki-20220820-page_dmp_punct.tsv 
+  -- page info with punctuation (titles with single character defined as symbols in awk(!"#$%&'-=^~\|@`...)
+is deleted.
+ - 
 ## (3) data created by preprocessing tools
 ## (3-1) (sample_gold_dir)
 
 ### SP1 (sample gold data info)
  - filename: **Airport.tsv, City.tsv, 'Company.tsv, 'Compound.tsv, 'Conference.tsv, 'Lake.tsv, 'Person.tsv** 
  - description: Sample gold data info.
- - format: org_pageid, org_title, attribute_name, mention, start_line_id, start_offset, end_line_id, end_offset, gold_pageid, gold_title (*.tsv)
- - sample: 573393  森見登美彦      生誕地  日本・奈良県生駒市      35      33      35      42      22003   生駒市
- - created by: (linkjpc_prep --gen_sample_gold_tsv) linkedjson2tsv
+ - format: category,  org_pageid, org_title, attribute_name, mention, start_line_id, start_offset, end_line_id, end_offset, gold_pageid, gold_title (*.tsv)
+ - sample: Person  573393  森見登美彦      生誕地  日本・奈良県生駒市      35      33      35      42      22003   生駒市
+ - created by: (linkjpc_prep --gen_sample_gold_tsv) linkedjson2tsv_simple
  - used in: (linkjpc_prep) gen_link_prob_file, gen_mention_gold_link_dist
 
 ## (3-2) (common_data_dir)
@@ -320,21 +394,21 @@ Download the data listed below from _URL(to be prepared)_ .
  - used in: (linkjpc_prep) gen_redirect_info_file
 
 ### CP3 (f_redirect_info_default) 
- - filename: '**jawiki-20190120-title2pageid_nodis.tsv**'
+ - filename: '**jawiki-20210823_title2pageid_20210820_nodis.tsv**'
  - description: Redirect info file, a modification of original from_title to_pageid information file to exclude disambiguation pages and ill-formatted pages. 
  - format: title, pageid (*.tsv)
  - sample: 
    - `1904年アメリカ合衆国大統領選挙  1477879`
    - `風と共に去りぬ (宝塚歌劇)311957`
  - notice:
-   - based on original redirect file(f_title2pid_org_default, jawiki-202190120-title2pageid.json).
+   - based on original redirect file(f_title2pid_org_default, jawiki-20210823_title2pageid_20210820.jsonl).
    - recovered white spaces in Wikipedia titles which are replaced by '_' in the original redirect file.
    - Info on ill formatted pages or disambiguation pages are excluded though not completely.
  - created by: (linkjpc_prep --redirect) gen_redirect_info_file
  - used in: (linkjpc_prep) gen_title2pid_ext_file
 
 ### CP4 (f_incoming_default) 
- - filename: '**jawiki-20190121-cirrussearch-content_incoming_link.tsv**'
+ - filename: '**jawiki-20210823-cirrussearch-content_incoming_link.tsv**'
  - description: Incoming link info list.
  - format:
    - pageid, title, number of incoming links (*.tsv) 
@@ -371,18 +445,19 @@ Download the data listed below from _URL(to be prepared)_ .
  - used in: (linkjpc_prep --gen_link_dist) gen_mention_gold_link_dist_info
 
 ### CP7 (f_slink_default) 
- - filename: '**cat_att_selflink.tsv**'
+ - filename: '**cat_attr_self_link.tsv**'
  - description: Self link info file to estimate the probability of linking to the original article for each category-attribute pair. 
  - format: ene_label_en, attribute_name, ratio (*.tsv)
  - sample:
-   - `Person  家族    0.0`
-   - `Person  別名    1.0`
+   - `School  別名    1.0       10    10`
+   - `School  標語    0.0        0     1`
+   - `School  種類    0.0        0     2`
  - note: The ratio is based on SHINRA2021-LinkJP sample data (ver.20210428).
  - created by: (linkjpc_prep --gen_slink) gen_self_link_info
  - used in: (linkjpc) sl.check_slink_info
 
 ### CP8 (f_title2pid_ext_default) 
- - filename: '**jawiki-20190120-title2pageid_ext.tsv**'
+ - filename: '**jawiki-20210823_title2pageid_20210820_ext.tsv**'
  - description: Summary information on title to pageid conversion, incoming links, and ENE classification of articles. .
  - format: 
    - from_title, to_pid, to_title, to_incoming, to_eneid (*.tsv)
@@ -390,6 +465,10 @@ Download the data listed below from _URL(to be prepared)_ .
    - `ロミジュリ	28783	ロミオとジュリエット	671	1.7.19.4`
    - `ロミオとジュリエット (2010年の宝塚歌劇)	3520389	ロミオとジュリエット (2010年の
  宝塚歌劇)	173	1.7.19.4`
+   - `鹿島アントラーズ	4670	鹿島アントラーズ	2723	1.4.5.3`
+   - `安倍総理	4136738	安倍晋三	3337`
+   - `安倍晋三/log20200516	4136738	安倍晋三	3337`
+   - `安倍晋三	4136738	安倍晋三	3337`
  - created by: gen_title2pid_ext_file
  - used in: (linkjpc_prep --gen_title2pid) gen_back_link_info_file (get_to_pid_to_title_incoming_eneid), 
     prematching_mention_title (reg_pid2title), 
@@ -397,7 +476,7 @@ Download the data listed below from _URL(to be prepared)_ .
    (linkjpc) ljc_main, lc.reg_title2pid_ext
  
 ### CP9 (f_link_prob_default) 
- - filename: '**sample_cat_att_mention_linkcand.tsv**'
+ - filename: '**sample_cat_attr_mention_linkcand.tsv**'
  - description: Link probability info file. 
  - format: 
    - ene_label_en, attribute_name, mention, link_cand_pageid:prob:freq;...(.tsv)
@@ -408,6 +487,36 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: (linkjpc_prep --gen_link_prob) gen_link_prob_file 
  - used in: (linkjpc) lp.get_link_prob_info
 
+### CP10 (f_linkable_info_default) 
+ - filename: '**cat_attr_linkable.tsv**'
+ - description: Linkable info file. 
+ - format: 
+   - ene_label_en, attribute_name, ratio (*.tsv)
+ - sample: 
+   - `Cemetery        別名    1.0`
+ - notice:
+   - The ratio is based on LinkJP2022 training data ver.202207.
+ - created by: (linkjpc_prep --gen_linkable) gen_linkable_info_file 
+ - used in: (linkjpc) dn.check_linkable_info
+
+### CP11 (f_nil_default) 
+ - filename: '**cat_attr_nil.tsv**'
+ - description: Nil info file to estimate the probability of nil link for each category-attribute pair. 
+ - format: ene_label_en, attribute_name, ratio (*.tsv)
+ - sample:
+   - `Person  家族    0.0`
+   - `Person  別名    1.0`
+ - note: The ratio is based on SHINRA2022-LinkJP training data (ver.202207).
+ - created by: (linkjpc_prep --gen_nil) gen_nil_info
+ - used in: (linkjpc) 
+
+### CP14 (f_self_link_attr_info_default)   
+    -- filename:'***self_link_attr_info_file***'
+    - format: attribute name, self_link ratio, self_link num, freq
+    - sample:
+    -- 別名  1.0   100  100
+    -- 標語　0.0     0   10
+    -- 種類　0.0     0   20
 
 ## (3-3) (tmp_data_dir)
 

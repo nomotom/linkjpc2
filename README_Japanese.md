@@ -115,10 +115,22 @@ $ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir
  ( _linkjpc_prep_all_test.sh_) を参考にしてください。
 ```
 
- (A) --gen_incoming_link -> --gen_redirect ->  --gen_title2pid_ext -> --gen_back_link, --pre_matching, --gen_self_link_info 
- (B) --gen_sample_gold_tsv --> --gen_link_dist, gen_link_prob, gen_self_link_info
- (C) --gen_common_html -> --gen_link_dist
- (D) --gen_html
+ (A) A-0) gen_title2pid 
+     -> A-1) gen_redirect 
+     　　-> A-2) gen_incoming_link
+           -> A-3) gen_title2pid_ext 
+              -> A-4-1) gen_back_link, 
+                 A-4-2) pre_matching, 
+                 A-4-3) gen_sample_gold_tsv 
+                   -> A-5-1) gen_link_prob, 
+                      A-5-2) gen_self_link_info, 
+                      A-5-3) gen_linkable,
+                      A-5-4) gen_nil
+                    
+ (B) (after A is over)
+     B-1) gen_common_html 
+       -> B-2) gen_link_dist
+ (C) gen_html
 ```
 ### 処理時間
 

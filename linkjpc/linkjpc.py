@@ -19,6 +19,7 @@ import copy
 import config as cf
 import logging
 import logging.config
+import linkjpc_prep as lpp
 
 
 def set_logging(log_info, logger_name):
@@ -181,13 +182,20 @@ def set_logging(log_info, logger_name):
 @click.option('--slink_min', '-s_min', type=click.FLOAT,
               default=cf.OptInfo.slink_min_default, show_default=True,
               help='minimum self link ratio of attributes. (0.1-1.0)')
-@click.option('--slink_prob', '-s_prb', type=click.Choice(['fixed', 'raw', 'mid']),
+@click.option('--slink_prob', '-s_prb', type=click.Choice(['fixed', 'raw', 'mid', 'm_est', 'r_est']),
               default=cf.OptInfo.slink_prob_default, show_default=True,
-              help='slink probability of the category-attribute pairs. fixed: 1.0, '
-                   'raw: ratio based on the sample data, mid: average of fixed and raw')
+              help='slink probability of the category-attribute pairs. '
+                   '"fixed": 1.0, '
+                   '"raw": ratio based on the sample data, '
+                   '"mid": average of fixed and raw, '
+                   '"r_est": raw + estimate ratio for attributes never appeared, '
+                   '"m_est": mid + estimate ratio for attributes never appeared' )
 @click.option('--f_slink', type=click.STRING,
               default=cf.DataInfo.f_slink_default, show_default=True,
               help='filename of self link ratio file. ')
+@click.option('--f_self_link_by_attr_name', type=click.STRING,
+              default=cf.DataInfo.f_self_link_by_attr_name_default, show_default=True,
+              help='filename of self link by attribute name file. ')
 # module: lp
 @click.option('--lp_min', '-l_min', type=click.FLOAT,
               default=cf.OptInfo.lp_min_default, show_default=True,
@@ -287,7 +295,7 @@ def set_logging(log_info, logger_name):
                    'unlinkable. (0.1-1.0)')
 @click.option('--len_desc_text_min', '-ld_min', type=click.INT,
               default=cf.OptInfo.len_desc_text_min_default, show_default=True,
-              help='minimum length of mention text regarded as descriptive')
+              help='minimum length of mention text regarded as descriptive. used for nil detection.')
 @click.option('--f_linkable_info', type=click.STRING,
               default=cf.DataInfo.f_linkable_info_default, show_default=True,
               help='filename of linkable ratio info file.')
@@ -313,6 +321,7 @@ def ljc_main(common_data_dir,
              f_mint,
              f_mint_trim,
              f_slink,
+             f_self_link_by_attr_name,
              f_wl_lines_backward_ca,
              f_wl_lines_forward_ca,
              f_linkable_info,
@@ -378,6 +387,7 @@ def ljc_main(common_data_dir,
     :param f_mint:
     :param f_mint_trim:
     :param f_slink:
+    :param f_self_link_by_attr_name:
     :param f_wl_lines_backward_ca:
     :param f_wl_lines_forward_ca:
     :param f_linkable_info:
@@ -525,6 +535,7 @@ def ljc_main(common_data_dir,
     data_info.link_prob_file = data_info.common_data_dir + f_link_prob
     data_info.mention_gold_link_dist_info_file = data_info.common_data_dir + f_mention_gold_link_dist_info
     data_info.slink_file = data_info.common_data_dir + f_slink
+    data_info.self_link_by_attr_name_file = data_info.common_data_dir + f_self_link_by_attr_name
 
     # files in tmp data dir
     data_info.tmp_data_dir = tmp_data_dir
@@ -551,6 +562,27 @@ def ljc_main(common_data_dir,
         'out_dir': data_info.out_dir,
         'title2pid_ext_file': data_info.title2pid_ext_file,
     })
+
+    # 20220829
+    # check if directory exists
+    if not os.path.isdir(data_info.common_data_dir):
+        logger.error({
+            'msg': 'illegal common_data_dir',
+            'common_data_dir': data_info.common_data_dir,
+        })
+        sys.exit()
+    if not os.path.isdir(data_info.in_dir):
+        logger.error({
+            'msg': 'illegal in_dir',
+            'in_dir': data_info.in_dir,
+        })
+        sys.exit()
+    if not os.path.isdir(data_info.in_ene_dir):
+        logger.error({
+            'msg': 'illegal in_ene_dir',
+            'in_ene_dir': data_info.in_ene_dir,
+        })
+        sys.exit()
 
     # 20220822
     in_files = data_info.in_ene_dir + '*.jsonl'
@@ -630,6 +662,7 @@ def ljc_main(common_data_dir,
                 })
                 d_mint_mention_pid_ratio = mc.reg_matching_info(data_info.mint_partial_match_file,
                                                                 opt_info.mention_in_title_min, log_info)
+
             else:
                 logger.error({
                     'action': 'ljc_main',
@@ -761,11 +794,12 @@ def ljc_main(common_data_dir,
     elif 's' in opt_info.mod:
         logger.info({
             'action': 'ljc_main',
-            'run': 'sl.check_slink_info',
+            'ru_minn': 'sl.check_slink_info',
             'slink_min': opt_info.slink_min,
             'slink_file': data_info.slink_file,
         })
-        d_self_link = sl.check_slink_info(data_info.slink_file, opt_info.slink_min, log_info)
+        # d_self_link = sl.check_slink_info(data_info.slink_file, opt_info.slink_min, log_info)
+        d_self_link = sl.check_slink_info(data_info.slink_file, log_info)
 
     # link_prob
     if 'l' in opt_info.mod:
@@ -973,7 +1007,6 @@ def ljc_main(common_data_dir,
             })
             sys.exit()
 
-
         logger.info({
             'action': 'ljc_main',
             'run': 'dn.check_linkable_info',
@@ -984,7 +1017,7 @@ def ljc_main(common_data_dir,
         })
         d_linkable = dn.check_linkable_info(data_info.linkable_info_file, log_info)
 
-        logger.info({
+        logger.debug({
             'action': 'ljc_main',
             'run': 'dn.check_linkable_info',
             'd_linkable': d_linkable,
@@ -1015,20 +1048,24 @@ def ljc_main(common_data_dir,
                     'fname': fname
                 })
                 sys.exit()
+
+            # 20220816
+            # outfile = out_dir + fname
             outfile_pre = out_dir + fname
-            if '_dist' in outfile_pre:
+            if '_dist' in fname:
                 outfile = outfile_pre.replace('_dist', '')
             else:
                 outfile = outfile_pre
 
-            # scorerの都合でファイル名は当面distをつけたままにする
-            outfile = out_dir + fname
+            # 20220829
+            out_tsv = outfile.replace('.jsonl', '.tsv')
 
             logger.info({
                 'action': 'ljc_main',
                 'ene_cat': ene_cat,
                 'in_file': in_file,
-                'outfile': outfile
+                'outfile': outfile,
+                'out_tsv': out_tsv
             })
 
             for i_line in i:
@@ -1108,10 +1145,16 @@ def ljc_main(common_data_dir,
                         dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
                         if not dn_res:
                             slink_cand_list = sl.estimate_self_link(cat_attr, opt_info.slink_prob, mention_info,
+                                                                    opt_info.slink_min,
+                                                                    data_info.self_link_by_attr_name_file,
                                                                     log_info, **d_self_link)
+
                     else:
-                        slink_cand_list = sl.estimate_self_link(cat_attr, opt_info.slink_prob, mention_info, log_info,
-                                                                **d_self_link)
+                        slink_cand_list = sl.estimate_self_link(cat_attr, opt_info.slink_prob, mention_info,
+                                                                opt_info.slink_min,
+                                                                data_info.self_link_by_attr_name_file,
+                                                                log_info, **d_self_link)
+
                     # filtering
                     if len(slink_cand_list) > 0:
                         s_tmp_cand_list = copy.deepcopy(slink_cand_list)
@@ -1149,6 +1192,15 @@ def ljc_main(common_data_dir,
                 if 'm' in opt_info.mod:
                     mint_cand_list = []
                     mod = 'm'
+                    # if mention_info.t_mention == '千葉':
+                    #     logger.info({
+                    #         'action': 'ljc_main',
+                    #         'mention_info.attr_label': mention_info.attr_label,
+                    #         'mention_info.t_start_line_id': mention_info.t_start_line_id,
+                    #         'mention_info.t_start_offset': mention_info.t_start_offset,
+                    #         'mention_info.pid': mention_info.pid,
+                    #     })
+                    # {'action': 'ljc_main', 'mention_info.attr_label': '居住地（地域）', 'mention_info.t_start_line_id': 88, 'mention_info.t_start_offset': 0, 'mention_info.pid': '3974281'}
                     if 'n' in opt_info.filtering and 'm' in opt_info.nil_tgt:
                         # nil detection
                         dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
@@ -1160,9 +1212,28 @@ def ljc_main(common_data_dir,
                         mint_cand_list = mc.match_mention_title(mod, opt_info, mention_info.t_mention, log_info,
                                                                 **d_mint_mention_pid_ratio)
 
+                    # if mention_info.t_mention == '千葉':
+                    if mention_info.pid == '1593456':
+                        logger.info({
+                            'action': 'ljc_main',
+                            'mint_cand_list': mint_cand_list,
+                            'mention_info.pid': mention_info.pid,
+                        })
+                    #{'action': 'ljc_main', 'mint_cand_list': [], 'mention_info.pid': '3974281'}
+
                     # filtering
                     if len(mint_cand_list) > 0:
                         m_tmp_cand_list = copy.deepcopy(mint_cand_list)
+                        # if mention_info.t_mention == '千葉':
+                        #     logger.info({
+                        #         'action': 'ljc_main',
+                        #         'mint_cand_list': mint_cand_list,
+                        #         'm_tmp_cand_list': m_tmp_cand_list,
+                        #         'mention_info.attr_label': mention_info.attr_label,
+                        #         'mention_info.t_start_line_id': mention_info.t_start_line_id,
+                        #         'mention_info.t_start_offset': mention_info.t_start_offset,
+                        #         'mention_info.pid': mention_info.pid,
+                        #     })
                         if 'a' in opt_info.filtering and 'm' in opt_info.attr_range_tgt:
                             mint_cand_list_attr_checked = ar.filter_by_attr_range(m_tmp_cand_list,
                                                                                   mention_info,
@@ -1188,8 +1259,19 @@ def ljc_main(common_data_dir,
 
                         # filtered candidates
                         if m_tmp_cand_list:
+
                             cl.append_filtering_cand_info(m_tmp_cand_list, link_info, log_info)
                             # check_m = 1
+                        # if mention_info.t_mention == '千葉':
+                        #     logger.info({
+                        #         'action': 'ljc_main',
+                        #         'mint_cand_list': mint_cand_list,
+                        #         'm_tmp_cand_list': m_tmp_cand_list,
+                        #         'mention_info.attr_label': mention_info.attr_label,
+                        #         'mention_info.t_start_line_id': mention_info.t_start_line_id,
+                        #         'mention_info.t_start_offset': mention_info.t_start_offset,
+                        #         'mention_info.pid': mention_info.pid,
+                        #     })
 
                 # tinm
                 if 't' in opt_info.mod:
@@ -1284,7 +1366,38 @@ def ljc_main(common_data_dir,
 
                 # scoring link candidates for tmp mention
                 final_cand_list = gs.scoring(opt_info, link_info, mention_info, mod_info, log_info)
-
+                # if mention_info.t_mention == '千葉':
+                #     logger.info({
+                #         'action': 'ljc_main',
+                #         'mention_info.t_mention': mention_info.t_mention,
+                #         'mention_info.ene_cat': mention_info.ene_cat,
+                #         'mention_info.attr_label':  mention_info.attr_label,
+                #         'mention_info.t_start_line_id':  mention_info.t_start_line_id,
+                #         'mention_info.t_start_offset': mention_info.t_start_offset,
+                #         'mention_info.pid': mention_info.pid,
+                #         'mod_info.mint_weight': mod_info.mint_weight,
+                #         'mod_info.tinm_weight': mod_info.tinm_weight,
+                #         'mod_info.slink_weight': mod_info.slink_weight,
+                #         'mod_info.wlink_weight': mod_info.wlink_weight,
+                #         'mod_info.link_prob_weight': mod_info.link_prob_weight,
+                #         'final_cand_list': final_cand_list
+                #     })
+                # else:
+                logger.debug({
+                    'action': 'ljc_main',
+                    'mention_info.h_mention': mention_info.h_mention,
+                    'mention_info.ene_cat': mention_info.ene_cat,
+                    'mention_info.attr_label': mention_info.attr_label,
+                    'mention_info.t_start_line_id': mention_info.t_start_line_id,
+                    'mention_info.t_start_offset': mention_info.t_start_offset,
+                    'mention_info.pid': mention_info.pid,
+                    'mod_info.mint_weight': mod_info.mint_weight,
+                    'mod_info.tinm_weight': mod_info.tinm_weight,
+                    'mod_info.slink_weight': mod_info.slink_weight,
+                    'mod_info.wlink_weight': mod_info.wlink_weight,
+                    'mod_info.link_prob_weight': mod_info.link_prob_weight,
+                    'final_cand_list': final_cand_list
+                })
                 # add the results of scoring to answer list
                 final_cand_cnt = 0
 
@@ -1315,6 +1428,8 @@ def ljc_main(common_data_dir,
             for tline in list_rec_out:
                 json.dump(tline, o, ensure_ascii=False)
                 o.write('\n')
+
+    lpp.linkedjson2tsv_add_linked_title(out_dir, data_info.title2pid_ext_file, log_info)
 
 
 if __name__ == '__main__':

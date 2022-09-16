@@ -31,14 +31,15 @@ option|description| type | value|  default | note
 --_f_html_info_| filename of html info file, which lists embedded Wikipedia link info of target html files. |string| |_html_tag_info.tsv_<br>(cf.DataInfo.f_html_info_default)|
 --_f_incoming_| filename of incoming link info. |string| |_html_tag_info.tsv_<br> (cf.DataInfo.f_incoming_default)|
 --_f_input_title_| filename of title list of test data. |string| | _input_title.txt_<br>(cf.DataInfo.f_input_title_default)|
---_f_link_prob_| filename of link probability info. |string| |_sample_cat_att_mention_linkcand.tsv_<br> (cf.DataInfo.f_link_prob_default)|
+--_f_link_prob_| filename of link probability info. |string| |_sample_cat_attr_mention_linkcand.tsv_<br> (cf.DataInfo.f_link_prob_default)|
 --_f_mention_gold_link_dist_| filename of mention goldlink dist file, which shows the distance (number of lines) between mentions and (nearest) gold links in sample html files. |string| | _mention_gold_link_dist.tsv_<br>(cf.DataInfo.f_mention_gold_link_dist_default)|
 --_f_mint_partial_| filename of mention-title matching ratio list (mention in title, full title) |string| |_mint_partial_match.tsv_<br>(cf.DataInfo.f_mint_partial_default)|
 --_f_mint_trim_partial_|filename of mention-title matching ratio list (mention in title, trimmed title) matching ratio list |string| |_mint_trim_partial_match.tsv_<br>(cf.DataInfo.f_mint_trim_partial_default)|
 --_f_tinm_partial_| filename of mention-title matching ratio list (title in mention, full title) matching ratio list |string| |_tinm_partial_match.tsv_<br> (cf.DataInfo.f_tinm_partial_default)|
 --_f_tinm_trim_partial_| filename of mention-title matching ratio list (title in mention, trimmed title) |string| |_tinm_trim_partial_match.tsv_<br>(cf.DataInfo.f_tinm_trim_partial_default)|
 --_f_redirect_info_| filename of redirect info file, a modification of original from_title to_pageid information file to exclude disambiguation pages and ill-formatted pages.  |string| |_jawiki-20190120-title2pageid_nodis.tsv_<br>(cf.DataInfo.f_redirect_info_default)|
---_f_slink_| filename of self link info. |string| | _cat_att_selflink.tsv_<br>(cf.DataInfo.f_slink_default)|
+--_f_self_link_by_attr_name_| lists of attributes whose values are supposed to refer to the original entity, judging from the name of attributes.|string| |self_link_by_attr_name.txt<br>(cf.DataInfo.f_self_link_by_attr_name_default)|
+--_f_slink_| filename of self link info. |string| | _cat_attr_self_link.tsv_<br>(cf.DataInfo.f_slink_default)|
 --_f_title2pid_ext_| filename of summary information on title to pageid conversion, incoming links, and ENE classification of articles. |string| |_jawiki-20190120-title2pageid_ext.tsv_<br>(cf.DataInfo.f_title2pid_ext_default)|
 --_f_title2pid_org_| filename of original from_title to_pageid information. |string| |_jawiki-20190120-title2pageid.json_<br>(cf.DataInfo.f_title2pid_org_default)|
 --_gen_back_link_|create back link info file, which shows the title pages of test data and the back links to the pages. | | True/False|False|

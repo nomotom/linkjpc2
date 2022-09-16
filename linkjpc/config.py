@@ -122,6 +122,8 @@ class OptInfo(object):
     nil_desc_exception_default = 'person_works'
     nil_desc_exception_def = {'person_works':'Person:作品', 'company_trade_names':'Company:商品名'}
 
+    min_illegal_title_len = 500
+
     def __init__(self,
                  ans_max=ans_max_default,
                  attr_len=attr_len_default,
@@ -224,10 +226,11 @@ class DataInfo(object):
     # f_cirrus_content_default = 'jawiki-20190121-cirrussearch-content.json.gz'
     # 20220822
     f_cirrus_content_default = 'wikipedia-ja-20210823-json.gz'
-
     #
     # [CD2]
-    f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
+    # f_title2pid_org_default = 'jawiki-20210823_title2pageid_20220501.jsonl'
+    f_title2pid_org_default = 'jawiki-20210823_title2pageid_20210820.jsonl'
+    # f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
     #
     # [CD3]
     # f_enew_org_default = 'ENEW_ENEtag_20200427.json'
@@ -236,7 +239,18 @@ class DataInfo(object):
     # [CD4]
     # f_back_link_dump_org_default = 'jawiki-20190120-pagelinks.sql'
     f_back_link_dump_org_default = 'jawiki-20210820-pagelinks.sql'
-
+    #
+    # [CD5]
+    # 20220903
+    # f_back_link_dump_org_default = 'jawiki-20190120-pagelinks.sql'
+    # f_page_dump_org_default = 'jawiki-20220501-page.sql'
+    f_page_dump_org_default = 'jawiki-20210820-page.sql'
+    #
+    # [CD6]
+    # 20220903
+    # f_redirect_dump_org_default = 'jawiki-2022-0501-redirect.sql'
+    f_redirect_dump_org_default = 'jawiki-20210820-redirect.sql'
+    #
     #
     # (1) manually created data (common_data_dir)
     # [CM1]
@@ -251,7 +265,6 @@ class DataInfo(object):
     # [CM3]
     # f_back_link_dump_default = 'jawiki-20190120-pagelinks_dmp.tsv'
     f_back_link_dump_default = 'jawiki-20210820-pagelinks_dmp.tsv'
-
     #
     # [CM4]
     f_wl_lines_backward_ca_default = 'wl_lines_backward_ca.tsv'
@@ -260,9 +273,68 @@ class DataInfo(object):
     f_wl_lines_forward_ca_default = 'wl_lines_forward_ca.tsv'
     #
     # [CM6]
-    # f_attr_rng_default = 'att_def.tsv'
-    f_attr_rng_default = 'att_def_20220823.tsv'
+    # f_attr_rng_default = 'attr_def.tsv'
+    # f_attr_rng_default = 'attr_def_20220823.tsv'
+    # f_attr_rng_default = 'attr_def_20220829.tsv'
+    f_attr_rng_default = 'attr_def_20220906.tsv'
     #
+    # [CM7]
+    f_target_attr_default = 'ene_definition_v9.0.0-20220714_target_attr.tsv'
+
+    # [CM8]
+    f_all_cat_default = 'ene_definition_v9.0.0-20220714_all_cat.tsv'
+
+    # [CM9]
+    f_self_link_pat_default = 'self_link_pat.tsv'
+
+    # [CM10]
+    f_self_link_by_attr_name_default = 'self_link_by_attr_name.txt'
+
+    # [CM11]
+    # 20220903
+    # f_redirect_dump_default = 'jawiki-20220501-redirect_dmp_no_punct.tsv'
+    #
+    f_redirect_dump_default = 'jawiki-20210820-redirect_dmp_no_punct.tsv'
+    # f_redirect_dump_default = 'jawiki-20220501-redirect_dmp.tsv'
+    # format: rd_from, rd_title, rd_namespace
+    # sample:
+    # 2187148 不正利用フィルター      -1
+    # 3516739 固定リンク/62146672     -1
+    # 3820714 投稿記録/119.224.170.248        -1
+    # 4015679 投稿記録/14.133.83.32   -1
+    # 3873861 投稿記録/KD059129118125 -1
+    # 702415  "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
+    # 927756  "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
+    # 1466960 "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
+    # notice:
+    #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-redirect_dmp.tsv > jawiki-20210820-redirect_dmp_no_punct.tsv
+    # -- deleted: info of punctuation (titles with single character defined as symbols in awk
+    # (!"#$%&'-=^~\|@`...)
+
+    # [CM12]
+    # 20220903
+    # f_page_dump_default = 'jawiki-20220501-page_dmp_no_punct.tsv'
+    f_page_dump_default = 'jawiki-20210820-page_dmp_no_punct.tsv'
+    # notice:
+    #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-page_dmp.tsv > jawiki-20210820-page_dmp_no_punct.tsv
+    # -- deleted: info of punctuation (titles with single character defined as symbols in awk
+    # (!"#$%&'-=^~\|@`...)
+
+    # format:
+    # sample:
+    # 517804	宮下杏菜	0	0
+    # 557692	宮下杏奈	1	0
+    # 557693	広末由依	1	0
+    # notice:
+    # - original:'jawiki-20220501-page_dmp.tsv'
+    # - modified version
+    # awk 'BEGIN{FS="\t"}$2 ~ /^[[:punct:]]$/{print}' jawiki-20220501-page_dmp.tsv > jawiki-20220501-page_dmp_punct.tsv
+    # -- deleted: page info with punctuation (titles with single character defined as symbols in awk(!"#$%&'-=^~\|@`...)
+    #     to avoid illegal lines(p_row) with namespace zero like:
+    #     eg. ['2423639', "\t1\t10\n2423640\tゾロ_(映画)\t0\t0\n2423641\t高田ほのか\t0\t1\n2423642\tKk0\t3\n2423643\t
+    #     111.107.139.79\t0\t3\n2423644\t111.107.159.137\t0\t3\n2423645\t211.3.67.88\t0\t3\n2423646\tサリバンス川...
+    #
+
     # (2) preprocessing
     # (2-1) sample_gold_data_dir
     # [SP1] (sample gold data info)
@@ -277,7 +349,11 @@ class DataInfo(object):
     # f_disambiguation_default = 'jawiki-20190121-cirrussearch-content_disambiguation.tsv'
     #
     # [CP3]
-    f_redirect_info_default = 'jawiki-20210823_title2pageid-20190120_nodis.tsv'
+    # f_redirect_info_default = 'jawiki-20210823_title2pageid-20190120_nodis.tsv'
+    # 20220904
+    # f_redirect_info_default = 'jawiki-20210823_title2pageid_20220501_nodis.tsv'
+    f_redirect_info_default = 'jawiki-20210823_title2pageid_20210820_nodis.tsv'
+    #
     #
     # [CP4]
     # f_incoming_default = 'jawiki-20190121-cirrussearch-content_incoming_link.tsv'
@@ -293,19 +369,31 @@ class DataInfo(object):
     f_mention_gold_link_dist_default = 'mention_gold_link_dist.tsv'
     #
     # [CP7]
-    f_slink_default = 'cat_att_selflink.tsv'
+    f_slink_default = 'cat_attr_self_link.tsv'
     #
     # [CP8]
+    #0905
     # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
-    f_title2pid_ext_default = 'jawiki-20210823_title2pageid-20190120_ext.tsv'
-
+    # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
+    f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20210820_ext.tsv'
     #
     # [CP9]
-    f_link_prob_default = 'sample_cat_att_mention_linkcand.tsv'
+    # 0905
+    f_link_prob_default = 'sample_cat_attr_mention_linkcand.tsv'
     #
     # [CP10]
-    f_linkable_info_default = 'cat_att_linkable.tsv'
+    f_linkable_info_default = 'cat_attr_linkable.tsv'
     #
+    # [CP11]
+    f_nil_default = 'cat_attr_nil.tsv'
+
+    # [CP8]
+    #0905
+    # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
+    # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
+    f_title2pid_ext_obs_default = 'jawiki-20190120-title2pageid_ext.tsv'
+    #
+
     # (2-3) tmp_data_dir
     # [TP1]
     f_input_title_default = 'input_title.txt'
@@ -364,10 +452,16 @@ class DataInfo(object):
                  f_mention_gold_link_dist=f_mention_gold_link_dist_default,
                  f_mint_partial=f_mint_partial_default,
                  f_mint_trim_partial=f_mint_trim_partial_default,
+                 f_nil=f_nil_default,
+                 f_page_dump=f_page_dump_default,
+                 f_page_dump_org=f_page_dump_org_default,
+                 f_redirect_dump=f_redirect_dump_default,
+                 f_redirect_dump_org=f_redirect_dump_org_default,
                  f_tinm_partial=f_tinm_partial_default,
                  f_tinm_trim_partial=f_tinm_trim_partial_default,
                  f_link_prob=f_link_prob_default,
                  f_slink=f_slink_default,
+                 f_self_link_by_attr_name=f_self_link_by_attr_name_default,
                  f_wl_lines_forward_ca=f_wl_lines_forward_ca_default,
                  f_wl_lines_backward_ca=f_wl_lines_backward_ca_default
                  ):
@@ -397,8 +491,14 @@ class DataInfo(object):
         self.linkable_info_file = common_data_dir + f_linkable_info
         self.mention_gold_link_dist_info_file = common_data_dir + f_mention_gold_link_dist_info
         self.mention_gold_link_dist_file = common_data_dir + f_mention_gold_link_dist
+        self.nil_file = common_data_dir + f_nil
+        self.page_dump = common_data_dir + f_page_dump
+        self.page_dump_org = common_data_dir + f_page_dump_org
+        self.redirect_dump = common_data_dir + f_redirect_dump
+        self.redirect_dump_org = common_data_dir + f_redirect_dump_org
         self.redirect_info_file = common_data_dir + f_redirect_info
         self.slink_file = common_data_dir + f_slink
+        self.self_link_by_attr_name_file = common_data_dir + f_self_link_by_attr_name
         self.title2pid_ext_file = common_data_dir + f_title2pid_ext
         self.title2pid_org_file = common_data_dir + f_title2pid_org
         self.wl_lines_forward_ca_file = common_data_dir + f_wl_lines_forward_ca,
