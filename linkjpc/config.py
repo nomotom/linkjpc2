@@ -105,6 +105,9 @@ class OptInfo(object):
 
     # the first layer (string)
     eneid_ignore = '1'
+    # attr rng
+    attr_rng_type_default = 'a'
+
     # back link
     back_link_tgt_default = 'n'
     # back_link_type_default = 'f'
@@ -131,6 +134,7 @@ class OptInfo(object):
                  attr_ng_co=attr_ng_co_default,
                  attr_ok_co=attr_ok_co_default,
                  attr_rng_tgt=attr_rng_tgt_default,
+                 attr_rng_type=attr_rng_type_default,
                  incl_max=incl_max_default,
                  incl_tgt=incl_tgt_default,
                  incl_type=incl_type_default,
@@ -177,7 +181,8 @@ class OptInfo(object):
         self.attr_na_co = attr_na_co
         self.attr_ng_co = attr_ng_co
         self.attr_ok_co = attr_ok_co
-        self.attr_range_tgt = attr_rng_tgt
+        self.attr_rng_tgt = attr_rng_tgt
+        self.attr_rng_type = attr_rng_type
         self.back_link_ng = back_link_ng
         self.back_link_ok = back_link_ok
         self.back_link_tgt = back_link_tgt
@@ -226,30 +231,25 @@ class DataInfo(object):
     # f_cirrus_content_default = 'jawiki-20190121-cirrussearch-content.json.gz'
     # 20220822
     f_cirrus_content_default = 'wikipedia-ja-20210823-json.gz'
-    #
-    # [CD2]
-    # f_title2pid_org_default = 'jawiki-20210823_title2pageid_20220501.jsonl'
-    f_title2pid_org_default = 'jawiki-20210823_title2pageid_20210820.jsonl'
-    # f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
-    #
+
     # [CD3]
     # f_enew_org_default = 'ENEW_ENEtag_20200427.json'
     f_enew_org_default = 'shinra2022_Categorization_train_20220616.jsonl'
+
     #
-    # [CD4]
-    # f_back_link_dump_org_default = 'jawiki-20190120-pagelinks.sql'
-    f_back_link_dump_org_default = 'jawiki-20210820-pagelinks.sql'
+    # [CD2]
+    # f_title2pid_org_default = 'jawiki-20210823_title2pageid_20220501.jsonl'
+    f_title2pid_org_default = 'jawiki-20210820-title2pageid.jsonl'
+    # f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
+    # sample:
+    # {"page_id": "242283", "title": "\"人間と性\"教育研究協議会", "is_redirect": false}
+    # {"page_id": "434856", "title": "人間と性教育研究協議会", "is_redirect": true, "redirect_to": {"page_id": "242283", "title": "\"人間と性\"教育研究協議会", "is_redirect": false}}
+    # {"page_id": "434857", "title": "CESHS", "is_redirect": true, "redirect_to": {"page_id": "242283", "title": "\"人間と性\"教育研究協議会", "is_redirect": false}}
     #
-    # [CD5]
-    # 20220903
-    # f_back_link_dump_org_default = 'jawiki-20190120-pagelinks.sql'
-    # f_page_dump_org_default = 'jawiki-20220501-page.sql'
-    f_page_dump_org_default = 'jawiki-20210820-page.sql'
+    # {"page_id": "3475368", "title": "PJ:NY", "is_redirect": true, "redirect_to": {"page_id": "10664", "title": "ニューヨーク市", "is_redirect": false}}
+
     #
-    # [CD6]
-    # 20220903
-    # f_redirect_dump_org_default = 'jawiki-2022-0501-redirect.sql'
-    f_redirect_dump_org_default = 'jawiki-20210820-redirect.sql'
+
     #
     #
     # (1) manually created data (common_data_dir)
@@ -264,7 +264,7 @@ class DataInfo(object):
     #
     # [CM3]
     # f_back_link_dump_default = 'jawiki-20190120-pagelinks_dmp.tsv'
-    f_back_link_dump_default = 'jawiki-20210820-pagelinks_dmp.tsv'
+    f_back_link_dump_org_default = 'jawiki-20210820-pagelinks_dmp.tsv'
     #
     # [CM4]
     f_wl_lines_backward_ca_default = 'wl_lines_backward_ca.tsv'
@@ -276,7 +276,7 @@ class DataInfo(object):
     # f_attr_rng_default = 'attr_def.tsv'
     # f_attr_rng_default = 'attr_def_20220823.tsv'
     # f_attr_rng_default = 'attr_def_20220829.tsv'
-    f_attr_rng_default = 'attr_def_20220906.tsv'
+    f_attr_rng_man_default = 'attr_rng_man_20220906.tsv'
     #
     # [CM7]
     f_target_attr_default = 'ene_definition_v9.0.0-20220714_target_attr.tsv'
@@ -294,8 +294,8 @@ class DataInfo(object):
     # 20220903
     # f_redirect_dump_default = 'jawiki-20220501-redirect_dmp_no_punct.tsv'
     #
-    f_redirect_dump_default = 'jawiki-20210820-redirect_dmp_no_punct.tsv'
-    # f_redirect_dump_default = 'jawiki-20220501-redirect_dmp.tsv'
+    f_redirect_dump_org_default = 'jawiki-20210820-redirect_dmp.tsv'
+
     # format: rd_from, rd_title, rd_namespace
     # sample:
     # 2187148 不正利用フィルター      -1
@@ -306,34 +306,62 @@ class DataInfo(object):
     # 702415  "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
     # 927756  "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
     # 1466960 "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
-    # notice:
-    #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-redirect_dmp.tsv > jawiki-20210820-redirect_dmp_no_punct.tsv
-    # -- deleted: info of punctuation (titles with single character defined as symbols in awk
-    # (!"#$%&'-=^~\|@`...)
+    # based on: 'jawiki-20210820-redirect.sql'
 
     # [CM12]
-    # 20220903
-    # f_page_dump_default = 'jawiki-20220501-page_dmp_no_punct.tsv'
-    f_page_dump_default = 'jawiki-20210820-page_dmp_no_punct.tsv'
+    f_redirect_dump_default = 'jawiki-20210820-redirect_dmp_rev.tsv'
+    # 1699304	広瀬香美_THE_BEST_""Love_Winters""	0
+    # format: rd_from, rd_title, rd_namespace(転送先)
+    # sample:
+    # 2187148 不正利用フィルター      -1
+    # 3516739 固定リンク/62146672     -1
+    # 3820714 投稿記録/119.224.170.248        -1
+    # 4015679 投稿記録/14.133.83.32   -1
+    # 3873861 投稿記録/KD059129118125 -1
+    # 702415  \"BLUE\"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
+    # 927756  \"BLUE\"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
+    # 1466960 \"BLUE\"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
     # notice:
-    #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-page_dmp.tsv > jawiki-20210820-page_dmp_no_punct.tsv
+    #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-redirect_dmp.tsv | perl -pe 's/\"/\\"/g;' > jawiki-20210820-redirect_dmp_rev.tsv
     # -- deleted: info of punctuation (titles with single character defined as symbols in awk
     # (!"#$%&'-=^~\|@`...)
 
-    # format:
+    # [CM13]
+    # 20220903
+    # f_page_dump_default = 'jawiki-20220501-page_dmp_no_punct.tsv'
+    # f_page_dump_default = 'jawiki-20210820-page_dmp_no_punct.tsv'
+    f_page_dump_org_default = 'jawiki-20210820-page_dmp.tsv'
+    # format: page_id, page_title, page_is_redirect, page_namespace
     # sample:
     # 517804	宮下杏菜	0	0
     # 557692	宮下杏奈	1	0
     # 557693	広末由依	1	0
+    # 242283	"人間と性"教育研究協議会	0	0
+    # 434856	人間と性教育研究協議会	1	0
+    # based on: f_page_dump_sql_default = 'jawiki-20210820-page.sql'
+
+    # [CM14]
+    f_page_dump_default = 'jawiki-20210820-page_dmp_rev.tsv'
+
+    # format: page_id, page_title, page_is_redirect, page_namespace
+    # sample:
+    # 517804	宮下杏菜	0	0
+    # 557692	宮下杏奈	1	0
+    # 557693	広末由依	1	0
+    # 242283	\"人間と性\"教育研究協議会	0	0
+    # 434856	人間と性教育研究協議会	1	0
     # notice:
     # - original:'jawiki-20220501-page_dmp.tsv'
     # - modified version
-    # awk 'BEGIN{FS="\t"}$2 ~ /^[[:punct:]]$/{print}' jawiki-20220501-page_dmp.tsv > jawiki-20220501-page_dmp_punct.tsv
+    #     #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-page_dmp.tsv | perl -pe 's/\"/\\"/g;' > jawiki-20210820-page_dmp_rev.tsv
     # -- deleted: page info with punctuation (titles with single character defined as symbols in awk(!"#$%&'-=^~\|@`...)
     #     to avoid illegal lines(p_row) with namespace zero like:
     #     eg. ['2423639', "\t1\t10\n2423640\tゾロ_(映画)\t0\t0\n2423641\t高田ほのか\t0\t1\n2423642\tKk0\t3\n2423643\t
     #     111.107.139.79\t0\t3\n2423644\t111.107.159.137\t0\t3\n2423645\t211.3.67.88\t0\t3\n2423646\tサリバンス川...
     #
+
+    # [CM15]
+    f_page_dump_old_org_default = 'jawiki-20190120-page_dmp.tsv'
 
     # (2) preprocessing
     # (2-1) sample_gold_data_dir
@@ -347,12 +375,19 @@ class DataInfo(object):
     # [CP2]
     f_disambiguation_default = 'jawiki-20210823-cirrussearch-content_disambiguation.tsv'
     # f_disambiguation_default = 'jawiki-20190121-cirrussearch-content_disambiguation.tsv'
+    # sample
+    # 1120676 エンヤ (曖昧さ回避)
     #
     # [CP3]
     # f_redirect_info_default = 'jawiki-20210823_title2pageid-20190120_nodis.tsv'
     # 20220904
     # f_redirect_info_default = 'jawiki-20210823_title2pageid_20220501_nodis.tsv'
     f_redirect_info_default = 'jawiki-20210823_title2pageid_20210820_nodis.tsv'
+    # format: title(\t)pageid
+    # sample:
+    # 夏の夜の夢	318229
+    # 真夏の夜の夢	318229
+    # 眞夏の夜の夢	318229
     #
     #
     # [CP4]
@@ -387,12 +422,25 @@ class DataInfo(object):
     # [CP11]
     f_nil_default = 'cat_attr_nil.tsv'
 
-    # [CP8]
+    # [CP12]
     #0905
     # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
     # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
     f_title2pid_ext_obs_default = 'jawiki-20190120-title2pageid_ext.tsv'
     #
+
+    # [CP13]
+    # Wikipedia pageid change info
+    f_wikipedia_page_change_info_default = 'jawiki-20190120_20210820_page_change_info.tsv'
+    # format: old_id, new_id
+
+    # [CP14]
+    # 20220921
+    f_attr_rng_auto_default = 'attr_rng_auto.tsv'
+
+    # [CP15]
+    # 20220921
+    f_attr_rng_merged_default = 'attr_rng_merged.tsv'
 
     # (2-3) tmp_data_dir
     # [TP1]
@@ -433,7 +481,8 @@ class DataInfo(object):
                  sample_input_dir,
                  # 20220824
                  out_dir,
-                 f_attr_rng=f_attr_rng_default,
+                 f_attr_rng_man=f_attr_rng_man_default,
+                 f_attr_rng_auto=f_attr_rng_auto_default,
                  f_cirrus_content=f_cirrus_content_default,
                  f_enew_info=f_enew_info_default,
                  f_enew_org=f_enew_org_default,
@@ -453,8 +502,10 @@ class DataInfo(object):
                  f_mint_partial=f_mint_partial_default,
                  f_mint_trim_partial=f_mint_trim_partial_default,
                  f_nil=f_nil_default,
+                 # f_page_dump_sql=f_page_dump_sql_default,
                  f_page_dump=f_page_dump_default,
                  f_page_dump_org=f_page_dump_org_default,
+                 # f_redirect_dump_sql=f_redirect_dump_sql_default,
                  f_redirect_dump=f_redirect_dump_default,
                  f_redirect_dump_org=f_redirect_dump_org_default,
                  f_tinm_partial=f_tinm_partial_default,
@@ -479,7 +530,8 @@ class DataInfo(object):
         self.sample_gold_dir = sample_gold_dir
         self.sample_input_dir = sample_input_dir
 
-        self.attr_range_file = common_data_dir + f_attr_rng
+        self.attr_rng_man_file = common_data_dir + f_attr_rng_man
+        self.attr_rng_auto_file = common_data_dir + f_attr_rng_auto
         self.cirrus_content_file = common_data_dir + f_cirrus_content
         self.common_html_info_file = common_data_dir + f_common_html_info
         self.disambiguation_file = common_data_dir + f_disambiguation
@@ -492,10 +544,12 @@ class DataInfo(object):
         self.mention_gold_link_dist_info_file = common_data_dir + f_mention_gold_link_dist_info
         self.mention_gold_link_dist_file = common_data_dir + f_mention_gold_link_dist
         self.nil_file = common_data_dir + f_nil
-        self.page_dump = common_data_dir + f_page_dump
-        self.page_dump_org = common_data_dir + f_page_dump_org
-        self.redirect_dump = common_data_dir + f_redirect_dump
-        self.redirect_dump_org = common_data_dir + f_redirect_dump_org
+        self.page_dump_file = common_data_dir + f_page_dump
+        self.page_dump_org_file = common_data_dir + f_page_dump_org
+        # self.page_dump_sql_file = common_data_dir + f_page_dump_sql
+        self.redirect_dump_file = common_data_dir + f_redirect_dump
+        self.redirect_dump_org_file = common_data_dir + f_redirect_dump_org
+        # self.redirect_dump_sql_file = common_data_dir + f_redirect_dump_sql
         self.redirect_info_file = common_data_dir + f_redirect_info
         self.slink_file = common_data_dir + f_slink
         self.self_link_by_attr_name_file = common_data_dir + f_self_link_by_attr_name

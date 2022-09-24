@@ -140,22 +140,32 @@ def filter_by_attr_range(module_cand_list, mention_info, opt_info, log_info, **d
     return new_module_cand_list
 
 
-def get_attr_range(attr_range_file, opt_info, log_info):
+def get_attr_range(attr_range_man_file, attr_range_auto_file, attr_range_merged_file, opt_info, log_info):
     """Get attribute range probability info that shows which ENE category the attribute values are likely to be
     classified into.
     Args:
-        attr_range_file (str):
+        attr_range_man_file (str):
+        attr_range_auto_file (str):
+        attr_range_merged_file (str):
         opt_info
         log_info
     Returns:
         d_cat_attr2eneid_prob: dictionary
     Note:
         attr_range_file
+        （manual)
             (format)
                 cat(\t)attribute_label(\t)ene:<ENEID>(\t)probability
             (sample)
                 Person  国   ene:1.5.1.3 1.0
                 Person  国   ene:1.5.1.0 0.5
+         (auto)
+            (format)
+                cat(\t)attribute_label(\t)ene:<ENEID>(\t)probability(\t)freq(\t)freq_cat_attr(\n)
+
+            (sample)
+                 City    産業    ene:0   0.5     50      100
+
         d_cat_attr2eneid_prob: dictionary
          (format)
             (key: <cat>__<attr>, val:[[<eneid>, <prob>], [<eneid>, <prob>],...])
@@ -170,41 +180,96 @@ def get_attr_range(attr_range_file, opt_info, log_info):
     logger = ljc.set_logging(log_info, 'myLogger')
     logger.setLevel(logging.INFO)
 
+    m_cat_attr2eneid_prob = {}
+    if 'm' in opt_info.attr_rng_type:
+        with open (attr_range_man_file, 'r', encoding='utf-8') as m:
+            m_reader = csv.reader(m, delimiter='\t')
+            cat_attr_range_prob_list = [cat_attr_range_prob for cat_attr_range_prob in m_reader]
+
+            for cat_attr_range_prob in cat_attr_range_prob_list:
+                if len(cat_attr_range_prob) < opt_info.attr_len_max:
+                    logger.error({
+                        'action': 'get_attr_range',
+                        'cat_attr_range_prob too short': cat_attr_range_prob,
+                    })
+                    sys.exit()
+                try:
+                    eneid = re.sub('ene:', '', cat_attr_range_prob[2])
+                except (KeyError, ValueError) as e:
+                    logger.error({
+                        'action': 'get_attr_range',
+                        'error': e
+                    })
+                cat = cat_attr_range_prob[0]
+                if cat not in opt_info.cat_set:
+                    logger.error({
+                        'action': 'get_attr_range',
+                        'error': 'illegal cat: not defined in attr_range_file',
+                        'cat': cat
+                    })
+                attr = cat_attr_range_prob[1]
+                prob = float(cat_attr_range_prob[3])
+
+                cat_attr = cat + '__' + attr
+                if not m_cat_attr2eneid_prob.get(cat_attr):
+                    m_cat_attr2eneid_prob[cat_attr] = {}
+                m_cat_attr2eneid_prob[cat_attr][eneid] = prob
+
+    a_cat_attr2eneid_prob = {}
+    if 'a' in opt_info.attr_rng_type:
+        with open(attr_range_auto_file, 'r', encoding='utf-8') as a:
+            a_reader = csv.reader(a, delimiter='\t')
+            cat_attr_range_prob_list = [cat_attr_range_prob for cat_attr_range_prob in a_reader]
+
+            for cat_attr_range_prob in cat_attr_range_prob_list:
+                if len(cat_attr_range_prob) < opt_info.attr_len_max:
+                    logger.error({
+                        'action': 'get_attr_range',
+                        'cat_attr_range_prob too short': cat_attr_range_prob,
+                    })
+                    sys.exit()
+                try:
+                    eneid = re.sub('ene:', '', cat_attr_range_prob[2])
+                except (KeyError, ValueError) as e:
+                    logger.error({
+                        'action': 'get_attr_range',
+                        'error': e
+                    })
+                cat = cat_attr_range_prob[0]
+                if cat not in opt_info.cat_set:
+                    logger.error({
+                        'action': 'get_attr_range',
+                        'error': 'illegal cat: not defined in attr_range_file',
+                        'cat': cat
+                    })
+                attr = cat_attr_range_prob[1]
+                prob = float(cat_attr_range_prob[3])
+
+                cat_attr = cat + '__' + attr
+                if not a_cat_attr2eneid_prob.get(cat_attr):
+                    a_cat_attr2eneid_prob[cat_attr] = {}
+                a_cat_attr2eneid_prob[cat_attr][eneid] = prob
+                if 'ma' in opt_info.attr_rng_type:
+                    if cat_attr not in m_cat_attr2eneid_prob:
+                        m_cat_attr2eneid_prob[cat_attr] = {}
+
+                    m_cat_attr2eneid_prob[cat_attr][eneid] = prob
+
+
     d_cat_attr2eneid_prob = {}
-    with open(attr_range_file, 'r', encoding='utf-8') as a:
-        a_reader = csv.reader(a, delimiter='\t')
-        cat_attr_range_prob_list = [cat_attr_range_prob for cat_attr_range_prob in a_reader]
-
-        for cat_attr_range_prob in cat_attr_range_prob_list:
-            if len(cat_attr_range_prob) < opt_info.attr_len_max:
-                logger.error({
-                    'action': 'get_attr_range',
-                    'cat_attr_range_prob too short': cat_attr_range_prob,
-                })
-                sys.exit()
-            try:
-                eneid = re.sub('ene:', '', cat_attr_range_prob[2])
-            except (KeyError, ValueError) as e:
-                logger.error({
-                    'action': 'get_attr_range',
-                    'error': e
-                })
-            cat = cat_attr_range_prob[0]
-            if cat not in opt_info.cat_set:
-                logger.error({
-                    'action': 'get_attr_range',
-                    'error': 'illegal cat: not defined in attr_range_file',
-                    'cat': cat
-                })
-            attr = cat_attr_range_prob[1]
-            prob = float(cat_attr_range_prob[3])
-
-            cat_attr = cat + '__' + attr
-            if not d_cat_attr2eneid_prob.get(cat_attr):
-                d_cat_attr2eneid_prob[cat_attr] = []
-            d_cat_attr2eneid_prob[cat_attr].append([eneid, prob])
+    if opt_info.attr_rng_type == 'a':
+        for cat_attr in a_cat_attr2eneid_prob:
+            for eneid, prob in a_cat_attr2eneid_prob[cat_attr].items():
+                if cat_attr not in d_cat_attr2eneid_prob:
+                    d_cat_attr2eneid_prob[cat_attr] = []
+                d_cat_attr2eneid_prob[cat_attr].append([eneid, prob])
+    elif opt_info.attr_rng_type == 'm' or opt_info.attr_rng_type == 'ma':
+        for cat_attr in m_cat_attr2eneid_prob:
+            for eneid, prob in m_cat_attr2eneid_prob[cat_attr].items():
+                if cat_attr not in d_cat_attr2eneid_prob:
+                    d_cat_attr2eneid_prob[cat_attr] = []
+                d_cat_attr2eneid_prob[cat_attr].append([eneid, prob])
     return d_cat_attr2eneid_prob
-
 
 def reg_enew_info(enew_info, log_info):
     """Create a dictionary and store enew info.

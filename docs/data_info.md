@@ -83,7 +83,7 @@ The directories are specified as command line arguments or options when you try 
 (preprocessing)
 > - jawiki-20190121-cirrussearch-content.json.gz ([CD1](#cd1-f_cirrus_content_default)) 
 > - jawiki-20190120-title2pageid.json ([CD2](#cd2-f_title2pid_org_default)) 
-> - ENEW_ENEtag_20200427.json ([CD3](#cd3-f_enew_org_default))
+> - shinra2022_Categorization_train_20220616.jsonl ([CD3](#cd3-f_enew_org_default))
 > - jawiki-20190121-cirrussearch-content_wikipat_dis.tsv ([CM1](#cm1-f_disambiguation_pat_default)) 
 > - ENEW_ENEtag_20200427_stoplist.tsv ([CM2](#cm2-f_enew_mod_list_default)) 
 > - jawiki-20190120-pagelinks_dmp.tsv ([CM3](#CM3-f_back_link_dump_default)) 
@@ -165,26 +165,15 @@ The directories are specified as command line arguments or options when you try 
 ## (1-3) other task data (common_data_dir)
 
 ### CD1 (f_cirrus_content_default) 
- - (SHINRA2021: Wikipedia2019)
- - filename: '**jawiki-20190121-cirrussearch-content.json.gz**'
- - description: Wikipedia Cirrus Dump (content)
- - available from: [SHINRA2021-LinkJP](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) 公開データ/コード([リンク先のWikipediaデータ](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) (CirrussearchDump))
- - used in: (linkjpc_prep) gen_disambiuation_file
-
- - (SHINRA2022: Wikipedia2019)
- - filename: '**jawiki-20190121-cirrussearch-content.json.gz**'
- - description: Wikipedia Cirrus Dump (content)
- - available from: 森羅2022HP サブタスク共通データ Wikipedia2019 [CirrusSearchDump](https://storage.googleapis.com/shinra_data/wikipedia/wikipedia-ja-20190121-json.zip) 
- - used in: (linkjpc_prep) gen_disambiuation_file
-
- - (SHINRA2022: Wikipedia2021)
- - filename: '**jawiki-20190121-cirrussearch-content.json.gz**'
+ - filename: '**wikipedia-ja-20210823-json.gz**'
+ - based on Wikipedia 20210823
  - description: Wikipedia Cirrus Dump (content)
  - available from:森羅2022HP サブタスク共通データ Wikipedia2022 [CirrusSearchDump](https://storage.googleapis.com/shinra_data/wikipedia/wikipedia-ja-20210823-json.gz)
- - used in: (linkjpc_prep) gen_disambiuation_file
+ - used in: (linkjpc_prep) gen_disambiuation_file, gen_incoming_link_file
+
 ### CD2 (f_title2pid_org_default)
- - (SHINRA2021: Wikipedia2019)
- - filename: '**jawiki-20190120-title2pageid.json**'
+ - filename: '**jawiki-20210820-title2pageid.jsonl**'
+ - based on: Wikipedia 20210820
  - description: Title to pageid conversion info list
  - available from: [SHINRA2021-LinkJP](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) 公開データ/コード([リンク先のWikipediaデータ](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) (各種処理済データ)
  - sample: 
@@ -193,32 +182,17 @@ The directories are specified as command line arguments or options when you try 
    - `{"page_id": 311957, "title": "風と共に去りぬ_(宝塚歌劇)", "is_redirect": false}`
  - used in: (linkjpc_prep) linkedjson2tsv, gen_redirect_info_file
 
- - (SHINRA2022: Wikipedia2021)
- - ??
 
 ### CD3 (f_enew_org_default)  
- - (SHINRA2021: Wikipedia2019)
- - filename: '**ENEW_ENEtag_20210427.json**'
- - description: Original ENEW info (ENE Classification of Japanese Wikipedia pages).
- - available from:  [SHINRA Data Download](http://shinra-project.info/download/?lang=en) (ENE + Wikipedia DATA)  
- - notice: You need an account to get the data. Please create your SHINRA account at [SHINRA: Sign in](http://shinra-project.info/signin) page.
- - distributed by: project SHINRA
- - sample:
-   - `{"pageid": 72942, "title": "バックス (ローマ神話)", "ENEs": {"AUTO.TOHOKU.201906": [{"prob": 0.9981889128684998, "ENE_id": "1.2"}]}}
-{"pageid": 401755, "title": "覚信尼", "ENEs": {"AUTO.TOHOKU.201906": [{"prob": 0.9999418258666992, "ENE_id": "1.1"}]}}` 
- - used in: (linkjpc_prep) gen_enew_info_file
-
- - (SHINRA2022: Wikipedia2021)
  - filename: '**shinra2022_Categorization_train_20220616.jsonl**'
- - description: SHINRA2022 training data for Classification task).
- - available from: 森羅2022 サブタスク固有データ　分類　[教師データ(JSONL)](https://drive.google.com/file/d/1w83JrR24rN-GsywkfpvOCfRXBgRKOtl_/view?usp=sharing)
- - distributed by: project SHINRA
+ - description: SHINRA2022 training data for Classification task.
+ - available from:  [SHINRA 2022](http://2022.shinra-project.info/)
+ - based on: Wikipedia 2019, ENE9
  - sample:
-   - `{"page_id":"72942","title":"バックス (ローマ神話)","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.2"}]}}
-{"page_id":"401755","title":"覚信尼","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.1"}]}}` 
+   - `{"page_id":"1478897","title":"スキマスイッチ ARENA TOUR'07 \"W-ARENA\"THE MOVIE","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.7.13.6"}]}}`
+ 　- `{"page_id":"1715611","title":"虹 〜もうひとつの夏〜","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.7.13.5"}]}}` 
+   - `{"page_id":"72942","title":"バックス (ローマ神話)","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.2"}]}}` 
  - used in: (linkjpc_prep) gen_enew_info_file
-
-
 
 ## (2) manually created data (common_data_dir)
 
@@ -335,32 +309,77 @@ Download the data listed below from _URL(to be prepared)_ .
  - used in: (linkjpc_prep)gen_self_link_by_attr_name
 
 ### CM11 (f_redirect_dump_org_default)
- - filename:'***jawiki-20210820-redirect_dmp_no_punct.tsv***'
+ - filename:'***jawiki-20210820-redirect_dmp.tsv***'
  - description: Wikipedia redirect dump 
  - format: rd_from, rd_title, rd_namespace
  - sample:
-   -- 557692	宮下杏菜	0
-   -- 557693	宮下杏菜	0
- - original: 'jawiki-20210820-redirect_dmp.tsv' (based on: jawiki-20210820-redirect.sql.gz)
- - modified version 
-   - redirect info with punctuation (titles with single symbol characters (!"#$%&'-=^~\|@`...)  have been deleted
-   - $ awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-redirect_dmp.tsv > jawiki-20210820-redirect_dmp_no_punct.tsv
-   - 'redirects to' titles in namespaces other than zero have been deleted
+   -- `557692	宮下杏菜	0`<br>
+   -- `557693	宮下杏菜	0`<br>
+   -- `1699304	広瀬香美_THE_BEST_"Love_Winters"	0`<br>
+   -- `1855418	広瀬香美_THE_BEST_"Love_Winters"	0`<br>
+　
+ - based on: jawiki-20210820-redirect.sql.gz)
 
-### CP12 (f_page_dump_org_default)
- - filename:'***jawiki-20210820-page_dmp_no_punct.tsv***'
+### CM12 (f_redirect_dump_default)
+ - filename:'***jawiki-20210820-redirect_dmp_rev.tsv***'
+ - description: Wikipedia redirect dump modified version<br>
+   -- deleted: (a) titles with single punctuation symbols, (b) 'redirects to' titles in namespaces other than zero are omitted<br>
+   -- escaped: double quotations
+ - format: rd_from, rd_title, rd_namespace
+ - sample:<br>
+   -- `557692	宮下杏菜	0`<br>
+   -- `557693	宮下杏菜	0`<br>
+   -- `1699304	広瀬香美_THE_BEST_\"Love_Winters\"	0`<br>
+   -- `1855418	広瀬香美_THE_BEST_\"Love_Winters\"	0`<br>
+ - original: 'jawiki-20210820-redirect_dmp.tsv' (based on: jawiki-20210820-redirect.sql.gz)
+ - created by:<br>
+    - `$ awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-redirect_dmp.tsv | perl -pe 's/\"/\"\"/g;' > jawiki-20210820-redirect_dmp_rev.tsv`
+ - notice: 
+  -- punctuation symbols in awk(!"#$%&'-=^~\|@`...)
+
+### CM13 (f_page_dump_org_default)
+ - filename:'***jawiki-20210820-page_dmp.tsv***'
+ - description: Wikipedia page dump<br>
  - format:  page_id, page_title, page_is_redirect, page_namespace
- - sample:　　　
- -- 517804	宮下杏菜	0	0
- -- 557692	宮下杏奈	1	0
- -- 557693	広末由依	1	0
- -- notice:
- -- original:'jawiki-20220820-page_dmp.tsv' (based on: jawiki-20220820-page.sql.gz)
- -- created by:
-  -- $ awk 'BEGIN{FS="\t"}$2 ~ /^[[:punct:]]$/{print}' jawiki-20220820-page_dmp.tsv > jawiki-20220820-page_dmp_punct.tsv 
-  -- page info with punctuation (titles with single character defined as symbols in awk(!"#$%&'-=^~\|@`...)
-is deleted.
- - 
+ - sample:<br>
+ -- `517804	宮下杏菜	0	0`<br>
+ -- `557692	宮下杏奈	1	0`<br>
+ -- `557693	広末由依	1	0`<br>
+ -- `1698838	アメリカ合衆国	0	0`<br>
+ -- `9575	アメリカ合衆国	0	1`<br>
+ -- `127671	アメリカ合衆国	0	14`<br>
+ -- `582422	アメリカ合衆国	0	102`<br>
+ -- `1033542	アメリカ合衆国	0	103`<br>
+ -- `1696323	広瀬香美_THE_BEST_"Love_Winters"	0	0`<br>
+ -- `1699304	広瀬香美_THE_BEST"Love_Winters"	1	0`<br>
+ - notice:
+ -- based on: jawiki-20220820-page.sql.gz
+
+
+### CM14 (f_page_dump_default)
+ - filename:'***jawiki-20210820-page_dmp_rev.tsv***'
+ - description: Wikipedia page dump<br>
+   -- deleted: titles with single punctuation symbols<br>
+   -- escaped: double quotations 
+ - format:  page_id, page_title, page_is_redirect, page_namespace
+ - sample:<br>
+ -- `517804	宮下杏菜	0	0`<br>
+ -- `557692	宮下杏奈	1	0`<br>
+ -- `557693	広末由依	1	0`<br>
+ -- `1698838	アメリカ合衆国	0	0`<br>
+ -- `9575	アメリカ合衆国	0	1`<br>
+ -- `127671	アメリカ合衆国	0	14`<br>
+ -- `582422	アメリカ合衆国	0	102`<br>
+ -- `1033542	アメリカ合衆国	0	103`<br>
+ -- `1696323	広瀬香美_THE_BEST_\"Love_Winters\"	0	0`<br>
+ -- `1699304	広瀬香美_THE_BEST\"Love_Winters\"	1	0`
+ - original: 'jawiki-20210820-page_dmp.tsv' (based on: jawiki-20210820-page.sql.gz)<br>
+ - created by:<br>
+  -- `$ awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-page_dmp.tsv | perl -pe 's/\"/\"\"/g;' > jawiki-20210820-page_dmp_rev.tsv`<br>
+ - notice: 
+  -- pageid: 2021 
+  -- punctuation symbols in awk(!"#$%&'-=^~\|@`...)
+
 ## (3) data created by preprocessing tools
 ## (3-1) (sample_gold_dir)
 
@@ -368,7 +387,7 @@ is deleted.
  - filename: **Airport.tsv, City.tsv, 'Company.tsv, 'Compound.tsv, 'Conference.tsv, 'Lake.tsv, 'Person.tsv** 
  - description: Sample gold data info.
  - format: category,  org_pageid, org_title, attribute_name, mention, start_line_id, start_offset, end_line_id, end_offset, gold_pageid, gold_title (*.tsv)
- - sample: Person  573393  森見登美彦      生誕地  日本・奈良県生駒市      35      33      35      42      22003   生駒市
+ - sample: `Person  573393  森見登美彦      生誕地  日本・奈良県生駒市      35      33      35      42      22003   生駒市`
  - created by: (linkjpc_prep --gen_sample_gold_tsv) linkedjson2tsv_simple
  - used in: (linkjpc_prep) gen_link_prob_file, gen_mention_gold_link_dist
 
@@ -387,9 +406,12 @@ is deleted.
 ### CP2 (f_disambiguation_default)
  - filename: '**jawiki-20210823-cirrussearch-content_disambiguation.tsv**'
  - description: Disambiguation page list.
+ - format: pageid, title (*.tsv)
  - sample: 
    - `1128763 テトラ (曖昧さ回避)`
    - `3077413	ハムレット (曖昧さ回避)`
+ - notice: 
+   - pageid: 2021 
  - created by: (linkjpc_prep --redirect) gen_disambiguation_file
  - used in: (linkjpc_prep) gen_redirect_info_file
 
@@ -409,7 +431,7 @@ is deleted.
 
 ### CP4 (f_incoming_default) 
  - filename: '**jawiki-20210823-cirrussearch-content_incoming_link.tsv**'
- - description: Incoming link info list.
+ - description: Incoming link num info list.
  - format:
    - pageid, title, number of incoming links (*.tsv) 
  - sample: 
@@ -518,6 +540,13 @@ is deleted.
     -- 標語　0.0     0   10
     -- 種類　0.0     0   20
 
+
+### CP15 (f_cat_attr_rng_default)
+ - filename: '**cat_attr_rng.tsv**'
+ - format: cat, attr, eneid, ratio, freq', sum(cat*attr)
+ - sample: City    産業    ene:0   0.5     50      100
+ - notice: eneid is preceded by 'eneid:0'
+
 ## (3-3) (tmp_data_dir)
 
 ### TP1 (f_input_title_default)
@@ -535,7 +564,7 @@ is deleted.
  - sample: 
    - `1975年度新人選手選択会議 (日本プロ野球)	143952	中畑清`
  - notice: 
-   - based on jawiki-20190120-pagelinks.sql
+   - based on jawiki-20210820-pagelinks.sql
  - created by: (linkjpc_prep --gen_back_link) gen_back_link_info_file
  - used in: (linkjpc) bl.check_back_link_info
 
@@ -603,9 +632,9 @@ is deleted.
 ### (4-1) (out_dir)
 
 ### OL1 (output data)
- - filename: **'Airport.json', 'City.json', 'Company.json', 'Compound.json', 'Conference.json', 'Lake.json', 'Person.json'**
+ - filename: **'Airport.json', 'City.json', ....**
  - description: Output data.
- - format: [SHINRA2021-LinkJP data format](http://shinra-project.info/shinra2021linkjp/#data-format)
+ - format: [SHINRA2022](http://shinra-project.info/shinra2021linkjp/#data-format)
 
 ### (4-2) (common_data_dir)
 

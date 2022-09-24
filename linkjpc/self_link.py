@@ -6,7 +6,7 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
 
     Args:
         cat_attr
-        slink_prob (fixed/raw/mid/r_est/m_est)
+        slink_prob (fixed/raw/mid/r_est/m_est/f_est)
         mention_info
         slink_min
         self_link_by_attr_name_file
@@ -37,7 +37,11 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
     import csv
     logger = ljc.set_logging(log_info, 'myLogger')
     logger.setLevel(logging.INFO)
-
+    logger.debug({
+        'action': 'estimate_self_link',
+        'slink_prob': 'slink_prob',
+        'cat_attr': cat_attr,
+    })
     slink_cand_list = []
 
     self_link_attr_list = []
@@ -50,25 +54,71 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
             'action': 'estimate_self_link',
             'self_link_attr_set': self_link_attr_set,
         })
-    if not d_self_link.get(cat_attr) or 'ca_no_show' in d_self_link[cat_attr]:
+
+    # if cat_attr in d_self_link:
+    #     if d_self_link[cat_attr]['ratio'] == 0:
+    #         logger.info({
+    #             'action': 'estimate_self_link',
+    #             'msg': 'should be cand++++++++++++++++++++++++++++',
+    #         })
+
+
+    if (cat_attr not in d_self_link) or ('ca_no_show' in d_self_link[cat_attr]):
+
         if 'est' in slink_prob:
-            if cat_attr in self_link_attr_set:
+            (cat, attr) = cat_attr.split(':')
+            logger.debug({
+                'action': 'estimate_self_link',
+                'attr': attr,
+            })
+            if attr in self_link_attr_set:
                 slink_cand_list = [(mention_info.pid, 's', slink_min)]
+                logger.debug({
+                    'action': 'estimate_self_link',
+                    'msg': 'applicable',
+                    'slink_min': slink_min,
+                    'slink_prob': slink_prob,
+                    'attr': attr,
+                    'slink_cand_list': slink_cand_list,
+                })
+            # else:
+            #     logger.info({
+            #         'action': 'estimate_self_link',
+            #         'msg': 'not applicable',
+            #         'slink_prob': slink_prob,
+            #         'cat_attr': cat_attr,
+            #         'slink_cand_list': slink_cand_list,
+            #     })
+        # else:
+        #     logger.info({
+        #         'action': 'estimate_self_link',
+        #         'msg': 'not est',
+        #     })
+
     else:
-        if slink_prob == 'fixed':
+
+        if slink_prob == 'fixed' or slink_prob == 'f_est':
             slink_cand_list = [(mention_info.pid, 's', 1.0)]
-        elif slink_prob == 'raw':
-            if d_self_link[cat_attr] > 1.0:
+        elif slink_prob == 'raw' or slink_prob == 'r_est':
+            if d_self_link[cat_attr]['ratio'] > 1.0:
                 logger.error({
                     'action': 'estimate_self_link',
                     'error': 'slink_score_max is more than 1.0',
                     'slink_score_max': d_self_link[cat_attr],
                 })
                 sys.exit()
-            slink_cand_list = [(mention_info.pid, 's', d_self_link[cat_attr])]
 
-        elif slink_prob == 'mid':
-            score = (1 + d_self_link[cat_attr])/2
+            slink_cand_list = [(mention_info.pid, 's', d_self_link[cat_attr])]
+            if cat_attr == 'Person:別名':
+                logger.info({
+                    'action': 'estimate_self_link',
+                    'slink_prob': slink_prob,
+                    'cat_attr': cat_attr,
+                    'slink_cand_list': slink_cand_list,
+                })
+        elif slink_prob == 'mid' or slink_prob == 'm_est':
+            score = (1 + d_self_link[cat_attr]['ratio'])/2
+
             if score > 1.0:
                 logger.error({
                     'action': 'estimate_self_link',
@@ -77,6 +127,21 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
                 })
                 sys.exit()
             slink_cand_list = [(mention_info.pid, 's', score)]
+            logger.info({
+                'action': 'estimate_self_link',
+                'slink_prob': slink_prob,
+                'cat_attr': cat_attr,
+                'score': score,
+                'd_self_link[cat_attr][ratio]': d_self_link[cat_attr]['ratio'],
+                'slink_cand_list': slink_cand_list,
+            })
+        logger.debug({
+            'action': 'estimate_self_link',
+            'slink_prob': slink_prob,
+            'cat_attr': cat_attr,
+            'd_self_link[cat_attr][ratio]': d_self_link[cat_attr]['ratio'],
+            'slink_cand_list': slink_cand_list,
+        })
     return slink_cand_list
 
 def check_slink_info(slink_file, log_info):
@@ -93,12 +158,9 @@ def check_slink_info(slink_file, log_info):
             val: self_link_ratio
     Note:
         slink_file
-            cat, attr, self link ratio, self link num, freq
+            (format) cat, attr, self link ratio, self link num, cat_attr_freq (tsv)
+            (sample) School  別名    1.0     4       4
 
-        self_link info file
-            # format: cat(\t)att(\t)self_link ratio(\n)
-            format: cat(\t)att(\t)self_link ratio(\t)freq(\t)sum(\n)
-            sample: Compound 商標名 0.75
     """
 
     import csv
@@ -110,8 +172,8 @@ def check_slink_info(slink_file, log_info):
 
         for line in sl_reader:
             # case: the category/attribute does not appear in training data
-            if line[2] != '':
-                continue
+            # if line[4] == 0:
+            #     continue
 
             # if float(line[2]) >= slink_min:
             #     cat_attr = ':'.join([line[0], line[1]])
@@ -119,11 +181,15 @@ def check_slink_info(slink_file, log_info):
 
             cat_attr = ':'.join([line[0], line[1]])
             # d_self_link[cat_attr] = float(line[2])
+            # 20220924
+            d_self_link[cat_attr] = {}
             # 20220907
             d_self_link[cat_attr]['ratio'] = float(line[2])
+            # print(type(line[4]), line[4], int(line[4]))
             if int(line[4]) == 0:
                 # d_self_link[cat_attr]['ca_no_show'] = 1
                 # 20220914
+
                 d_self_link[cat_attr]['ca_no_show'] = 1
 
     return d_self_link

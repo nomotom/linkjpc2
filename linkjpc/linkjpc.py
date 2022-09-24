@@ -182,12 +182,13 @@ def set_logging(log_info, logger_name):
 @click.option('--slink_min', '-s_min', type=click.FLOAT,
               default=cf.OptInfo.slink_min_default, show_default=True,
               help='minimum self link ratio of attributes. (0.1-1.0)')
-@click.option('--slink_prob', '-s_prb', type=click.Choice(['fixed', 'raw', 'mid', 'm_est', 'r_est']),
+@click.option('--slink_prob', '-s_prb', type=click.Choice(['fixed', 'raw', 'mid', 'f_est', 'm_est', 'r_est']),
               default=cf.OptInfo.slink_prob_default, show_default=True,
               help='slink probability of the category-attribute pairs. '
                    '"fixed": 1.0, '
                    '"raw": ratio based on the sample data, '
                    '"mid": average of fixed and raw, '
+                   '"f_est": fixed + estimate ratio for attributes never appeared, '
                    '"r_est": raw + estimate ratio for attributes never appeared, '
                    '"m_est": mid + estimate ratio for attributes never appeared' )
 @click.option('--f_slink', type=click.STRING,
@@ -220,14 +221,21 @@ def set_logging(log_info, logger_name):
                    'a: adjust value based on ordering by number of incoming links, '
                    'n: N/A')
 # filtering: attr
-@click.option('--attr_range_tgt', '-ar_tgt', type=click.STRING,
+@click.option('--attr_rng_tgt', '-ar_tgt', type=click.STRING,
               default=cf.OptInfo.attr_rng_tgt_default, show_default=True,
               help='target module of attribute range filtering, specified as the combination of '
                    'the following characters'
                    'm: mint, t: tinm, w: wlink, s: slink, l: link_prob, n: N/A')
-@click.option('--f_attr_rng', type=click.STRING,
-              default=cf.DataInfo.f_attr_rng_default, show_default=True,
-              help='filename of attribute range definition file. The ranges are given as ENEIDs.')
+@click.option('--f_attr_rng_auto', type=click.STRING,
+              default=cf.DataInfo.f_attr_rng_auto_default, show_default=True,
+              help='filename of attribute range definition file (auto). The ranges are generated based on statistics of'
+                   'sample data.')
+@click.option('--f_attr_rng_man', type=click.STRING,
+              default=cf.DataInfo.f_attr_rng_man_default, show_default=True,
+              help='filename of attribute range definition file (man). The ranges are manually specified using ENEIDs. ')
+@click.option('--f_attr_rng_merged', type=click.STRING,
+              default=cf.DataInfo.f_attr_rng_merged_default, show_default=True,
+              help='filename of attribute range definition file (merged). ')
 @click.option('--f_enew_info', type=click.STRING,
               default=cf.DataInfo.f_enew_info_default, show_default=True,
               help='filename of enew_info_file.')
@@ -249,6 +257,11 @@ def set_logging(log_info, logger_name):
                    'ar: adjusted matching ratio + adjusted depth (adjusted to ignore 1st layer of the ENE hierarchy'
                    'if the ENEID begins with 1 (Name)),'
                    'am: adjusted matching ratio + modified depth (modify the adjusted depth to diminish its influence)')
+@click.option('--attr_rng_type', '-art', type=click.Choice(['a', 'm', 'ma']),
+              default=cf.OptInfo.attr_rng_type_default, show_default=True,
+              help='attribute range estimation type. m: use attribute range definition manually specified'
+                   'a: use attribute range definition automatically generated based on sample data'
+                   'ma: m > a')
 # filtering: back_link
 @click.option('--back_link_tgt', '-bl_tgt', type=click.STRING,
               default=cf.OptInfo.back_link_tgt_default, show_default=True,
@@ -310,11 +323,14 @@ def ljc_main(common_data_dir,
              attr_na_co,
              attr_ng_co,
              attr_len,
-             attr_range_tgt,
+             attr_rng_tgt,
+             attr_rng_type,
              back_link_tgt,
              back_link_ng,
              char_match_cand_num_max,
-             f_attr_rng,
+             f_attr_rng_auto,
+             f_attr_rng_man,
+             f_attr_rng_merged,
              f_enew_info,
              f_html_info,
              f_mention_gold_link_dist_info,
@@ -376,11 +392,14 @@ def ljc_main(common_data_dir,
     :param attr_na_co:
     :param attr_ng_co:
     :param attr_len:
-    :param attr_range_tgt:
+    :param attr_rng_type:
+    :param attr_rng_tgt:
     :param back_link_tgt:
     :param back_link_ng:
     :param char_match_cand_num_max:
-    :param f_attr_rng:
+    :param f_attr_rng_auto:
+    :param f_attr_rng_man:
+    :param f_attr_rng_merged:
     :param f_enew_info:
     :param f_html_info:
     :param f_mention_gold_link_dist_info:
@@ -440,7 +459,8 @@ def ljc_main(common_data_dir,
     opt_info = cf.OptInfo()
     opt_info.mod = mod
     opt_info.filtering = filtering
-    opt_info.attr_range_tgt = attr_range_tgt
+    opt_info.attr_rng_tgt = attr_rng_tgt
+    opt_info.attr_rng_type = attr_rng_type
     opt_info.incoming_link_tgt = incl_tgt
     opt_info.back_link_tgt = back_link_tgt
     opt_info.back_link_ng = back_link_ng
@@ -528,7 +548,10 @@ def ljc_main(common_data_dir,
     data_info = cf.DataInfo(common_data_dir, tmp_data_dir, in_dir, sample_gold_dir, sample_input_dir, out_dir)
     # files in common data dir
     data_info.common_data_dir = common_data_dir
-    data_info.attr_range_file = data_info.common_data_dir + f_attr_rng
+    data_info.attr_rng_auto_file = data_info.common_data_dir + f_attr_rng_auto
+    data_info.attr_rng_man_file = data_info.common_data_dir + f_attr_rng_man
+    data_info.attr_rng_merged_file = data_info.common_data_dir + f_attr_rng_merged
+
     data_info.title2pid_ext_file = data_info.common_data_dir + f_title2pid_ext
     data_info.enew_info_file = data_info.common_data_dir + f_enew_info
     data_info.linkable_info_file = data_info.common_data_dir + f_linkable_info
@@ -794,7 +817,7 @@ def ljc_main(common_data_dir,
     elif 's' in opt_info.mod:
         logger.info({
             'action': 'ljc_main',
-            'ru_minn': 'sl.check_slink_info',
+            'run': 'sl.check_slink_info',
             'slink_min': opt_info.slink_min,
             'slink_file': data_info.slink_file,
         })
@@ -911,43 +934,48 @@ def ljc_main(common_data_dir,
             d_back_link = bl.check_back_link_info(data_info.back_link_file, log_info, **cf.d_title2pid)
 
     # attr_range
-    if ('m' in opt_info.attr_range_tgt or
-        't' in opt_info.attr_range_tgt or
-        'w' in opt_info.attr_range_tgt or
-        's' in opt_info.attr_range_tgt or
-        'l' in opt_info.attr_range_tgt) \
+    if ('m' in opt_info.attr_rng_tgt or
+        't' in opt_info.attr_rng_tgt or
+        'w' in opt_info.attr_rng_tgt or
+        's' in opt_info.attr_rng_tgt or
+        'l' in opt_info.attr_rng_tgt) \
             and 'a' not in opt_info.filtering:
         logger.error({
             'action': 'ljc_main',
-            'option combination error': 'attr_range_tgt is set, but missing filtering option a'
+            'option combination error': 'attr_rng_tgt is set, but missing filtering option a'
         })
         sys.exit()
     elif 'a' in opt_info.filtering:
-        if not opt_info.attr_range_tgt:
+        if not opt_info.attr_rng_tgt:
             logger.error({
                 'action': 'ljc_main',
-                'missing attr_range_tgt': 'attr is specified, but missing attr_range_tgt'
+                'missing attr_rng_tgt': 'attr is specified, but missing attr_rng_tgt'
             })
             sys.exit()
-        elif ('m' not in opt_info.attr_range_tgt and
-              't' not in opt_info.attr_range_tgt and
-              'w' not in opt_info.attr_range_tgt and
-              's' not in opt_info.attr_range_tgt and
-              'l' not in opt_info.attr_range_tgt):
+        elif ('m' not in opt_info.attr_rng_tgt and
+              't' not in opt_info.attr_rng_tgt and
+              'w' not in opt_info.attr_rng_tgt and
+              's' not in opt_info.attr_rng_tgt and
+              'l' not in opt_info.attr_rng_tgt):
             logger.error({
                 'action': 'ljc_main',
-                'illegal attr_range_tgt': 'attr is specified, but illegal attr_range_tgt'
+                'illegal attr_rng_tgt': 'attr is specified, but illegal attr_rng_tgt'
             })
             sys.exit()
         else:
             logger.info({
                 'action': 'ljc_main',
-                'attr_range_tgt': opt_info.attr_range_tgt,
-                'attr_range_file': data_info.attr_range_file,
+                'attr_rng_tgt': opt_info.attr_rng_tgt,
+                'attr_rng_type': opt_info.attr_rng_type,
                 'enew_info_file:': data_info.enew_info_file,
             })
             cf.d_pid2eneid = ar.reg_enew_info(data_info.enew_info_file, log_info)
-            d_cat_attr2eneid_prob = ar.get_attr_range(data_info.attr_range_file, opt_info, log_info)
+            d_cat_attr2eneid_prob = ar.get_attr_range(data_info.attr_rng_man_file,
+                                                      data_info.attr_rng_auto_file,
+                                                      data_info.attr_rng_merged_file,
+                                                      opt_info,
+                                                      log_info)
+
     # nil_detection
     if ('m' in opt_info.nil_tgt or
         't' in opt_info.nil_tgt or
@@ -1109,7 +1137,7 @@ def ljc_main(common_data_dir,
                     if len(wlink_cand_list) > 0:
                         w_tmp_cand_list = copy.deepcopy(wlink_cand_list)
 
-                        if 'a' in opt_info.filtering and 'w' in opt_info.attr_range_tgt:
+                        if 'a' in opt_info.filtering and 'w' in opt_info.attr_rng_tgt:
                             wlink_cand_list_attr_checked = ar.filter_by_attr_range(w_tmp_cand_list,
                                                                                    mention_info,
                                                                                    opt_info,
@@ -1155,12 +1183,22 @@ def ljc_main(common_data_dir,
                                                                 data_info.self_link_by_attr_name_file,
                                                                 log_info, **d_self_link)
 
+                    if mention_info.t_mention == 'スウィングの王様':
+                        logger.info({
+                            'action': 'ljc_main',
+                            'mention_info.attr_label': mention_info.attr_label,
+                            'mention_info.t_start_line_id': mention_info.t_start_line_id,
+                            'mention_info.t_start_offset': mention_info.t_start_offset,
+                            'mention_info.pid': mention_info.pid,
+                            'slink_cand_list': slink_cand_list
+                        })
+
                     # filtering
                     if len(slink_cand_list) > 0:
                         s_tmp_cand_list = copy.deepcopy(slink_cand_list)
 
                         # filtering
-                        if 'a' in opt_info.filtering and 's' in opt_info.attr_range_tgt:
+                        if 'a' in opt_info.filtering and 's' in opt_info.attr_rng_tgt:
                             slink_cand_list_attr_checked = ar.filter_by_attr_range(s_tmp_cand_list,
                                                                                    mention_info,
                                                                                    opt_info,
@@ -1213,12 +1251,12 @@ def ljc_main(common_data_dir,
                                                                 **d_mint_mention_pid_ratio)
 
                     # if mention_info.t_mention == '千葉':
-                    if mention_info.pid == '1593456':
-                        logger.info({
-                            'action': 'ljc_main',
-                            'mint_cand_list': mint_cand_list,
-                            'mention_info.pid': mention_info.pid,
-                        })
+                    # if mention_info.pid == '1593456':
+                    #     logger.info({
+                    #         'action': 'ljc_main',
+                    #         'mint_cand_list': mint_cand_list,
+                    #         'mention_info.pid': mention_info.pid,
+                    #     })
                     #{'action': 'ljc_main', 'mint_cand_list': [], 'mention_info.pid': '3974281'}
 
                     # filtering
@@ -1234,7 +1272,7 @@ def ljc_main(common_data_dir,
                         #         'mention_info.t_start_offset': mention_info.t_start_offset,
                         #         'mention_info.pid': mention_info.pid,
                         #     })
-                        if 'a' in opt_info.filtering and 'm' in opt_info.attr_range_tgt:
+                        if 'a' in opt_info.filtering and 'm' in opt_info.attr_rng_tgt:
                             mint_cand_list_attr_checked = ar.filter_by_attr_range(m_tmp_cand_list,
                                                                                   mention_info,
                                                                                   opt_info,
@@ -1290,7 +1328,7 @@ def ljc_main(common_data_dir,
                     # filtering
                     if len(tinm_cand_list) > 0:
                         t_tmp_cand_list = copy.deepcopy(tinm_cand_list)
-                        if 'a' in opt_info.filtering and 't' in opt_info.attr_range_tgt:
+                        if 'a' in opt_info.filtering and 't' in opt_info.attr_rng_tgt:
                             tinm_cand_list_attr_checked = ar.filter_by_attr_range(t_tmp_cand_list,
                                                                                   mention_info,
                                                                                   opt_info,
@@ -1334,7 +1372,7 @@ def ljc_main(common_data_dir,
                     # filtering
                     if len(lp_cand_list) > 0:
                         l_tmp_cand_list = copy.deepcopy(lp_cand_list)
-                        if 'a' in opt_info.filtering and 'l' in opt_info.attr_range_tgt:
+                        if 'a' in opt_info.filtering and 'l' in opt_info.attr_rng_tgt:
                             lp_cand_list_attr_checked = ar.filter_by_attr_range(l_tmp_cand_list,
                                                                                 mention_info,
                                                                                 opt_info,

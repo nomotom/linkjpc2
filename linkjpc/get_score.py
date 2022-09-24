@@ -85,6 +85,14 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
 
     for pid in new_keys_all:
         if pid in link_info.cand_dic_tinm:
+            if type(link_info.cand_dic_tinm[pid]) != float:
+                logger.error({
+                    'action': 'scoring',
+                    'error': 'pid is not float',
+                    'pid': pid,
+                    'link_info.cand_dic_tinm[pid]': link_info.cand_dic_tinm[pid]
+                })
+                sys.exit()
             if link_info.cand_dic_tinm[pid] > 1.0:
                 logger.error({
                     'action': 'scoring',
@@ -95,6 +103,14 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
 
         # score of the pid for the mention
         if pid in link_info.cand_dic_mint:
+            if type(link_info.cand_dic_mint[pid]) != float:
+                logger.error({
+                    'action': 'scoring',
+                    'error': 'pid is not float',
+                    'pid': pid,
+                    'link_info.cand_dic_mint[pid]': link_info.cand_dic_mint[pid]
+                })
+                sys.exit()
             if link_info.cand_dic_mint[pid] > 1.0:
                 logger.error({
                     'action': 'scoring',
@@ -106,6 +122,14 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
             mint_score = link_info.cand_dic_mint[pid] * mod_info.mint_weight
 
         if pid in link_info.cand_dic_wlink:
+            if type(link_info.cand_dic_wlink[pid]) != float:
+                logger.error({
+                    'action': 'scoring',
+                    'error': 'pid is not float',
+                    'pid': pid,
+                    'link_info.cand_dic_wlink[pid]': link_info.cand_dic_wlink[pid]
+                })
+                sys.exit()
             if link_info.cand_dic_wlink[pid] > 1.0:
                 logger.error({
                     'action': 'scoring',
@@ -115,6 +139,15 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
             wlink_score = link_info.cand_dic_wlink[pid] * mod_info.wlink_weight
 
         if pid in link_info.cand_dic_slink:
+            if type(link_info.cand_dic_slink[pid]) != float:
+                logger.error({
+                    'action': 'scoring',
+                    'error': 'pid is not float',
+                    'pid': pid,
+                    'link_info.cand_dic_slink[pid]': link_info.cand_dic_slink[pid]
+                })
+                sys.exit()
+
             if link_info.cand_dic_slink[pid] > 1.0:
                 logger.error({
                     'action': 'scoring',
@@ -124,6 +157,15 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
             slink_score = link_info.cand_dic_slink[pid] * mod_info.slink_weight
 
         if pid in link_info.cand_dic_link_prob:
+            if type(link_info.cand_dic_link_prob[pid]) != float:
+                logger.error({
+                    'action': 'scoring',
+                    'error': 'pid is not float',
+                    'pid': pid,
+                    'link_info.cand_dic_link_prob[pid]': link_info.cand_dic_slink[pid],
+                })
+                sys.exit()
+
             if link_info.cand_dic_link_prob[pid] > 1.0:
                 logger.error({
                     'action': 'scoring',

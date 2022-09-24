@@ -115,17 +115,21 @@ $ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir
  ( _linkjpc_prep_all_test.sh_) を参考にしてください。
 ```
 
- (A) A-0) gen_title2pid 
-     -> A-1) gen_redirect 
-     　　-> A-2) gen_incoming_link
-           -> A-3) gen_title2pid_ext 
-              -> A-4-1) gen_back_link, 
-                 A-4-2) pre_matching, 
-                 A-4-3) gen_sample_gold_tsv 
-                   -> A-5-1) gen_link_prob, 
-                      A-5-2) gen_self_link_info, 
-                      A-5-3) gen_linkable,
-                      A-5-4) gen_nil
+ (A)A-0) (gen_change_wikipedia_info)
+    A-1) conv_sample_json_pageid
+    A-2-1) gen_enew/gen_enew_rev_year
+ 　　 ->A-3) gen_title2pid 
+       -> A-4-1) gen_redirect 
+        - A-4-2) gen_incoming_link
+          -> A-5) gen_title2pid_ext 
+            -> A-5-1) gen_back_link, 
+               A-5-2) pre_matching/ pre_matching --page_conv, 
+               A-5-3) gen_sample_gold_tsv 
+              -> A-6-1) gen_link_prob, 
+                 A-6-2) gen_self_link_info, 
+                 A-6-3) gen_linkable,
+                 A-6-4) gen_nil
+                 A-6-5) gen_attr_rng
                     
  (B) (after A is over)
      B-1) gen_common_html 
