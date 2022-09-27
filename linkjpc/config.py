@@ -43,6 +43,8 @@ class OptInfo(object):
     title_matching_tinm_default = 'full'
     char_match_cand_num_max_default = 1000
     char_match_min_default = 0.1
+    # lang_link_min_default = 0.5
+    multi_lang_default = 'm'
     # slink
     slink_prob_default = 'fixed'
     slink_min_default = 0.5
@@ -150,6 +152,7 @@ class OptInfo(object):
                  mint_min=mint_min_default,
                  mod=mod_default,
                  mod_w=mod_w_default,
+                 multi_lang=multi_lang_default,
                  nil_cat_attr_max=nil_cat_attr_max_default,
                  nil_cond=nil_cond_default,
                  nil_desc_exception=nil_desc_exception_default,
@@ -198,6 +201,7 @@ class OptInfo(object):
         self.mention_in_title_min = mint_min
         self.mod = mod
         self.mod_w = mod_w
+        self.multi_lang = multi_lang
         self.nil_cat_attr_max = nil_cat_attr_max
         self.nil_cond = nil_cond
         self.nil_desc_exception = nil_desc_exception
@@ -363,6 +367,14 @@ class DataInfo(object):
     # [CM15]
     f_page_dump_old_org_default = 'jawiki-20190120-page_dmp.tsv'
 
+    # [CM16]
+    # 20220926
+    f_lang_link_dump_org_default = 'jawiki-20210820-langlinks_dmp.tsv'
+    # format: page_id, page_title, page_is_redirect, page_namespace
+    # sample:
+
+    # based on: f_page_dump_sql_default = 'jawiki-20210820-langlinks.sql'
+
     # (2) preprocessing
     # (2-1) sample_gold_data_dir
     # [SP1] (sample gold data info)
@@ -442,6 +454,9 @@ class DataInfo(object):
     # 20220921
     f_attr_rng_merged_default = 'attr_rng_merged.tsv'
 
+    # [CP16]
+    f_lang_link_info_default = 'jawiki-20210820-langlinks_info.tsv'
+
     # (2-3) tmp_data_dir
     # [TP1]
     f_input_title_default = 'input_title.txt'
@@ -496,6 +511,8 @@ class DataInfo(object):
                  f_common_html_info=f_common_html_info_default,
                  f_html_info=f_html_info_default,
                  f_input_title=f_input_title_default,
+                 f_lang_link_info=f_lang_link_info_default,
+                 f_lang_link_dump_org=f_lang_link_dump_org_default,
                  f_linkable_info=f_linkable_info_default,
                  f_mention_gold_link_dist_info=f_mention_gold_link_dist_info_default,
                  f_mention_gold_link_dist=f_mention_gold_link_dist_default,
@@ -539,6 +556,8 @@ class DataInfo(object):
         self.enew_info_file = common_data_dir + f_enew_info
         self.enew_org_file = common_data_dir + f_enew_org
         self.enew_mod_list_file = common_data_dir + f_enew_mod_list
+        self.lang_link_info_file = common_data_dir + f_lang_link_info
+        self.lang_link_dump_org_file = common_data_dir + f_lang_link_dump_org
         self.link_prob_file = common_data_dir + f_link_prob
         self.linkable_info_file = common_data_dir + f_linkable_info
         self.mention_gold_link_dist_info_file = common_data_dir + f_mention_gold_link_dist_info

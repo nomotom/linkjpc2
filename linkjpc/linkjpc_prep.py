@@ -7,8 +7,9 @@ from decimal import Decimal, ROUND_HALF_UP
 import logging
 import logging.config
 import sys
-import string
+# import string
 import re
+import datetime
 
 
 def set_logging_pre(log_info, logger_name):
@@ -34,8 +35,9 @@ def set_logging_pre(log_info, logger_name):
 @click.option('--gen_change_wikipedia_info', is_flag=True, default=False, show_default=True)
 @click.option('--gen_enew', is_flag=True, default=False, show_default=True)
 @click.option('--gen_enew_rev_year', is_flag=True, default=False, show_default=True)
+@click.option('--gen_lang_link', is_flag=True, default=False, show_default=True)
 @click.option('--gen_sample_gold_tsv', is_flag=True, default=False, show_default=True)
-@click.option('--gen_sample_gold_tsv_cnv_year', is_flag=True, default=False, show_default=True)
+# @click.option('--gen_sample_gold_tsv_cnv_year', is_flag=True, default=False, show_default=True)
 @click.option('--gen_title2pid', is_flag=True, default=False, show_default=True)
 @click.option('--gen_redirect', is_flag=True, default=False, show_default=True)
 # @click.option('--gen_redirect2', is_flag=True, default=False, show_default=True)
@@ -59,18 +61,20 @@ def set_logging_pre(log_info, logger_name):
 @click.option('--gen_back_link', is_flag=True, default=False, show_default=True)
 @click.option('--gen_link_dist', is_flag=True, default=False, show_default=True)
 @click.option('--gen_incoming_link', is_flag=True, default=False, show_default=True)
-@click.option('--page_conv', is_flag=True, default=False, show_default=True)
-@click.option('--f_self_link_by_attr_name', default=cf.DataInfo.f_self_link_by_attr_name_default, show_default=True, type=click.STRING,
-              help='lists of attributes whose values are supposed to refer to the original entity, judging from the name of attributes.')
+# @click.option('--page_conv', is_flag=True, default=False, show_default=True)
+@click.option('--f_self_link_by_attr_name', default=cf.DataInfo.f_self_link_by_attr_name_default, show_default=True,
+              type=click.STRING, help='lists of attributes whose values are supposed to refer to the original entity, '
+                                      'judging from the name of attributes.')
 @click.option('--f_self_link_pat', default=cf.DataInfo.f_self_link_pat_default, show_default=True, type=click.STRING,
               help='lists of matching pattern and position to find self link attributes by attribute names.')
 @click.option('--f_title2pid_ext', default=cf.DataInfo.f_title2pid_ext_default, show_default=True, type=click.STRING,
               help='from_title_to_pageid_extended_information. Filter out disambiguation, management, '
                    'or format-error pages, and add eneid, incoming link num info.')
 # 20220916
-@click.option('--f_title2pid_ext_obs', default=cf.DataInfo.f_title2pid_ext_obs_default, show_default=True, type=click.STRING,
-              help='from_title_to_pageid_extended_information based on obsolete Wikipedia. Filter out disambiguation, management, '
-                   'or format-error pages, and add eneid, incoming link num info.')
+@click.option('--f_title2pid_ext_obs', default=cf.DataInfo.f_title2pid_ext_obs_default, show_default=True,
+              type=click.STRING,
+              help='from_title_to_pageid_extended_information based on obsolete Wikipedia. Filter out disambiguation, '
+                   'management or format-error pages, and add eneid, incoming link num info.')
 @click.option('--f_title2pid_org', default=cf.DataInfo.f_title2pid_org_default, show_default=True, type=click.STRING,
               help='from_title_to_pageid_information_original.')
 @click.option('--f_cirrus_content', default=cf.DataInfo.f_cirrus_content_default, show_default=True, type=click.STRING,
@@ -79,6 +83,10 @@ def set_logging_pre(log_info, logger_name):
               help='disambiguation page list.')
 @click.option('--f_disambiguation_pat', default=cf.DataInfo.f_disambiguation_pat_default, show_default=True,
               type=click.STRING, help='disambiguation pattern file.')
+@click.option('--f_lang_link_dump_org', default=cf.DataInfo.f_lang_link_dump_org_default, show_default=True,
+              type=click.STRING, help='langlinks dump org file')
+@click.option('--f_lang_link_info', default=cf.DataInfo.f_lang_link_info_default, show_default=True,
+              type=click.STRING, help='langlinks info file')
 @click.option('--f_mint_partial', default=cf.DataInfo.f_mint_partial_default, show_default=True, type=click.STRING,
               help='mint_partial')
 @click.option('--f_mint_trim_partial', default=cf.DataInfo.f_mint_trim_partial_default, show_default=True,
@@ -110,8 +118,8 @@ def set_logging_pre(log_info, logger_name):
               help='f_nil')
 @click.option('--f_attr_rng_auto', default=cf.DataInfo.f_attr_rng_auto_default, show_default=True, type=click.STRING,
               help='f_attr_rng_auto')
-# @click.option('--f_attr_rng_merged', default=cf.DataInfo.f_attr_rng_merged_default, show_default=True, type=click.STRING,
-#               help='f_attr_rng_merged')
+# @click.option('--f_attr_rng_merged', default=cf.DataInfo.f_attr_rng_merged_default, show_default=True,
+# type=click.STRING, help='f_attr_rng_merged')
 # @click.option('--f_attr_rng_man', default=cf.DataInfo.f_attr_rng_man_default, show_default=True, type=click.STRING,
 #               help='f_attr_rng_man')
 @click.option('--f_slink', default=cf.DataInfo.f_slink_default, show_default=True, type=click.STRING,
@@ -120,26 +128,24 @@ def set_logging_pre(log_info, logger_name):
               help='f_input_title')
 @click.option('--f_back_link', default=cf.DataInfo.f_back_link_default, show_default=True, type=click.STRING,
               help='f_back_link')
-@click.option('--f_back_link_dump_org', default=cf.DataInfo.f_back_link_dump_org_default, show_default=True, type=click.STRING,
-              help='f_back_link_dump_org')
+@click.option('--f_back_link_dump_org', default=cf.DataInfo.f_back_link_dump_org_default, show_default=True,
+              type=click.STRING, help='f_back_link_dump_org')
 @click.option('--f_page_dump', default=cf.DataInfo.f_page_dump_default, show_default=True, type=click.STRING,
               help='f_page_dump')
 @click.option('--f_redirect_dump', default=cf.DataInfo.f_redirect_dump_default, show_default=True, type=click.STRING,
               help='f_redirect_dump')
 @click.option('--f_page_dump_org', default=cf.DataInfo.f_page_dump_org_default, show_default=True, type=click.STRING,
               help='f_page_dump_org')
-@click.option('--f_page_dump_old_org', default=cf.DataInfo.f_page_dump_old_org_default, show_default=True, type=click.STRING,
-              help='f_page_dump_old_org')
-@click.option('--f_redirect_dump_org', default=cf.DataInfo.f_redirect_dump_org_default, show_default=True, type=click.STRING,
-              help='f_redirect_dump_org')
+@click.option('--f_page_dump_old_org', default=cf.DataInfo.f_page_dump_old_org_default, show_default=True,
+              type=click.STRING, help='f_page_dump_old_org')
+@click.option('--f_redirect_dump_org', default=cf.DataInfo.f_redirect_dump_org_default, show_default=True,
+              type=click.STRING, help='f_redirect_dump_org')
 @click.option('--f_mention_gold_link_dist', default=cf.DataInfo.f_mention_gold_link_dist_default, show_default=True,
               type=click.STRING, help='f_mention_gold_link_dist')
 @click.option('--f_target_attr', default=cf.DataInfo.f_target_attr_default, show_default=True,
               type=click.STRING, help='f_target_attr')
-@click.option('--f_wikipedia_page_change_info', default=cf.DataInfo.f_wikipedia_page_change_info_default, show_default=True,
-              type=click.STRING, help='f_target_attr')
-# @click.option('--f_title_pid_db', default=cf.DataInfo.f_mention_gold_link_dist_default, show_default=True,
-#               type=click.STRING, help='f_mention_gold_link_dist')
+@click.option('--f_wikipedia_page_change_info', default=cf.DataInfo.f_wikipedia_page_change_info_default,
+              show_default=True, type=click.STRING, help='f_target_attr')
 def ljc_prep_main(common_data_dir,
                   tmp_data_dir,
                   in_dir,
@@ -159,6 +165,7 @@ def ljc_prep_main(common_data_dir,
                   gen_html,
                   gen_html_conv_year,
                   gen_incoming_link,
+                  gen_lang_link,
                   gen_linkable,
                   gen_link_dist,
                   gen_link_prob,
@@ -167,10 +174,10 @@ def ljc_prep_main(common_data_dir,
                   gen_title2pid,
                   gen_title2pid_ext,
                   gen_sample_gold_tsv,
-                  gen_sample_gold_tsv_cnv_year,
+                  # gen_sample_gold_tsv_cnv_year,
                   pre_matching,
                   gen_redirect,
-                  page_conv,
+                  # page_conv,
                   title_matching_mint,
                   title_matching_tinm,
                   f_back_link,
@@ -188,6 +195,8 @@ def ljc_prep_main(common_data_dir,
                   f_html_info,
                   f_incoming,
                   f_input_title,
+                  f_lang_link_info,
+                  f_lang_link_dump_org,
                   f_linkable_info,
                   f_link_prob,
                   f_mention_gold_link_dist,
@@ -232,6 +241,8 @@ def ljc_prep_main(common_data_dir,
                      prep_f_html_info=f_html_info,
                      prep_f_incoming=f_incoming,
                      prep_f_input_title=f_input_title,
+                     prep_f_lang_link_dump_org=f_lang_link_dump_org,
+                     prep_f_lang_link_info=f_lang_link_info,
                      prep_f_linkable=f_linkable_info,
                      prep_f_link_prob=f_link_prob,
                      prep_f_mention_gold_link_dist=f_mention_gold_link_dist,
@@ -273,6 +284,8 @@ def ljc_prep_main(common_data_dir,
             self.enew_org_file = prep_common_data_dir + prep_f_enew_org
             self.common_html_info_file = prep_common_data_dir + prep_f_common_html_info
             self.incoming_file = prep_common_data_dir + prep_f_incoming
+            self.lang_link_info_file = prep_common_data_dir + prep_f_lang_link_info
+            self.lang_link_dump_org_file = prep_common_data_dir + prep_f_lang_link_dump_org
             self.linkable_file = prep_common_data_dir + prep_f_linkable
             self.link_prob_file = prep_common_data_dir + prep_f_link_prob
             self.nil_file = prep_common_data_dir + prep_f_nil
@@ -320,6 +333,8 @@ def ljc_prep_main(common_data_dir,
     data_info_prep.enew_mod_list_file = data_info_prep.common_data_dir + f_enew_mod_list
     data_info_prep.common_html_info_file = data_info_prep.common_data_dir + f_common_html_info
     data_info_prep.incoming_file = data_info_prep.common_data_dir + f_incoming
+    # data_info_prep.lang_link_dump_file = data_info_prep.common_data_dir + f_lang_link_dump
+    data_info_prep.lang_link_dump_org_file = data_info_prep.common_data_dir + f_lang_link_dump_org
     data_info_prep.linkable_file = data_info_prep.common_data_dir + f_linkable_info
     data_info_prep.link_prob_file = data_info_prep.common_data_dir + f_link_prob
     data_info_prep.mention_gold_link_dist_file = data_info_prep.common_data_dir + f_mention_gold_link_dist
@@ -352,11 +367,24 @@ def ljc_prep_main(common_data_dir,
     sample_gold_linked_dir = data_info_prep.sample_gold_dir + 'link_annotation/'
     sample_gold_linked_dir_conv = data_info_prep.sample_gold_dir + 'link_annotation/conv/'
 
+    # 20220926
+    if conv_year:
+        tmp_sample_gold_linked_dir = sample_gold_linked_dir_conv
+    else:
+        tmp_sample_gold_linked_dir = sample_gold_linked_dir
+
     # 20220822 fromhere
     # sample_data_dir_pre = data_info_prep.sample_gold_dir
     # sample_data_dir = sample_data_dir_pre.replace('link_annotation/', '')
+
     sample_input_ene_dir = data_info_prep.sample_input_dir + 'ene_annotation/'
     sample_input_ene_dir_conv = data_info_prep.sample_input_dir + 'ene_annotation/conv/'
+
+    # 20220926
+    if conv_year:
+        tmp_sample_input_ene_dir = sample_input_ene_dir_conv
+    else:
+        tmp_sample_input_ene_dir = sample_input_ene_dir
 
     sample_input_html_dir = data_info_prep.sample_input_dir + 'html/'
     sample_input_html_dir_conv = data_info_prep.sample_input_dir + 'html/conv/'
@@ -365,8 +393,15 @@ def ljc_prep_main(common_data_dir,
     # data_info_prep.in_dir = data_info_prep.in_dir
     data_info_prep.in_ene_dir = data_info_prep.in_dir + 'ene_annotation/'
     data_info_prep.in_html_dir = data_info_prep.in_dir + 'html/'
-    input_ene_dir = data_info_prep.in_ene_dir
-    input_ene_dir_conv = input_ene_dir + 'conv/'
+    # input_ene_dir = data_info_prep.in_ene_dir
+    # input_ene_dir_conv = input_ene_dir + 'conv/'
+
+    # 20220926
+    tmp_input_ene_dir = ''
+    if conv_year:
+        tmp_input_ene_dir = data_info_prep.in_ene_dir + 'conv/'
+    else:
+        tmp_input_ene_dir = data_info_prep.in_ene_dir
 
     # 20220822 till here
 
@@ -378,9 +413,9 @@ def ljc_prep_main(common_data_dir,
         'in_dir': data_info_prep.in_dir,
         'in_ene_dir': data_info_prep.in_ene_dir,
         'in_html_dir': data_info_prep.in_html_dir,
-        'sample_gold_linked_dir': sample_gold_linked_dir,
+        'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
         'sample_input_html_dir': sample_input_html_dir,
-        'sample_input_dir': sample_input_dir
+        'tmp_sample_input_ene_dir': tmp_sample_input_ene_dir
     })
 
     # # 20220920
@@ -388,14 +423,16 @@ def ljc_prep_main(common_data_dir,
         logger.info({
             'action': 'conv_sample_pageid',
         })
-        conv_input_pageid(sample_input_ene_dir,
-                          sample_input_ene_dir_conv,
-                          data_info_prep.wikipedia_page_change_info_file,
-                          log_info)
-        conv_link_pageid(sample_gold_linked_dir,
-                        sample_gold_linked_dir_conv,
-                        data_info_prep.wikipedia_page_change_info_file,
-                        log_info)
+        conv_input_pageid(
+            sample_input_ene_dir,
+            sample_input_ene_dir_conv,
+            data_info_prep.wikipedia_page_change_info_file,
+            log_info)
+        conv_link_pageid(
+            sample_gold_linked_dir,
+            sample_gold_linked_dir_conv,
+            data_info_prep.wikipedia_page_change_info_file,
+            log_info)
 
     # 20220920
     if gen_change_wikipedia_info:
@@ -417,7 +454,8 @@ def ljc_prep_main(common_data_dir,
     #         'action': 'gen_sample_gold_tsv_cnv_year',
     #         'sample_gold_linked_dir': sample_gold_linked_dir,
     #     })
-    #     linkedjson2tsv_add_linked_title_cnv_year(sample_gold_linked_dir, data_info_prep.title2pid_ext_file, data_info_prep.title2pid_ext_obs_file, log_info)
+    #     linkedjson2tsv_add_linked_title_cnv_year(sample_gold_linked_dir, data_info_prep.title2pid_ext_file,
+    #     data_info_prep.title2pid_ext_obs_file, log_info)
 
     if gen_sample_gold_tsv:
         # logger.info({
@@ -429,13 +467,17 @@ def ljc_prep_main(common_data_dir,
         # 暫定対応　20220824
         logger.info({
             'action': 'gen_sample_gold_tsv',
-            'sample_gold_linked_dir': sample_gold_linked_dir,
+            'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
         })
-        # 20220921 修正
-        if conv_year:
-            linkedjson2tsv_add_linked_title_ene(sample_gold_linked_dir_conv, data_info_prep.title2pid_ext_file, log_info)
-        else:
-            linkedjson2tsv_add_linked_title_ene(sample_gold_linked_dir, data_info_prep.title2pid_ext_file, log_info)
+        # 20220926
+        linkedjson2tsv_add_linked_title_ene(tmp_sample_gold_linked_dir, data_info_prep.title2pid_ext_file, log_info)
+
+        # # 20220921 修正
+        # if conv_year:
+        #     linkedjson2tsv_add_linked_title_ene(sample_gold_linked_dir_conv, data_info_prep.title2pid_ext_file,
+        #     log_info)
+        # else:
+        #     linkedjson2tsv_add_linked_title_ene(sample_gold_linked_dir, data_info_prep.title2pid_ext_file, log_info)
 
         # linkedjson2tsv_simple(sample_gold_linked_dir, data_info_prep.title2pid_ext_file, log_info)
 
@@ -471,6 +513,8 @@ def ljc_prep_main(common_data_dir,
             'cirrus_content_file': data_info_prep.cirrus_content_file,
             'disambiguation_file': data_info_prep.disambiguation_file,
         })
+        print(datetime.datetime.now())
+
         gen_disambiguation_file(data_info_prep.disambiguation_pat_file, data_info_prep.cirrus_content_file,
                                 data_info_prep.disambiguation_file, log_info)
         logger.info({
@@ -480,6 +524,8 @@ def ljc_prep_main(common_data_dir,
             'disambiguation_file': data_info_prep.disambiguation_file,
             'redirect_info_file': data_info_prep.redirect_info_file,
         })
+        print(datetime.datetime.now())
+
         gen_redirect_info_file(data_info_prep.title2pid_org_file, data_info_prep.disambiguation_file,
                                data_info_prep.redirect_info_file, log_info)
 
@@ -541,14 +587,21 @@ def ljc_prep_main(common_data_dir,
                                data_info_prep.wikipedia_page_change_info_file,
                                data_info_prep.enew_info_file, log_info)
 
-    if gen_title2pid_ext:
+    if gen_lang_link:
         logger.info({
-            'run': 'gen_title2pid_ext',
-            'enew_org_file': data_info_prep.enew_org_file,
-            'enew_mod_list_file': data_info_prep.enew_mod_list_file,
-            'enew_info_file': data_info_prep.enew_info_file,
+            'action': 'ljc_prep_main',
+            'run': 'gen_lang_link',
+            'title2pid_ext_file': data_info_prep.title2pid_ext_file,
+            'lang_link_dump_org_file': data_info_prep.lang_link_dump_org_file,
+            'lang_link_info_file': data_info_prep.lang_link_info_file,
         })
+        gen_lang_link_info(
+            data_info_prep.lang_link_dump_org_file,
+            data_info_prep.title2pid_ext_file,
+            data_info_prep.lang_link_info_file,
+            log_info)
 
+    if gen_title2pid_ext:
         logger.info({
             'action': 'ljc_prep_main',
             'run': 'gen_title2pid_ext',
@@ -558,22 +611,24 @@ def ljc_prep_main(common_data_dir,
             'redirect_info_file': data_info_prep.redirect_info_file,
         })
         gen_title2pid_ext_file(data_info_prep.title2pid_ext_file, data_info_prep.incoming_file,
-                               data_info_prep.enew_info_file, data_info_prep.redirect_info_file, log_info)
+                               data_info_prep.enew_info_file, data_info_prep.redirect_info_file,
+                               log_info)
 
     if gen_back_link:
         logger.info({
             'run': 'gen_back_link',
             # 20220822
-            'input_ene_dir': input_ene_dir,
-            'input_ene_dir_conv': input_ene_dir_conv,
+            'tmp_input_ene_dir': tmp_input_ene_dir,
             'input_title_file': data_info_prep.input_title_file,
             'back_link_dump_org': data_info_prep.back_link_dump_org_file,
             'back_link_file': data_info_prep.back_link_file,
         })
-        if conv_year:
-            gen_input_title_file(input_ene_dir_conv, data_info_prep.input_title_file, log_info)
-        else:
-            gen_input_title_file(input_ene_dir, data_info_prep.input_title_file, log_info)
+        # if conv_year:
+        #     gen_input_title_file(input_ene_dir_conv, data_info_prep.input_title_file, log_info)
+        # else:
+        #     gen_input_title_file(input_ene_dir, data_info_prep.input_title_file, log_info)
+        # 20220926
+        gen_input_title_file(tmp_input_ene_dir, data_info_prep.input_title_file, log_info)
         logger.info({
             'action': 'ljc_prep_main',
             'run': 'gen_back_link_info_file',
@@ -605,28 +660,30 @@ def ljc_prep_main(common_data_dir,
         logger.info({
             'run': 'gen_common_html_cnv_year',
             # 20220822
-            'sample_input_html_dir': sample_input_html_dir,
+            'sample_input_html_dir_conv': sample_input_html_dir_conv,
             'common_html_info_cnv_year_file': data_info_prep.common_html_info_file
         })
         # 20220822
-        gen_html_info_file_conv_year(sample_input_html_dir,
-                                    data_info_prep.common_html_info_file,
-                                    data_info_prep.wikipedia_page_change_info_file, log_info)
+        # 20220926
+        gen_html_info_file_conv_year(
+            sample_input_html_dir_conv,
+            data_info_prep.common_html_info_file,
+            data_info_prep.wikipedia_page_change_info_file, log_info)
 
     if gen_link_dist:
         logger.info({
             'run': 'gen_link_dist',
             'common_html_info_file': data_info_prep.common_html_info_file,
-            'sample_gold_linked_dir': sample_gold_linked_dir,
+            'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
             'common_data_dir': data_info_prep.common_data_dir,
             'mention_gold_link_dist_file': data_info_prep.mention_gold_link_dist_file,
         })
-        if conv_year:
-            gen_mention_gold_link_dist(data_info_prep.common_html_info_file, sample_gold_linked_dir_conv,
-                                       data_info_prep.mention_gold_link_dist_file, log_info)
-        else:
-            gen_mention_gold_link_dist(data_info_prep.common_html_info_file, sample_gold_linked_dir,
-                                       data_info_prep.mention_gold_link_dist_file, log_info)
+
+        gen_mention_gold_link_dist(
+            data_info_prep.common_html_info_file,
+            tmp_sample_gold_linked_dir,
+            data_info_prep.mention_gold_link_dist_file,
+            log_info)
 
     if pre_matching == 'mint':
 
@@ -637,35 +694,22 @@ def ljc_prep_main(common_data_dir,
             })
             sys.exit()
         else:
+            # 20220822
             logger.info({
                 'action': 'ljc_prep_main',
                 'run': 'prematch_mention_title',
-
+                'tmp_input_ene_dir': tmp_input_ene_dir
             })
-            # 20220822
-            if conv_year:
-                logger.info({
-                    'action': 'ljc_prep_main',
-                    'run': 'prematch_mention_title',
-                    'input_ene_dir_conv': input_ene_dir_conv
-                })
-                prematch_mention_title(
-                    input_ene_dir_conv,
-                    data_info_prep,
-                    pre_matching,
-                    title_matching_mint,
-                    char_match_min,
-                    log_info)
-            else:
-                prematch_mention_title(
-                    input_ene_dir,
-                    data_info_prep,
-                    pre_matching,
-                    title_matching_mint,
-                    char_match_min,
-                    log_info)
 
-            # prematch_mention_title(data_info_prep, pre_matching, title_matching_mint, char_match_min, log_info)
+            prematch_mention_title(
+                tmp_input_ene_dir,
+                data_info_prep,
+                pre_matching,
+                title_matching_mint,
+                char_match_min,
+                data_info_prep.lang_link_dump_org_file,
+                log_info)
+
     elif pre_matching == 'tinm':
         if not title_matching_tinm:
             logger.error({
@@ -674,24 +718,14 @@ def ljc_prep_main(common_data_dir,
             })
             sys.exit()
         else:
-            if conv_year:
-                prematch_mention_title(
-                    input_ene_dir_conv,
-                    data_info_prep,
-                    pre_matching,
-                    title_matching_tinm,
-                    char_match_min,
-                    log_info)
-            # 20220822
-            else:
-                prematch_mention_title(
-                    input_ene_dir,
-                    data_info_prep,
-                    pre_matching,
-                    title_matching_tinm,
-                    char_match_min,
-                    log_info)
-            # prematch_mention_title(data_info_prep, pre_matching, title_matching_tinm, char_match_min, log_info)
+            prematch_mention_title(
+                tmp_input_ene_dir,
+                data_info_prep,
+                pre_matching,
+                title_matching_tinm,
+                char_match_min,
+                data_info_prep.lang_link_dump_org_file,
+                log_info)
 
     elif pre_matching != 'n':
         logger.error({
@@ -714,108 +748,94 @@ def ljc_prep_main(common_data_dir,
             'html_dir': data_info_prep.in_html_dir,
             'html_info_file': data_info_prep.html_info_file
         })
-        gen_html_info_file_conv_year(data_info_prep.in_html_dir,
-                                     data_info_prep.html_info_file,
-                                     data_info_prep.wikipedia_page_change_info_file,
-                                     log_info)
+        gen_html_info_file_conv_year(
+            data_info_prep.in_html_dir,
+            data_info_prep.html_info_file,
+            data_info_prep.wikipedia_page_change_info_file,
+            log_info)
 
     if gen_link_prob:
-
-        if conv_year:
-            logger.info({
-                'run': 'gen_link_prob',
-                'link_prob_file': data_info_prep.link_prob_file,
-                'sample_gold_linked_dir_conv': sample_gold_linked_dir_conv
-            })
-            gen_link_prob_file(sample_gold_linked_dir_conv, data_info_prep.link_prob_file, log_info)
-        else:
-            logger.info({
-                'run': 'gen_link_prob',
-                'link_prob_file': data_info_prep.link_prob_file,
-                'sample_gold_linked_dir': sample_gold_linked_dir
-            })
-            gen_link_prob_file(sample_gold_linked_dir, data_info_prep.link_prob_file, log_info)
+        logger.info({
+            'run': 'gen_link_prob',
+            'link_prob_file': data_info_prep.link_prob_file,
+            'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir
+        })
+        gen_link_prob_file(tmp_sample_gold_linked_dir, data_info_prep.link_prob_file, log_info)
 
     if gen_nil:
 
-        if conv_year:
-            logger.info({
-                'run': 'gen_nil',
-                'sample_gold_linked_dir_conv': sample_gold_linked_dir_conv,
-                'nil_file': data_info_prep.nil_file
-            })
-            gen_nil_info(sample_gold_linked_dir_conv, data_info_prep.nil_file, log_info)
-        else:
-            logger.info({
-                'run': 'gen_nil',
-                'sample_gold_linked_dir': sample_gold_linked_dir,
-                'nil_file': data_info_prep.nil_file
-            })
-            gen_nil_info(sample_gold_linked_dir, data_info_prep.nil_file, log_info)
+        logger.info({
+            'run': 'gen_nil',
+            'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
+            'nil_file': data_info_prep.nil_file
+        })
+        gen_nil_info(tmp_sample_gold_linked_dir, data_info_prep.nil_file, log_info)
 
     if gen_attr_rng:
-
-        if conv_year:
-            # gen_attr_rng_info(sample_gold_linked_dir_conv, data_info_prep.attr_rng_auto_file,
-            #                   data_info_prep.attr_rng_man_file, data_info_prep.attr_rng_merged_file, log_info)
-            gen_attr_rng_info(sample_gold_linked_dir_conv, data_info_prep.attr_rng_auto_file, log_info)
-            logger.info({
-                'run': 'gen_attr_rng',
-                'sample_gold_linked_dir_conv': sample_gold_linked_dir_conv,
-                'attr_rng_auto_file': data_info_prep.attr_rng_auto_file,
-                # 'attr_rng_man_file': data_info_prep.attr_rng_man_file,
-                # 'attr_rng_merged_file': data_info_prep.attr_rng_merged_file,
-            })
-        else:
-            # gen_attr_rng_info(sample_gold_linked_dir, data_info_prep.attr_rng_auto_file,
-            #                   data_info_prep.attr_rng_man_file, data_info_prep.attr_rng_merged_file,  log_info)
-            gen_attr_rng_info(sample_gold_linked_dir, data_info_prep.attr_rng_auto_file, log_info)
-            logger.info({
-                'run': 'gen_attr_rng',
-                'sample_gold_linked_dir': sample_gold_linked_dir,
-                'attr_rng_auto_file': data_info_prep.attr_rng_auto_file,
-                # 'attr_rng_man_file': data_info_prep.attr_rng_man_file,
-                # 'attr_rng_merged_file': data_info_prep.attr_rng_merged_file,
-            })
+        logger.info({
+            'run': 'gen_attr_rng',
+            'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
+            'attr_rng_auto_file': data_info_prep.attr_rng_auto_file,
+        })
+        gen_attr_rng_info(tmp_sample_gold_linked_dir, data_info_prep.attr_rng_auto_file, log_info)
 
     if gen_slink:
 
-        if conv_year:
-            logger.info({
-                'run': 'gen_slink',
-                'sample_gold_linked_dir_conv': sample_gold_linked_dir_conv,
-                'slink_file': data_info_prep.slink_file
-            })
-            gen_self_link_info(sample_gold_linked_dir_conv, data_info_prep.slink_file, log_info)
-        else:
-            logger.info({
-                'run': 'gen_slink',
-                'sample_gold_linked_dir': sample_gold_linked_dir,
-                'slink_file': data_info_prep.slink_file
-            })
-            gen_self_link_info(sample_gold_linked_dir, data_info_prep.slink_file, log_info)
+        logger.info({
+            'run': 'gen_slink',
+            'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
+            'slink_file': data_info_prep.slink_file
+        })
+        gen_self_link_info(tmp_sample_gold_linked_dir, data_info_prep.slink_file, log_info)
 
-        gen_self_link_by_attr_name(data_info_prep.self_link_pat_file, data_info_prep.target_attr_file,
-                                  data_info_prep.self_link_by_attr_name_file, log_info)
+        gen_self_link_by_attr_name(
+            data_info_prep.self_link_pat_file,
+            data_info_prep.target_attr_file,
+            data_info_prep.self_link_by_attr_name_file,
+            log_info)
 
     if gen_linkable:
+        logger.info({
+            'run': 'gen_linkable',
+            'tmp_sample_input_ene_dir': tmp_sample_input_ene_dir,
+            'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
+            'linkable_file': data_info_prep.linkable_file
+        })
+        gen_linkable_info(tmp_sample_input_ene_dir, tmp_sample_gold_linked_dir, data_info_prep.linkable_file, log_info)
 
-        if conv_year:
-            logger.info({
-                'run': 'gen_linkable',
-                'sample_input_ene_dir': sample_input_ene_dir,
-                'sample_gold_linked_dir_conv': sample_gold_linked_dir_conv,
-                'linkable_file': data_info_prep.linkable_file
-            })
-            gen_linkable_info(sample_input_ene_dir_conv, sample_gold_linked_dir_conv, data_info_prep.linkable_file, log_info)
-        else:
-            logger.info({
-                'run': 'gen_linkable',
-                'sample_input_ene_dir': sample_input_ene_dir,
-                'sample_gold_linked_dir': sample_gold_linked_dir,
-                'linkable_file': data_info_prep.linkable_file
-            })
-            gen_linkable_info(sample_input_ene_dir, sample_gold_linked_dir, data_info_prep.linkable_file, log_info)
+
+def gen_lang_link_info(langlinks_dump, title2pid_ext, lang_link_info, log_info):
+    """
+
+    :param langlinks_dump:
+    :param title2pid_ext:
+    :param lang_link_info:
+    :param log_info:
+    :return:
+    """
+    # import codecs
+
+    logger = set_logging_pre(log_info, 'myPreLogger')
+    logger.setLevel(logging.INFO)
+
+    check = {}
+    with open(title2pid_ext, mode='r', encoding='utf-8') as t:
+        t_reader = csv.reader(t, delimiter='\t')
+        for t_line in t_reader:
+            pid = t_line[1]
+            check[pid] = 1
+
+    # with codecs.open(langlinks_dump, encoding='utf-8', errors='replace') as ld,
+    with open(langlinks_dump, encoding='utf-8', errors='replace') as ld, \
+            open(lang_link_info, mode='w', encoding='utf-8') as o:
+        ld_reader = csv.reader(ld, delimiter='\t')
+        for ld_line in ld_reader:
+            ja_pid_str = ld_line[0]
+            # lang_code = ld_line[1]
+            # f_title = ld_line[2]
+            if ja_pid_str in check:
+                writer = csv.writer(o, delimiter='\t', lineterminator='\n')
+                writer.writerow(ld_line)
 
 
 def conv_link_pageid(linked_dir, conv_dir, page_change_list, log_info):
@@ -842,6 +862,12 @@ def conv_link_pageid(linked_dir, conv_dir, page_change_list, log_info):
     in_files = linked_dir + '*.jsonl'
 
     for in_file in glob(in_files):
+        if 'for_view' in in_file:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         logger.info({
             'action': 'cnv_ene_pageid',
             'in_file': in_file,
@@ -892,6 +918,12 @@ def conv_input_pageid(input_dir, conv_dir, page_change_list, log_info):
     in_files = input_dir + '*.jsonl'
 
     for in_file in glob(in_files):
+        if 'for_view' in in_file:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         logger.info({
             'action': 'cnv_ene_pageid',
             'in_file': in_file,
@@ -915,10 +947,10 @@ def conv_input_pageid(input_dir, conv_dir, page_change_list, log_info):
                 o.write('\n')
 
 
-def gen_input_title_file(in_ene_dir, input_title_file, log_info):
+def gen_input_title_file(tmp_in_dir, input_title_file, log_info):
     """extract page titles from input files
     args:
-        in_ene_dir
+        tmp_in_dir
         input_title_file
         log_info
     output:
@@ -929,9 +961,15 @@ def gen_input_title_file(in_ene_dir, input_title_file, log_info):
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
-    in_files = in_ene_dir + '*.jsonl'
+    in_files = tmp_in_dir + '*.jsonl'
     check = {}
     for in_file in glob(in_files):
+        if 'for_view' in in_file:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         logger.info({
             'action': 'extract_input_title',
             'in_file': in_file,
@@ -980,16 +1018,17 @@ def gen_input_title_file(in_ene_dir, input_title_file, log_info):
 #     df.to_csv(input_title_file, sep='\t', header=False, index=False)
 
 
-# 20220822
-# def prematch_mention_title(data_info_prep, pre_matching, title_matching, char_match_min, log_info):
-def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_matching, char_match_min, log_info):
+def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_matching, char_match_min,
+                           lang_link_info, log_info):
     """Pre-matching mention title.
+       titles include foreign titles based on language links.
     args:
         in_ene_dir,
         data_info_prep:
         pre_matching
         title_matching
         char_match_min
+        lang_link_info
         log_info
     output:
         match_info_file
@@ -1029,16 +1068,17 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
             'in_ene_dir': in_ene_dir
         })
 
-    # 20220822
+    # 202208222
     in_files = in_ene_dir + '*.jsonl'
     logger.info({
         'action': 'prematch_mention_title',
         'in_files': in_files,
     })
-    d_pid2fromtitle = reg_pid2title(data_info_prep.title2pid_ext_file, log_info)
+    d_pid2fromtitle = reg_pid2title(data_info_prep.title2pid_ext_file, lang_link_info, log_info)
 
     tinm_partial_file = ''
     mint_partial_file = ''
+
     if pre_matching == 'tinm':
         if title_matching == 'trim':
             tinm_partial_file = data_info_prep.tinm_trim_partial_file
@@ -1069,6 +1109,12 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
     df = pd.DataFrame(columns=cols)
 
     for in_file in glob(in_files):
+        if 'for_view' in in_file:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         logger.info({
             'action': 'prematch_mention_title',
             'in_file': in_file,
@@ -1090,7 +1136,7 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
                 rec = json.loads(i_line)
                 mention = rec['text_offset']['text']
                 for pid, title_list in d_pid2fromtitle.items():
-                    for title in title_list:
+                    for (title, lang_code) in title_list:
                         # single character (num, jsymbol, kana)
                         if num_jsymbol_kana_pat.fullmatch(title):
                             continue
@@ -1141,8 +1187,9 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
                         else:
                             mention_pid_title = mention + '\t' + pid + '\t' + title
                             if not d_mention_pid_title_check.get(mention_pid_title):
-                                df = df.append({'mention': mention, 'pid': pid, 'title': title, 'ratio': ratio},
-                                               ignore_index=True)
+                                df = df.append(
+                                    {'mention': mention, 'pid': pid, 'title': title, 'ratio': ratio,
+                                     'lang_code': lang_code}, ignore_index=True)
                                 d_mention_pid_title_check[mention_pid_title] = 1
     df_new = df.sort_values(['mention', 'ratio'], ascending=[True, False])
 
@@ -1151,6 +1198,7 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
 
     if pre_matching == 'mint':
         df_new.to_csv(mint_partial_file, sep='\t', header=False, index=False)
+
 
 def gen_html_info_file_conv_year(html_dir, html_info_file, change_id_list, log_info):
     """Analyse given html files and extract WikiLink info. Convert old pageids to new ones.
@@ -1257,7 +1305,11 @@ def gen_html_info_file_conv_year(html_dir, html_info_file, change_id_list, log_i
                                 'href_char(before)': href_char
                             })
                             # 20220819 tag for edition
-                            # <a href="/w/index.php?title=%E7%89%B9%E5%88%A5:%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E4%BD%9C%E6%88%90&amp;returnto=.tw&amp;returntoquery=curid%3D1357468" class="vector-menu-content-item user-links-collapsible-item" title="アカウントを作成してログインすることをお勧めしますが、必須ではありません">
+                            # <a href="/w/index.php?title=%E7%89%B9%E5%88%A5:
+                            # %E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E4%BD%9C%E6%88%90&amp;
+                            # returnto=.tw&amp;returntoquery=curid%3D1357468" class="vector-menu-content-item
+                            # user-links-collapsible-item"
+                            # title="アカウントを作成してログインすることをお勧めしますが、必須ではありません">
                             if ('action=edit' in href_char) or ('returntoquery' in href_char) or (
                                     'en.wikipedia.org' in href_char):
                                 continue
@@ -1432,7 +1484,6 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
             'fname': fname,
         })
 
-
         with open(filename, 'r', encoding='utf-8') as f:
             logger.info({
                 'action': 'gen_html_info_file',
@@ -1469,7 +1520,11 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
                                 'href_char(before)': href_char
                             })
                             # 20220819 tag for edition
-                            # <a href="/w/index.php?title=%E7%89%B9%E5%88%A5:%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E4%BD%9C%E6%88%90&amp;returnto=.tw&amp;returntoquery=curid%3D1357468" class="vector-menu-content-item user-links-collapsible-item" title="アカウントを作成してログインすることをお勧めしますが、必須ではありません">
+                            # <a href="/w/index.php?title=
+                            # %E7%89%B9%E5%88%A5:%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E4%BD%9C%E6%88%90&amp;
+                            # returnto=.tw&amp;returntoquery=curid%3D1357468" class="vector-menu-content-item
+                            # user-links-collapsible-item" title="アカウントを作成してログインすることをお勧めしますが、
+                            # 必須ではありません">
                             if ('action=edit' in href_char) or ('returntoquery' in href_char) or (
                                     'en.wikipedia.org' in href_char):
                                 continue
@@ -1594,15 +1649,16 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
             writer.writerow(elem)
 
 
-def reg_pid2title(title2pid_ext_file, log_info):
+def reg_pid2title(title2pid_ext_file, lang_link_info, log_info):
 
     """Register title2pid_info pages info.
     Args:
         title2pid_ext_file
+        lang_link_info
         log_info
     Returns:
         d_pid2fromtitle dict
-            {pid: [title1, title2, ....]}
+            {pid: [(title1,ja) (title2,en) ....]}
 
     Notice:
         - title2pid_ext_file
@@ -1630,7 +1686,22 @@ def reg_pid2title(title2pid_ext_file, log_info):
             to_pid_str = rows[1]
             if not d_pid2fromtitle.get(to_pid_str):
                 d_pid2fromtitle[to_pid_str] = []
-            d_pid2fromtitle[to_pid_str].append(from_title)
+            # d_pid2fromtitle[to_pid_str].append(from_title)
+            # 20220926
+            d_pid2fromtitle[to_pid_str].append((from_title, 'ja'))
+
+    with open(lang_link_info, mode='r', encoding='utf-8', errors='replace') as l:
+        l_reader = csv.reader(l, delimiter='\t')
+
+        for l_line in l_reader:
+            ja_pid_str = l_line[0]
+            lang_code = l_line[1]
+            f_title = l_line[2]
+
+        if not d_pid2fromtitle.get(ja_pid_str):
+            d_pid2fromtitle[ja_pid_str] = []
+            d_pid2fromtitle[ja_pid_str].append((f_title, lang_code))
+
     return d_pid2fromtitle
 
 
@@ -1717,7 +1788,7 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
             get_to_title[to_pid] = to_title
 
     get_to_incoming = {}
-    with open(incoming) as i:
+    with open(incoming, mode='r', encoding='utf-8') as i:
         reader = csv.reader(i, delimiter='\t')
 
         for row in reader:
@@ -1740,7 +1811,7 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
             if not get_to_title.get(to_pid):
                 get_to_title[to_pid] = to_title
 
-    with open(redirect_info) as e:
+    with open(redirect_info, mode='r', encoding='utf-8') as e:
         reader = csv.reader(e, delimiter='\t')
         rec_list = []
         # Some pages lack incoming or ENEW information
@@ -1875,6 +1946,12 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info):
     count_g_cat_attr = {}
 
     for ene_file in glob(ene):
+        if 'for_view' in ene_file:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         with open(ene_file, mode='r', encoding='utf-8') as ef:
             e_fname = ene_file.replace(sample_e_dir, '')
             # e_cat = e_fname.replace('.json', '')
@@ -1907,6 +1984,12 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info):
                     count_e_cat_attr[e_cat_attr] += 1
 
     for g_file in glob(gold):
+        if 'for_view' in g_file:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         with open(g_file, mode='r', encoding='utf-8') as gf:
             g_fname = g_file.replace(sample_g_dir, '')
             # g_cat = g_fname.replace('.json', '')
@@ -2267,7 +2350,7 @@ def get_to_pid_to_title_incoming_eneid(title2pid_ext_file, log_info):
 
 def gen_back_link_info_file(ptitle_list, back_link, back_link_dump_org, ext_file, log_info):
     """
-    get back link info and save in back link file
+    get back link info and save in back link info file
     :param ptitle_list: page title list of input files
     :param back_link:
     :param back_link_dump_org:
@@ -2629,41 +2712,40 @@ def get_disambiguation_info(dis_file, log_info):
         d_pid_title = {str(pid_title[0]): 1 for pid_title in pid_title_list}
     return d_pid_title
 
-
-def check_pageid(pageid, log_info, **d_dis):
+# def check_pageid(pageid, log_info, **d_dis):
+def check_pageid(pageid, **d_dis):
     """ check pageid if it can be a candidate link page (disambiguation, isdigit)
     Args:
         pageid
-        log_info
         **d_dis
     Returns:
-        1: ok
+        1: ok (can be candidate)
+        0: disambiguation
         -1: ng
     """
-    logger = set_logging_pre(log_info, 'myPreLogger')
-    logger.setLevel(logging.INFO)
+    # logger = set_logging_pre(log_info, 'myPreLogger')
+    # logger.setLevel(logging.INFO)
 
     if not pageid:
-        logging.error({
-            'action': 'check_pageid',
-            'judge': 'ng (pageid null)'
-        })
+        # logging.error({
+        #     'action': 'check_pageid',
+        #     'judge': 'ng (pageid null)'
+        # })
         return -1
     elif not str(pageid).isdigit():
-        logging.error({
-            'action': 'check_pageid',
-            'pageid': pageid,
-            'judge': 'ng (not digit)'
-        })
+        # logging.error({
+        #     'action': 'check_pageid',
+        #     'pageid': pageid,
+        #     'judge': 'ng (not digit)'
+        # })
         return -1
     elif d_dis.get(str(pageid)):
-        return -1
+        return 0
     else:
         return 1
 
 
 def gen_title2pid_file(redirect_dump, page_dump, title2pageid_org, illegal_title_len, log_info):
-# def gen_title2pid_file(redirect_dump, page_dump, title2pageid_org, log_info):
     """
     :param redirect_dump:
     :param page_dump:
@@ -2673,11 +2755,15 @@ def gen_title2pid_file(redirect_dump, page_dump, title2pageid_org, illegal_title
     :return:
 
     cf. title2pid(org)
-    {"page_id": 871214, "title": "日就社", "is_redirect": true, "redirect_to": {"page_id": 1526294, "title": "読売新聞", "is_redirect": false}}
-    {"page_id": 2238511, "title": "読売争議", "is_redirect": true, "redirect_to": {"page_id": 1526294, "title": "読売新聞", "is_redirect": false}}
+    {"page_id": 871214, "title": "日就社", "is_redirect": true, "redirect_to": {"page_id": 1526294,
+    "title": "読売新聞", "is_redirect": false}}
+    {"page_id": 2238511, "title": "読売争議", "is_redirect": true, "redirect_to": {"page_id": 1526294,
+    "title": "読売新聞", "is_redirect": false}}
     {"page_id": 1526294, "title": "読売新聞", "is_redirect": false}
-    {"page_id": 1262543, "title": "読売新聞縮刷版", "is_redirect": true, "redirect_to": {"page_id": 1526294, "title": "読売新聞", "is_redirect": false}}
-    {"page_id": 158932, "title": "讀賣新聞", "is_redirect": true, "redirect_to": {"page_id": 1526294, "title": "読売新聞", "is_redirect": false}}
+    {"page_id": 1262543, "title": "読売新聞縮刷版", "is_redirect": true, "redirect_to": {"page_id": 1526294,
+    "title": "読売新聞", "is_redirect": false}}
+    {"page_id": 158932, "title": "讀賣新聞", "is_redirect": true, "redirect_to": {"page_id": 1526294,
+    "title": "読売新聞", "is_redirect": false}}
 
     redirect.dump:
     (rd from)  (rd title) (namespace)
@@ -3000,7 +3086,8 @@ def gen_change_wikipage_list(old_page_dump_org_file, page_dump_org_file, change_
 
 
 # def gen_redirect_info_file2(incoming, title2pageid, dis, redirect_info, log_info):
-#     """ get title2pid from incoming file, and remove disambiguation pages and wrong-formatted pages from title2pageid and
+#     """ get title2pid from incoming file, and remove disambiguation pages and wrong-formatted pages from
+#     title2pageid and
 #     create redirect info default file
 #     Args:
 #         incoming
@@ -3084,7 +3171,6 @@ def gen_change_wikipage_list(old_page_dump_org_file, page_dump_org_file, change_
 #             for k, v in title_apid.items():
 #                 writer.writerow([k, v])
 
-
 def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
     """ remove disambiguation pages and wrong-formatted pages from title2pageid and
     create redirect info default file
@@ -3115,18 +3201,16 @@ def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
     with open(title2pageid, mode='r', encoding='utf-8') as r:
         for r_line in r:
             rd = json.loads(r_line)
-
+            # if from_title == '':
+            #     continue
+            if not rd['title']:
+                continue
             from_pid = rd['page_id']
-
             # disambiguation
-            if check_pageid(from_pid, log_info, **d_dis) != 1:
+            # if check_pageid(from_pid, log_info, **d_dis) != 1:
+            if check_pageid(from_pid, **d_dis) != 1:
                 continue
             from_title = rd['title'].replace('_', ' ')
-
-            # 20220922
-            if from_title == '':
-                continue
-
             # redirect page
             if rd['is_redirect']:
                 # 20220904
@@ -3139,12 +3223,11 @@ def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
                     continue
                 if 'page_id' not in rd['redirect_to']:
                     continue
-                else:
-                    to_pid = rd['redirect_to']['page_id']
-                    if check_pageid(to_pid, log_info, **d_dis) != 1:
-                        continue
-                    else:
-                        title_apid[from_title] = str(to_pid)
+                to_pid = rd['redirect_to']['page_id']
+                # if check_pageid(to_pid, log_info, **d_dis) != 1:
+                if check_pageid(to_pid, **d_dis) != 1:
+                    continue
+                title_apid[from_title] = str(to_pid)
             # non-redirect page
             else:
                 title_apid[from_title] = str(from_pid)
@@ -3153,6 +3236,75 @@ def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
             writer = csv.writer(o, delimiter='\t', lineterminator='\n')
             for k, v in title_apid.items():
                 writer.writerow([k, v])
+
+# def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
+#     """ remove disambiguation pages and wrong-formatted pages from title2pageid and
+#     create redirect info default file
+#     Args:
+#         title2pageid
+#         dis
+#         redirect_info
+#         log_info
+#     Returns:
+#     Output:
+#         redirect_info
+#         Notice:
+#             - In the title2pageid file,some 'redirect-to' pages lack page_ids.
+#                  {"page_id": 1218449, "title": "岡山県の旧制教育機関", "is_redirect": true,
+#                   "redirect_to": {"page_id": null, "title": null, "is_redirect": false}}
+#               - white spaces in Wikipedia titles are replaced by '_'.
+#     """
+#     import csv
+#     import json
+#
+#     logger = set_logging_pre(log_info, 'myPreLogger')
+#     logger.setLevel(logging.INFO)
+#
+#     title_apid = {}
+#     d_dis = get_disambiguation_info(dis, log_info)
+#
+#     title_apid = {}
+#     with open(title2pageid, mode='r', encoding='utf-8') as r:
+#         for r_line in r:
+#             rd = json.loads(r_line)
+#
+#             from_pid = rd['page_id']
+#
+#             # disambiguation
+#             if check_pageid(from_pid, log_info, **d_dis) != 1:
+#                 continue
+#             from_title = rd['title'].replace('_', ' ')
+#
+#             # 20220922
+#             if from_title == '':
+#                 continue
+#
+#             # redirect page
+#             if rd['is_redirect']:
+#                 # 20220904
+#                 if 'redirect_to' not in rd:
+#                     logging.warning({
+#                         'run': 'gen_redirect_info_file',
+#                         'msg': 'redirect_to not found',
+#                         'rd': rd
+#                     })
+#                     continue
+#                 if 'page_id' not in rd['redirect_to']:
+#                     continue
+#                 else:
+#                     to_pid = rd['redirect_to']['page_id']
+#                     if check_pageid(to_pid, log_info, **d_dis) != 1:
+#                         continue
+#                     else:
+#                         title_apid[from_title] = str(to_pid)
+#             # non-redirect page
+#             else:
+#                 title_apid[from_title] = str(from_pid)
+#
+#         with open(redirect_info, 'w') as o:
+#             writer = csv.writer(o, delimiter='\t', lineterminator='\n')
+#             for k, v in title_apid.items():
+#                 writer.writerow([k, v])
 
 
 def gen_self_link_by_attr_name(self_link_patfile, target_attr_file, self_link_by_attr_name_file, log_info):
@@ -3165,7 +3317,6 @@ def gen_self_link_by_attr_name(self_link_patfile, target_attr_file, self_link_by
 
     :notice:
     """
-    import re
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
@@ -3341,6 +3492,7 @@ def gen_disambiguation_file(patfile, cirrus, outfile, log_info):
         writer = csv.writer(o, delimiter='\t', lineterminator='\n')
         writer.writerows(id_title)
 
+
 def gen_enew_info_rev_file(enew_org, mod_list, wikipedia_change_list, enew_info, log_info):
     """
     args:
@@ -3358,7 +3510,6 @@ def gen_enew_info_rev_file(enew_org, mod_list, wikipedia_change_list, enew_info,
                 1.5.1.3 2092622 クウェートの首相
                 1.5.1.3 2242121 アディゲの首長
     """
-    import re
     import json
     import csv
     logger = set_logging_pre(log_info, 'myPreLogger')
@@ -3432,7 +3583,6 @@ def gen_enew_info_file(enew_org, mod_list, enew_info, log_info):
                 1.5.1.3 2092622 クウェートの首相
                 1.5.1.3 2242121 アディゲの首長
     """
-    import re
     import json
     import csv
     logger = set_logging_pre(log_info, 'myPreLogger')
@@ -3531,236 +3681,8 @@ def gen_incoming_link_file(cirrus_content, outfile, log_info):
         writer.writerows(id_title_link)
 
 
-# def linkedjson2tsv2(linked_json_dir, title2pid_ext_file, log_info):
-#     """Convert linked json file (with title) to linked tsv file
-#         add title info based on title2pid_ext_file
-#     args:
-#         linked_json_dir
-#         title2pid_ext_file
-#         log_info
-#     output:
-#         linked_tsv (tsv)
-#             format
-#                 cat, pageid, title, attribute, text, start_line_id, start_offset, end_line_id, end_offset, link_pageid,
-#                 link_page_title ENE
-#             sample
-#                 Person 2392906	桐谷華	地位職業	声優	38	20	38	22	1192	声優 　1.7.21.1
-#     notice
-#         '\n' in text(mention) has been converted to '\\n'.
-#     """
-#
-#     import json
-#     import pandas as pd
-#     from glob import glob
-#
-#     import logging
-#     import re
-#     logger = set_logging_pre(log_info, 'myPreLogger')
-#     logger.setLevel(logging.INFO)
-#
-#     logger.info({
-#         'action': 'linkedjson2tsv2',
-#         'linked_json_dir': linked_json_dir,
-#         # 'title2pid_org_file': title2pid_org_file,
-#     })
-#     get_title = {}
-#
-#     with open(title2pid_ext_file, mode='r', encoding='utf-8') as f:
-#         reader = csv.reader(f, delimiter='\t')
-#         for rows in reader:
-#             to_title = rows[2]
-#             to_pid_str = rows[1]
-#             get_title[to_pid_str] = to_title
-#
-#     # with open(title2pid_org_file, mode='r', encoding='utf-8') as r:
-#     #     for rline in r:
-#     #         rd = {}
-#     #         pid = ''
-#     #         title = ''
-#     #         rd = json.loads(rline)
-#     #         if 'page_id' not in rd:
-#     #             logger.error({
-#     #                 'action': 'linkedjson2tsv',
-#     #                 'error': 'missing page_id'
-#     #             })
-#     #             sys.exit()
-#     #         elif not rd['page_id']:
-#     #             logger.error({
-#     #                 'action': 'linkedjson2tsv',
-#     #                 'error': 'page_id null'
-#     #             })
-#     #             sys.exit()
-#     #         else:
-#     #             pid = str(rd['page_id'])
-#     #         # title (not forwarded page)
-#     #         if 'title' not in rd:
-#     #             logger.error({
-#     #                 'action': 'linkedjson2tsv',
-#     #                 'error': 'title not in rd',
-#     #                 'rline': rline
-#     #             })
-#     #             sys.exit()
-#     #         elif not rd['title']:
-#     #             logger.error({
-#     #                 'action': 'linkedjson2tsv',
-#     #                 'error': 'no title redirect to',
-#     #                 'rline': rline
-#     #             })
-#     #             sys.exit()
-#     #         else:
-#     #             title = rd['title']
-#     #             get_title[pid] = title
-#     #         rd.clear()
-#
-#     # linked_json_files = linked_json_dir + '*.json'
-#     linked_json_files = linked_json_dir + '*.jsonl'
-#
-#     for linked_json in glob(linked_json_files):
-#         go_list = []
-#         # linked_tsv = linked_json.replace('.json', '.tsv')
-#         if '_dist.jsonl' in linked_json:
-#             linked_tsv = linked_json.replace('_dist.jsonl', '.tsv')
-#         else:
-#             linked_tsv = linked_json.replace('.jsonl', '.tsv')
-#         # 20220825
-#         cat_pre = linked_tsv.replace(linked_json_dir, '')
-#         cat = cat_pre.replace('.tsv', '')
-#
-#         with open(linked_json, mode='r', encoding='utf-8') as g, open(linked_tsv, 'w', encoding='utf-8') as o:
-#             for g_line in g:
-#                 g_key_list = []
-#                 d_gline = json.loads(g_line)
-#                 g_key_list = get_key_list_with_title(log_info, **d_gline)
-#
-#                 logger.debug({
-#                     'action': 'linkedjson2tsv2',
-#                     'g_key_list': g_key_list,
-#                 })
-#                 g_link_pageid = g_key_list[8]
-#                 # in case of multiple lines
-#                 text_pre = g_key_list[4]
-#                 g_key_list[4] = '\\n'.join(text_pre.splitlines())
-#
-#                 if get_title.get(g_link_pageid):
-#                     g_link_title = get_title[g_link_pageid]
-#                     g_key_list.insert(9, g_link_title)
-#                 # 20220825
-#                 g_key_list.insert(0, cat)
-#                 # g_title_pageid = g_key_list[0]
-#                 # if get_title.get(g_title_pageid):
-#                 #      g_org_title = get_title[g_title_pageid]
-#                 #      g_key_list.insert(1, g_org_title)
-#                 logger.debug({
-#                     'action': 'linkedjson2tsv2',
-#                     'text_pre': text_pre,
-#                     'cat': cat,
-#                     'g_link_pageid': g_link_pageid,
-#                     # 'g_link_title': g_link_title,
-#                     # 'g_org_title': g_org_title,
-#                 })
-#                 go_list.append(g_key_list)
-#
-#             df_go = pd.DataFrame(go_list)
-#             df_go.to_csv(o, sep='\t', header=False, index=False)
-
-# def gen_attr_rng_info(gold_tsv_dir, attr_rng_info_auto_file, attr_rng_info_man_file, attr_rng_info_merged_file, log_info):
-#     '''
-#
-#     :param gold_tsv_dir:
-#     :param attr_rng_info_auto_file:
-#     :param attr_rng_info_man_file
-#     :param attr_rng_info_merged_file
-#     :param log_info:
-#     :return:
-#     :output:
-#         attr_rng_info_file:
-#         City    産業    ene:0   0.5     50      100
-#
-#     :notice:
-#        linked_json_file:
-#             sample: Person 2392906	桐谷華	地位職業	声優	38	20	38	22	1192	声優 　1.7.21.1
-#     '''
-#     import pandas as pd
-#     logger = set_logging_pre(log_info, 'myPreLogger')
-#     logger.setLevel(logging.INFO)
-#
-#     gold_files = gold_tsv_dir + '*.tsv'
-#
-#     for gold_file in glob(gold_files):
-#         cnt_cat_attr_eneid = {}
-#         cnt_cat_attr = {}
-#         logger.info({
-#             'action': 'gen_attr_rng_info',
-#             'gold_file': gold_file
-#         })
-#         with open(gold_file, mode='r', encoding='utf-8') as ar:
-#             ar_reader = csv.reader(ar, delimiter='\t')
-#
-#             for ar_line in ar_reader:
-#                 logger.debug({
-#                     'action': 'gen_attr_rng_info',
-#                     'ar_line': ar_line
-#                 })
-#                 cat = ar_line[0]
-#                 attr = ar_line[3]
-#                 eneid = ar_line[11]
-#
-#                 cat_attr = cat + '\t' + attr
-#                 cat_attr_eneid = cat_attr + '\t' + eneid
-#
-#                 if cat_attr_eneid not in cnt_cat_attr_eneid:
-#                     cnt_cat_attr_eneid[cat_attr_eneid] = 0
-#                 cnt_cat_attr_eneid[cat_attr_eneid] += 1
-#
-#                 if cat_attr not in cnt_cat_attr:
-#                     cnt_cat_attr[cat_attr] = 0
-#                 cnt_cat_attr[cat_attr] += 1
-#
-#             prt_list = []
-#             for t_cat_attr_eneid in cnt_cat_attr_eneid:
-#                 cat_attr_eneid_freq = cnt_cat_attr_eneid[t_cat_attr_eneid]
-#                 (t_cat, t_attr, t_eneid) = re.split('\t', t_cat_attr_eneid)
-#
-#                 if not t_eneid:
-#                     continue
-#
-#                 t_cat_attr = t_cat + '\t' + t_attr
-#                 logger.debug({
-#                     'action': 'gen_attr_rng_info',
-#                     't_cat': t_cat,
-#                     't_attr': t_attr,
-#                     't_cat_attr': t_cat_attr
-#                 })
-#                 cat_attr_freq = 0
-#                 if t_cat_attr in cnt_cat_attr:
-#                     cat_attr_freq = cnt_cat_attr[t_cat_attr]
-#
-#                     t_ratio_str = cat_attr_eneid_freq / cat_attr_freq
-#                     t_ratio = float(Decimal(t_ratio_str).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
-#                 else:
-#                     t_ratio = 0.0
-#                 logger.debug({
-#                     'action': 'gen_attr_rng_info',
-#                     't_cat': t_cat,
-#                     't_attr': t_attr,
-#                     't_ratio': t_ratio
-#                 })
-#
-#                 t_eneid_expand = 'ene:' + t_eneid
-#                 # prt_list.append([t_cat, t_attr, t_ratio, sumup_self_cat_attr[tmp_cat_attr], sumup_cat_attr[tmp_cat_attr]])
-#                 prt_list.append([t_cat, t_attr, t_eneid_expand, t_ratio, cat_attr_eneid_freq, cat_attr_freq])
-#
-#             # for target_cat, target_attr in check_target_cat_attr.items():
-#             #     target_cat_attr = target_cat + '\t' + target_attr
-#             #     if target_cat_attr not in sumup_cat_attr:
-#             #         prt_list.append([target_cat, target_attr, '', 0, 0 ])
-#
-#             sdf = pd.DataFrame(prt_list, columns=['cat', 'attr', 'eneid', 'ratio', 'freq', 'sum'])
-#             sdf.to_csv(attr_rng_info_auto_file, sep='\t', header=False, index=False)
-
 def gen_attr_rng_info(gold_tsv_dir, attr_rng_info_auto_file, log_info):
     '''
-
     :param gold_tsv_dir:
     :param attr_rng_info_auto_file:
     :param log_info:
@@ -3809,7 +3731,6 @@ def gen_attr_rng_info(gold_tsv_dir, attr_rng_info_auto_file, log_info):
                     cnt_cat_attr[cat_attr] = 0
                 cnt_cat_attr[cat_attr] += 1
 
-
             for t_cat_attr_eneid in cnt_cat_attr_eneid:
                 cat_attr_eneid_freq = cnt_cat_attr_eneid[t_cat_attr_eneid]
                 (t_cat, t_attr, t_eneid) = re.split('\t', t_cat_attr_eneid)
@@ -3840,7 +3761,8 @@ def gen_attr_rng_info(gold_tsv_dir, attr_rng_info_auto_file, log_info):
                 })
 
                 t_eneid_expand = 'ene:' + t_eneid
-                # prt_list.append([t_cat, t_attr, t_ratio, sumup_self_cat_attr[tmp_cat_attr], sumup_cat_attr[tmp_cat_attr]])
+                # prt_list.append([t_cat, t_attr, t_ratio, sumup_self_cat_attr[tmp_cat_attr],
+                # sumup_cat_attr[tmp_cat_attr]])
                 prt_list.append([t_cat, t_attr, t_eneid_expand, t_ratio, cat_attr_eneid_freq, cat_attr_freq])
 
             # for target_cat, target_attr in check_target_cat_attr.items():
@@ -3889,7 +3811,6 @@ def linkedjson2tsv_add_linked_title_cnv_year(linked_json_dir, title2pid_ext_file
     from glob import glob
 
     import logging
-    import re
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
@@ -3945,6 +3866,12 @@ def linkedjson2tsv_add_linked_title_cnv_year(linked_json_dir, title2pid_ext_file
     linked_json_files = linked_json_dir + '*.jsonl'
 
     for linked_json in glob(linked_json_files):
+        if 'for_view' in linked_json:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         go_list = []
         # linked_tsv = linked_json.replace('.json', '.tsv')
         if '_dist.jsonl' in linked_json:
@@ -4052,7 +3979,6 @@ def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log
     from glob import glob
 
     import logging
-    import re
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
@@ -4081,6 +4007,12 @@ def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log
     linked_json_files = linked_json_dir + '*.jsonl'
 
     for linked_json in glob(linked_json_files):
+        if 'for_view' in linked_json:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         go_list = []
         # linked_tsv = linked_json.replace('.json', '.tsv')
         if '_dist.jsonl' in linked_json:
@@ -4174,7 +4106,6 @@ def linkedjson2tsv_add_linked_title(linked_json_dir, title2pid_ext_file, log_inf
     from glob import glob
 
     import logging
-    import re
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
@@ -4199,6 +4130,12 @@ def linkedjson2tsv_add_linked_title(linked_json_dir, title2pid_ext_file, log_inf
     linked_json_files = linked_json_dir + '*.jsonl'
 
     for linked_json in glob(linked_json_files):
+        if 'for_view' in linked_json:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         go_list = []
         # linked_tsv = linked_json.replace('.json', '.tsv')
         if '_dist.jsonl' in linked_json:
@@ -4295,7 +4232,6 @@ def linkedjson2tsv(linked_json_dir, title2pid_org_file, log_info):
     from glob import glob
 
     import logging
-    import re
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
@@ -4349,6 +4285,12 @@ def linkedjson2tsv(linked_json_dir, title2pid_org_file, log_info):
     linked_json_files = linked_json_dir + '*.jsonl'
 
     for linked_json in glob(linked_json_files):
+        if 'for_view' in linked_json:
+            logger.error({
+                'action': 'cnv_ene_pageid',
+                'msg': 'illegal file: for_view',
+            })
+            sys.exit()
         go_list = []
         # linked_tsv = linked_json.replace('.json', '.tsv')
         if '_dist.jsonl' in linked_json:

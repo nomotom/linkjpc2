@@ -117,24 +117,26 @@ $ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir
 
  (A)A-0) (gen_change_wikipedia_info)
     A-1) conv_sample_json_pageid
-    A-2-1) gen_enew/gen_enew_rev_year
+    A-2) gen_enew/gen_enew_rev_year
  　　 ->A-3) gen_title2pid 
        -> A-4-1) gen_redirect 
         - A-4-2) gen_incoming_link
           -> A-5) gen_title2pid_ext 
-            -> A-5-1) gen_back_link, 
-               A-5-2) pre_matching/ pre_matching --page_conv, 
-               A-5-3) gen_sample_gold_tsv 
-              -> A-6-1) gen_link_prob, 
-                 A-6-2) gen_self_link_info, 
-                 A-6-3) gen_linkable,
-                 A-6-4) gen_nil
-                 A-6-5) gen_attr_rng
+            -> A-6-1  gen_lang_link_info
+              -> A-7-1) pre_matching 
+
+            -> A-6-2) gen_back_link, 
+               -> A-7-3) gen_sample_gold_tsv 
+                  -> A-8-1) gen_link_prob, 
+                     A-8-2) gen_self_link_info, 
+                     A-8-3) gen_linkable,
+                     A-8-4) gen_nil
+                     A-8-5) gen_attr_rng
                     
- (B) (after A is over)
-     B-1) gen_common_html 
+ (B) (after A-0 is over)
+     B-1) gen_common_html /gen_html_conv_year
        -> B-2) gen_link_dist
- (C) gen_html
+     B-2) gen_html /gen_html_conv_year
 ```
 ### 処理時間
 

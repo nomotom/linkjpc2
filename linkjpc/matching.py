@@ -44,16 +44,17 @@ def match_mention_title(mod, opt_info, mention, log_info, **d_mention_pid_ratio)
         for pid_ratio_list in d_mention_pid_ratio[mention]:
             pid = pid_ratio_list[0]
             ratio = float(pid_ratio_list[1])
-            # if mention == '千葉' and pid == '774353':
-            #     logger.info({
-            #         'action': 'match_mention_title',
-            #         'pid': pid,
-            #         'mention': mention,
-            #         'ratio': ratio,
-            #         'char_match_min': char_match_min,
-            #         'char_match_cand_num_mint': opt_info.char_match_cand_num_max
-            #     })
-            # 'action': 'match_mention_title', 'pid': '774353', 'mention': '千葉', 'ratio': 0.67, 'char_match_min': 0.2, 'char_match_cand_num_mint': 1000}
+            if pid == '1593456':
+                logger.info({
+                    'action': 'match_mention_title',
+                    'pid': pid,
+                    'mention': mention,
+                    'ratio': ratio,
+                    'char_match_min': char_match_min,
+                    'char_match_cand_num_mint': opt_info.char_match_cand_num_max
+                })
+            # 'action': 'match_mention_title', 'pid': '774353', 'mention': '千葉', 'ratio': 0.67,
+            # 'char_match_min': 0.2, 'char_match_cand_num_mint': 1000}
             if ratio > 1.0:
                 logger.error({
                     'action': 'match_mention_title',
@@ -71,7 +72,8 @@ def match_mention_title(mod, opt_info, mention, log_info, **d_mention_pid_ratio)
             #         'mod': mod,
             #         'ratio': ratio
             #     })
-            #  'action': 'match_mention_title', 'check': 'before_if_ratio', 'mention': '千葉', 'pid': '774353', 'mod': 'm', 'ratio': 0.67}
+            #  'action': 'match_mention_title', 'check': 'before_if_ratio', 'mention': '千葉', 'pid': '774353',
+            #  'mod': 'm', 'ratio': 0.67}
             if ratio:
                 # if mention == '千葉' and pid == '774353':
                 #     logger.info({
@@ -82,7 +84,8 @@ def match_mention_title(mod, opt_info, mention, log_info, **d_mention_pid_ratio)
                 #         'mod': mod,
                 #         'ratio': ratio
                 #     })
-                # 'action': 'match_mention_title', 'check': 'if_ratio', 'mention': '千葉', 'pid': '774353', 'mod': 'm', 'ratio': 0.67}
+                # 'action': 'match_mention_title', 'check': 'if_ratio', 'mention': '千葉', 'pid': '774353',
+                # 'mod': 'm', 'ratio': 0.67}
                 # partial match
                 if ratio < 1.0:
                     if ratio < char_match_min:
@@ -158,11 +161,12 @@ def match_mention_title(mod, opt_info, mention, log_info, **d_mention_pid_ratio)
     return new_cand_list
 
 
-def reg_matching_info(matching_info_file, ratio_min, log_info):
+def reg_matching_info(matching_info_file, ratio_min, multi_lang, log_info):
     """Register matching ratio of title-mention pairs if the ratio is equal or greater than the minimum ratio.
     Args:
         matching_info_file
         ratio_min
+        multi_lang
         log_info
     Returns:
         dict: d_mention_pid_ratio
@@ -187,6 +191,13 @@ def reg_matching_info(matching_info_file, ratio_min, log_info):
             sample(mint)
                 湖      401     湖国    0.5
                 湖      132068  湖南省  0.33
+                勾玉	298108	勾玉	1.0
+                勾玉	1410287	空色勾玉	0.5
+                勾玉	1593456	八坂瓊勾玉	0.4
+                勾玉	1593456	八尺瓊勾玉	0.4
+                勾玉	710567	翡翠製勾玉	0.4
+                勾玉	1593456	八尺瓊の勾玉	0.33
+                勾玉	710567	ヒスイ製勾玉	0.33
     """
     import csv
     import sys
@@ -203,12 +214,45 @@ def reg_matching_info(matching_info_file, ratio_min, log_info):
         sys.exit()
 
     d_mention_pid_ratio = {}
+    check_highest_ratio = {}
+
     with open(matching_info_file, mode='r', encoding='utf-8') as r:
         reader = csv.reader(r, delimiter='\t')
+
         for rows in reader:
-            if not d_mention_pid_ratio.get(rows[0]):
-                d_mention_pid_ratio[rows[0]] = []
-            d_mention_pid_ratio[rows[0]].append((rows[1], rows[3]))
+            word = rows[0]
+            link_pid = rows[1]
+            link_ratio = float(rows[3])
+            lang_code = rows[4]
+            if multi_lang == 'j' and lang_code != 'ja':
+                continue
+            elif multi_lang == 'je' and not (lang_code == 'en' or lang_code == 'ja'):
+                continue
+
+            if word in check_highest_ratio:
+                if link_pid in check_highest_ratio[word]:
+                    if link_ratio <= check_highest_ratio[word][link_pid]:
+                        continue
+            if word not in check_highest_ratio:
+                check_highest_ratio[word] = {}
+            check_highest_ratio[word][link_pid] = link_ratio
+            # print(check_highest_ratio[word][link_pid], type(check_highest_ratio[word][link_pid]))
+
+    for tmp_word in check_highest_ratio:
+
+        if not d_mention_pid_ratio.get(tmp_word):
+            d_mention_pid_ratio[tmp_word] = []
+        for l_pid in check_highest_ratio[tmp_word]:
+            l_ratio = check_highest_ratio[tmp_word][l_pid]
+            # print(l_ratio, type(l_ratio))
+            if 'tmp_word' == 'Blue Note' or 'tmp_word' == 'Chanel':
+                logger.info({
+                   'action': 'reg_matching_info',
+                   'tmp_word': tmp_word,
+                   'l_pid': l_pid,
+                   'l_ratio': l_ratio
+                })
+            d_mention_pid_ratio[tmp_word].append((l_pid, l_ratio))
 
             # if rows[0] == '千葉' and rows[1] == '774353':
             #     logger.info({
@@ -216,4 +260,4 @@ def reg_matching_info(matching_info_file, ratio_min, log_info):
             #         'rows': rows,
             #         # 'action': 'reg_matching_info', 'rows': ['千葉', '774353', '千葉県', '0.67']}
             #     })
-        return d_mention_pid_ratio
+    return d_mention_pid_ratio

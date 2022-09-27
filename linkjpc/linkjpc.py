@@ -72,6 +72,9 @@ def set_logging(log_info, logger_name):
 @click.option('--char_match_cand_num_max', '-c_max', type=click.INT,
               default=cf.OptInfo.char_match_cand_num_max_default, show_default=True,
               help='maximum number of candidate link pages for one mention in each string matching module (mint/tinm)')
+# @click.option('--lang_link_min', default=cf.OptInfo.lang_link_min_default, show_default=True, type=click.FLOAT)
+@click.option('--multi_lang', default=cf.OptInfo.multi_lang_default, type=click.Choice(['j', 'je', 'm']),
+              show_default=True)
 # module: mint
 @click.option('--mint', type=click.Choice(['e', 'p', 'n']),
               default=cf.OptInfo.mint_default, show_default=True,
@@ -190,7 +193,7 @@ def set_logging(log_info, logger_name):
                    '"mid": average of fixed and raw, '
                    '"f_est": fixed + estimate ratio for attributes never appeared, '
                    '"r_est": raw + estimate ratio for attributes never appeared, '
-                   '"m_est": mid + estimate ratio for attributes never appeared' )
+                   '"m_est": mid + estimate ratio for attributes never appeared')
 @click.option('--f_slink', type=click.STRING,
               default=cf.DataInfo.f_slink_default, show_default=True,
               help='filename of self link ratio file. ')
@@ -232,7 +235,7 @@ def set_logging(log_info, logger_name):
                    'sample data.')
 @click.option('--f_attr_rng_man', type=click.STRING,
               default=cf.DataInfo.f_attr_rng_man_default, show_default=True,
-              help='filename of attribute range definition file (man). The ranges are manually specified using ENEIDs. ')
+              help='filename of attribute range definition file (man). The ranges are manually specified using ENEIDs.')
 @click.option('--f_attr_rng_merged', type=click.STRING,
               default=cf.DataInfo.f_attr_rng_merged_default, show_default=True,
               help='filename of attribute range definition file (merged). ')
@@ -349,12 +352,14 @@ def ljc_main(common_data_dir,
              incl_max,
              incl_tgt,
              incl_type,
+             lang_link_min,
              len_desc_text_min,
              lp_min,
              mint,
              mint_min,
              mod,
              mod_w,
+             multi_lang,
              nil_cat_attr_max,
              nil_cond,
              nil_desc_exception,
@@ -380,8 +385,7 @@ def ljc_main(common_data_dir,
              wr_score,
              wp_score,
              wf_score):
-    '''
-
+    """
     :param common_data_dir: common data files directory
     :param tmp_data_dir: directory for data specifically used for the test data
     :param in_dir: input directory
@@ -418,12 +422,14 @@ def ljc_main(common_data_dir,
     :param incl_max:
     :param incl_tgt:
     :param incl_type:
+    :param lang_link_min:
     :param len_desc_text_min:
     :param lp_min:
     :param mint:
     :param mint_min:
     :param mod:
     :param mod_w:
+    :param multi_lang:
     :param nil_cat_attr_max:
     :param nil_cond:
     :param nil_desc_exception:
@@ -450,7 +456,7 @@ def ljc_main(common_data_dir,
     :param wp_score:
     :param wf_score:
     :return:
-    '''
+    """
 
     log_info = cf.LogInfo()
     logger = set_logging(log_info, 'myLogger')
@@ -469,6 +475,7 @@ def ljc_main(common_data_dir,
     opt_info.title_matching_mint = title_matching_mint
     opt_info.title_matching_tinm = title_matching_tinm
     opt_info.char_match_cand_num_max = char_match_cand_num_max
+    opt_info.lang_link_min = lang_link_min
     opt_info.len_desc_text_min = len_desc_text_min
     opt_info.nil_cat_attr_max = nil_cat_attr_max
     opt_info.nil_cond = nil_cond
@@ -476,6 +483,7 @@ def ljc_main(common_data_dir,
     opt_info.nil_tgt = nil_tgt
     opt_info.mention_in_title = mint
     opt_info.mention_in_title_min = mint_min
+    opt_info.multi_lang = multi_lang
     opt_info.wikilink = wlink
     opt_info.title_in_mention = tinm
     opt_info.title_in_mention_min = tinm_min
@@ -628,13 +636,6 @@ def ljc_main(common_data_dir,
     diff_info = {}
     d_linkable = {}
 
-    # # detect_nil
-    # d_linkable = dn.check_linkable_info(data_info.linkable_info_file, log_info)
-    # logger.info({
-    #     'action': 'ljc_main',
-    #     'run': 'dn.check_linkable_info',
-    #     'linkable_file': data_info.linkable_info_file,
-    # })
     # mint
     if (opt_info.mention_in_title == 'e' or opt_info.mention_in_title == 'p') and 'm' not in opt_info.mod:
         logger.error({
@@ -672,8 +673,11 @@ def ljc_main(common_data_dir,
                     'partial_match_file': data_info.mint_trim_partial_match_file,
                     'mention_in_title_min': opt_info.mention_in_title_min
                 })
-                d_mint_mention_pid_ratio = mc.reg_matching_info(data_info.mint_trim_partial_match_file,
-                                                                opt_info.mention_in_title_min, log_info)
+                d_mint_mention_pid_ratio = mc.reg_matching_info(
+                    data_info.mint_trim_partial_match_file,
+                    opt_info.mention_in_title_min,
+                    opt_info.multi_lang,
+                    log_info)
 
             elif opt_info.title_matching_mint == 'full':
                 logger.info({
@@ -683,8 +687,11 @@ def ljc_main(common_data_dir,
                     'partial_match_file': data_info.mint_partial_match_file,
                     'mention_in_title_min': opt_info.mention_in_title_min
                 })
-                d_mint_mention_pid_ratio = mc.reg_matching_info(data_info.mint_partial_match_file,
-                                                                opt_info.mention_in_title_min, log_info)
+                d_mint_mention_pid_ratio = mc.reg_matching_info(
+                    data_info.mint_partial_match_file,
+                    opt_info.mention_in_title_min,
+                    opt_info.multi_lang,
+                    log_info)
 
             else:
                 logger.error({
@@ -727,8 +734,11 @@ def ljc_main(common_data_dir,
                     'partial_match_file': data_info.tinm_trim_partial_match_file,
                     'mention_in_title_min': opt_info.title_in_mention_min
                 })
-                d_tinm_mention_pid_ratio = mc.reg_matching_info(data_info.tinm_trim_partial_match_file,
-                                                                opt_info.title_in_mention_min, log_info)
+                d_tinm_mention_pid_ratio = mc.reg_matching_info(
+                    data_info.tinm_trim_partial_match_file,
+                    opt_info.title_in_mention_min,
+                    opt_info.multi_lang,
+                    log_info)
 
             elif opt_info.title_matching_tinm == 'full':
                 logger.info({
@@ -738,8 +748,11 @@ def ljc_main(common_data_dir,
                     'partial_match_file': data_info.tinm_partial_match_file,
                     'mention_in_title_min': opt_info.title_in_mention_min
                 })
-                d_tinm_mention_pid_ratio = mc.reg_matching_info(data_info.tinm_partial_match_file,
-                                                                opt_info.title_in_mention_min, log_info)
+                d_tinm_mention_pid_ratio = mc.reg_matching_info(
+                    data_info.tinm_partial_match_file,
+                    opt_info.title_in_mention_min,
+                    opt_info.multi_lang,
+                    log_info)
             else:
                 logger.error({
                     'action': 'ljc_main',
@@ -1238,7 +1251,9 @@ def ljc_main(common_data_dir,
                     #         'mention_info.t_start_offset': mention_info.t_start_offset,
                     #         'mention_info.pid': mention_info.pid,
                     #     })
-                    # {'action': 'ljc_main', 'mention_info.attr_label': '居住地（地域）', 'mention_info.t_start_line_id': 88, 'mention_info.t_start_offset': 0, 'mention_info.pid': '3974281'}
+                    # {'action': 'ljc_main', 'mention_info.attr_label': '居住地（地域）',
+                    # 'mention_info.t_start_line_id': 88, 'mention_info.t_start_offset': 0,
+                    # 'mention_info.pid': '3974281'}
                     if 'n' in opt_info.filtering and 'm' in opt_info.nil_tgt:
                         # nil detection
                         dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
@@ -1251,13 +1266,12 @@ def ljc_main(common_data_dir,
                                                                 **d_mint_mention_pid_ratio)
 
                     # if mention_info.t_mention == '千葉':
-                    # if mention_info.pid == '1593456':
-                    #     logger.info({
-                    #         'action': 'ljc_main',
-                    #         'mint_cand_list': mint_cand_list,
-                    #         'mention_info.pid': mention_info.pid,
-                    #     })
-                    #{'action': 'ljc_main', 'mint_cand_list': [], 'mention_info.pid': '3974281'}
+                    # if mention_info.pid == '4255444' and mention_info.t_mention == '首長':
+                    # logger.info({
+                    #     'action': 'ljc_main',
+                    #     'mint_cand_list': mint_cand_list,
+                    #     'mention_info.pid': mention_info.pid,
+                    # })
 
                     # filtering
                     if len(mint_cand_list) > 0:

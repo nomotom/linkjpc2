@@ -173,13 +173,12 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
                 })
                 sys.exit()
             link_prob_score = link_info.cand_dic_link_prob[pid] * mod_info.link_prob_weight
-        if mention_info.t_mention == "千葉":
-            logger.info({
-                'action': 'scoring',
-                'pid': pid,
-                'mention': mention_info.t_mention,
-                'mint_score': mint_score,
-            })
+        logger.debug({
+            'action': 'scoring',
+            'pid': pid,
+            'mention': mention_info.t_mention,
+            'mint_score': mint_score,
+        })
         total_score = mint_score + tinm_score + wlink_score + slink_score + link_prob_score
         ext_title = ''
         try:

@@ -363,6 +363,11 @@ Download the data listed below from _URL(to be prepared)_ .
    -- escaped: double quotations 
  - format:  page_id, page_title, page_is_redirect, page_namespace
  - sample:<br>
+ -- `934006	安倍晋三	0	1`<br>
+ -- `2694582	安倍晋三	0	3`<br>
+ -- `2697850	安倍晋三	0	2`<br>
+ -- `2747973	安倍晋三	0	14`<br>
+ -- `4136738	安倍晋三	0	0`<br>
  -- `517804	宮下杏菜	0	0`<br>
  -- `557692	宮下杏奈	1	0`<br>
  -- `557693	広末由依	1	0`<br>
@@ -379,6 +384,41 @@ Download the data listed below from _URL(to be prepared)_ .
  - notice: 
   -- pageid: 2021 
   -- punctuation symbols in awk(!"#$%&'-=^~\|@`...)
+
+## CM15 (f_page_dump_old_org_default)
+ - filename:'***jawiki-20190120-page_dmp.tsv***'
+ - description: Wikipedia page dump (20190120)<br>
+   -- deleted: titles with single punctuation symbols<br>
+   -- escaped: double quotations 
+ - format:  page_id, page_title, page_is_redirect, page_namespace
+ - sample:<br>
+ -- `934000	安倍晋三	0	0`<br>
+ -- `934006	安倍晋三	0	1`<br>
+ -- `2694582	安倍晋三	0	3`<br>
+ -- `2697850	安倍晋三	0	2`<br>
+ -- `2747973	安倍晋三	0	14`<br>
+ - based on: jawiki-20190120-page.sql.gz<br>
+ - created by:<br>
+  -- `$ awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20190120-page_dmp.tsv | perl -pe 's/\"/\"\"/g;' > jawiki-20210820-page_dmp_rev.tsv`<br>
+ - notice: 
+  -- pageid: 2021 
+  -- punctuation symbols in awk(!"#$%&'-=^~\|@`...)
+
+## CM16 (f_lang_link_dump_org_default)
+
+ - filename:'***jawiki-20210820-langlinks_dmp.tsv***'
+ - description: Langlinks dump (20210820)
+ - format: from page(Japanese Wikipedia wgarticleID), lang code, title
+ - sample: <br>
+ -- `102349	ast	Chanel`
+ -- `102349	az	Chanel`
+ -- `102349	ca	Chanel`
+ -- `102349	da	Chanel`
+ -- `102349	de	Chanel`
+ -- `102349	el	Chanel`
+ -- `102349	en	Chanel`
+ - based on: jawiki-20210820-langlinks.sql.gz<br>
+
 
 ## (3) data created by preprocessing tools
 ## (3-1) (sample_gold_dir)
@@ -542,10 +582,26 @@ Download the data listed below from _URL(to be prepared)_ .
 
 
 ### CP15 (f_cat_attr_rng_default)
- - filename: '**cat_attr_rng.tsv**'
+ - filename: '***cat_attr_rng.tsv***'
  - format: cat, attr, eneid, ratio, freq', sum(cat*attr)
  - sample: City    産業    ene:0   0.5     50      100
  - notice: eneid is preceded by 'eneid:0'
+
+### CP16 (f_lang_link_info_default) 
+ - filename: '***jawiki-20210820-langlinks_info.tsv***'
+ - format: from page(Japanese Wikipedia wgarticleID), lang code, title
+ - sample: <br>
+ -- `102349	ast	Chanel`
+ -- `102349	az	Chanel`
+ -- `102349	ca	Chanel`
+ -- `102349	da	Chanel`
+ -- `102349	de	Chanel`
+ -- `102349	el	Chanel`
+ -- `102349	en	Chanel`
+ - based on: jawiki-20210820-langlinks.sql.gz
+ - notice: illegal characters (UnicodeDecodeError) are converted to '?'.
+ - created by: (linkjpc_prep --gen_lang_link) gen_lang_link_info
+ 
 
 ## (3-3) (tmp_data_dir)
 
