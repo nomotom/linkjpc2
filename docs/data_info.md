@@ -168,14 +168,14 @@ The directories are specified as command line arguments or options when you try 
  - filename: '**wikipedia-ja-20210823-json.gz**'
  - based on Wikipedia 20210823
  - description: Wikipedia Cirrus Dump (content)
- - available from:森羅2022HP サブタスク共通データ Wikipedia2022 [CirrusSearchDump](https://storage.googleapis.com/shinra_data/wikipedia/wikipedia-ja-20210823-json.gz)
+ - available from: SHINRA homepage
  - used in: (linkjpc_prep) gen_disambiuation_file, gen_incoming_link_file
 
 ### CD2 (f_title2pid_org_default)
  - filename: '**jawiki-20210820-title2pageid.jsonl**'
  - based on: Wikipedia 20210820
  - description: Title to pageid conversion info list
- - available from: [SHINRA2021-LinkJP](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) 公開データ/コード([リンク先のWikipediaデータ](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing) (各種処理済データ)
+ - available from: SHINRA homepage???
  - sample: 
    - `{"page_id": 302067, "title": "イギリス語", "is_redirect": true,
  "redirect_to": {"page_id": 3377, "title": "英語", "is_redirect": false}}`
@@ -186,7 +186,7 @@ The directories are specified as command line arguments or options when you try 
 ### CD3 (f_enew_org_default)  
  - filename: '**shinra2022_Categorization_train_20220616.jsonl**'
  - description: SHINRA2022 training data for Classification task.
- - available from:  [SHINRA 2022](http://2022.shinra-project.info/)
+ - available from: SHINRA homepage
  - based on: Wikipedia 2019, ENE9
  - sample:
    - `{"page_id":"1478897","title":"スキマスイッチ ARENA TOUR'07 \"W-ARENA\"THE MOVIE","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.7.13.6"}]}}`
@@ -194,6 +194,10 @@ The directories are specified as command line arguments or options when you try 
    - `{"page_id":"72942","title":"バックス (ローマ神話)","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.2"}]}}` 
  - used in: (linkjpc_prep) gen_enew_info_file
 
+### CD4 (f_ene_def_for_task_default)
+ - filename: '**ene_definition_v9.0.0-with-attributes-and-shinra-tasks-20220714.jsonl**'
+ - description: ENE definition for SHINRA task.
+ - available from: SHINRA homepage
 ## (2) manually created data (common_data_dir)
 
 Download the data listed below from _URL(to be prepared)_ .  
@@ -253,58 +257,22 @@ Download the data listed below from _URL(to be prepared)_ .
    - `Person  作品    1`
  - used in: (linkjpc) gw.reg_mention_gold_distance_ca
 
-### CM6 (f_attr_rng_default)
- - filename: '**attr_def.tsv**'
+### CM6 (f_attr_rng_man_org_default)
+ - filename: '**attr_rng_man_org_ene90_20221002.tsv**'
  - format: ene_label_en, attribute_name, range, probability (*.tsv)
    - (range):    'ene':eneid
  - sample:
-   - `Person  国籍  ene:1.5.1.3   1.0`
-   - `Person 国籍　ene:1.5.1.0   0.5`
+   - `Military_Ship   乗船者  1.1 1`
  - created by: manually
- - used in: (linkjpc)get_attr_range
+ - used in: (linkjpc)gen_attr_rng
 
-### CM7 (f_target_attr_default)
- - filename: '**ene_definition_v9.0.0-20220714_target_attr.tsv**'
- - format: ene_label_en, attribute_name, (*.tsv)
- - sample:
-   - 1.1	人名	Person	別名・旧称
-   - 1.1	人名	Person	国籍
- - created by: awk 
- - used in: (linkjpc)gen_self_link_info
- - 
-### CM8 (f_all_cat_default)
- - filename: '**ene_definition_v9.0.0-20220714_all_cat.tsv**'
- - format: ene_id, ene_label_en, ene_label_ja, (*.tsv)
- - sample:
-   - 0	CONCEPT	ＣＯＮＣＥＰＴ
-　　- 1	Name	名前
-   - 1.0	Name_Other	名前＿その他
-   - 1.1	Person	人名
-   - 1.2	God	神名
-   - 1.3	Individual_Living_Thing	生物呼称名
-   - 1.3.0	Individual_Living_Thing_Other	生物呼称名＿その他
-   - 1.3.1	Individual_Animal	動物呼称名
-   - 9	IGNORED	ＩＧＮＯＲＥＤ
- - notice:
-   - Some categories lack attributes.
- - created by: awk 
- - used in: 
- - 
+
 ### CM9 (f_self_link_pat_default)
  - filename: '**self_link_pat.tsv**'
  - format: pos, pat (*.tsv)
  - sample:
    - start   別名
    - start   合併
- - created by: manually
- - used in: (linkjpc_prep)gen_self_link_by_attr_name
-
-### CM10 (f_self_link_by_attr_name_default)
- - filename: '**self_link_by_attr_name.tsv**'
- - format: attr
- - sample:
-   - 別名・旧称
-   - 合併市区町村
  - created by: manually
  - used in: (linkjpc_prep)gen_self_link_by_attr_name
 
@@ -426,9 +394,14 @@ Download the data listed below from _URL(to be prepared)_ .
 ### SP1 (sample gold data info)
  - filename: **Airport.tsv, City.tsv, 'Company.tsv, 'Compound.tsv, 'Conference.tsv, 'Lake.tsv, 'Person.tsv** 
  - description: Sample gold data info.
- - format: category,  org_pageid, org_title, attribute_name, mention, start_line_id, start_offset, end_line_id, end_offset, gold_pageid, gold_title (*.tsv)
- - sample: `Person  573393  森見登美彦      生誕地  日本・奈良県生駒市      35      33      35      42      22003   生駒市`
- - created by: (linkjpc_prep --gen_sample_gold_tsv) linkedjson2tsv_simple
+ - format: category,  org_pageid, org_title, attribute_name, mention, start_line_id, start_offset, end_line_id, 
+ - end_offset, gold_pageid, gold_title, gold_eneid, gold_ene_category (*.tsv)
+ - sample:<br>
+ - `Person	1058520	竹内えり	作品	白い巨塔	79	0	79	4	29582	
+ - 白い巨塔 (2003年のテレビドラマ)	['1.7.13.2']　['Broadcast_Program']`
+ - `Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']	
+ - ['Character', 'Broadcast_Program']`
+ - created by: (linkjpc_prep --gen_sample_gold_tsv) gen_sample_gold_tsv
  - used in: (linkjpc_prep) gen_link_prob_file, gen_mention_gold_link_dist
 
 ## (3-2) (common_data_dir)
@@ -511,9 +484,8 @@ Download the data listed below from _URL(to be prepared)_ .
  - description: Self link info file to estimate the probability of linking to the original article for each category-attribute pair. 
  - format: ene_label_en, attribute_name, ratio (*.tsv)
  - sample:
-   - `School  別名    1.0       10    10`
-   - `School  標語    0.0        0     1`
-   - `School  種類    0.0        0     2`
+   - `Bay     別名・旧称      1.0     1       1`
+   - `Bay     所在地（地形）  0.0     0       12`
  - note: The ratio is based on SHINRA2021-LinkJP sample data (ver.20210428).
  - created by: (linkjpc_prep --gen_slink) gen_self_link_info
  - used in: (linkjpc) sl.check_slink_info
@@ -522,15 +494,10 @@ Download the data listed below from _URL(to be prepared)_ .
  - filename: '**jawiki-20210823_title2pageid_20210820_ext.tsv**'
  - description: Summary information on title to pageid conversion, incoming links, and ENE classification of articles. .
  - format: 
-   - from_title, to_pid, to_title, to_incoming, to_eneid (*.tsv)
+   - from_title, to_pid, to_title, to_incoming, to_eneid_set (*.tsv)
  - sample: 
-   - `ロミジュリ	28783	ロミオとジュリエット	671	1.7.19.4`
-   - `ロミオとジュリエット (2010年の宝塚歌劇)	3520389	ロミオとジュリエット (2010年の
- 宝塚歌劇)	173	1.7.19.4`
-   - `鹿島アントラーズ	4670	鹿島アントラーズ	2723	1.4.5.3`
-   - `安倍総理	4136738	安倍晋三	3337`
-   - `安倍晋三/log20200516	4136738	安倍晋三	3337`
-   - `安倍晋三	4136738	安倍晋三	3337`
+   - `ロメオとジュリエット	28783	ロミオとジュリエット	806	{'1.7.13.4', '1.7.13.5'}  `
+   - `安倍晋三	4136738	安倍晋三	3337	{'1.1'}  
  - created by: gen_title2pid_ext_file
  - used in: (linkjpc_prep --gen_title2pid) gen_back_link_info_file (get_to_pid_to_title_incoming_eneid), 
     prematching_mention_title (reg_pid2title), 
@@ -555,7 +522,8 @@ Download the data listed below from _URL(to be prepared)_ .
  - format: 
    - ene_label_en, attribute_name, ratio (*.tsv)
  - sample: 
-   - `Cemetery        別名    1.0`
+   - `Train   駆動方式        0.67`
+   - `Train   制御装置        0.33`
  - notice:
    - The ratio is based on LinkJP2022 training data ver.202207.
  - created by: (linkjpc_prep --gen_linkable) gen_linkable_info_file 
@@ -580,12 +548,17 @@ Download the data listed below from _URL(to be prepared)_ .
     -- 標語　0.0     0   10
     -- 種類　0.0     0   20
 
+### CP15 (f_attr_rng_man_default)
+ - filename: '***cat_attr_rng_man.tsv***'
+ - format: cat, attr, rng_eneid, rng_cat, ratio
+ - sample: <br>
+ - `School  理事長  1.1 Person      1.0`
 
-### CP15 (f_cat_attr_rng_default)
- - filename: '***cat_attr_rng.tsv***'
+### CP15 (f_attr_rng_auto_default)
+ - filename: '***cat_attr_rng_auto.tsv***'
  - format: cat, attr, eneid, ratio, freq', sum(cat*attr)
- - sample: City    産業    ene:0   0.5     50      100
- - notice: eneid is preceded by 'eneid:0'
+ - sample: <br>
+ - `Music   プロデューサー  1.1   Person  1.0  10   10`
 
 ### CP16 (f_lang_link_info_default) 
  - filename: '***jawiki-20210820-langlinks_info.tsv***'
@@ -602,6 +575,38 @@ Download the data listed below from _URL(to be prepared)_ .
  - notice: illegal characters (UnicodeDecodeError) are converted to '?'.
  - created by: (linkjpc_prep --gen_lang_link) gen_lang_link_info
  
+### CP17 (f_target_attr_info_default)
+ - filename: '**ene_definition_v9.0.0-20220714_target_attr.tsv**'
+ - format: ene_label_en, attribute_name, (*.tsv)
+ - sample:
+   - `1.1	人名	Person	別名・旧称`
+   - `1.1	人名	Person	国籍`
+ - created by: (linkjpc_prep)gen_target_attr_info
+ - used in: (linkjpc)gen_self_link_info, lc.reg_target_attr_info
+
+### CP18 (f_all_cat_info_default)
+ - filename: '**ene_definition_v9.0.0-20220714_all_cat.tsv**'
+ - format: ene_id, ene_label_ja, ene_label_en, (*.tsv)
+ - sample: <br>
+ - `0	ＣＯＮＣＥＰＴ	CONCEPT`
+ - `1	名前	Name`
+ - `1.0	名前＿その他	Name_Other`
+ - `1.1	人名	Person`
+ - `1.2	神名	God`
+
+ - notice:
+   - Some categories lack attributes.
+ - created by: (linkjpc_prep)gen_target_attr_info 
+ - used in: 
+ - 
+### CP19 (f_self_link_by_attr_name_default)
+ - filename: '**self_link_by_attr_name.tsv**'
+ - format: attr
+ - sample:
+   - 別名・旧称
+   - 合併市区町村
+ - created by: gen_self_link_by_attr_name
+ - used in: (linkjpc_prep)gen_self_link_by_attr_name
 
 ## (3-3) (tmp_data_dir)
 
@@ -616,7 +621,7 @@ Download the data listed below from _URL(to be prepared)_ .
 ### TP2 (f_back_link_default) 
  - filename: '**back_link_full.tsv**'
  - description: Back link info file, which shows the title pages of test data and the back links to the pages
- - format: org_title, back link pid, back link title (*.tsv)
+ - format: org_title, back link (from) pid, back link (from) title (*.tsv)
  - sample: 
    - `1975年度新人選手選択会議 (日本プロ野球)	143952	中畑清`
  - notice: 

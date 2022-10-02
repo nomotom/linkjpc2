@@ -44,15 +44,15 @@ def match_mention_title(mod, opt_info, mention, log_info, **d_mention_pid_ratio)
         for pid_ratio_list in d_mention_pid_ratio[mention]:
             pid = pid_ratio_list[0]
             ratio = float(pid_ratio_list[1])
-            if pid == '1593456':
-                logger.info({
-                    'action': 'match_mention_title',
-                    'pid': pid,
-                    'mention': mention,
-                    'ratio': ratio,
-                    'char_match_min': char_match_min,
-                    'char_match_cand_num_mint': opt_info.char_match_cand_num_max
-                })
+            # if pid == '1593456':
+            #     logger.info({
+            #         'action': 'match_mention_title',
+            #         'pid': pid,
+            #         'mention': mention,
+            #         'ratio': ratio,
+            #         'char_match_min': char_match_min,
+            #         'char_match_cand_num_mint': opt_info.char_match_cand_num_max
+            #     })
             # 'action': 'match_mention_title', 'pid': '774353', 'mention': '千葉', 'ratio': 0.67,
             # 'char_match_min': 0.2, 'char_match_cand_num_mint': 1000}
             if ratio > 1.0:
@@ -233,7 +233,7 @@ def reg_matching_info(matching_info_file, ratio_min, multi_lang, log_info):
                 if link_pid in check_highest_ratio[word]:
                     if link_ratio <= check_highest_ratio[word][link_pid]:
                         continue
-            if word not in check_highest_ratio:
+            else:
                 check_highest_ratio[word] = {}
             check_highest_ratio[word][link_pid] = link_ratio
             # print(check_highest_ratio[word][link_pid], type(check_highest_ratio[word][link_pid]))
@@ -245,13 +245,13 @@ def reg_matching_info(matching_info_file, ratio_min, multi_lang, log_info):
         for l_pid in check_highest_ratio[tmp_word]:
             l_ratio = check_highest_ratio[tmp_word][l_pid]
             # print(l_ratio, type(l_ratio))
-            if 'tmp_word' == 'Blue Note' or 'tmp_word' == 'Chanel':
-                logger.info({
-                   'action': 'reg_matching_info',
-                   'tmp_word': tmp_word,
-                   'l_pid': l_pid,
-                   'l_ratio': l_ratio
-                })
+            # if 'tmp_word' == 'Blue Note' or 'tmp_word' == 'Chanel':
+            #     logger.info({
+            #        'action': 'reg_matching_info',
+            #        'tmp_word': tmp_word,
+            #        'l_pid': l_pid,
+            #        'l_ratio': l_ratio
+            #     })
             d_mention_pid_ratio[tmp_word].append((l_pid, l_ratio))
 
             # if rows[0] == '千葉' and rows[1] == '774353':

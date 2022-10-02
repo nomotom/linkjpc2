@@ -19,7 +19,6 @@ import copy
 import config as cf
 import logging
 import logging.config
-import linkjpc_prep as lpp
 
 
 def set_logging(log_info, logger_name):
@@ -68,6 +67,12 @@ def set_logging(log_info, logger_name):
               default=cf.DataInfo.f_title2pid_ext_default, show_default=True,
               help='filename of title2pageid extended information file, in which most of the disambiguation, '
                    'management or format-error pages are deleted and ENEIDs and incoming link num info are added.')
+@click.option('--f_target_attr_info', type=click.STRING,
+              default=cf.DataInfo.f_target_attr_info_default, show_default=True,
+              help='filename of target_attribute info list.')
+@click.option('--f_all_cat_info', type=click.STRING,
+              default=cf.DataInfo.f_all_cat_info_default, show_default=True,
+              help='filename of all cat info list.')
 # modules (mint & tinm)
 @click.option('--char_match_cand_num_max', '-c_max', type=click.INT,
               default=cf.OptInfo.char_match_cand_num_max_default, show_default=True,
@@ -224,6 +229,9 @@ def set_logging(log_info, logger_name):
                    'a: adjust value based on ordering by number of incoming links, '
                    'n: N/A')
 # filtering: attr
+@click.option('--attr_rng_auto_freq_min', '-af_min', type=click.INT,
+              default=cf.OptInfo.attr_rng_auto_freq_min_default, show_default=True,
+              help='maximum number of range frequencies in the training data')
 @click.option('--attr_rng_tgt', '-ar_tgt', type=click.STRING,
               default=cf.OptInfo.attr_rng_tgt_default, show_default=True,
               help='target module of attribute range filtering, specified as the combination of '
@@ -260,11 +268,12 @@ def set_logging(log_info, logger_name):
                    'ar: adjusted matching ratio + adjusted depth (adjusted to ignore 1st layer of the ENE hierarchy'
                    'if the ENEID begins with 1 (Name)),'
                    'am: adjusted matching ratio + modified depth (modify the adjusted depth to diminish its influence)')
-@click.option('--attr_rng_type', '-art', type=click.Choice(['a', 'm', 'ma']),
+@click.option('--attr_rng_type', '-art', type=click.Choice(['a', 'm', 'ma', 'am']),
               default=cf.OptInfo.attr_rng_type_default, show_default=True,
               help='attribute range estimation type. m: use attribute range definition manually specified'
                    'a: use attribute range definition automatically generated based on sample data'
-                   'ma: m > a')
+                   'ma: m + a (m > a) (m is preferred when conflict arises on the ratio),'
+                   'am: a + m (a > m) (a is preferred when conflict arises on the ratio)')
 # filtering: back_link
 @click.option('--back_link_tgt', '-bl_tgt', type=click.STRING,
               default=cf.OptInfo.back_link_tgt_default, show_default=True,
@@ -326,11 +335,13 @@ def ljc_main(common_data_dir,
              attr_na_co,
              attr_ng_co,
              attr_len,
+             attr_rng_auto_freq_min,
              attr_rng_tgt,
              attr_rng_type,
              back_link_tgt,
              back_link_ng,
              char_match_cand_num_max,
+             f_all_cat_info,
              f_attr_rng_auto,
              f_attr_rng_man,
              f_attr_rng_merged,
@@ -345,6 +356,7 @@ def ljc_main(common_data_dir,
              f_wl_lines_forward_ca,
              f_linkable_info,
              f_link_prob,
+             f_target_attr_info,
              f_tinm,
              f_tinm_trim,
              f_title2pid_ext,
@@ -352,7 +364,7 @@ def ljc_main(common_data_dir,
              incl_max,
              incl_tgt,
              incl_type,
-             lang_link_min,
+             # lang_link_min,
              len_desc_text_min,
              lp_min,
              mint,
@@ -396,11 +408,13 @@ def ljc_main(common_data_dir,
     :param attr_na_co:
     :param attr_ng_co:
     :param attr_len:
+    :param attr_rng_auto_freq_min:
     :param attr_rng_type:
     :param attr_rng_tgt:
     :param back_link_tgt:
     :param back_link_ng:
     :param char_match_cand_num_max:
+    :param f_all_cat_info:
     :param f_attr_rng_auto:
     :param f_attr_rng_man:
     :param f_attr_rng_merged:
@@ -415,6 +429,7 @@ def ljc_main(common_data_dir,
     :param f_wl_lines_forward_ca:
     :param f_linkable_info:
     :param f_link_prob:
+    :param f_target_attr_info:
     :param f_tinm:
     :param f_tinm_trim:
     :param f_title2pid_ext:
@@ -422,7 +437,7 @@ def ljc_main(common_data_dir,
     :param incl_max:
     :param incl_tgt:
     :param incl_type:
-    :param lang_link_min:
+    # :param lang_link_min:
     :param len_desc_text_min:
     :param lp_min:
     :param mint:
@@ -465,6 +480,7 @@ def ljc_main(common_data_dir,
     opt_info = cf.OptInfo()
     opt_info.mod = mod
     opt_info.filtering = filtering
+    opt_info.attr_rng_auto_freq_min = attr_rng_auto_freq_min
     opt_info.attr_rng_tgt = attr_rng_tgt
     opt_info.attr_rng_type = attr_rng_type
     opt_info.incoming_link_tgt = incl_tgt
@@ -475,7 +491,7 @@ def ljc_main(common_data_dir,
     opt_info.title_matching_mint = title_matching_mint
     opt_info.title_matching_tinm = title_matching_tinm
     opt_info.char_match_cand_num_max = char_match_cand_num_max
-    opt_info.lang_link_min = lang_link_min
+    # opt_info.lang_link_min = lang_link_min
     opt_info.len_desc_text_min = len_desc_text_min
     opt_info.nil_cat_attr_max = nil_cat_attr_max
     opt_info.nil_cond = nil_cond
@@ -546,6 +562,7 @@ def ljc_main(common_data_dir,
     })
     logger.info({
         'attr_len': opt_info.attr_len,
+        'attr_rng_auto_freq_min': attr_rng_auto_freq_min,
         'attr_na_co': opt_info.attr_na_co,
         'attr_ng_co': opt_info.attr_ng_co,
     })
@@ -556,6 +573,7 @@ def ljc_main(common_data_dir,
     data_info = cf.DataInfo(common_data_dir, tmp_data_dir, in_dir, sample_gold_dir, sample_input_dir, out_dir)
     # files in common data dir
     data_info.common_data_dir = common_data_dir
+    data_info.all_cat_info_file = data_info.common_data_dir + f_all_cat_info
     data_info.attr_rng_auto_file = data_info.common_data_dir + f_attr_rng_auto
     data_info.attr_rng_man_file = data_info.common_data_dir + f_attr_rng_man
     data_info.attr_rng_merged_file = data_info.common_data_dir + f_attr_rng_merged
@@ -567,6 +585,7 @@ def ljc_main(common_data_dir,
     data_info.mention_gold_link_dist_info_file = data_info.common_data_dir + f_mention_gold_link_dist_info
     data_info.slink_file = data_info.common_data_dir + f_slink
     data_info.self_link_by_attr_name_file = data_info.common_data_dir + f_self_link_by_attr_name
+    data_info.target_attr_info_file = data_info.common_data_dir + f_target_attr_info
 
     # files in tmp data dir
     data_info.tmp_data_dir = tmp_data_dir
@@ -635,6 +654,9 @@ def ljc_main(common_data_dir,
     d_back_link = {}
     diff_info = {}
     d_linkable = {}
+    d_eneid2enlabel = {}
+
+    d_eneid2enlabel = lc.reg_target_attr_info(data_info.target_attr_info_file, log_info)
 
     # mint
     if (opt_info.mention_in_title == 'e' or opt_info.mention_in_title == 'p') and 'm' not in opt_info.mod:
@@ -987,7 +1009,8 @@ def ljc_main(common_data_dir,
                                                       data_info.attr_rng_auto_file,
                                                       data_info.attr_rng_merged_file,
                                                       opt_info,
-                                                      log_info)
+                                                      log_info,
+                                                      **d_eneid2enlabel)
 
     # nil_detection
     if ('m' in opt_info.nil_tgt or
@@ -1076,19 +1099,28 @@ def ljc_main(common_data_dir,
             'action': 'ljc_main',
             'in_file': in_file,
         })
+        if 'for_view' in in_file:
+            logger.info({
+                'action': 'ljc_main',
+                'msg': 'skipped for_view',
+                'in_file': in_file
+            })
+            continue
         with open(in_file, mode='r', encoding='utf-8') as i:
-            # 20220822
-            # fname = in_file.replace(in_dir, '')
+
+            # # fname = in_file.replace(in_dir, '')
             fname = in_file.replace(data_info.in_ene_dir, '')
-            # ene_cat = fname.replace('.json', '')
-            ene_cat = lc.extract_cat(fname, log_info)
-            if ene_cat == '':
-                logger.error({
-                    'action': 'ljc_main',
-                    'msg': 'illegal file name',
-                    'fname': fname
-                })
-                sys.exit()
+
+            # 20220929
+            # # ene_cat = fname.replace('.json', '')
+            # ene_cat = lc.extract_cat(fname, log_info)
+            # if ene_cat == '':
+            #     logger.error({
+            #         'action': 'ljc_main',
+            #         'msg': 'illegal file name',
+            #         'fname': fname
+            #     })
+            #     sys.exit()
 
             # 20220816
             # outfile = out_dir + fname
@@ -1103,7 +1135,7 @@ def ljc_main(common_data_dir,
 
             logger.info({
                 'action': 'ljc_main',
-                'ene_cat': ene_cat,
+                # 'ene_cat': ene_cat,
                 'in_file': in_file,
                 'outfile': outfile,
                 'out_tsv': out_tsv
@@ -1116,7 +1148,8 @@ def ljc_main(common_data_dir,
 
                 mention_info = cf.MentionInfo(
                     rec['page_id'],
-                    ene_cat,
+                    # ene_cat,
+                    '',
                     rec['attribute'],
                     rec['text_offset']['start']['line_id'],
                     rec['text_offset']['start']['offset'],
@@ -1130,6 +1163,15 @@ def ljc_main(common_data_dir,
                     rec['html_offset']['text'],
                     ''
                 )
+                logger.debug({
+                    'action': 'ljc_main',
+                    'rec[ENE]': rec['ENE'],
+                    'type(rec[ENE])': type(rec['ENE'])
+                })
+                if rec['ENE'] in d_eneid2enlabel:
+                    mention_info.ene_cat = d_eneid2enlabel[rec['ENE']]
+
+                # ene_cat = d_eneid2enlabel[rec['ENE_id']]
 
                 mod_info = cf.ModInfo()
                 cat_attr = mention_info.ene_cat + ':' + mention_info.attr_label
@@ -1481,7 +1523,7 @@ def ljc_main(common_data_dir,
                 json.dump(tline, o, ensure_ascii=False)
                 o.write('\n')
 
-    lpp.linkedjson2tsv_add_linked_title(out_dir, data_info.title2pid_ext_file, log_info)
+    lc.linkedjson2tsv_add_linked_title_ene(out_dir, data_info.title2pid_ext_file, log_info)
 
 
 if __name__ == '__main__':

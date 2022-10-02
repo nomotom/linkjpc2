@@ -96,7 +96,6 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
         #     })
 
     else:
-
         if slink_prob == 'fixed' or slink_prob == 'f_est':
             slink_cand_list = [(mention_info.pid, 's', 1.0)]
         elif slink_prob == 'raw' or slink_prob == 'r_est':
@@ -104,13 +103,13 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
                 logger.error({
                     'action': 'estimate_self_link',
                     'error': 'slink_score_max is more than 1.0',
-                    'slink_score_max': d_self_link[cat_attr],
+                    'slink_score_max': d_self_link[cat_attr]['ratio'],
                 })
                 sys.exit()
 
-            slink_cand_list = [(mention_info.pid, 's', d_self_link[cat_attr])]
+            slink_cand_list = [(mention_info.pid, 's', d_self_link[cat_attr]['ratio'])]
             if cat_attr == 'Person:別名':
-                logger.info({
+                logger.debug({
                     'action': 'estimate_self_link',
                     'slink_prob': slink_prob,
                     'cat_attr': cat_attr,
@@ -127,7 +126,7 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
                 })
                 sys.exit()
             slink_cand_list = [(mention_info.pid, 's', score)]
-            logger.info({
+            logger.debug({
                 'action': 'estimate_self_link',
                 'slink_prob': slink_prob,
                 'cat_attr': cat_attr,
@@ -142,6 +141,7 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
             'd_self_link[cat_attr][ratio]': d_self_link[cat_attr]['ratio'],
             'slink_cand_list': slink_cand_list,
         })
+
     return slink_cand_list
 
 def check_slink_info(slink_file, log_info):

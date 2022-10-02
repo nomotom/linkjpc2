@@ -45,6 +45,11 @@ def filter_by_attr_range(module_cand_list, mention_info, opt_info, log_info, **d
             attr_na_co = opt_info.attr_na_co
 
             if not d_cat_attr2eneid_prob.get(cat_attr):
+                logger.info({
+                    'action': 'filter_by_attr_range',
+                    'msg': 'cat attr not defined in d_cat_attr2eneid_prob',
+                    'cat_attr': cat_attr
+                })
                 if cf.d_pid2eneid.get(pid):
                     cand_eneid = cf.d_pid2eneid[pid]
                     logger.debug({
@@ -71,6 +76,10 @@ def filter_by_attr_range(module_cand_list, mention_info, opt_info, log_info, **d
                     for ans_eneid_prob in ans_eneid_prob_list:
                         ans_eneid = ans_eneid_prob[0]
                         ans_prob = ans_eneid_prob[1]
+                        logger.info({
+                            'action': 'filter_by_attr_range',
+                            'ans_prob': ans_prob,
+                        })
                         ans_prob_float = float(ans_prob)
                         ans_eneid_split = []
                         ans_eneid_split = re.split('\.', ans_eneid)
@@ -140,7 +149,7 @@ def filter_by_attr_range(module_cand_list, mention_info, opt_info, log_info, **d
     return new_module_cand_list
 
 
-def get_attr_range(attr_range_man_file, attr_range_auto_file, attr_range_merged_file, opt_info, log_info):
+def get_attr_range(attr_range_man_file, attr_range_auto_file, attr_range_merged_file, opt_info, log_info, **d_cnv):
     """Get attribute range probability info that shows which ENE category the attribute values are likely to be
     classified into.
     Args:
@@ -149,6 +158,7 @@ def get_attr_range(attr_range_man_file, attr_range_auto_file, attr_range_merged_
         attr_range_merged_file (str):
         opt_info
         log_info
+        **d_cnv
     Returns:
         d_cat_attr2eneid_prob: dictionary
     Note:
@@ -157,14 +167,14 @@ def get_attr_range(attr_range_man_file, attr_range_auto_file, attr_range_merged_
             (format)
                 cat(\t)attribute_label(\t)ene:<ENEID>(\t)probability
             (sample)
-                Person  国   ene:1.5.1.3 1.0
-                Person  国   ene:1.5.1.0 0.5
+                Person  国   1.5.1.3 1.0
+                Person  国   1.5.1.0 0.5
          (auto)
             (format)
                 cat(\t)attribute_label(\t)ene:<ENEID>(\t)probability(\t)freq(\t)freq_cat_attr(\n)
 
             (sample)
-                 City    産業    ene:0   0.5     50      100
+                 City    産業    0   0.5     50      100
 
         d_cat_attr2eneid_prob: dictionary
          (format)
@@ -182,7 +192,7 @@ def get_attr_range(attr_range_man_file, attr_range_auto_file, attr_range_merged_
 
     m_cat_attr2eneid_prob = {}
     if 'm' in opt_info.attr_rng_type:
-        with open (attr_range_man_file, 'r', encoding='utf-8') as m:
+        with open(attr_range_man_file, 'r', encoding='utf-8') as m:
             m_reader = csv.reader(m, delimiter='\t')
             cat_attr_range_prob_list = [cat_attr_range_prob for cat_attr_range_prob in m_reader]
 
@@ -193,18 +203,20 @@ def get_attr_range(attr_range_man_file, attr_range_auto_file, attr_range_merged_
                         'cat_attr_range_prob too short': cat_attr_range_prob,
                     })
                     sys.exit()
-                try:
-                    eneid = re.sub('ene:', '', cat_attr_range_prob[2])
-                except (KeyError, ValueError) as e:
-                    logger.error({
-                        'action': 'get_attr_range',
-                        'error': e
-                    })
+                # try:
+                #     eneid = re.sub('ene:', '', cat_attr_range_prob[2])
+                # except (KeyError, ValueError) as e:
+                #     logger.error({
+                #         'action': 'get_attr_range',
+                #         'error': e
+                #     })
+                # 20221002
+                eneid = cat_attr_range_prob[2]
                 cat = cat_attr_range_prob[0]
                 if cat not in opt_info.cat_set:
                     logger.error({
                         'action': 'get_attr_range',
-                        'error': 'illegal cat: not defined in attr_range_file',
+                        'error': 'illegal cat: not defined in attr_range_man_file',
                         'cat': cat
                     })
                 attr = cat_attr_range_prob[1]
@@ -228,48 +240,96 @@ def get_attr_range(attr_range_man_file, attr_range_auto_file, attr_range_merged_
                         'cat_attr_range_prob too short': cat_attr_range_prob,
                     })
                     sys.exit()
-                try:
-                    eneid = re.sub('ene:', '', cat_attr_range_prob[2])
-                except (KeyError, ValueError) as e:
-                    logger.error({
+                # try:
+                #     eneid = re.sub('ene:', '', cat_attr_range_prob[2])
+                # except (KeyError, ValueError) as e:
+                #     logger.error({
+                #         'action': 'get_attr_range',
+                #         'error': e
+                #     })
+                # 20221002
+                eneid = cat_attr_range_prob[2]
+                cat = ''
+                if cat_attr_range_prob[0] in d_cnv:
+                    cat = cat_attr_range_prob[0]
+                    logger.info({
                         'action': 'get_attr_range',
-                        'error': e
+                        'cat_attr_range_prob[0]': cat_attr_range_prob[0],
                     })
-                cat = cat_attr_range_prob[0]
                 if cat not in opt_info.cat_set:
                     logger.error({
                         'action': 'get_attr_range',
-                        'error': 'illegal cat: not defined in attr_range_file',
+                        'error': 'illegal cat: not defined in attr_range_auto_file',
+                        'cat_attr_range_prob[0]': cat_attr_range_prob[0],
                         'cat': cat
                     })
+                    sys.exit()
                 attr = cat_attr_range_prob[1]
                 prob = float(cat_attr_range_prob[3])
+                freq = int(cat_attr_range_prob[4])
+
+                if freq < opt_info.attr_rng_auto_freq_min_default:
+                    continue
 
                 cat_attr = cat + '__' + attr
                 if not a_cat_attr2eneid_prob.get(cat_attr):
                     a_cat_attr2eneid_prob[cat_attr] = {}
                 a_cat_attr2eneid_prob[cat_attr][eneid] = prob
-                if 'ma' in opt_info.attr_rng_type:
-                    if cat_attr not in m_cat_attr2eneid_prob:
-                        m_cat_attr2eneid_prob[cat_attr] = {}
 
-                    m_cat_attr2eneid_prob[cat_attr][eneid] = prob
-
+                # 20220929
+                # if 'ma' in opt_info.attr_rng_type:
+                #     if cat_attr not in m_cat_attr2eneid_prob:
+                #         m_cat_attr2eneid_prob[cat_attr] = {}
+                #
+                #     m_cat_attr2eneid_prob[cat_attr][eneid] = prob
 
     d_cat_attr2eneid_prob = {}
-    if opt_info.attr_rng_type == 'a':
+    if opt_info.attr_rng_type == 'a' or opt_info.attr_rng_type == 'am':
         for cat_attr in a_cat_attr2eneid_prob:
             for eneid, prob in a_cat_attr2eneid_prob[cat_attr].items():
                 if cat_attr not in d_cat_attr2eneid_prob:
-                    d_cat_attr2eneid_prob[cat_attr] = []
-                d_cat_attr2eneid_prob[cat_attr].append([eneid, prob])
-    elif opt_info.attr_rng_type == 'm' or opt_info.attr_rng_type == 'ma':
+                    d_cat_attr2eneid_prob[cat_attr] = {}
+                d_cat_attr2eneid_prob[cat_attr][eneid] = prob
+                # d_cat_attr2eneid_prob[cat_attr].append([eneid, prob])
+        if opt_info.attr_rng_type == 'am':
+            for cat_attr in m_cat_attr2eneid_prob:
+                for eneid, prob in m_cat_attr2eneid_prob[cat_attr].items():
+                    if cat_attr not in d_cat_attr2eneid_prob:
+                        d_cat_attr2eneid_prob[cat_attr] = {}
+                        # 20220929
+                        d_cat_attr2eneid_prob[cat_attr][eneid] = prob
+                    else:
+                        if eneid not in d_cat_attr2eneid_prob:
+                            d_cat_attr2eneid_prob[cat_attr][eneid] = prob
+                        # d_cat_attr2eneid_prob[cat_attr].append([eneid, prob])
+
+    if opt_info.attr_rng_type == 'm' or opt_info.attr_rng_type == 'ma':
         for cat_attr in m_cat_attr2eneid_prob:
             for eneid, prob in m_cat_attr2eneid_prob[cat_attr].items():
                 if cat_attr not in d_cat_attr2eneid_prob:
-                    d_cat_attr2eneid_prob[cat_attr] = []
-                d_cat_attr2eneid_prob[cat_attr].append([eneid, prob])
+                    d_cat_attr2eneid_prob[cat_attr] = {}
+                d_cat_attr2eneid_prob[cat_attr][eneid] = prob
+                # d_cat_attr2eneid_prob[cat_attr].append([eneid, prob])
+        if opt_info.attr_rng_type == 'ma':
+            for cat_attr in a_cat_attr2eneid_prob:
+                for eneid, prob in a_cat_attr2eneid_prob[cat_attr].items():
+                    if cat_attr not in d_cat_attr2eneid_prob:
+                        d_cat_attr2eneid_prob[cat_attr] = {}
+                        # 20220929
+                        d_cat_attr2eneid_prob[cat_attr][eneid] = prob
+                    else:
+                        if eneid not in d_cat_attr2eneid_prob:
+                            d_cat_attr2eneid_prob[cat_attr][eneid] = prob
+                        # d_cat_attr2eneid_prob[cat_attr].append([eneid, prob])
+
+    with open(attr_range_merged_file, mode='w', encoding='utf-8') as arm:
+        writer = csv.writer(arm, delimiter='\t', lineterminator='\n')
+        for ca in d_cat_attr2eneid_prob:
+            for eid in d_cat_attr2eneid_prob[ca]:
+                writer.writerow([ca, eid, d_cat_attr2eneid_prob[ca]])
+
     return d_cat_attr2eneid_prob
+
 
 def reg_enew_info(enew_info, log_info):
     """Create a dictionary and store enew info.

@@ -2,6 +2,7 @@ import config as cf
 import linkjpc as ljc
 import logging
 
+
 def check_wlink(mention_info, opt_info, log_info, **diff_info):
     """Get candidate link list using wikipedia links.
     Args:

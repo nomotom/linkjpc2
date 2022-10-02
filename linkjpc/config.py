@@ -69,6 +69,7 @@ class OptInfo(object):
     # filtering
     filtering_default = 'n'
     # attr_range
+    attr_rng_auto_freq_min_default = 5
     attr_len_max = 4
     attr_depth_base_default = 0.5
     attr_len_default = 'n'
@@ -131,6 +132,7 @@ class OptInfo(object):
 
     def __init__(self,
                  ans_max=ans_max_default,
+                 attr_rng_auto_freq_min=attr_rng_auto_freq_min_default,
                  attr_len=attr_len_default,
                  attr_na_co=attr_na_co_default,
                  attr_ng_co=attr_ng_co_default,
@@ -180,6 +182,7 @@ class OptInfo(object):
                  wf_score=wf_score_default,
                  ):
         self.ans_max = ans_max
+        self.attr_rng_auto_freq_min_default = attr_rng_auto_freq_min
         self.attr_len = attr_len
         self.attr_na_co = attr_na_co
         self.attr_ng_co = attr_ng_co
@@ -247,12 +250,17 @@ class DataInfo(object):
     # f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
     # sample:
     # {"page_id": "242283", "title": "\"人間と性\"教育研究協議会", "is_redirect": false}
-    # {"page_id": "434856", "title": "人間と性教育研究協議会", "is_redirect": true, "redirect_to": {"page_id": "242283", "title": "\"人間と性\"教育研究協議会", "is_redirect": false}}
-    # {"page_id": "434857", "title": "CESHS", "is_redirect": true, "redirect_to": {"page_id": "242283", "title": "\"人間と性\"教育研究協議会", "is_redirect": false}}
+    # {"page_id": "434856", "title": "人間と性教育研究協議会", "is_redirect": true, "redirect_to": {"page_id": "242283",
+    # "title": "\"人間と性\"教育研究協議会", "is_redirect": false}}
+    # {"page_id": "434857", "title": "CESHS", "is_redirect": true, "redirect_to": {"page_id": "242283",
+    # "title": "\"人間と性\"教育研究協議会", "is_redirect": false}}
     #
-    # {"page_id": "3475368", "title": "PJ:NY", "is_redirect": true, "redirect_to": {"page_id": "10664", "title": "ニューヨーク市", "is_redirect": false}}
+    # {"page_id": "3475368", "title": "PJ:NY", "is_redirect": true, "redirect_to": {"page_id": "10664",
+    # "title": "ニューヨーク市", "is_redirect": false}}
 
-    #
+    # [CD4]
+    # f_ene_definition_for_task
+    f_ene_def_for_task_default = 'ene_definition_v9.0.0-with-attributes-and-shinra-tasks-20220714.jsonl'
 
     #
     #
@@ -280,19 +288,11 @@ class DataInfo(object):
     # f_attr_rng_default = 'attr_def.tsv'
     # f_attr_rng_default = 'attr_def_20220823.tsv'
     # f_attr_rng_default = 'attr_def_20220829.tsv'
-    f_attr_rng_man_default = 'attr_rng_man_20220906.tsv'
+    f_attr_rng_man_org_default = 'attr_rng_man_org_ene90_20221002.tsv'
     #
-    # [CM7]
-    f_target_attr_default = 'ene_definition_v9.0.0-20220714_target_attr.tsv'
-
-    # [CM8]
-    f_all_cat_default = 'ene_definition_v9.0.0-20220714_all_cat.tsv'
-
     # [CM9]
     f_self_link_pat_default = 'self_link_pat.tsv'
 
-    # [CM10]
-    f_self_link_by_attr_name_default = 'self_link_by_attr_name.txt'
 
     # [CM11]
     # 20220903
@@ -326,7 +326,8 @@ class DataInfo(object):
     # 927756  \"BLUE\"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
     # 1466960 \"BLUE\"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
     # notice:
-    #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-redirect_dmp.tsv | perl -pe 's/\"/\\"/g;' > jawiki-20210820-redirect_dmp_rev.tsv
+    #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-redirect_dmp.tsv | perl -pe 's/\"/\\"/g;' >
+    #  jawiki-20210820-redirect_dmp_rev.tsv
     # -- deleted: info of punctuation (titles with single character defined as symbols in awk
     # (!"#$%&'-=^~\|@`...)
 
@@ -357,7 +358,8 @@ class DataInfo(object):
     # notice:
     # - original:'jawiki-20220501-page_dmp.tsv'
     # - modified version
-    #     #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-page_dmp.tsv | perl -pe 's/\"/\\"/g;' > jawiki-20210820-page_dmp_rev.tsv
+    #     #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-page_dmp.tsv |
+    #     perl -pe 's/\"/\\"/g;' > jawiki-20210820-page_dmp_rev.tsv
     # -- deleted: page info with punctuation (titles with single character defined as symbols in awk(!"#$%&'-=^~\|@`...)
     #     to avoid illegal lines(p_row) with namespace zero like:
     #     eg. ['2423639', "\t1\t10\n2423640\tゾロ_(映画)\t0\t0\n2423641\t高田ほのか\t0\t1\n2423642\tKk0\t3\n2423643\t
@@ -419,7 +421,7 @@ class DataInfo(object):
     f_slink_default = 'cat_attr_self_link.tsv'
     #
     # [CP8]
-    #0905
+    # 0905
     # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
     # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
     f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20210820_ext.tsv'
@@ -435,7 +437,7 @@ class DataInfo(object):
     f_nil_default = 'cat_attr_nil.tsv'
 
     # [CP12]
-    #0905
+    # 0905
     # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
     # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
     f_title2pid_ext_obs_default = 'jawiki-20190120-title2pageid_ext.tsv'
@@ -445,6 +447,8 @@ class DataInfo(object):
     # Wikipedia pageid change info
     f_wikipedia_page_change_info_default = 'jawiki-20190120_20210820_page_change_info.tsv'
     # format: old_id, new_id
+
+    f_attr_rng_man_default = 'attr_rng_man.tsv'
 
     # [CP14]
     # 20220921
@@ -456,6 +460,28 @@ class DataInfo(object):
 
     # [CP16]
     f_lang_link_info_default = 'jawiki-20210820-langlinks_info.tsv'
+
+    # [CP17]
+    f_target_attr_info_default = 'ene_definition_v9.0.0-20220714_target_attr.tsv'
+    # format eneid, ene_label(ja), ene_label(en), attr_name
+    # 1.1	人名	Person	別名・旧称
+    # 1.1	人名	Person	国籍
+    # 1.1	人名	Person	地位職業
+
+    # [CP18]
+    f_all_cat_info_default = 'ene_definition_v9.0.0-20220714_all_cat.tsv'
+    # format eneid, ene_label(ja), ene_label(en)
+    # sample:
+    # 0	ＣＯＮＣＥＰＴ	CONCEPT
+    # 1	名前	Name
+    # 1.0	名前＿その他	Name_Other
+    # 1.1	人名	Person
+    # 1.2	神名	God
+
+    # [CP19]
+    f_self_link_by_attr_name_default = 'self_link_by_attr_name.txt'
+
+
 
     # (2-3) tmp_data_dir
     # [TP1]
@@ -497,8 +523,10 @@ class DataInfo(object):
                  # 20220824
                  out_dir,
                  f_attr_rng_man=f_attr_rng_man_default,
+                 f_attr_rng_man_org=f_attr_rng_man_org_default,
                  f_attr_rng_auto=f_attr_rng_auto_default,
                  f_cirrus_content=f_cirrus_content_default,
+                 f_ene_def_for_task=f_ene_def_for_task_default,
                  f_enew_info=f_enew_info_default,
                  f_enew_org=f_enew_org_default,
                  f_enew_mod_list=f_enew_mod_list_default,
@@ -548,11 +576,14 @@ class DataInfo(object):
         self.sample_input_dir = sample_input_dir
 
         self.attr_rng_man_file = common_data_dir + f_attr_rng_man
+        self.attr_rng_man_org_file = common_data_dir + f_attr_rng_man_org
+
         self.attr_rng_auto_file = common_data_dir + f_attr_rng_auto
         self.cirrus_content_file = common_data_dir + f_cirrus_content
         self.common_html_info_file = common_data_dir + f_common_html_info
         self.disambiguation_file = common_data_dir + f_disambiguation
         self.disambiguation_pat_file = common_data_dir + f_disambiguation_pat
+        self.ene_def_for_task_file = common_data_dir + f_ene_def_for_task
         self.enew_info_file = common_data_dir + f_enew_info
         self.enew_org_file = common_data_dir + f_enew_org
         self.enew_mod_list_file = common_data_dir + f_enew_mod_list

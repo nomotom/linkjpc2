@@ -115,18 +115,24 @@ sample_input_dir="${base_dir_shinra2022}Download/ljc_data/train-link-20220712/co
 # (m)
 # (mint -e) 2022/9/25
 ## no filtering
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e/ --mod m --mint e -f x
-### nil filtering
-### n_cond
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e/ --mod m --mint e -f x
+## nil filtering
+## n_cond
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
 ### ld_min
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_02_ld_8/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 8
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_02_ld_8/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 8
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_02_ld_8/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 8
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_02_ld_8/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 8
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 8
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 8
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 8
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 8
+
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_02_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 9
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_02_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 9
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_02_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 9
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_02_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 9
+
 ### n_max
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.1 -ld_min 7
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.1 -ld_min 7
@@ -156,11 +162,51 @@ python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_i
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
+
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
+
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
+
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
+
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
+
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
+
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
+
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
+
 ## ld_min
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_topld_nm_02_ld_8/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 8
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_apld_nm_02_ld_8/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 8
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_alopd_nm_02_ld_8/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 8
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_adopl_nm_02_ld_8/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 8
+
+
+
+
+
+
+
+
 ## n_max
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_topld_nm_01_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.1 -ld_min 7
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_apld_nm_01_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.1 -ld_min 7

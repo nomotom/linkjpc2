@@ -30,8 +30,20 @@ def append_filtering_cand_info(filtering_cand_list, link_info, log_info):
                 continue
 
             if not cf.d_pid_title_incoming_eneid[pid][2]:
+                logger.info({
+                    'action': 'append_filtering_cand_info',
+                    'msg': 'not cf.d_pid_title_incoming_eneid[pid][2]',
+                    'cand_info': cand_info,
+                    'cf.d_pid_title_incoming_eneid[pid]': cf.d_pid_title_incoming_eneid[pid]
+                })
                 if ('一覧' in cf.d_pid_title_incoming_eneid[pid][0]) or \
                         ('のリスト' in cf.d_pid_title_incoming_eneid[pid][0]):
+                    logger.info({
+                        'action': 'append_filtering_cand_info',
+                        'msg': 'skipped 一覧 or のリスト',
+                        'cand_info': cand_info,
+                        'cf.d_pid_title_incoming_eneid[pid]': cf.d_pid_title_incoming_eneid[pid]
+                    })
                     continue
 
             if mod == 't':

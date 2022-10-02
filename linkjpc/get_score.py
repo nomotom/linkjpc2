@@ -142,7 +142,7 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
             if type(link_info.cand_dic_slink[pid]) != float:
                 logger.error({
                     'action': 'scoring',
-                    'error': 'pid is not float',
+                    'error': 'cand_dic_slink is not float',
                     'pid': pid,
                     'link_info.cand_dic_slink[pid]': link_info.cand_dic_slink[pid]
                 })
@@ -160,9 +160,9 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
             if type(link_info.cand_dic_link_prob[pid]) != float:
                 logger.error({
                     'action': 'scoring',
-                    'error': 'pid is not float',
+                    'error': 'cand_dic_link_prob is not float',
                     'pid': pid,
-                    'link_info.cand_dic_link_prob[pid]': link_info.cand_dic_slink[pid],
+                    'link_info.cand_dic_link_prob[pid]': link_info.cand_dic_link_prob[pid],
                 })
                 sys.exit()
 
@@ -178,6 +178,10 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
             'pid': pid,
             'mention': mention_info.t_mention,
             'mint_score': mint_score,
+            'tinm_score': tinm_score,
+            'wlink_score': wlink_score,
+            'slink_score': slink_score,
+            'link_prob_score': link_prob_score,
         })
         total_score = mint_score + tinm_score + wlink_score + slink_score + link_prob_score
         ext_title = ''

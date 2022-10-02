@@ -102,10 +102,12 @@ $ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir
 
 ### 出力ディレクトリ
 
-前処理の出力ファイルは以下のいずれかに出力され、既存の同名ファイルを上書きします。
+前処理の出力ファイルは以下のいずれかまたはそのサブディレクトリに出力され、既存の同名ファイルを上書きします。
 - (a) common_data_directory
 - (b) tmp_data_directory
 - (c) sample_gold_directory
+
+WikipediaのダンプデータによるページID変更等、元データのバージョンによるID変更を解決したファイルはサブディレクトリconvに作成します。
 
 上記を避けたい場合は、必ず元のファイルを別の場所に保存するか、コマンドラインオプションで (a)(b)として別のディレクトリを指定してください。
 
@@ -117,7 +119,8 @@ $ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir
 
  (A)A-0) (gen_change_wikipedia_info)
     A-1) conv_sample_json_pageid
-    A-2) gen_enew/gen_enew_rev_year
+    A-2) gen_target_attr
+    A-3) gen_enew/gen_enew_rev_year
  　　 ->A-3) gen_title2pid 
        -> A-4-1) gen_redirect 
         - A-4-2) gen_incoming_link
@@ -128,7 +131,7 @@ $ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir
             -> A-6-2) gen_back_link, 
                -> A-7-3) gen_sample_gold_tsv 
                   -> A-8-1) gen_link_prob, 
-                     A-8-2) gen_self_link_info, 
+                     A-8-2) gen_slink, 
                      A-8-3) gen_linkable,
                      A-8-4) gen_nil
                      A-8-5) gen_attr_rng
