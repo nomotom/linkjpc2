@@ -16,10 +16,7 @@ def estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable):
             0: linkable
     Note:
         linkable info file
-            format: (cat(\t)att(\t)linkable ratio)
-            sample: City 地名の謂れ　0.14
-            notice: Currently the ratio in the file is based on small sample data and highly recommended to be modified.
-                    Some category-attribute pairs do not appear in the sample data.
+            format:  format: 'cat', 'attr', 'ratio', 'linkable_freq', 'all_freq' (*.tsv)
         nil_cond
             how to evaluate nil (unlinkable) for each mention using prob (estimated linkable ratio for '
                    'category-attribute pairs based on sample data), len(minimum length of mention), and desc '
@@ -49,10 +46,21 @@ def estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable):
 
     tmp_text = mention_info.t_mention
     if d_linkable.get(cat_attr):
-        link_prob_cat_attr = d_linkable[cat_attr]
+        link_prob_info_list = d_linkable[cat_attr]
+        # link_prob_cat_attr = d_linkable[cat_attr]
 
-        if link_prob_cat_attr <= nil_cat_attr_max:
-            res_prob_cond = 1
+        all_freq = link_prob_info_list[2]
+        link_prob_cat_attr = link_prob_info_list[0]
+
+        if all_freq < opt_info.nil_all_freq_min:
+            logger.debug({
+                'action': 'estimate_nil',
+                'msg': 'skipped sample is too small',
+                'lp_all_freq_min': opt_info.lp_all_freq_min,
+            })
+        else:
+            if link_prob_cat_attr <= nil_cat_attr_max:
+                res_prob_cond = 1
 
     res_len_cond = 0
     if 'len' in nil_cond:
@@ -200,10 +208,10 @@ def check_linkable_info(linkable_info_file, log_info):
     Returns:
         d_linkable: dictionary
             key: <ENE category of the page>:<attribute name>
-            val: linkable ratio
+            val: [linkable ratio, linked_freq, all_freq]
     Note:
          linkable info file
-            format: cat(\t)att(\t)likable ratio(\n)
+            format: format: 'cat', 'attr', 'ratio', 'linked_freq', 'all_freq' (*.tsv)
             sample: City 地名の謂れ 0.14
     """
 
@@ -216,5 +224,5 @@ def check_linkable_info(linkable_info_file, log_info):
 
         for line in nl_reader:
             cat_attr = ':'.join([line[0], line[1]])
-            d_linkable[cat_attr] = float(line[2])
+            d_linkable[cat_attr] = [float(line[2]), line[3], line[4]]
     return d_linkable

@@ -206,6 +206,9 @@ def set_logging(log_info, logger_name):
               default=cf.DataInfo.f_self_link_by_attr_name_default, show_default=True,
               help='filename of self link by attribute name file. ')
 # module: lp
+@click.option('--nil_all_freq_min', '-n_af_min', type=click.FLOAT,
+              default=cf.OptInfo.nil_all_freq_min_default, show_default=True,
+              help='minimum freq of category-attribute to consider category-attribute-mention link probability in the link prob file (f_link_prob). (0.1-1.0)')
 @click.option('--lp_min', '-l_min', type=click.FLOAT,
               default=cf.OptInfo.lp_min_default, show_default=True,
               help='minimum category-attribute-mention link probability in the link prob file (f_link_prob). (0.1-1.0)')
@@ -366,6 +369,7 @@ def ljc_main(common_data_dir,
              incl_type,
              # lang_link_min,
              len_desc_text_min,
+             lp_all_freq_min,
              lp_min,
              mint,
              mint_min,
@@ -439,6 +443,7 @@ def ljc_main(common_data_dir,
     :param incl_type:
     # :param lang_link_min:
     :param len_desc_text_min:
+    :param lp_all_freq_min:
     :param lp_min:
     :param mint:
     :param mint_min:
@@ -511,6 +516,7 @@ def ljc_main(common_data_dir,
     opt_info.score_type = score_type
     opt_info.slink_min = slink_min
     opt_info.slink_prob = slink_prob
+    opt_info.link_all_freq_min = lp_all_freq_min
     opt_info.link_prob_min = lp_min
     opt_info.wl_break = wl_break
     opt_info.wl_lines_backward_ca = wl_lines_backward_ca
@@ -1004,7 +1010,8 @@ def ljc_main(common_data_dir,
                 'attr_rng_type': opt_info.attr_rng_type,
                 'enew_info_file:': data_info.enew_info_file,
             })
-            cf.d_pid2eneid = ar.reg_enew_info(data_info.enew_info_file, log_info)
+            # 20221003
+            # cf.d_pid2eneid = ar.reg_enew_info(data_info.enew_info_file, log_info)
             d_cat_attr2eneid_prob = ar.get_attr_range(data_info.attr_rng_man_file,
                                                       data_info.attr_rng_auto_file,
                                                       data_info.attr_rng_merged_file,

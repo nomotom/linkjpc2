@@ -398,9 +398,9 @@ Download the data listed below from _URL(to be prepared)_ .
  - end_offset, gold_pageid, gold_title, gold_eneid, gold_ene_category (*.tsv)
  - sample:<br>
  - `Person	1058520	竹内えり	作品	白い巨塔	79	0	79	4	29582	
- - 白い巨塔 (2003年のテレビドラマ)	['1.7.13.2']　['Broadcast_Program']`
+白い巨塔 (2003年のテレビドラマ)	['1.7.13.2']　['Broadcast_Program']`
  - `Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']	
- - ['Character', 'Broadcast_Program']`
+['Character', 'Broadcast_Program']`
  - created by: (linkjpc_prep --gen_sample_gold_tsv) gen_sample_gold_tsv
  - used in: (linkjpc_prep) gen_link_prob_file, gen_mention_gold_link_dist
 
@@ -484,8 +484,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - description: Self link info file to estimate the probability of linking to the original article for each category-attribute pair. 
  - format: ene_label_en, attribute_name, ratio (*.tsv)
  - sample:
-   - `Bay     別名・旧称      1.0     1       1`
-   - `Bay     所在地（地形）  0.0     0       12`
+   - `City	合併市区町村	0.47	156	333`
  - note: The ratio is based on SHINRA2021-LinkJP sample data (ver.20210428).
  - created by: (linkjpc_prep --gen_slink) gen_self_link_info
  - used in: (linkjpc) sl.check_slink_info
@@ -540,13 +539,13 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: (linkjpc_prep --gen_nil) gen_nil_info
  - used in: (linkjpc) 
 
-### CP14 (f_self_link_attr_info_default)   
+~~### CP14 (f_self_link_attr_info_default)   
     -- filename:'***self_link_attr_info_file***'
     - format: attribute name, self_link ratio, self_link num, freq
     - sample:
     -- 別名  1.0   100  100
     -- 標語　0.0     0   10
-    -- 種類　0.0     0   20
+    -- 種類　0.0     0   20~~
 
 ### CP15 (f_attr_rng_man_default)
  - filename: '***cat_attr_rng_man.tsv***'

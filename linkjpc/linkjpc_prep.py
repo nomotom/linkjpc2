@@ -388,57 +388,36 @@ def ljc_prep_main(common_data_dir,
     sample_gold_linked_dir = data_info_prep.sample_gold_dir + 'link_annotation/'
     sample_gold_linked_dir_conv = data_info_prep.sample_gold_dir + 'link_annotation/conv/'
 
-    # 20220926
-    if conv_year:
-        tmp_sample_gold_linked_dir = sample_gold_linked_dir_conv
-    else:
-        tmp_sample_gold_linked_dir = sample_gold_linked_dir
-
-    # 20220822 fromhere
-    # sample_data_dir_pre = data_info_prep.sample_gold_dir
-    # sample_data_dir = sample_data_dir_pre.replace('link_annotation/', '')
-
     sample_input_ene_dir = data_info_prep.sample_input_dir + 'ene_annotation/'
     sample_input_ene_dir_conv = data_info_prep.sample_input_dir + 'ene_annotation/conv/'
 
+    data_info_prep.in_ene_dir = data_info_prep.in_dir + 'ene_annotation/'
+    data_info_prep.in_html_dir = data_info_prep.in_dir + 'html/'
     # 20220926
-    if conv_year:
-        tmp_sample_input_ene_dir = sample_input_ene_dir_conv
-    else:
-        tmp_sample_input_ene_dir = sample_input_ene_dir
+    tmp_input_ene_dir = ''
+    tmp_sample_input_ene_dir = ''
 
+    if conv_year:
+        tmp_input_ene_dir = data_info_prep.in_ene_dir + 'conv/'
+        tmp_sample_input_ene_dir = sample_input_ene_dir_conv
+        tmp_sample_gold_linked_dir = sample_gold_linked_dir_conv
+    else:
+        tmp_input_ene_dir = data_info_prep.in_ene_dir
+        tmp_sample_input_ene_dir = sample_input_ene_dir
+        tmp_sample_gold_linked_dir = sample_gold_linked_dir
+
+    # 20220822 till here
     sample_input_html_dir = data_info_prep.sample_input_dir + 'html/'
     sample_input_html_dir_conv = data_info_prep.sample_input_dir + 'html/conv/'
 
-    # data_info_prep.html_dir = data_info_prep.tmp_data_dir + 'html/'
-    # data_info_prep.in_dir = data_info_prep.in_dir
-    data_info_prep.in_ene_dir = data_info_prep.in_dir + 'ene_annotation/'
-    data_info_prep.in_html_dir = data_info_prep.in_dir + 'html/'
-    # input_ene_dir = data_info_prep.in_ene_dir
-    # input_ene_dir_conv = input_ene_dir + 'conv/'
-
-
-
-    # 20220926
-    tmp_input_ene_dir = ''
-    if conv_year:
-        tmp_input_ene_dir = data_info_prep.in_ene_dir + 'conv/'
-    else:
-        tmp_input_ene_dir = data_info_prep.in_ene_dir
-
-    # 20220822 till here
 
     logger.info({
         'action': 'ljc_prep_main',
-        'id': 'start',
-        'data_info_prep.common_data_dir': data_info_prep.common_data_dir,
-        'tmp_data_dir': data_info_prep.tmp_data_dir,
-        'in_dir': data_info_prep.in_dir,
-        'in_ene_dir': data_info_prep.in_ene_dir,
-        'in_html_dir': data_info_prep.in_html_dir,
+        'tmp_input_ene_dir': tmp_input_ene_dir,
+        'tmp_sample_input_ene_dir': tmp_sample_input_ene_dir,
         'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
         'sample_input_html_dir': sample_input_html_dir,
-        'tmp_sample_input_ene_dir': tmp_sample_input_ene_dir
+        'sample_input_html_dir_conv': sample_input_html_dir_conv,
     })
 
     if gen_target_attr:
@@ -474,21 +453,6 @@ def ljc_prep_main(common_data_dir,
         })
         gen_change_wikipage_list(data_info_prep.page_dump_old_org_file, data_info_prep.page_dump_org_file,
                                  data_info_prep.wikipedia_page_change_info_file, log_info)
-
-    # # 20220916  →　これはいらなくなる
-    # if gen_sample_gold_tsv_cnv_year:
-    #     # logger.info({
-    #     #     'action': 'gen_sample_gold_tsv_cnv_year',
-    #     #     'sample_gold_linked_dir': sample_gold_linked_dir,
-    #     #     'title2pid_org_file': data_info_prep.title2pid_org_file,
-    #     # })
-    #
-    #     logger.info({
-    #         'action': 'gen_sample_gold_tsv_cnv_year',
-    #         'sample_gold_linked_dir': sample_gold_linked_dir,
-    #     })
-    #     linkedjson2tsv_add_linked_title_cnv_year(sample_gold_linked_dir, data_info_prep.title2pid_ext_file,
-    #     data_info_prep.title2pid_ext_obs_file, log_info)
 
     if gen_sample_gold_tsv:
         # logger.info({
@@ -849,7 +813,7 @@ def ljc_prep_main(common_data_dir,
             'linkable_file': data_info_prep.linkable_file
         })
         gen_linkable_info(tmp_sample_input_ene_dir, tmp_sample_gold_linked_dir, data_info_prep.linkable_file,
-                          data_info_prep.target_attr_info_file, log_info, **d_eneid2enlabel)
+                          log_info, **d_eneid2enlabel)
 
 
 def gen_lang_link_info(langlinks_dump, title2pid_ext, lang_link_info, log_info):
@@ -964,12 +928,13 @@ def gen_target_attr_info(def_file, target_attr_info_file, all_cat_info_file, log
             en_label = ''
             ja_label = ''
             attr_label = ''
-            if 'ENE_id' not in d:
-                logger.error({
-                    'action': 'gen_target_attr_info',
-                    'msg': 'ENE_id not found',
-                })
-                sys.exit()
+            lc.check_dic_key('ENE_id', log_info, **d)
+            # if 'ENE_id' not in d:
+            #     logger.error({
+            #         'action': 'gen_target_attr_info',
+            #         'msg': 'ENE_id not found',
+            #     })
+            #     sys.exit()
 
             eneid = d['ENE_id']
             if 'en' in d['name']:
@@ -1764,15 +1729,12 @@ def reg_pid2title(title2pid_ext_file, lang_link_info, log_info):
 
     Notice:
         - title2pid_ext_file
-            format: 'from_title'\t'to_pid'\t'to_title'\t'to_incoming\t'to_eneid'
+            format: 'from_title'\t'to_pid'\t'to_title'\t'to_incoming\t'{to_eneid1, to_eneid2, ...}'
        　　　sample:
-            エチオピア人民民主共和国	1443906	エチオピア	2427	1.5.1.3
-            エチオピア連邦民主共和国	1443906	エチオピア	2427	1.5.1.3
-            社会主義エチオピア	1443906	エチオピア	2427	1.5.1.3
-            エティオピア	1443906	エチオピア	2427	1.5.1.3
-            エチオピア人	1443906	エチオピア	2427	1.5.1.3
-            Ethiopia	1443906	エチオピア	2427	1.5.1.3
-            エチオピア	1443906	エチオピア	2427	1.5.1.3
+            ロメオとジュリエット 28783 ロミオとジュリエット 806 {'1.7.13.4', '1.7.13.5'}
+            日本國  1864744 日本    345455  {'1.5.1.3'}
+            フジテレビジョン        4058860 フジテレビジョン        38288   {'1.4.6.2', '1.7.24.1'}
+
 
     """
     import csv
@@ -2040,23 +2002,24 @@ def check_self(row, log_info):
         return 0
 
 
-def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, target_attr_info_file, log_info, **d_cnv):
+def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info, **d_cnv):
     """Generate linkable info
     args:
         sample_in_ene_dir
         sample_gold_linked_dir
         linkable_info_file:
-        target_attr_info_file
         log_info:
+        d_cnv:
     return:
     output:
         linkable_info_file
+        format: 'cat', 'attr', 'ratio', 'linkable_freq', 'all_freq' (*.tsv)
     Note:
         gold file
             Gold files (eg. sample gold files) used for linkable estimation should be located in gold_dir.
             sample
-                City 3623607	下半山村	合併市区町村	三間ノ川村	61	39	61	44	29489	高岡　1.5.1.1
-                City 3623607	下半山村	合併市区町村	三間ノ川村	61	39	61	44	3623607	下半山村　1.5.1.1
+                Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
+                ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
     """
     # import logging
     # import ljc_common as lc
@@ -2092,18 +2055,6 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, target_att
         with open(ene_file, mode='r', encoding='utf-8') as ef:
             e_fname = ene_file.replace(sample_e_dir, '')
             # e_cat = e_fname.replace('.json', '')
-
-            # 20220929
-            # e_cat = lc.extract_cat(e_fname, log_info)
-            # if e_cat == '':
-            #     logger.error({
-            #         'action': 'prematch_mention_title',
-            #         'msg': 'illegal file name',
-            #         'fname': e_fname
-            #     })
-            #     # 20220830
-            #     sys.exit()
-
             logger.debug({
                 'action': 'gen_linkable_info',
                 # 'ene_cat': e_cat,
@@ -2139,18 +2090,9 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, target_att
         with open(g_file, mode='r', encoding='utf-8') as gf:
             g_cat = ''
             g_fname = g_file.replace(sample_g_dir, '')
-            # g_cat = g_fname.replace('.json', '')
-            # g_cat = lc.extract_cat(g_fname, log_info)
-            # if g_cat == '':
-            #     logger.error({
-            #         'action': 'prematch_mention_title',
-            #         'msg': 'illegal file name',
-            #         'g_fname': g_fname
-            #     })
-            #     sys.exit()
 
             logger.debug({
-                'action': 'ljc_main',
+                'action': 'gen_linkable_info',
                 # 'g_cat': g_cat,
                 'g_fname': g_fname,
             })
@@ -2174,18 +2116,29 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, target_att
                         count_g_cat_attr[g_cat_attr] = 1
                     else:
                         count_g_cat_attr[g_cat_attr] += 1
-
+                    logger.debug({
+                        'action': 'gen_linkable_info',
+                        # 'g_cat': g_cat,
+                        'grec[link_page_id]': grec['link_page_id'],
+                    })
     for cat_attr in count_e_cat_attr:
         (t_cat, t_attr) = re.split(':', cat_attr)
+        linked_freq = 0
+        all_freq = 0
         if count_g_cat_attr.get(cat_attr):
             t_ratio_str = count_g_cat_attr[cat_attr]/count_e_cat_attr[cat_attr]
             t_ratio = float(Decimal(t_ratio_str).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
+            linked_freq = count_g_cat_attr[cat_attr]
+            all_freq = count_e_cat_attr[cat_attr]
         else:
             t_ratio = 0.0
 
-        prt_list.append([t_cat, t_attr, t_ratio])
+        # prt_list.append([t_cat, t_attr, t_ratio])
 
-    sdf = pd.DataFrame(prt_list, columns=['cat', 'attr', 'ratio'])
+        # 2022/10/3
+        prt_list.append([t_cat, t_attr, t_ratio, linked_freq, all_freq])
+
+    sdf = pd.DataFrame(prt_list, columns=['cat', 'attr', 'ratio', 'linked_freq', 'all_freq' ])
     sdf.to_csv(linkable_info_file, sep='\t', header=False, index=False)
 
 
@@ -2202,8 +2155,8 @@ def gen_nil_info(gold_dir, nil_info_file, log_info):
         gold file
             Gold files (eg. sample gold files) used for self link estimation should be located in gold_dir.
             sample
-                City 3623607	下半山村	合併市区町村	三間ノ川村	61	39	61	44	29489	高岡郡　1.5.1.1
-                City 3623607	下半山村	合併市区町村	三間ノ川村	61	39	61	44	3623607	下半山村　1.5.1.1
+                Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
+                ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
     """
     # import logging
 
@@ -2228,12 +2181,7 @@ def gen_nil_info(gold_dir, nil_info_file, log_info):
     sumup_nil_cat_attr = {}
 
     for g_fname in glob(gold):
-        # cat = get_category(g_fname, gold_dir, ext, log_info)
-        # logger.debug({
-        #     'action': 'gen_nil_info',
-        #     'cat': cat,
-        #     'g_fname': g_fname
-        # })
+
         check_gold = {}
         check_nil_gold = {}
         cat = ''
@@ -2242,15 +2190,15 @@ def gen_nil_info(gold_dir, nil_info_file, log_info):
 
             cat = ''
             for grow in greader:
-                # [cat, pid, title, at, text, start_line_id, start_offset, end_line_id, end_offset, link_id, link_title,
-                # ene]
+                # Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
+                # ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
+
                 # 20220929
                 cat = grow[0]
 
                 # 20220825 from here
-                # gold_key = '\t'.join(grow[0:8])
                 gold_key = '\t'.join(grow[1:9])
-                # till here
+                # 1061108	松田秀知	所属組織	フジテレビ	36	52	36	57
                 logger.debug({
                     'action': 'gen_nil_info',
                     'gold_key': gold_key,
@@ -2288,9 +2236,13 @@ def gen_nil_info(gold_dir, nil_info_file, log_info):
 
     for t_cat_attr in sumup_cat_attr:
         (t_cat, t_attr) = re.split('\t', t_cat_attr)
+        nil_freq = 0
+        all_freq = 0
         if sumup_nil_cat_attr.get(t_cat_attr):
             t_ratio_str = sumup_nil_cat_attr[t_cat_attr]/sumup_cat_attr[t_cat_attr]
             t_ratio = float(Decimal(t_ratio_str).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
+            nil_freq = sumup_nil_cat_attr[t_cat_attr]
+            all_freq = sumup_cat_attr[t_cat_attr]
         else:
             t_ratio = 0.0
         logger.debug({
@@ -2299,10 +2251,9 @@ def gen_nil_info(gold_dir, nil_info_file, log_info):
             't_attr': t_attr,
             't_ratio': t_ratio
         })
-        # 'action': 'gen_nil_info', 't_cat': 'Market', 't_attr': '旧称・前身', 't_ratio': 0.0}
-        prt_list.append([t_cat, t_attr, t_ratio])
+        prt_list.append([t_cat, t_attr, t_ratio, nil_freq, all_freq])
 
-    sdf = pd.DataFrame(prt_list, columns=['cat', 'attr', 'ratio'])
+    sdf = pd.DataFrame(prt_list, columns=['cat', 'attr', 'ratio', 'nil_freq', 'all_freq'])
     sdf.to_csv(nil_info_file, sep='\t', header=False, index=False)
 
 
@@ -2312,9 +2263,7 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
     """Generate self link info
     args:
         gold_dir
-        # target_cat_attr_file:
         self_link_info_file:
-        # self_link_attr_info_file:
         log_info:
     return:
     output: (2)
@@ -2323,19 +2272,14 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
         School  別名    1.0       10    10
         School  標語    0.0        0     1
         School  種類    0.0        0     2
-        
-        # self_link_attr_info_file
-        # 別名  1.0   100  100
-        # 標語　0.0     0   10
-        # 種類　0.0     0   20
+
     Note:
         gold file
             sample
-                change: linked ENEID -> linked category
-                City	3623607	下半山村	合併市区町村	窪川村	61	30	61	33	29489	高岡郡	City
-                City	3623607	下半山村	合併市区町村	貝ノ川村	61	34	61	38	3623607	下半山村	City
-
-
+                ['Galaxy', '1243163', 'M61 (天体)', '種類', 'フェイスオン銀河', '259', '45', '259', '53', '', '', '[]',
+                '[]']}
+                ['Galaxy', '1243163', 'M61 (天体)', '属する天体', 'おとめ座銀河団', '260', '0', '260', '7', '279791',
+                'おとめ座銀河['Galaxy']"]}
     """
     # import logging
 
@@ -2363,24 +2307,7 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
     # 20220905
     sumup_self_attr = {}
 
-    # 20220905
-    # dict to check the target cat-attr combination
-    # check_target_cat_attr = {}
-    # with open(target_cat_attr_file, mode='r', encoding='utf-8') as tca:
-    #     treader = csv.reader(tca, delimiter='\t')
-    #
-    #     for tline in treader:
-    #         t_cat = tline[0]
-    #         t_attr = tline[1]
-    #         check_target_cat_attr[t_cat] = t_attr
-
     for g_fname in glob(gold):
-        # cat = get_category(g_fname, gold_dir, ext, log_info)
-        # logger.debug({
-        #     'action': 'gen_self_link_info',
-        #     'cat': cat,
-        #     'g_fname': g_fname
-        # })
         check_gold = {}
         check_self_gold = {}
         cat = ''
@@ -2392,21 +2319,19 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
                     'action': 'gen_self_link_info',
                     'grow': grow,
                 })
-                # 'grow': ['Person', '1115527', 'ヴォルフガング・オヴェラート', '国籍', 'ドイツ', '44', '6', '44', '9',
-                # '1698878', 'ドイツ', 'Country']}
-                # 20220825 from here
-                # gold_key = '\t'.join(grow[0:8])
-                # 20220929
+                # ['Galaxy', '1243163', 'M61 (天体)', '種類', 'フェイスオン銀河', '259', '45', '259', '53', '', '',
+                # '[]', '[]']}
+                # ['Galaxy', '1243163', 'M61 (天体)', '属する天体', 'おとめ座銀河団', '260', '0', '260', '7', '279791',
+                # 'おとめ座銀河['Galaxy']"]}
                 cat = grow[0]
                 gold_key = '\t'.join(grow[1:9])
-                # 'grow[1:9]':
-                # ['1115527', 'ヴォルフガング・オヴェラート', '国籍', 'ドイツ', '44', '6', '44', '9',]
-                # till here
-                logger.debug({
+
+                logger.info({
                     'action': 'gen_self_link_info',
                     'gold_key': gold_key,
                 })
-                # 'gold_key': '61974\t後楽園\tアクティビティ\t能\t109\t12\t109\t13'}
+                #'gold_key': '1507542\tたばこの規制に関する世界保健機関枠組条約\t言語\t英語\t33\t10\t33\t12'}
+
                 if not check_gold.get(gold_key):
                     check_gold[gold_key] = 1
 
@@ -2418,9 +2343,9 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
                         check_self_gold[gold_key] += 1
 
         for common_key in check_gold:
-            #  'common_key': '2009182\tグローバル作物多様性トラスト\t別名・旧称\tGCDT\t61\t15\t61\t19'}
+            #'1507542\tたばこの規制に関する世界保健機関枠組条約\t言語\t英語\t33\t10\t33\t12'}
+
             common_key_list = re.split('\t', common_key)
-            # ['1115527', 'ヴォルフガング・オヴェラート', '国籍', 'ドイツ', '44', '6', '44', '9','1698878',] これは違う
 
             # 20221001
             attr = common_key_list[2]
@@ -2592,6 +2517,15 @@ def gen_link_prob_file(gold_dir, link_prob_file, log_info):
     :param:link_prob_file
     :param:log_info
     :output: link_prob_file
+    :notice
+        gold file
+        (sample)
+         - `Person	1058520	竹内えり	作品	白い巨塔	79	0	79	4	29582
+        白い巨塔 (2003年のテレビドラマ)	['1.7.13.2']　['Broadcast_Program']`
+         - `Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']
+        ['Character', 'Broadcast_Program']`
+        - Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
+        ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
     """
 
     from glob import glob
@@ -2618,6 +2552,10 @@ def gen_link_prob_file(gold_dir, link_prob_file, log_info):
             # till here
             cat = ''
             reader = csv.reader(g, delimiter='\t')
+            #  - `Person	1058520	竹内えり	作品	白い巨塔	79	0	79	4	29582
+            # 白い巨塔 (2003年のテレビドラマ)	['1.7.13.2']　['Broadcast_Program']`
+            #  - `Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']
+            # ['Character', 'Broadcast_Program']`
             for line in reader:
                 if len(line) < 10:
                     logger.warning({
@@ -2626,10 +2564,7 @@ def gen_link_prob_file(gold_dir, link_prob_file, log_info):
                         'line': line,
                     })
                     continue
-                # 20220825 from here
-                # attr_name = line[2]
-                # attr_value = line[3]
-                # link_pid = line[8]
+
                 cat = line[0]
                 attr_name = line[3]
                 attr_value = line[4]
@@ -2722,9 +2657,10 @@ def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_i
                 cat     pid     line_id html_text_start html_text_end   html_text       title
             sample
                 City    3692278 34      148     150     日本    日本
-        gold_files
-            Airport	1013693	ルイス・ムニョス・マリン国際空港	ＩＡＴＡ（空港コード）	SJU	44	6	44	9	1013693
-            ルイス・ムニョス・マリン国際空港
+        gold_file
+            sample
+            Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
+            ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
     """
 
     import csv
@@ -3614,22 +3550,15 @@ def gen_disambiguation_file(patfile, cirrus, outfile, log_info):
                 if 'namespace' in d:
                     if d['namespace'] != 0:
                         continue
-                if 'title' not in d:
-                    logger.error({
-                        'action': 'gen_disambiguation_file',
-                        'error': 'title not found in d',
-                        'c_line': c_line
-                    })
-                    sys.exit()
-                # 20220905
-                # if len(d['title']) == 1 and d['title'] in string.punctuation:
-                #     logger.info({
+                # if 'title' not in d:
+                #     logger.error({
                 #         'action': 'gen_disambiguation_file',
-                #         'error': 'skipped punctuation title',
+                #         'error': 'title not found in d',
                 #         'c_line': c_line
                 #     })
-                #     continue
-                # else:
+                #     sys.exit()
+                lc.check_dic_key('title', log_info, **d)
+
                 tmp_title = d['title']
 
                 for tmp_pat, tmp_pos in check_title.items():
@@ -3644,13 +3573,14 @@ def gen_disambiguation_file(patfile, cirrus, outfile, log_info):
                             check_dis = 1
 
                 if check_dis != 1:
-                    if 'category' not in d:
-                        logger.error({
-                            'action': 'gen_disambiguation_file',
-                            'error': 'category not found in d',
-                            'c_line': c_line
-                        })
-                        sys.exit()
+                    # if 'category' not in d:
+                    #     logger.error({
+                    #         'action': 'gen_disambiguation_file',
+                    #         'error': 'category not found in d',
+                    #         'c_line': c_line
+                    #     })
+                    #     sys.exit()
+                    lc.check_dic_key('category', log_info, **d)
 
                     d_cat = {cat: 1 for cat in d['category']}
 
@@ -3837,36 +3767,36 @@ def gen_incoming_link_file(cirrus_content, outfile, log_info):
                     if d['namespace'] != 0:
                         print('error:namespace', c_line)
                         continue
-                if 'title' not in d:
-                    logger.error({
-                        'action': 'get_incoming_link_file',
-                        'error': 'title not found',
-                        'c_line': c_line
-                    })
-                    sys.exit()
-                else:
-                    tmp_title = d['title']
-                if 'incoming_links' not in d:
-                    logger.error({
-                        'action': 'get_incoming_link_file',
-                        'error': 'incoming links not found',
-                        'c_line': c_line
-                        })
-                    sys.exit()
-                else:
-                    tmp_link_num = d['incoming_links']
-                    id_title_link.append([tmp_id, tmp_title, tmp_link_num])
+                # if 'title' not in d:
+                #     logger.error({
+                #         'action': 'get_incoming_link_file',
+                #         'error': 'title not found',
+                #         'c_line': c_line
+                #     })
+                #     sys.exit()
+                lc.check_dic_key('title', log_info, **d)
+                tmp_title = d['title']
+                # if 'incoming_links' not in d:
+                #     logger.error({
+                #         'action': 'get_incoming_link_file',
+                #         'error': 'incoming links not found',
+                #         'c_line': c_line
+                #         })
+                #     sys.exit()
+                lc.check_dic_key('incoming_links', log_info, **d)
+                tmp_link_num = d['incoming_links']
+                id_title_link.append([tmp_id, tmp_title, tmp_link_num])
 
     with open(outfile, 'w', encoding='utf-8') as o:
         writer = csv.writer(o, delimiter='\t', lineterminator='\n')
         writer.writerows(id_title_link)
 
 
-def gen_attr_rng_auto(gold_tsv_dir, attr_rng_info_auto_file, log_info, **d_cnv):
+def gen_attr_rng_auto(gold_tsv_dir, attr_rng_auto_file, log_info, **d_cnv):
     """
     generate attribute range info (auto)
     :param gold_tsv_dir:
-    :param attr_rng_info_auto_file:
+    :param attr_rng_auto_file:
     :param log_info:
     :param d_cnv:
     :return:
@@ -3889,7 +3819,7 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_info_auto_file, log_info, **d_cnv):
     for gold_file in glob(gold_files):
         cnt_cat_attr = {}
         logger.info({
-            'action': 'gen_attr_rng_info',
+            'action': 'gen_attr_rng_auto',
             'gold_file': gold_file
         })
         cnt_cat_attr_lcat = {}
@@ -3906,7 +3836,7 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_info_auto_file, log_info, **d_cnv):
                 linked_cat = ar_line[11]
 
                 logger.debug({
-                    'action': 'gen_attr_rng_info',
+                    'action': 'gen_attr_rng_auto',
                     'ar_line': ar_line,
                     'cat': cat,
                     'attr': attr,
@@ -3934,7 +3864,7 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_info_auto_file, log_info, **d_cnv):
 
                 t_cat_attr = t_cat + '\t' + t_attr
                 logger.debug({
-                    'action': 'gen_attr_rng_info',
+                    'action': 'gen_attr_rng_auto',
                     't_cat': t_cat,
                     't_attr': t_attr,
                     't_cat_attr': t_cat_attr
@@ -3948,20 +3878,22 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_info_auto_file, log_info, **d_cnv):
                 else:
                     t_ratio = 0.0
 
-                if t_eneid not in d_cnv:
-                    logger.error({
-                        'action': 'gen_attr_rng_man',
-                        'msg': 'illegal eneid in attr_rng_man_org_file',
-                        'rng_eneid': t_eneid
-                    })
-                    sys.exit()
+                lc.check_dic_key(t_eneid, log_info, **d_cnv)
+
+                # if t_eneid not in d_cnv:
+                #     logger.error({
+                #         'action': 'gen_attr_rng_auto',
+                #         'msg': 'illegal eneid',
+                #         't_eneid': t_eneid
+                #     })
+                #     sys.exit()
                 t_ene_label = d_cnv[t_eneid]
 
                 # t_eneid_expand = 'ene:' + t_eneid
                 # prt_list.append([t_cat, t_attr, t_ratio, sumup_self_cat_attr[tmp_cat_attr],
                 # sumup_cat_attr[tmp_cat_attr]])
                 logger.info({
-                    'action': 'gen_attr_rng_info',
+                    'action': 'gen_attr_rng_auto',
                     't_cat': t_cat,
                     't_attr': t_attr,
                     't_eneid': t_eneid,
@@ -3982,7 +3914,7 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_info_auto_file, log_info, **d_cnv):
         'action': 'gen_attr_rng_info',
         'prt_list': prt_list
     })
-    sdf.to_csv(attr_rng_info_auto_file, sep='\t', header=False, index=False)
+    sdf.to_csv(attr_rng_auto_file, sep='\t', header=False, index=False)
 
 
 def gen_attr_rng_man(attr_rng_man_org_file, attr_rng_man_file, log_info, **d_cnv):
@@ -4024,13 +3956,16 @@ def gen_attr_rng_man(attr_rng_man_org_file, attr_rng_man_file, log_info, **d_cnv
             attr = am_line[1]
             rng_eneid = am_line[2]
             rng_ratio = am_line[3]
-            if rng_eneid not in d_cnv:
-                logger.error({
-                    'action': 'gen_attr_rng_man',
-                    'msg': 'illegal eneid in attr_rng_man_org_file',
-                    'rng_eneid': rng_eneid
-                })
-                sys.exit()
+
+            lc.check_dic_key(rng_eneid, log_info, **d_cnv)
+
+            # if rng_eneid not in d_cnv:
+            #     logger.error({
+            #         'action': 'gen_attr_rng_man',
+            #         'msg': 'illegal eneid in attr_rng_man_org_file',
+            #         'rng_eneid': rng_eneid
+            #     })
+            #     sys.exit()
             rng_en_label = d_cnv[rng_eneid]
 
             prt_list.append([cat, attr, rng_eneid, rng_en_label, rng_ratio])

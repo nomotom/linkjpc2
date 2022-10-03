@@ -66,6 +66,7 @@ class OptInfo(object):
 
     # link_prob
     lp_min_default = 0.5
+
     # filtering
     filtering_default = 'n'
     # attr_range
@@ -122,7 +123,9 @@ class OptInfo(object):
     incl_max_default = 1
     # detect nil
     nil_tgt_default = 'n'
-    nil_cat_attr_max_default = 0.2
+    nil_all_freq_min_default = 7
+
+    nil_cat_attr_max_default = 0.01
     len_desc_text_min_default = 7
     nil_cond_default = 'and_prob_or_len_desc'
     nil_desc_exception_default = 'person_works'
@@ -149,6 +152,7 @@ class OptInfo(object):
                  char_match_min=char_match_min_default,
                  filtering=filtering_default,
                  len_desc_text_min=len_desc_text_min_default,
+                 nil_all_freq_min=nil_all_freq_min_default,
                  lp_min=lp_min_default,
                  mint=mint_default,
                  mint_min=mint_min_default,
@@ -205,6 +209,7 @@ class OptInfo(object):
         self.mod = mod
         self.mod_w = mod_w
         self.multi_lang = multi_lang
+        self.nil_all_freq_min = nil_all_freq_min
         self.nil_cat_attr_max = nil_cat_attr_max
         self.nil_cond = nil_cond
         self.nil_desc_exception = nil_desc_exception
