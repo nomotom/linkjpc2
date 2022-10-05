@@ -208,7 +208,8 @@ def set_logging(log_info, logger_name):
 # module: lp
 @click.option('--nil_all_freq_min', '-n_af_min', type=click.FLOAT,
               default=cf.OptInfo.nil_all_freq_min_default, show_default=True,
-              help='minimum freq of category-attribute to consider category-attribute-mention link probability in the link prob file (f_link_prob). (0.1-1.0)')
+              help='minimum freq of category-attribute to consider category-attribute-mention link probability '
+                   'in the link prob file (f_link_prob). (0.1-1.0)')
 @click.option('--lp_min', '-l_min', type=click.FLOAT,
               default=cf.OptInfo.lp_min_default, show_default=True,
               help='minimum category-attribute-mention link probability in the link prob file (f_link_prob). (0.1-1.0)')
@@ -369,7 +370,7 @@ def ljc_main(common_data_dir,
              incl_type,
              # lang_link_min,
              len_desc_text_min,
-             lp_all_freq_min,
+             nil_all_freq_min,
              lp_min,
              mint,
              mint_min,
@@ -443,7 +444,7 @@ def ljc_main(common_data_dir,
     :param incl_type:
     # :param lang_link_min:
     :param len_desc_text_min:
-    :param lp_all_freq_min:
+    :param nil_all_freq_min:
     :param lp_min:
     :param mint:
     :param mint_min:
@@ -516,7 +517,7 @@ def ljc_main(common_data_dir,
     opt_info.score_type = score_type
     opt_info.slink_min = slink_min
     opt_info.slink_prob = slink_prob
-    opt_info.link_all_freq_min = lp_all_freq_min
+    opt_info.nil_all_freq_min = nil_all_freq_min
     opt_info.link_prob_min = lp_min
     opt_info.wl_break = wl_break
     opt_info.wl_lines_backward_ca = wl_lines_backward_ca
@@ -626,7 +627,7 @@ def ljc_main(common_data_dir,
             'msg': 'illegal common_data_dir',
             'common_data_dir': data_info.common_data_dir,
         })
-        sys.exit()
+
     if not os.path.isdir(data_info.in_dir):
         logger.error({
             'msg': 'illegal in_dir',
@@ -660,9 +661,11 @@ def ljc_main(common_data_dir,
     d_back_link = {}
     diff_info = {}
     d_linkable = {}
-    d_eneid2enlabel = {}
+    # d_target_eneid2enlabel = {}
+    # d_target_eneid2enlabel = lc.reg_target_attr_info(data_info.target_attr_info_file, log_info)
 
-    d_eneid2enlabel = lc.reg_target_attr_info(data_info.target_attr_info_file, log_info)
+    d_eneid2enlabel = {}
+    d_eneid2enlabel = lc.reg_all_cat_info(data_info.all_cat_info_file, log_info)
 
     # mint
     if (opt_info.mention_in_title == 'e' or opt_info.mention_in_title == 'p') and 'm' not in opt_info.mod:
@@ -1140,7 +1143,7 @@ def ljc_main(common_data_dir,
             # 20220829
             out_tsv = outfile.replace('.jsonl', '.tsv')
 
-            logger.info({
+            logger.debug({
                 'action': 'ljc_main',
                 # 'ene_cat': ene_cat,
                 'in_file': in_file,
@@ -1178,7 +1181,7 @@ def ljc_main(common_data_dir,
                 if rec['ENE'] in d_eneid2enlabel:
                     mention_info.ene_cat = d_eneid2enlabel[rec['ENE']]
 
-                # ene_cat = d_eneid2enlabel[rec['ENE_id']]
+                # ene_cat = d_target_eneid2enlabel[rec['ENE_id']]
 
                 mod_info = cf.ModInfo()
                 cat_attr = mention_info.ene_cat + ':' + mention_info.attr_label
@@ -1245,15 +1248,14 @@ def ljc_main(common_data_dir,
                                                                 data_info.self_link_by_attr_name_file,
                                                                 log_info, **d_self_link)
 
-                    if mention_info.t_mention == 'スウィングの王様':
-                        logger.info({
-                            'action': 'ljc_main',
-                            'mention_info.attr_label': mention_info.attr_label,
-                            'mention_info.t_start_line_id': mention_info.t_start_line_id,
-                            'mention_info.t_start_offset': mention_info.t_start_offset,
-                            'mention_info.pid': mention_info.pid,
-                            'slink_cand_list': slink_cand_list
-                        })
+                    logger.debug({
+                        'action': 'ljc_main',
+                        'mention_info.attr_label': mention_info.attr_label,
+                        'mention_info.t_start_line_id': mention_info.t_start_line_id,
+                        'mention_info.t_start_offset': mention_info.t_start_offset,
+                        'mention_info.pid': mention_info.pid,
+                        'slink_cand_list': slink_cand_list
+                    })
 
                     # filtering
                     if len(slink_cand_list) > 0:
@@ -1530,7 +1532,18 @@ def ljc_main(common_data_dir,
                 json.dump(tline, o, ensure_ascii=False)
                 o.write('\n')
 
-    lc.linkedjson2tsv_add_linked_title_ene(out_dir, data_info.title2pid_ext_file, log_info)
+    d_mint_mention_pid_ratio.clear()
+    d_tinm_mention_pid_ratio.clear()
+    d_cat_attr2eneid_prob.clear()
+    d_self_link.clear()
+    d_link_prob.clear()
+    d_back_link.clear()
+    diff_info.clear()
+    d_linkable.clear()
+    # d_target_eneid2enlabel.clear()
+
+    # lc.linkedjson2tsv_add_linked_title_ene(out_dir, data_info.title2pid_ext_file, log_info)
+    lc.gen_linked_tsv(out_dir, data_info.title2pid_ext_file, log_info, **d_eneid2enlabel)
 
 
 if __name__ == '__main__':

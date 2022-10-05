@@ -49,14 +49,14 @@ def estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable):
         link_prob_info_list = d_linkable[cat_attr]
         # link_prob_cat_attr = d_linkable[cat_attr]
 
-        all_freq = link_prob_info_list[2]
-        link_prob_cat_attr = link_prob_info_list[0]
+        all_freq = int(link_prob_info_list[2])
+        link_prob_cat_attr = float(link_prob_info_list[0])
 
         if all_freq < opt_info.nil_all_freq_min:
             logger.debug({
                 'action': 'estimate_nil',
                 'msg': 'skipped sample is too small',
-                'lp_all_freq_min': opt_info.lp_all_freq_min,
+                'nil_all_freq_min': opt_info.nil_all_freq_min,
             })
         else:
             if link_prob_cat_attr <= nil_cat_attr_max:
@@ -212,7 +212,10 @@ def check_linkable_info(linkable_info_file, log_info):
     Note:
          linkable info file
             format: format: 'cat', 'attr', 'ratio', 'linked_freq', 'all_freq' (*.tsv)
-            sample: City 地名の謂れ 0.14
+            sample:
+                Video_Work      別名    1.0     8       8
+                Video_Work      監督    0.92    12      13
+                Video_Work      脚本    0.4     2       5
     """
 
     import csv

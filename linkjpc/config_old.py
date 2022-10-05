@@ -530,6 +530,7 @@ class DataInfo(object):
                  f_attr_rng_man=f_attr_rng_man_default,
                  f_attr_rng_man_org=f_attr_rng_man_org_default,
                  f_attr_rng_auto=f_attr_rng_auto_default,
+                 f_attr_rng_merged=f_attr_rng_merged_default,
                  f_cirrus_content=f_cirrus_content_default,
                  f_ene_def_for_task=f_ene_def_for_task_default,
                  f_enew_info=f_enew_info_default,
@@ -582,7 +583,7 @@ class DataInfo(object):
 
         self.attr_rng_man_file = common_data_dir + f_attr_rng_man
         self.attr_rng_man_org_file = common_data_dir + f_attr_rng_man_org
-
+        self.attr_rng_merged_file = common_data_dir + f_attr_rng_merged
         self.attr_rng_auto_file = common_data_dir + f_attr_rng_auto
         self.cirrus_content_file = common_data_dir + f_cirrus_content
         self.common_html_info_file = common_data_dir + f_common_html_info
@@ -724,31 +725,3 @@ class ModInfo(object):
         self.wlink_weight = wlink_weight
         self.slink_weight = slink_weight
         self.link_prob_weight = link_prob_weight
-
-
-class AnalDataInfo(object):
-    f_target_default = 'eval_target.txt'
-    f_diff_judge_info_default = 'diff_judge.tsv'
-    f_ok_freq_info_default = 'diff_judge_ok_freq.tsv'
-    f_ng_freq_info_default = 'diff_judge_ng_freq.tsv'
-    f_eval_info_default = 'diff_judge_eval.tsv'
-
-    def __init__(self,
-                 gold_dir,
-                 sys_dir_common,
-                 sys_dir_version,
-                 f_target=f_target_default,
-                 f_diff_judge=f_diff_judge_info_default,
-                 f_ok_freq_info=f_ok_freq_info_default,
-                 f_ng_freq_info=f_ng_freq_info_default,
-                 f_eval_info=f_eval_info_default):
-        self.gold_dir=gold_dir
-        self.sys_dir_common=sys_dir_common
-        self.sys_dir_version=sys_dir_version
-        self.f_target=f_target
-        self.f_diff_judge=f_diff_judge
-        self.f_ok_freq_info=f_ok_freq_info
-        self.f_ng_freq_info=f_ng_freq_info
-        self.f_eval_info=f_eval_info
-
-

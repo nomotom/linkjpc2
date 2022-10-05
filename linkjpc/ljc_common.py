@@ -4,9 +4,9 @@ import logging
 import csv
 import sys
 
+# def check_dic_key(keyword, **dic):
 def check_dic_key(keyword, log_info, **dic):
     """
-
     :param keyword:
     :param dic:
     :return:
@@ -17,8 +17,8 @@ def check_dic_key(keyword, log_info, **dic):
 
     if keyword not in dic:
         logger.error({
-            'action': 'check_dict_key',
-            'msg': 'attribute not found',
+            'action': 'check_dic_key',
+            'msg': 'key not found',
             'key': keyword,
         })
         sys.exit()
@@ -194,13 +194,14 @@ def linkedjson2tsv(linked_json_dir, title2pid_org_file, log_info):
             pid = ''
             title = ''
             rd = json.loads(rline)
-            if 'page_id' not in rd:
-                logger.error({
-                    'action': 'linkedjson2tsv',
-                    'error': 'missing page_id'
-                })
-                sys.exit()
-            elif not rd['page_id']:
+            check_dic_key('page_id', log_info, **rd)
+            # if 'page_id' not in rd:
+            #     logger.error({
+            #         'action': 'linkedjson2tsv',
+            #         'error': 'missing page_id'
+            #     })
+            #     sys.exit()
+            if not rd['page_id']:
                 logger.error({
                     'action': 'linkedjson2tsv',
                     'error': 'page_id null'
@@ -209,14 +210,15 @@ def linkedjson2tsv(linked_json_dir, title2pid_org_file, log_info):
             else:
                 pid = str(rd['page_id'])
             # title (not forwarded page)
-            if 'title' not in rd:
-                logger.error({
-                    'action': 'linkedjson2tsv',
-                    'error': 'title not in rd',
-                    'rline': rline
-                })
-                sys.exit()
-            elif not rd['title']:
+            check_dic_key('title', log_info, **rd)
+            # if 'title' not in rd:
+            #     logger.error({
+            #         'action': 'linkedjson2tsv',
+            #         'error': 'title not in rd',
+            #         'rline': rline
+            #     })
+            #     sys.exit()
+            if not rd['title']:
                 logger.error({
                     'action': 'linkedjson2tsv',
                     'error': 'no title redirect to',
@@ -524,8 +526,40 @@ def get_key_list(log_info, **tr):
     tmp_list = [pid, at, text, start_line_id, start_offset, end_line_id, end_offset, link_id]
     return tmp_list
 
+def setstr2list(set_str, log_info):
+    """
 
-def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log_info, **d_cnv):
+    :param set_str:
+    :param log_info:
+    :return:
+    """
+    import re
+    import logging
+    logger = ljc.set_logging(log_info, 'myPreLogger')
+    logger.setLevel(logging.INFO)
+
+    new_string  = re.sub('[{}\' ]', '', set_str)
+    new_list = new_string.split(',')
+    return new_list
+
+
+def liststr2list(list_str, log_info):
+    """
+
+    :param list_str:
+    :param log_info:
+    :return:
+    """
+    import re
+    import logging
+    logger = ljc.set_logging(log_info, 'myPreLogger')
+    logger.setLevel(logging.INFO)
+
+    new_string = re.sub('[\[\]\' ]', '', list_str)
+    new_list = new_string.split(',')
+    return new_list
+
+def gen_linked_tsv(linked_json_dir, title2pid_ext_file, log_info, **d_cnv):
     """Convert linked json file (with title) to linked tsv file
        add ene category of page, title of linked page, ene category of linked paged using title2pid_ext_file
 
@@ -543,6 +577,7 @@ def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log
             sample
                 Person 2392906	桐谷華	地位職業	声優	38	20	38	22	1192	声優　　　地位職業名
     notice
+    　　basically the same as gen_linked_tsv_mod except filtering by mod_list_file
         '\n' in text(mention) has been converted to '\\n'.
         f_title2pid_ext
             format
@@ -559,52 +594,60 @@ def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log
             "end": {"line_id": 45, "offset": 484}, "text": "イングランド"}, "link_page_id": "16627",
             "link_type": {"later_name": false, "part_of": false, "derivation_of": false}}
 
+
     """
 
     import json
     import pandas as pd
     from glob import glob
     import re
+    import datetime
 
     import logging
     logger = ljc.set_logging(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
     logger.info({
-        'action': 'linkedjson2tsv_add_linked_title_ene',
+        'action': 'gen_linked_tsv',
         'linked_json_dir': linked_json_dir,
         # 'title2pid_org_file': title2pid_org_file,
     })
     get_title = {}
-    get_eneid_list = {}
+    get_eneid_set = {}
+
+    # check_mod = {}
+    # with open(mod_list_file, 'r', encoding='utf-8') as ml:
+    #     ml_reader = csv.reader(ml, delimiter='\t')
+    #     for ml_line in ml_reader:
+    #         cat = ml_line[0]
+    #         pid = ml_line[1]
+    #         attr = ml_line[2]
+    #         mention = ml_line[3]
+    #         tmp_key = ':'.join([cat, pid, attr, mention])
+    #         if tmp_key not in check_mod:
+    #             check_mod[tmp_key] = 1
 
     with open(title2pid_ext_file, mode='r', encoding='utf-8') as f:
-
         reader = csv.reader(f, delimiter='\t')
         # VIAF    2503159 バーチャル国際典拠ファイル      212754  {'1.7.0'}
         for rows in reader:
-            to_title = rows[2]
-            to_pid_str = rows[1]
-            # 20220921
-            to_eneid_set_pre1 = rows[4]
-            to_eneid_set_pre2 = re.sub('[{}\' ]', '', to_eneid_set_pre1)
-            to_eneid_list = to_eneid_set_pre2.split(',')
-
+            # to_pid_str -> to_title
+            get_title[rows[1]] = rows[2]
+            # to_pid_str -> to_eneid_setstr
+            get_eneid_set[rows[1]] = rows[4]
             logger.debug({
-                'action': 'linkedjson2tsv_add_linked_title_ene',
-                'to_pid_str': to_pid_str,
-                'to_title': to_title,
-                'rows[4]': rows[4],
+                'action': 'gen_linked_tsv_mod',
+                'to_pid_str(rows[1])': rows[1],
+                'to_title(rows[2])': rows[2],
+                'to_eneid_set_str(rows[4])': rows[4],
                 'type(rows[4])': type(rows[4]),
-                'to_eneid_list': to_eneid_list
             })
-            get_title[to_pid_str] = to_title
-
-            get_eneid_list[to_pid_str] = to_eneid_list
             # # 20220916
             # get_pid[to_title] = to_pid_str
     # linked_json_files = linked_json_dir + '*.json'
     linked_json_files = linked_json_dir + '*.jsonl'
+
+    print(datetime.datetime.now())
 
     for linked_json in glob(linked_json_files):
         if 'for_view' in linked_json:
@@ -625,72 +668,61 @@ def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log
         # cat = cat_pre.replace('.tsv', '')
 
         with open(linked_json, mode='r', encoding='utf-8') as g, open(linked_tsv, 'w', encoding='utf-8') as o:
+            logger.debug({
+                'action': 'gen_linked_tsv',
+                'linked_json': linked_json,
+                'linked_tsv': linked_tsv,
+                'rows[4]': rows[4],
+                'type(rows[4])': type(rows[4]),
+            })
             for g_line in g:
                 g_key_list = []
                 d_gline = json.loads(g_line)
                 g_key_list = get_key_list_with_ene_title(log_info, **d_gline)
+                # [eneid, pid, title, at, text, start_line_id, start_offset, end_line_id, end_offset, link_id]
 
                 logger.debug({
-                    'action': 'linkedjson2tsv_add_linked_title_ene',
+                    'action': 'gen_linked_tsv',
                     'g_key_list(org)': g_key_list
                 })
-                # 'g_key_list(org)': ['1.6.4.16', '725957', '西鉄香椎花園', 'アトラクション', 'ふわふわぞうさん',
+                #  ['1.6.4.16', '725957', '西鉄香椎花園', 'アトラクション', 'ふわふわぞうさん',
                 # '94', '0', '94', '8', None]}
+                #  ['1.7.13.0', '596942', '雷切', '種類', '日本刀', '47', '26', '47', '29', '36305']}
 
                 ene_label = ''
                 cat = ''
-                if g_key_list[0] in d_cnv:
-                    cat = d_cnv[g_key_list[0]]
-                    g_key_list[0] = cat
-                    logger.debug({
-                        'action': 'linkedjson2tsv_add_linked_title_ene',
-                        'cat': cat,
-                        'g_key_list[0]': g_key_list[0],
-                        'g_key_list': g_key_list
-                    })
-                    # ['Company_Group', '1240793', 'リング・テムコ・ボート', 'もとになった組織', '1947年にジェームズ・リングによって、ic Company ）を創業したことに起源を発する', '49', '0', '49', '81', None]}
-                else:
-                    logger.error({
-                        'action': 'linkedjson2tsv_add_linked_title_ene',
-                        'msg': 'eneid(g_key_list[0] not found in d_cnv',
-                        'g_key_list[0]': g_key_list[0],
-                        'g_key_list': g_key_list
-                    })
-                    sys.exit()
+                check_dic_key(g_key_list[0], log_info, **d_cnv)
+                # if g_key_list[0] in d_cnv:
+                cat = d_cnv[g_key_list[0]]
+                g_key_list[0] = cat
+
                 logger.debug({
-                    'action': 'linkedjson2tsv_add_linked_title_ene',
-                    'g_key_list(1)': g_key_list
+                    'action': 'gen_linked_tsv',
+                    'cat': cat,
+                    'g_key_list[0]': g_key_list[0],
+                    'g_key_list': g_key_list
                 })
-                # ok
+                # ['Company_Group', '1240793', 'リング・テムコ・ボート', 'もとになった組織', '1947年にジェームズ・リングによって、
+                # ic Company ）を創業したことに起源を発する', '49', '0', '49', '81', None]}
+
                 # in case of multiple lines
                 # text_pre = g_key_list[4]
                 text_pre = g_key_list[4]
-                logger.debug({
-                    'action': 'linkedjson2tsv_add_linked_title_ene',
-                    'g_key_list(1-0)': g_key_list,
-                    'g_key_list[3]': g_key_list[3],
-                    'g_key_list[4]': g_key_list[4]
-                })
-                # 20220826
-                # g_key_list[3] = '\\n'.join(text_pre.splitlines())
                 g_key_list[4] = '\\n'.join(text_pre.splitlines())
-                logger.debug({
-                    'action': 'linkedjson2tsv_add_linked_title_ene',
-                    'g_key_list(1-0-1)': g_key_list
-                })
-                # g_key_list[4] = '\n'.join(text_pre.splitlines())
-                # till here
-                # if 'つまり' in g_key_list[3] or '要するに' in g_key_list[3] or 'たとえば' in g_key_list[3]:
-                #     print('key_list_3', g_key_list[3])
-                logger.debug({
-                    'action': 'linkedjson2tsv_add_linked_title_ene',
-                    'g_key_list(1-1)': g_key_list
-                })
+
+                # tmp_cat_pid_attr_mention = ':'.join([cat, g_key_list[1], g_key_list[3], g_key_list[4]])
+                # if tmp_cat_pid_attr_mention in check_mod:
+                #     logger.debug({
+                #         'action': 'gen_linked_tsv_mod',
+                #         'msg': 'skipped based on mod_list',
+                #         'tmp_cat_pid_attr_mention': tmp_cat_pid_attr_mention
+                #     })
+                #     continue
                 # ng
                 # 20220826
                 g_link_pageid = g_key_list[9]
                 logger.debug({
-                    'action': 'linkedjson2tsv_add_linked_title_ene',
+                    'action': 'gen_linked_tsv',
                     'g_link_pageid': g_link_pageid
                 })
                 g_link_title = ''
@@ -698,18 +730,18 @@ def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log
                 if get_title.get(g_link_pageid):
                     g_link_title = get_title[g_link_pageid]
                     logger.debug({
-                        'action': 'linkedjson2tsv_add_linked_title_ene',
+                        'action': 'gen_linked_tsv',
                         'g_link_title': g_link_title,
                         'g_link_pageid': g_link_pageid
                     })
                     # 'g_link_title': 'ミサイル巡洋艦', 'g_link_pageid': '742148'}
                 logger.debug({
-                    'action': 'linkedjson2tsv_add_linked_title_ene',
+                    'action': 'gen_linked_tsv',
                     'g_key_list(2)': g_key_list
                 })
                 g_key_list.insert(10, g_link_title)
                 logger.debug({
-                    'action': 'linkedjson2tsv_add_linked_title_ene',
+                    'action': 'gen_linked_tsv',
                     'g_key_list(2-1)': g_key_list
                 })
                 # 'g_link_title': '指令誘導', 'g_key_list': ['Weapon_Other', '1223107', 'シーウルフ (ミサイル)', 'CLOS',
@@ -722,24 +754,26 @@ def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log
                 # g_link_eneid_set = set()
                 g_link_eneid_list = []
                 if g_link_pageid:
-                    if get_eneid_list.get(g_link_pageid):
-                        g_link_eneid_list = get_eneid_list[g_link_pageid]
+                    if get_eneid_set.get(g_link_pageid):
+                        g_link_eneid_list = setstr2list(get_eneid_set[g_link_pageid], log_info)
+
                         logger.debug({
-                            'action': 'linkedjson2tsv_add_linked_title_ene',
+                            'action': 'gen_linked_tsv',
                             'g_link_pageid': g_link_pageid,
                             'g_link_eneid_list': g_link_eneid_list,
-                            # 'type(g_link_eneid_set)': type(g_link_eneid_set)
+                            'type(g_link_eneid_list)': type(g_link_eneid_list)
                         })
                         for g_link_eneid in g_link_eneid_list:
                             logger.debug({
-                                'action': 'linkedjson2tsv_add_linked_title_ene',
+                                'action': 'gen_linked_tsv',
                                 'g_link_eneid': g_link_eneid
                             })
+
+                            check_dic_key(g_link_eneid, log_info, **d_cnv)
 
                             g_link_ecat = d_cnv[g_link_eneid]
                             # g_link_ecat_set.add(g_link_ecat)
                             g_link_ecat_list.append(g_link_ecat)
-
 
                 # g_key_list.insert(11, g_link_ecat_set)
                 g_key_list.insert(11, g_link_ecat_list)
@@ -750,7 +784,7 @@ def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log
                 # g_key_list.insert(0, cat)
 
                 logger.debug({
-                    'action': 'linkedjson2tsv_add_linked_title_ene',
+                    'action': 'gen_linked_tsv',
                     'g_key_list': g_key_list,
                 })
                 #  'g_key_list': ['Constellation', '47047', 'へびつかい座', '隣接する星座', 'へび座',
@@ -759,7 +793,6 @@ def linkedjson2tsv_add_linked_title_ene(linked_json_dir, title2pid_ext_file, log
 
             df_go = pd.DataFrame(go_list)
             df_go.to_csv(o, sep='\t', header=False, index=False)
-
 
 # def linkedjson2tsv_add_linked_title_ene_cnv_year(linked_json_dir, title2pid_ext_file, title2pid_ext_obs_file, log_info,
 #                                                  **d_cnv
@@ -1231,3 +1264,16 @@ def reg_title2pid_ext(title2pid_ext_file, log_info):
             d_pid_title_incoming_eneid[to_pid] = [to_title, to_incoming, to_eneid]
 
     return d_title2pid, d_pid_title_incoming_eneid
+
+
+def list2tsv(filename, two_d_list):
+    with open(filename, mode='w', encoding='utf-8') as ef:
+        e_writer = csv.writer(ef, delimiter='\t', lineterminator='\n')
+        e_writer.writerows(two_d_list)
+
+
+def dict2tsv(filename, **d):
+    with open(filename, mode='w', encoding='utf-8') as ff:
+        d_writer = csv.writer(ff, delimiter='\t', lineterminator='\n')
+        for k, v in d.items():
+            d_writer.writerow([k, v])
