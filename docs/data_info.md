@@ -218,6 +218,7 @@ Download the data listed below from _URL(to be prepared)_ .
    - (range):    'ene':eneid
  - sample:
    - `Military_Ship   乗船者  1.1 1`
+   - `Toy     開発者  1.4     0.8`
  - created by: manually
  - used in: (linkjpc)gen_attr_rng
 
@@ -372,9 +373,9 @@ Download the data listed below from _URL(to be prepared)_ .
  - description: Linking training data (20221004) modification list to delete records with specified combination of 
  - category(ENE_label_en), pid, attribute, mention, and linked id.
  - format:
- - ene_label_en, pageid, title, attribute_name,  mention, start_line_id, start_offset, end_line_id, end_offset, linked id`
+  -- ene_label_en, pageid, title, attribute_name,  mention, start_line_id, start_offset, end_line_id, end_offset, linked id`
  - sample:
- - `Airport 4013648 シモン・ボリバル国際空港        別名    シモン・ボリーバル国際空港      82      17      82      30   12345678`
+  -- `Airport 4013648 シモン・ボリバル国際空港        別名    シモン・ボリーバル国際空港      82      17      82      30   12345678`
 
 ## (3) data created by preprocessing tools
 ## (3-1) (sample_gold_dir)
@@ -382,12 +383,13 @@ Download the data listed below from _URL(to be prepared)_ .
 ### SP1 (sample gold data info)
  - filename: **Airport.tsv, City.tsv, 'Company.tsv, 'Compound.tsv, 'Conference.tsv, 'Lake.tsv, 'Person.tsv** 
  - description: Sample gold data info.
- - format: category,  org_pageid, org_title, attribute_name, mention, start_line_id, start_offset, end_line_id, 
- - end_offset, gold_pageid, gold_title, gold_eneid, gold_ene_category (*.tsv)
+ - format: 
+   -- category,  org_pageid, org_title, attribute_name, mention, start_line_id, start_offset, end_line_id, 
+end_offset, gold_pageid, gold_title, gold_eneid, gold_ene_category (*.tsv)
  - sample:<br>
- - `Person	1058520	竹内えり	作品	白い巨塔	79	0	79	4	29582	
+  -- `Person	1058520	竹内えり	作品	白い巨塔	79	0	79	4	29582	
 白い巨塔 (2003年のテレビドラマ)	['1.7.13.2']　['Broadcast_Program']`
- - `Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']	
+  -- `Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']	
 ['Character', 'Broadcast_Program']`
  - created by: (linkjpc_prep --gen_sample_gold_tsv) gen_sample_gold_tsv
  - used in: (linkjpc_prep) gen_link_prob_file, gen_mention_gold_link_dist
@@ -398,31 +400,49 @@ Download the data listed below from _URL(to be prepared)_ .
  - filename: '**common_html_tag_info.tsv**'
  - description: Info on embedded links to other Wikipedia pages in original articles of sample data
  - format: 
-   - cat, pid, line_id, text_start, text_end, text, title (*.tsv)
+   -- cat, pid, line_id, text_start, text_end, text, title (*.tsv)
  - sample: 
-   - `City    1617736 90      292     298     リンブルフ州 リンブルフ州 (ベルギー)`
+   -- `City    1617736 90      292     298     リンブルフ州 リンブルフ州 (ベルギー)`
  - created by: gen_html_info_file
  - used in: (linkjpc_prep) gen_mention_gold_link_dist
 
-### CP2 (f_disambiguation_default)
+### CP2 (f_wikipedia_page_change_info_default)
+ - filename 'jawiki-20190120_20210820_page_change_info.tsv'
+ - format: <br>
+  -- old_pageid, new_pageid (*.tsv)
+ - sample: <br>
+  -- `2378461	581`
+  -- `467914	800`
+  -- `3792943	910`
+  -- `1943393	1064`
+
+### CP3 (f_disambiguation_default)
  - filename: '**jawiki-20210823-cirrussearch-content_disambiguation.tsv**'
  - description: Disambiguation page list.
  - format: pageid, title (*.tsv)
  - sample: 
-   - `1128763 テトラ (曖昧さ回避)`
-   - `3077413	ハムレット (曖昧さ回避)`
+   -- `1128763 テトラ (曖昧さ回避)`
+   -- `3077413	ハムレット (曖昧さ回避)`
+   -- `961474	SWEET DREAMS`
+   -- `1120676 エンヤ (曖昧さ回避)`
+
  - notice: 
    - pageid: 2021 
  - created by: (linkjpc_prep --redirect) gen_disambiguation_file
  - used in: (linkjpc_prep) gen_redirect_info_file
 
-### CP3 (f_redirect_info_default) 
+### CP4 (f_redirect_info_default) 
  - filename: '**jawiki-20210823_title2pageid_20210820_nodis.tsv**'
  - description: Redirect info file, a modification of original from_title to_pageid information file to exclude disambiguation pages and ill-formatted pages. 
  - format: title, pageid (*.tsv)
  - sample: 
-   - `1904年アメリカ合衆国大統領選挙  1477879`
-   - `風と共に去りぬ (宝塚歌劇)311957`
+   -- `United States	1698838`
+   -- `1904年アメリカ合衆国大統領選挙  1477879`
+   -- `風と共に去りぬ (宝塚歌劇) 311957`
+   -- `夏の夜の夢	318229`
+   -- `真夏の夜の夢	318229`
+   -- `眞夏の夜の夢	318229`
+   -- `安倍晋三/log20200516	4136738`
  - notice:
    - based on original redirect file(f_title2pid_org_default, jawiki-20210823_title2pageid_20210820.jsonl).
    - recovered white spaces in Wikipedia titles which are replaced by '_' in the original redirect file.
@@ -430,18 +450,18 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: (linkjpc_prep --redirect) gen_redirect_info_file
  - used in: (linkjpc_prep) gen_title2pid_ext_file
 
-### CP4 (f_incoming_default) 
+### CP5 (f_incoming_default) 
  - filename: '**jawiki-20210823-cirrussearch-content_incoming_link.tsv**'
  - description: Incoming link num info list.
  - format:
    - pageid, title, number of incoming links (*.tsv) 
  - sample: 
-   - `311957	風と共に去りぬ (宝塚歌劇)	1091`
-   - `345792  ピノッキオの冒険        233`
+   -- `311957	風と共に去りぬ (宝塚歌劇)	1091`
+   -- `345792  ピノッキオの冒険        233`
  - created by: (linkjpc_prep --gen_incoming_link) gen_incoming_link_file
  - used in: (linkjpc_prep) gen_title2pid_ext_file
 
-### CP5 (f_enew_info_default) 
+### CP6 (f_enew_info_default) 
  - filename: '**shinra2022_Categorization_train_20220616_mod.tsv**'
  - description:
    - ENEW info (based on slightly modified version of ENEW (20200427)).
@@ -449,56 +469,40 @@ Download the data listed below from _URL(to be prepared)_ .
  - format:
    - pageid, ENEid, title (*.tsv) 
  - sample: 
-   - `311957	1.7.19.4	風と共に去りぬ (宝塚歌劇)`
-   - `345792  1.7.19.6        ピノッキオの冒険`
+   -- `311957	1.7.19.4	風と共に去りぬ (宝塚歌劇)`
+   -- `345792  1.7.19.6        ピノッキオの冒険`
  - notice: 
     - Not all target pageids are included in the file. (eg. 3682608, 3386984)
  - created by: (linkjpc_prep --gen_title2pid) gen_enew_info_file
  - used in: (linkjpc_prep) gen_title2pid_ext_file
- 
-
 
 ### CP7 (f_slink_default) 
  - filename: '**cat_attr_self_link.tsv**'
  - description: Self link info file to estimate the probability of linking to the original article for each category-attribute pair. 
  - format: ene_label_en, attribute_name, ratio (*.tsv)
  - sample:
-   - `City	合併市区町村	0.47	156	333`
-   - `Person	居住地	0.0	0	347`
+   -- `City	合併市区町村	0.47	156	333`
+   -- `Person	居住地	0.0	0	347`
  - note: The ratio is based on SHINRA2022-LinkJP sample data. Not all the target categories are included. (eg. Island)
  - created by: (linkjpc_prep --gen_slink) gen_self_link_info
  - used in: (linkjpc) sl.check_slink_info
 
-### CP19 (f_self_link_by_attr_name_default)
+### CP8 (f_self_link_by_attr_name_default)
  - filename: '**self_link_by_attr_name.tsv**'
  - format: attr
  - sample:
-   - 別名・旧称
-   - 合併市区町村
+   -- 別名・旧称
+   -- 合併市区町村
  - created by: gen_self_link_by_attr_name
  - used in: (linkjpc_prep)gen_self_link_by_attr_name
 
-### CP8 (f_title2pid_ext_default) 
- - filename: '**jawiki-20210823_title2pageid_20210820_ext.tsv**'
- - description: Summary information on title to pageid conversion, incoming links, and ENE classification of articles. .
- - format: 
-   - from_title, to_pid, to_title, to_incoming, to_eneid_set (*.tsv)
- - sample: 
-   - `ロメオとジュリエット	28783	ロミオとジュリエット	806	{'1.7.13.4', '1.7.13.5'}  `
-   - `安倍晋三	4136738	安倍晋三	3337	{'1.1'}  
- - created by: gen_title2pid_ext_file
- - used in: (linkjpc_prep --gen_title2pid) gen_back_link_info_file (get_to_pid_to_title_incoming_eneid), 
-    prematching_mention_title (reg_pid2title), 
-    gen_self_link_info (get_category)
-   (linkjpc) ljc_main, lc.reg_title2pid_ext
- 
 ### CP9 (f_link_prob_default) 
  - filename: '**sample_cat_attr_mention_linkcand.tsv**'
  - description: Link probability info file. 
  - format: 
    - ene_label_en, attribute_name, mention, link_cand_pageid:prob:freq;...(.tsv)
  - sample: 
-   - `City	合併市区町村	上村	151917:0.25:1;37423:0.25:1;381057:0.25:1;1872659:0.25:1`
+   -- `City	合併市区町村	上村	151917:0.25:1;37423:0.25:1;381057:0.25:1;1872659:0.25:1`
  - notice:
    - The ratio is based on LinkJP2021 sample data ver.20210428.
  - created by: (linkjpc_prep --gen_link_prob) gen_link_prob_file 
@@ -510,14 +514,115 @@ Download the data listed below from _URL(to be prepared)_ .
  - format: 
    - ene_label_en, attribute_name, ratio (*.tsv)
  - sample: 
-   - `Train   駆動方式        0.67`
-   - `Train   制御装置        0.33`
+   -- `Train   駆動方式        0.67`
+   -- `Train   制御装置        0.33`
  - notice:
    - The ratio is based on LinkJP2022 training data ver.202207.
  - created by: (linkjpc_prep --gen_linkable) gen_linkable_info_file 
  - used in: (linkjpc) dn.check_linkable_info
 
-### CP11 (f_nil_default) 
+### CP11 (f_mention_gold_link_dist_default) 
+ - filename: '**mention_gold_link_dist.tsv**'
+ - description: Mention goldlink dist file, which shows the distance (number of lines) between mentions and (nearest) gold links in sample html files.
+ - format: ene_label_en, attribute_name, distance (.tsv)
+ - sample: 
+   -- `Person 作品 -1`
+   -- `Person 作品 29`
+ - notice: the values are based on sample data
+ - created by: (linkjpc_prep --gen_link_dist) gen_mention_gold_link_dist
+ - used in: (linjpc)reg_mention_gold_distance
+
+### CP12 (f_attr_rng_man_default)
+ - filename: '***attr_rng_man.tsv***'
+ - description: attribute range info based on attr_rng_man_org_file (hand-written).
+ - format: cat, attr, rng_eneid, rng_cat, ratio
+ - sample: <br>
+  -- `Music	プロデューサー	1.1	Person	1`
+  -- `Island	別名・旧称	1.5.3.3	Island	1`
+  -- `Island	観光地	1.5	Location	1`
+ - based on f_attr_rng_man_org
+
+### CP13 (f_attr_rng_auto_default)
+ - filename: '***attr_rng_auto.tsv***'
+ - description: attribute range info based on sample data statitics
+ - format: cat, attr, eneid, ratio, freq', sum(cat*attr)
+ - sample: <br>
+  -- `Music	プロデューサー	1.1	Person	0.5	1	2`
+  -- `Music	プロデューサー	1.4.2	Show_Organization	0.5	1	2`
+  -- `Island	別名・旧称	1.5.3.3	Island	1.0	4	4`
+  -- `Island	観光地	1.6.4.11	Park	0.13	1	8`
+  -- `Island	観光地	1.6.4.18	Worship_Place	0.13	1	8`
+
+### CP14 (f_target_attr_info_default)
+ - filename: '**ene_definition_v9.0.0-20220714_target_attr.tsv**'
+ - format: eneid, ene_label(ja), ene_label(en), attribute_name, (*.tsv)
+ - sample:
+   -- `1.1	人名	Person	別名・旧称`
+   -- `1.1	人名	Person	国籍`
+ - created by: (linkjpc_prep)gen_target_attr_info
+ - used in: (linkjpc)gen_self_link_info, lc.reg_target_attr_info
+
+### CP15 (f_all_cat_info_default)
+ - filename: '**ene_definition_v9.0.0-20220714_all_cat.tsv**'
+ - format: ene_id, ene_label(ja), ene_label(en), (*.tsv)
+ - sample: <br>
+  -- `0	ＣＯＮＣＥＰＴ	CONCEPT`
+  -- `1	名前	Name`
+  -- `1.0	名前＿その他	Name_Other`
+  -- `1.1	人名	Person`
+  -- `1.2	神名	God`
+ - notice:
+   - Some categories lack attributes.
+ - created by: (linkjpc_prep)gen_target_attr_info 
+ - used in: 
+
+### CP16 (f_lang_link_info_default) 
+ - filename: '***jawiki-20210820-langlinks_info.tsv***'
+ - format: from page(Japanese Wikipedia wgarticleID), lang code, title
+ - sample: <br>
+  -- `102349	el	Chanel`
+  -- `102349	en	Chanel`
+  -- `102349	hi	चैनल`
+  -- `102349	zh	香奈儿`
+ - based on: jawiki-20210820-langlinks.sql
+ - notice: illegal characters (UnicodeDecodeError) are converted to '?'.
+ - created by: (linkjpc_prep --gen_lang_link) gen_lang_link_info
+
+### CP17 (f_title2pid_ext_default) 
+ - filename: '**jawiki-20210823_title2pageid_20210820_ext.tsv**'
+ - description: Summary information on title to pageid conversion, incoming links, and ENE classification of articles. .
+ - format: 
+   - from_title, to_pid, to_title, to_incoming, to_eneid_set (*.tsv)
+ - sample: 
+   -- `ロメオとジュリエット	28783	ロミオとジュリエット	806	{'1.7.13.4', '1.7.13.5'}  `
+   -- `安倍晋三	4136738	安倍晋三	3337	{'1.1'}`
+ - created by: gen_title2pid_ext_file
+ - used in: (linkjpc_prep --gen_title2pid) gen_back_link_info_file (get_to_pid_to_title_incoming_eneid), 
+    prematching_mention_title (reg_pid2title), 
+    gen_self_link_info (get_category)
+   (linkjpc) ljc_main, lc.reg_title2pid_ext
+ - 
+### CP18 (f_title2pid_ext_obs_default)
+ - filename '**jawiki-20190120-title2pageid_ext.tsv**'
+ - format: from_title, to_pid, to_title, to_incoming, to_eneid
+ - sample: <br>
+   -- `United States	1698838	アメリカ合衆国	116818	1.5.1.3`
+   -- `United States of America        1698838 アメリカ合衆国  116818  1.5.1.3`
+   -- `Usa     1698838 アメリカ合衆国  116818  1.5.1.3`
+
+### CP19 (f_title2pid_org_default)  
+ - filename: '**jawiki-20210820-title2pageid.jsonl**'
+ - based on: Wikipedia 20210820
+ - description: Title to pageid conversion info list
+ - format: see [title2pageid_for_entitylinking_dataset](https://github.com/k141303/title2pageid_for_entitylinking_dataset)
+ - sample: 
+   -- `{"page_id": 302067, "title": "イギリス語", "is_redirect": true,
+ "redirect_to": {"page_id": 3377, "title": "英語", "is_redirect": false}}`
+   -- `{"page_id": 311957, "title": "風と共に去りぬ_(宝塚歌劇)", "is_redirect": false}`
+ - created by: (linkjpc_prep)gen_title2pid_file
+ - used in: (linkjpc_prep) linkedjson2tsv, gen_redirect_info_file
+
+### CP20 (f_nil_default) 
  - filename: '**cat_attr_nil.tsv**'
  - description: Nil info file to estimate the probability of nil link for each category-attribute pair. 
  - format: ene_label_en, attribute_name, ratio (*.tsv)
@@ -527,103 +632,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - note: The ratio is based on SHINRA2022-LinkJP training data (ver.202207).
  - created by: (linkjpc_prep --gen_nil) gen_nil_info
  - used in: (linkjpc) 
-
-### CP12 (f_title2pid_ext_obs_default)
- - filename '**jawiki-20190120-title2pageid_ext.tsv**'
- - format: 
- - sample: <br>
-   -- `Usa     1698838 アメリカ合衆国  116818  1.5.1.3`
-   -- `United States of America        1698838 アメリカ合衆国  116818  1.5.1.3`
-
-### CP13 (f_wikipedia_page_change_info_default)
- - filename 'jawiki-20190120_20210820_page_change_info.tsv'
- - format: <br>
-  -- old_pageid, new_pageid (*.tsv)
- - sample: <br>
-  -- `2378461	581`
-  -- `467914	800`
-  -- `3792943	910`
-  -- `1943393	1064`
-
-
-### CP14 (f_attr_rng_man_default)
- - filename: '***cat_attr_rng_man.tsv***'
- - format: cat, attr, rng_eneid, rng_cat, ratio
- - sample: <br>
- - `School  理事長  1.1 Person      1.0`
- - `Island	別名・旧称	1.5.3.3	Island	1`
-
-### CP15 (f_attr_rng_auto_default)
- - filename: '***cat_attr_rng_auto.tsv***'
- - format: cat, attr, eneid, ratio, freq', sum(cat*attr)
- - sample: <br>
- - `Music   プロデューサー  1.1   Person  1.0  10   10`
- - `Island	観光地	1.6.4.11	Park	0.13	1	8`
- - `Island	観光地	1.6.4.18	Worship_Place	0.13	1	8`
-
-### CP16 (f_lang_link_info_default) 
- - filename: '***jawiki-20210820-langlinks_info.tsv***'
- - format: from page(Japanese Wikipedia wgarticleID), lang code, title
- - sample: <br>
- -- `102349	ast	Chanel`
- -- `102349	az	Chanel`
- -- `102349	ca	Chanel`
- -- `102349	da	Chanel`
- -- `102349	de	Chanel`
- -- `102349	el	Chanel`
- -- `102349	en	Chanel`
- - based on: jawiki-20210820-langlinks.sql.gz
- - notice: illegal characters (UnicodeDecodeError) are converted to '?'.
- - created by: (linkjpc_prep --gen_lang_link) gen_lang_link_info
- 
-### CP17 (f_target_attr_info_default)
- - filename: '**ene_definition_v9.0.0-20220714_target_attr.tsv**'
- - format: ene_label_en, attribute_name, (*.tsv)
- - sample:
-   - `1.1	人名	Person	別名・旧称`
-   - `1.1	人名	Person	国籍`
- - created by: (linkjpc_prep)gen_target_attr_info
- - used in: (linkjpc)gen_self_link_info, lc.reg_target_attr_info
-
-### CP18 (f_all_cat_info_default)
- - filename: '**ene_definition_v9.0.0-20220714_all_cat.tsv**'
- - format: ene_id, ene_label_ja, ene_label_en, (*.tsv)
- - sample: <br>
- - `0	ＣＯＮＣＥＰＴ	CONCEPT`
- - `1	名前	Name`
- - `1.0	名前＿その他	Name_Other`
- - `1.1	人名	Person`
- - `1.2	神名	God`
-
- - notice:
-   - Some categories lack attributes.
- - created by: (linkjpc_prep)gen_target_attr_info 
- - used in: 
  - 
-
-### CP6 (f_mention_gold_link_dist_default) 
- - filename: '**mention_gold_link_dist.tsv**'
- - description: Mention goldlink dist file, which shows the distance (number of lines) between mentions and (nearest) gold links in sample html files.
- - format: ene_label_en, attribute_name, distance (.tsv)
- - sample: 
-   - `Person 作品 -1`
-   - `Person 作品 29`
- - notice: the values are based on sample data
- - created by: (linkjpc_prep --gen_link_dist) gen_mention_gold_link_dist
- - used in: (linjpc)reg_mention_gold_distance
-
-### CP20 (f_title2pid_org_default)  cf. CD2
- - filename: '**jawiki-20210820-title2pageid.jsonl**'
- - based on: Wikipedia 20210820
- - description: Title to pageid conversion info list
- - format: see [title2pageid_for_entitylinking_dataset](https://github.com/k141303/title2pageid_for_entitylinking_dataset)
- - sample: 
-   - `{"page_id": 302067, "title": "イギリス語", "is_redirect": true,
- "redirect_to": {"page_id": 3377, "title": "英語", "is_redirect": false}}`
-   - `{"page_id": 311957, "title": "風と共に去りぬ_(宝塚歌劇)", "is_redirect": false}`
- - created by: (linkjpc_prep)gen_title2pid_file
- - used in: (linkjpc_prep) linkedjson2tsv, gen_redirect_info_file
-
 ## (3-3) (tmp_data_dir)
 
 ### TP1 (f_input_title_default)
@@ -725,7 +734,17 @@ Download the data listed below from _URL(to be prepared)_ .
    - Person  生誕地  -57     6       9       21      15      45
  notice: the values are based on - sample data
  - created by: (linkjpc) reg_mention_gold_distance
- - used in: (linkjpc) 
+ - used in: 
 
+### CL2 (f_attr_rng_merged_default)
+ - filename: '***attr_rng_auto.tsv***'
+ - format: cat, attr, eneid, ratio, freq', sum(cat*attr)
+ - description: attribute range info created by each execution 
+ - sample: <br>
+ - `Island__付近の大陸・地形	1.5.3.3	{'1.5.3.3': 0.84}
+ - Island__属する諸島	1.5.3.3	{'1.5.3.3': 1.0}
+ - Island__生息・栽培植物	1.9.4.13	{'1.9.4.13': 0.67}
+ - Island__構成する島	1.5.3.3	{'1.5.3.3': 0.71}
+ - created by: get_attr_range
 
 
