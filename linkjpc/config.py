@@ -356,7 +356,6 @@ class DataInfo(object):
     # f_enew_mod_list_default = 'ENEW_ENEtag_20200427_stoplist.tsv'
     f_enew_mod_list_default = 'shinra2022_Categorization_train_20220616_stoplist.tsv'
     #
-
     #
     # [CM12]
     f_wl_lines_backward_ca_default = 'wl_lines_backward_ca.tsv'
@@ -365,9 +364,9 @@ class DataInfo(object):
     f_wl_lines_forward_ca_default = 'wl_lines_forward_ca.tsv'
     #
     #
-
-    # [CM20]
-    f_sample_gold_mod_list_default = 'train-link-20220712_stoplist_all.tsv'
+    # [CM14]
+    # f_sample_gold_mod_list_default = 'train-link-20220712_stoplist_all.tsv'
+    f_sample_gold_mod_list_default = 'train-link-20221004_stoplist_all.tsv'
 
     # (2) preprocessing
     # (2-1) sample_gold_data_dir
@@ -379,106 +378,73 @@ class DataInfo(object):
     f_common_html_info_default = 'common_html_tag_info.tsv'
     #
     # [CP2]
+    # Wikipedia pageid change info
+    f_wikipedia_page_change_info_default = 'jawiki-20190120_20210820_page_change_info.tsv'
+
+    # [CP3]
     f_disambiguation_default = 'jawiki-20210823-cirrussearch-content_disambiguation.tsv'
     # f_disambiguation_default = 'jawiki-20190121-cirrussearch-content_disambiguation.tsv'
-    # sample
-    # 1120676 エンヤ (曖昧さ回避)
     #
-    # [CP3]
+    # [CP4]
     # f_redirect_info_default = 'jawiki-20210823_title2pageid-20190120_nodis.tsv'
     # 20220904
     # f_redirect_info_default = 'jawiki-20210823_title2pageid_20220501_nodis.tsv'
     f_redirect_info_default = 'jawiki-20210823_title2pageid_20210820_nodis.tsv'
-    # format: title(\t)pageid
-    # sample:
-    # 夏の夜の夢	318229
-    # 真夏の夜の夢	318229
-    # 眞夏の夜の夢	318229
-    # 安倍晋三/log20200516	4136738
-    #
-    #
-    # [CP4]
-    # f_incoming_default = 'jawiki-20190121-cirrussearch-content_incoming_link.tsv'
-    f_incoming_default = 'jawiki-20210823-cirrussearch-content_incoming_link.tsv'
-
     #
     # [CP5]
+    # f_incoming_default = 'jawiki-20190121-cirrussearch-content_incoming_link.tsv'
+    f_incoming_default = 'jawiki-20210823-cirrussearch-content_incoming_link.tsv'
+    #
+    # [CP6]
     # f_enew_info_default = 'ENEW_ENEtag_20200427_mod.tsv'
     f_enew_info_default = 'shinra2022_Categorization_train_20220616_mod.tsv'
 
-    #
-    # [CP6]
-    f_mention_gold_link_dist_default = 'mention_gold_link_dist.tsv'
-    #
     # [CP7]
     f_slink_default = 'cat_attr_self_link.tsv'
     #
     # [CP8]
-    # 0905
-    # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
-    # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
-    f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20210820_ext.tsv'
+    f_self_link_by_attr_name_default = 'self_link_by_attr_name.txt'
     #
     # [CP9]
-    # 0905
     f_link_prob_default = 'sample_cat_attr_mention_linkcand.tsv'
     #
     # [CP10]
     f_linkable_info_default = 'cat_attr_linkable.tsv'
     #
     # [CP11]
-    f_nil_default = 'cat_attr_nil.tsv'
-
-    # [CP12]
-    # 0905
-    # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
-    # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
-    f_title2pid_ext_obs_default = 'jawiki-20190120-title2pageid_ext.tsv'
+    f_mention_gold_link_dist_default = 'mention_gold_link_dist.tsv'
     #
-
-    # [CP13]
-    # Wikipedia pageid change info
-    f_wikipedia_page_change_info_default = 'jawiki-20190120_20210820_page_change_info.tsv'
-    # format: old_id, new_id
-
+    # [CP12]
     f_attr_rng_man_default = 'attr_rng_man.tsv'
-
-    # [CP14]
-    # 20220921
+    #
+    # [CP13]
     f_attr_rng_auto_default = 'attr_rng_auto.tsv'
 
+    # [CP14]
+    f_target_attr_info_default = 'ene_definition_v9.0.0-20220714_target_attr.tsv'
     # [CP15]
-    # 20220921
-    f_attr_rng_merged_default = 'attr_rng_merged.tsv'
+    f_all_cat_info_default = 'ene_definition_v9.0.0-20220714_all_cat.tsv'
 
     # [CP16]
     f_lang_link_info_default = 'jawiki-20210820-langlinks_info.tsv'
 
     # [CP17]
-    f_target_attr_info_default = 'ene_definition_v9.0.0-20220714_target_attr.tsv'
-    # format eneid, ene_label(ja), ene_label(en), attr_name
-    # 1.1	人名	Person	別名・旧称
-    # 1.1	人名	Person	国籍
-    # 1.1	人名	Person	地位職業
+    # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
+    # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
+    f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20210820_ext.tsv'
 
     # [CP18]
-    f_all_cat_info_default = 'ene_definition_v9.0.0-20220714_all_cat.tsv'
-    # format eneid, ene_label(ja), ene_label(en)
-    # sample:
-    # 0	ＣＯＮＣＥＰＴ	CONCEPT
-    # 1	名前	Name
-    # 1.0	名前＿その他	Name_Other
-    # 1.1	人名	Person
-    # 1.2	神名	God
+    # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
+    # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
+    f_title2pid_ext_obs_default = 'jawiki-20190120-title2pageid_ext.tsv'
 
     # [CP19]
-    f_self_link_by_attr_name_default = 'self_link_by_attr_name.txt'
-
-    # [CP20] cf. CD2
     # f_title2pid_org_default = 'jawiki-20210823_title2pageid_20220501.jsonl'
     f_title2pid_org_default = 'jawiki-20210820-title2pageid.jsonl'
     # f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
 
+    # [CP20]
+    f_nil_default = 'cat_attr_nil.tsv'
 
     # (2-3) tmp_data_dir
     # [TP1]
@@ -508,6 +474,9 @@ class DataInfo(object):
     # [CL1]
     f_mention_gold_link_dist_info_default = 'mention_gold_link_dist_info.tsv'
     # gw.reg_mention_gold_distance
+
+    # [CL2]
+    f_attr_rng_merged_default = 'attr_rng_merged.tsv'
 
     def __init__(self,
                  common_data_dir,

@@ -796,7 +796,6 @@ def ljc_prep_main(common_data_dir,
                          **d_eneid2enlabel)
 
     if gen_slink:
-
         logger.info({
             'run': 'gen_slink',
             'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
@@ -953,7 +952,7 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
                 g_key_list = lc.get_key_list_with_ene_title(log_info, **d_gline)
                 # eneid, pid, title, at, text, start_line_id, start_offset, end_line_id, end_offset, link_id
 
-                logger.info({
+                logger.debug({
                     'action': 'gen_linked_tsv_mod',
                     'g_key_list(org)': g_key_list
                 })
@@ -994,8 +993,7 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
                 })
 
                 if tmp_cat_pid_attr_mention in check_mod:
-
-                    if check_mod[tmp_cat_pid_attr_mention]:
+                    if check_mod[tmp_cat_pid_attr_mention] == g_link_pageid:
                         logger.info({
                             'action': 'gen_linked_tsv_mod',
                             'msg': 'skipped based on mod_list',
@@ -1041,7 +1039,7 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
                             'type(g_link_eneid_list)': type(g_link_eneid_list)
                         })
                         for g_link_eneid in g_link_eneid_list:
-                            logger.info({
+                            logger.debug({
                                 'action': 'gen_linked_tsv_mod',
                                 'g_link_eneid': g_link_eneid
                             })

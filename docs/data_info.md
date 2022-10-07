@@ -72,6 +72,8 @@ The directories are specified as command line arguments or options when you try 
 ### **common_data_dir** (linkjpc, linkjpc_prep)
 
 (entity linking)
+ここからファイルのID 未修正
+
 >- wl_lines_backward_ca.tsv ([CM4](#cm4-f_wl_lines_backward_ca_default))
 >- wl_lines_forward_ca.tsv ([CM5](#cm5-f_wl_lines_forward_ca_default)) 
 >- attr_def.tsv ([CM6](#CM6-f_attr_rng_default))
@@ -140,26 +142,26 @@ The directories are specified as command line arguments or options when you try 
 ### IT1 (test data)
 - filename: '[ENE category].json'
 - description: Test data.
-- available from: [SHINRA2022](http://2022.shinra-project.info/data-download/) サブタスク固有データ/リンキング ([ベースラインデータ/リーダーボード入力データ]()) 
+- available from: [SHINRA2022]
 - used in: (linkjpc) linkjpc, (linkjpc_prep) linkjpc_prep
 
 ### IT2 (original articles of test data (*.html))
 - filename: *.html
 - description: *.html files of the original articles of test data. The files are grouped by ENE categories (eg. 'Airport, 'CIty, etc.)
-- available from: [SHINRA2022](http://2022.shinra-project.info/data-download/) サブタスク固有データ/リンキング ([評価データ: 入力ファイル、対象のWikipediaページ]())
+- available from: [SHINRA2022]
 - used in: (linkjpc_prep)gen_html_info_file
 
 ## (1-2) (sample data(=training data) and html files (sample_gold_dir)
 ### IT3 (sample gold data)
 - filename: '[ENE category].json'
 - description: Sample gold data.
-- available from: [SHINRA2022](http://2022.shinra-project.info/data-download/) サブタスク固有データ/リンキング ([教師データ](https://drive.google.com/file/d/12aR95_a0oSTeEBG6fgBvxjDq-trEruWc/view?usp=sharing)) 
+- available from: [SHINRA2022]
 - used in: (linkjpc_prep)gen_link_prob_file
 
 ### IT4 (original articles of sample data (*.html))
 - filename: ***.html**
 - description: *.html files of the original articles of sample data. The files are grouped by ENE categories (eg. Airport, City, etc.)
-- available from: [SHINRA2022](http://2022.shinra-project.info/data-download/) サブタスク固有データ/リンキング ([教師データ](https://drive.google.com/file/d/1b9Xm-Qd1sVfmDr8o4y3t-dVnGai15P-q/view?usp=sharing)) 
+- available from: [SHINRA2022]  
 - used in: (linkjpc_prep)gen_html_info_file
 
 ## (1-3) other task data (common_data_dir)
@@ -182,9 +184,9 @@ The directories are specified as command line arguments or options when you try 
  - available from: SHINRA homepage
  - based on: Wikipedia 2019, ENE9
  - sample:
-   - `{"page_id":"1478897","title":"スキマスイッチ ARENA TOUR'07 \"W-ARENA\"THE MOVIE","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.7.13.6"}]}}`
- 　- `{"page_id":"1715611","title":"虹 〜もうひとつの夏〜","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.7.13.5"}]}}` 
-   - `{"page_id":"72942","title":"バックス (ローマ神話)","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.2"}]}}` 
+     - `{"page_id":"1478897","title":"スキマスイッチ ARENA TOUR'07 \"W-ARENA\"THE MOVIE","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.7.13.6"}]}}`
+     - `{"page_id":"1715611","title":"虹 〜もうひとつの夏〜","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.7.13.5"}]}}` 
+     - `{"page_id":"72942","title":"バックス (ローマ神話)","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.2"}]}}` 
  - available from: SHINRA homepage
  - used in: (linkjpc_prep) gen_enew_info_file
 
@@ -205,7 +207,8 @@ Download the data listed below from _URL(to be prepared)_ .
 
 ### CM2 (f_self_link_pat_default)
  - filename: '**self_link_pat.tsv**'
- - format: pos, pat (*.tsv)
+ - format: 
+   - pos, pat (*.tsv)
  - sample:
    - start   別名
    - start   合併
@@ -214,7 +217,8 @@ Download the data listed below from _URL(to be prepared)_ .
 
 ### CM3 (f_attr_rng_man_org_default)
  - filename: '**attr_rng_man_org_ene90_20221004.tsv**'
- - format: ene_label_en, attribute_name, range, probability (*.tsv)
+ - format: 
+    - ene_label_en, attribute_name, range, probability (*.tsv)
  - sample:
    - `Military_Ship   乗船者  1.1 1`
    - `Toy     開発者  1.4     0.8`
@@ -228,9 +232,9 @@ Download the data listed below from _URL(to be prepared)_ .
     - back link pid, org_title (*.tsv)
  notice: 
  - created by: 
- `mysql -u root -D pagelink < jawiki-20210820-pagelinks.sql`
- `...`
- `select pl_from, pl_title from pagelinks into jawiki-20210820-pagelinks_dmp.tsv`
+   - `mysql -u root -D pagelink < jawiki-20210820-pagelinks.sql`
+   `...`
+   `select pl_from, pl_title from pagelinks into jawiki-20210820-pagelinks_dmp.tsv`
  - used in: (linkjpc_prep) gen_back_link_info_file
 
 ### CM5 (f_redirect_dump_org_default)
@@ -346,7 +350,8 @@ Download the data listed below from _URL(to be prepared)_ .
 ### CM11 (f_enew_mod_list_default)
  - filename: '**shinra2022_Categorization_train_20220616_stoplist.tsv**'
  - description: ENEW modification list 
- - format: ENEID, pid, title (*.tsv)
+ - format: 
+   - ENEID, pid, title (*.tsv)
  - sample: 
    - `1.5.1.3 1419479 フランス陸軍参謀総長`
  - created by: manually
@@ -384,9 +389,21 @@ Download the data listed below from _URL(to be prepared)_ .
    - `Airport 4013648 シモン・ボリバル国際空港        別名    シモン・ボリーバル国際空港      82      17      82      30   12345678`
 
 ## (3) data created by preprocessing tools
-## (3-1) (sample_gold_dir)
+## (3-1) (sample_input_dir)
 
-### SP1 (sample gold data info)
+### SI1 (sample input json (year conerted))
+ - filename: **xx.jsonl**
+ - description: sample input json (year converted)
+ - created by: conv_input_pageid
+ - 
+
+## (3-2) (sample_gold_dir)
+
+### SP1 (sample gold json (year converted))
+ - filename: **xx.jsonl**
+ - description: sample gold json (year converted)
+ - created by: conv_link_pageid
+### SP2 (sample gold data info)
  - filename: **Airport.tsv, City.tsv, 'Company.tsv, 'Compound.tsv, 'Conference.tsv, 'Lake.tsv, 'Person.tsv** 
  - description: Sample gold data info.
  - format: 
@@ -440,7 +457,8 @@ end_offset, gold_pageid, gold_title, gold_eneid, gold_ene_category (*.tsv)
 ### CP4 (f_redirect_info_default) 
  - filename: '**jawiki-20210823_title2pageid_20210820_nodis.tsv**'
  - description: Redirect info file, a modification of original from_title to_pageid information file to exclude disambiguation pages and ill-formatted pages. 
- - format: title, pageid (*.tsv)
+ - format: 
+    - title, pageid (*.tsv)
  - sample: 
     - `United States	1698838`
     - `1904年アメリカ合衆国大統領選挙  1477879`
@@ -496,7 +514,8 @@ end_offset, gold_pageid, gold_title, gold_eneid, gold_ene_category (*.tsv)
 
 ### CP8 (f_self_link_by_attr_name_default)
  - filename: '**self_link_by_attr_name.tsv**'
- - format: attr
+ - format: 
+    - attr
  - sample:
     - `別名・旧称`
     - `合併市区町村`
