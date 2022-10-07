@@ -213,7 +213,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - used in: (linkjpc_prep)gen_self_link_by_attr_name
 
 ### CM3 (f_attr_rng_man_org_default)
- - filename: '**attr_rng_man_org_ene90_20221002.tsv**'
+ - filename: '**attr_rng_man_org_ene90_20221004.tsv**'
  - format: ene_label_en, attribute_name, range, probability (*.tsv)
    - (range):    'ene':eneid
  - sample:
@@ -241,8 +241,9 @@ Download the data listed below from _URL(to be prepared)_ .
    -- `557693	宮下杏菜	0`<br>
    -- `1699304	広瀬香美_THE_BEST_"Love_Winters"	0`<br>
    -- `1855418	広瀬香美_THE_BEST_"Love_Winters"	0`<br>
-　
- - based on: jawiki-20210820-redirect.sql.gz)
+   -- `3516739 固定リンク/62146672     -1`<br>
+   -- `3820714 投稿記録/119.224.170.248        -1`<br>
+ - based on: jawiki-20210820-redirect.sql)
 
 ### CM6 (f_redirect_dump_default)
  - filename:'***jawiki-20210820-redirect_dmp_rev.tsv***'
@@ -277,7 +278,7 @@ Download the data listed below from _URL(to be prepared)_ .
  -- `1696323	広瀬香美_THE_BEST_"Love_Winters"	0	0`<br>
  -- `1699304	広瀬香美_THE_BEST"Love_Winters"	1	0`<br>
  - notice:
- -- based on: jawiki-20220820-page.sql.gz
+ -- based on: jawiki-20220820-page.sql
 
 ### CM8 (f_page_dump_default)
  - filename:'***jawiki-20210820-page_dmp_rev.tsv***'
@@ -301,7 +302,7 @@ Download the data listed below from _URL(to be prepared)_ .
  -- `1033542	アメリカ合衆国	0	103`<br>
  -- `1696323	広瀬香美_THE_BEST_\"Love_Winters\"	0	0`<br>
  -- `1699304	広瀬香美_THE_BEST\"Love_Winters\"	1	0`
- - original: 'jawiki-20210820-page_dmp.tsv' (based on: jawiki-20210820-page.sql.gz)<br>
+ - original: 'jawiki-20210820-page_dmp.tsv' (based on: jawiki-20210820-page.sql)<br>
  - created by:<br>
   -- `$ awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-page_dmp.tsv | perl -pe 's/\"/\"\"/g;' > jawiki-20210820-page_dmp_rev.tsv`<br>
  - notice: 
@@ -311,8 +312,6 @@ Download the data listed below from _URL(to be prepared)_ .
 ## CM9 (f_page_dump_old_org_default)
  - filename:'***jawiki-20190120-page_dmp.tsv***'
  - description: Wikipedia page dump (20190120)<br>
-   -- deleted: titles with single punctuation symbols<br>
-   -- escaped: double quotations 
  - format:  page_id, page_title, page_is_redirect, page_namespace
  - sample:<br>
  -- `934000	安倍晋三	0	0`<br>
@@ -321,11 +320,6 @@ Download the data listed below from _URL(to be prepared)_ .
  -- `2697850	安倍晋三	0	2`<br>
  -- `2747973	安倍晋三	0	14`<br>
  - based on: jawiki-20190120-page.sql.gz<br>
- - created by:<br>
-  -- `$ awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20190120-page_dmp.tsv | perl -pe 's/\"/\"\"/g;' > jawiki-20210820-page_dmp_rev.tsv`<br>
- - notice: 
-  -- pageid: 2021 
-  -- punctuation symbols in awk(!"#$%&'-=^~\|@`...)
 
 ## CM10 (f_lang_link_dump_org_default)
 
@@ -373,14 +367,14 @@ Download the data listed below from _URL(to be prepared)_ .
    - `Person  作品    1`
  - used in: (linkjpc) gw.reg_mention_gold_distance_ca
 
-### CM20 (f_sample_gold_mod_list_default)
+### CM14 (f_sample_gold_mod_list_default)
  - filename: '**train-link-20220712_stoplist_all.tsv**'
- - description: Linking training data (20220712) modification list. Delete records with specified combination of 
- - category(ENE_label_en), pid, attribute, and mention
+ - description: Linking training data (20221004) modification list to delete records with specified combination of 
+ - category(ENE_label_en), pid, attribute, mention, and linked id.
  - format:
- - ene_label_en, pageid, title, attribute_name,  mention, start_line_id, start_offset, end_line_id, end_offset`
+ - ene_label_en, pageid, title, attribute_name,  mention, start_line_id, start_offset, end_line_id, end_offset, linked id`
  - sample:
- - `Airport 4013648 シモン・ボリバル国際空港        別名    シモン・ボリーバル国際空港      82      17      82      30`
+ - `Airport 4013648 シモン・ボリバル国際空港        別名    シモン・ボリーバル国際空港      82      17      82      30   12345678`
 
 ## (3) data created by preprocessing tools
 ## (3-1) (sample_gold_dir)
@@ -448,7 +442,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - used in: (linkjpc_prep) gen_title2pid_ext_file
 
 ### CP5 (f_enew_info_default) 
- - filename: '**ENEW_ENEtag_20200427_mod.tsv**'
+ - filename: '**shinra2022_Categorization_train_20220616_mod.tsv**'
  - description:
    - ENEW info (based on slightly modified version of ENEW (20200427)).
    - modification list: ENEW_ENEtag_20200427_stoplist.tsv (f_enew_mod_list_default)
@@ -462,16 +456,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: (linkjpc_prep --gen_title2pid) gen_enew_info_file
  - used in: (linkjpc_prep) gen_title2pid_ext_file
  
-### CP6 (f_mention_gold_link_dist_default) 
- - filename: '**mention_gold_link_dist.tsv**'
- - description: Mention goldlink dist file, which shows the distance (number of lines) between mentions and (nearest) gold links in sample html files.
- - format: ene_label_en, attribute_name, distance (.tsv)
- - sample: 
-   - `Person 作品 -1`
-   - `Person 作品 29`
- - notice: the values are based on sample data
- - created by: (linkjpc_prep --gen_link_dist) gen_mention_gold_link_dist
- - used in: (linkjpc_prep --gen_link_dist) gen_mention_gold_link_dist_info
+
 
 ### CP7 (f_slink_default) 
  - filename: '**cat_attr_self_link.tsv**'
@@ -483,6 +468,15 @@ Download the data listed below from _URL(to be prepared)_ .
  - note: The ratio is based on SHINRA2022-LinkJP sample data. Not all the target categories are included. (eg. Island)
  - created by: (linkjpc_prep --gen_slink) gen_self_link_info
  - used in: (linkjpc) sl.check_slink_info
+
+### CP19 (f_self_link_by_attr_name_default)
+ - filename: '**self_link_by_attr_name.tsv**'
+ - format: attr
+ - sample:
+   - 別名・旧称
+   - 合併市区町村
+ - created by: gen_self_link_by_attr_name
+ - used in: (linkjpc_prep)gen_self_link_by_attr_name
 
 ### CP8 (f_title2pid_ext_default) 
  - filename: '**jawiki-20210823_title2pageid_20210820_ext.tsv**'
@@ -534,16 +528,25 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: (linkjpc_prep --gen_nil) gen_nil_info
  - used in: (linkjpc) 
 
+### CP12 (f_title2pid_ext_obs_default)
+ - filename '**jawiki-20190120-title2pageid_ext.tsv**'
+ - format: 
+ - sample: <br>
+   -- `Usa     1698838 アメリカ合衆国  116818  1.5.1.3`
+   -- `United States of America        1698838 アメリカ合衆国  116818  1.5.1.3`
 
-~~### CP14 (f_self_link_attr_info_default)   
-    -- filename:'***self_link_attr_info_file***'
-    - format: attribute name, self_link ratio, self_link num, freq
-    - sample:
-    -- 別名  1.0   100  100
-    -- 標語　0.0     0   10
-    -- 種類　0.0     0   20~~
+### CP13 (f_wikipedia_page_change_info_default)
+ - filename 'jawiki-20190120_20210820_page_change_info.tsv'
+ - format: <br>
+  -- old_pageid, new_pageid (*.tsv)
+ - sample: <br>
+  -- `2378461	581`
+  -- `467914	800`
+  -- `3792943	910`
+  -- `1943393	1064`
 
-### CP15 (f_attr_rng_man_default)
+
+### CP14 (f_attr_rng_man_default)
  - filename: '***cat_attr_rng_man.tsv***'
  - format: cat, attr, rng_eneid, rng_cat, ratio
  - sample: <br>
@@ -597,14 +600,17 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: (linkjpc_prep)gen_target_attr_info 
  - used in: 
  - 
-### CP19 (f_self_link_by_attr_name_default)
- - filename: '**self_link_by_attr_name.tsv**'
- - format: attr
- - sample:
-   - 別名・旧称
-   - 合併市区町村
- - created by: gen_self_link_by_attr_name
- - used in: (linkjpc_prep)gen_self_link_by_attr_name
+
+### CP6 (f_mention_gold_link_dist_default) 
+ - filename: '**mention_gold_link_dist.tsv**'
+ - description: Mention goldlink dist file, which shows the distance (number of lines) between mentions and (nearest) gold links in sample html files.
+ - format: ene_label_en, attribute_name, distance (.tsv)
+ - sample: 
+   - `Person 作品 -1`
+   - `Person 作品 29`
+ - notice: the values are based on sample data
+ - created by: (linkjpc_prep --gen_link_dist) gen_mention_gold_link_dist
+ - used in: (linjpc)reg_mention_gold_distance
 
 ### CP20 (f_title2pid_org_default)  cf. CD2
  - filename: '**jawiki-20210820-title2pageid.jsonl**'
@@ -617,7 +623,6 @@ Download the data listed below from _URL(to be prepared)_ .
    - `{"page_id": 311957, "title": "風と共に去りぬ_(宝塚歌劇)", "is_redirect": false}`
  - created by: (linkjpc_prep)gen_title2pid_file
  - used in: (linkjpc_prep) linkedjson2tsv, gen_redirect_info_file
-
 
 ## (3-3) (tmp_data_dir)
 
@@ -704,9 +709,9 @@ Download the data listed below from _URL(to be prepared)_ .
 ### (4-1) (out_dir)
 
 ### OL1 (output data)
- - filename: **'Airport.json', 'City.json', ....**
+ - filename: **'Airport.jsonl', 'City.jsonl', ....**
  - description: Output data.
- - format: [SHINRA2022](http://shinra-project.info/shinra2021linkjp/#data-format)
+ - format: See SHINRA homepage
 
 ### (4-2) (common_data_dir)
 
@@ -719,8 +724,8 @@ Download the data listed below from _URL(to be prepared)_ .
    - Person  地位職業        -47     7       18      90      -63     45
    - Person  生誕地  -57     6       9       21      15      45
  notice: the values are based on - sample data
- - created by: (linkjpc) gw.reg_mention_gold_distance
- - used in: (linkjpc) gw.reg_mention_gold_distance
+ - created by: (linkjpc) reg_mention_gold_distance
+ - used in: (linkjpc) 
 
 
 
