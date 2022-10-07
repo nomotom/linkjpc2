@@ -522,7 +522,7 @@ def ljc_prep_main(common_data_dir,
             'cirrus_content_file': data_info_prep.cirrus_content_file,
             'disambiguation_file': data_info_prep.disambiguation_file,
         })
-        print(datetime.datetime.now())
+        # print(datetime.datetime.now())
 
         gen_disambiguation_file(data_info_prep.disambiguation_pat_file, data_info_prep.cirrus_content_file,
                                 data_info_prep.disambiguation_file, log_info)
@@ -533,7 +533,7 @@ def ljc_prep_main(common_data_dir,
             'disambiguation_file': data_info_prep.disambiguation_file,
             'redirect_info_file': data_info_prep.redirect_info_file,
         })
-        print(datetime.datetime.now())
+        # print(datetime.datetime.now())
 
         gen_redirect_info_file(data_info_prep.title2pid_org_file, data_info_prep.disambiguation_file,
                                data_info_prep.redirect_info_file, log_info)
@@ -704,7 +704,7 @@ def ljc_prep_main(common_data_dir,
             sys.exit()
         else:
             # 20220822
-            logger.info({
+            logger.debug({
                 'action': 'ljc_prep_main',
                 'run': 'prematch_mention_title',
                 'tmp_input_ene_dir': tmp_input_ene_dir
@@ -885,18 +885,23 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
     with open(mod_list_file, 'r', encoding='utf-8') as ml:
         ml_reader = csv.reader(ml, delimiter='\t')
         for ml_line in ml_reader:
+            # Person  463121  峰さを理        作品    誰がために鐘は鳴る      105     1       105     10
             cat = ml_line[0]
             pid = ml_line[1]
-            attr = ml_line[2]
-            mention = ml_line[3]
+            attr = ml_line[3]
+            # 20221006
+            mention = ml_line[4]
+            link_pid = ml_line[9]
+
             tmp_key = ':'.join([cat, pid, attr, mention])
-            if tmp_key not in check_mod:
-                check_mod[tmp_key] = 1
+
+            check_mod[tmp_key] = link_pid
 
     with open(title2pid_ext_file, mode='r', encoding='utf-8') as f:
 
         reader = csv.reader(f, delimiter='\t')
         # VIAF    2503159 バーチャル国際典拠ファイル      212754  {'1.7.0'}
+        # フジデジタルテレビジョン        4058860 フジテレビジョン        38288   {'1.7.24.1', '1.4.6.2'}
         for rows in reader:
             to_title = rows[2]
             to_pid_str = rows[1]
@@ -946,7 +951,7 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
                 g_key_list = []
                 d_gline = json.loads(g_line)
                 g_key_list = lc.get_key_list_with_ene_title(log_info, **d_gline)
-                # [eneid, pid, title, at, text, start_line_id, start_offset, end_line_id, end_offset, link_id]
+                # eneid, pid, title, at, text, start_line_id, start_offset, end_line_id, end_offset, link_id
 
                 logger.info({
                     'action': 'gen_linked_tsv_mod',
@@ -957,6 +962,8 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
 
                 ene_label = ''
                 cat = ''
+                g_link_title = ''
+                g_link_ene = ''
                 lc.check_dic_key(g_key_list[0], log_info, **d_cnv)
                 # if g_key_list[0] in d_cnv:
                 cat = d_cnv[g_key_list[0]]
@@ -976,14 +983,8 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
                 text_pre = g_key_list[4]
                 g_key_list[4] = '\\n'.join(text_pre.splitlines())
 
-                tmp_cat_pid_attr_mention = ':'.join([cat, g_key_list[1], g_key_list[3], g_key_list[4]])
-                if tmp_cat_pid_attr_mention in check_mod:
-                    logger.debug({
-                        'action': 'gen_linked_tsv_mod',
-                        'msg': 'skipped based on mod_list',
-                        'tmp_cat_pid_attr_mention': tmp_cat_pid_attr_mention
-                    })
-                    continue
+                tmp_cat_pid_attr_mention= ':'.join([cat, g_key_list[1], g_key_list[3], g_key_list[4]])
+
                 # ng
                 # 20220826
                 g_link_pageid = g_key_list[9]
@@ -991,8 +992,18 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
                     'action': 'gen_linked_tsv_mod',
                     'g_link_pageid': g_link_pageid
                 })
-                g_link_title = ''
-                g_link_ene = ''
+
+                if tmp_cat_pid_attr_mention in check_mod:
+
+                    if check_mod[tmp_cat_pid_attr_mention]:
+                        logger.info({
+                            'action': 'gen_linked_tsv_mod',
+                            'msg': 'skipped based on mod_list',
+                            'tmp_cat_pid_attr_mention': tmp_cat_pid_attr_mention,
+                            'g_link_pageid': g_link_pageid
+                        })
+                        continue
+
                 if get_title.get(g_link_pageid):
                     g_link_title = get_title[g_link_pageid]
                     logger.debug({
@@ -1023,7 +1034,7 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
                     if get_eneid_set.get(g_link_pageid):
                         g_link_eneid_list = lc.setstr2list(get_eneid_set[g_link_pageid], log_info)
 
-                        logger.info({
+                        logger.debug({
                             'action': 'gen_linked_tsv_mod',
                             'g_link_pageid': g_link_pageid,
                             'g_link_eneid_list': g_link_eneid_list,
@@ -2044,6 +2055,7 @@ def reg_pid2title(title2pid_ext_file, lang_link_info, log_info):
 
     with open(title2pid_ext_file, mode='r', encoding='utf-8') as f:
         reader = csv.reader(f, delimiter='\t')
+        # フジデジタルテレビジョン        4058860 フジテレビジョン        38288   {'1.7.24.1', '1.4.6.2'}
         for rows in reader:
             from_title = rows[0]
             to_pid_str = rows[1]
@@ -2097,13 +2109,11 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
 
      Notice:
          - redirect info
-        　　
-            - The from_title to_page pairs in the redirect file are originally defined in
-            jawiki-202190120-title2pageid.json.
             - In the redirect info,
                 - white spaces in Wikipedia titles are replaced by '_'.
                 - Some records with illegal formats (eg. lack of to_pageid) are deleted.
                 - Disambiguation pages are deleted (although not always completely).
+            - sample 安倍晋三/log20200516	4136738
         -incoming: pageid, title, maximum number of incoming_links
                    ('jawiki-20190121-cirrussearch-content_incoming_link.tsv')
             -format: <pageid>\t<title>\t<maximum num of incoming_links>
@@ -2141,6 +2151,7 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
 
     with open(enew_info) as e:
         reader = csv.reader(e, delimiter='\t')
+        # 15088	1.1	聖徳太子
         # 20221001
         for row in reader:
             try:
@@ -2193,6 +2204,7 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
 
     with open(redirect_info, mode='r', encoding='utf-8') as e:
         reader = csv.reader(e, delimiter='\t')
+        # 安倍晋三/log20200516	4136738
         rec_list = []
         # Some pages lack incoming or ENEW information
         for row in reader:
@@ -2491,6 +2503,8 @@ def gen_nil_info(gold_dir, nil_info_file, log_info):
             for grow in greader:
                 # Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
                 # ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
+                # Person	1061108	松田秀知	作品	ぼくの夏休み	89	1	89	7	2589292	ぼくの夏休み	['1.7.13.2']
+                # ['Broadcast_Program']
 
                 # 20220929
                 cat = grow[0]
@@ -2624,6 +2638,7 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
                 # 'おとめ座銀河['Galaxy']"]}
                 cat = grow[0]
                 gold_key = '\t'.join(grow[1:9])
+                # '1243163', 'M61 (天体)', '属する天体', 'おとめ座銀河団', '260', '0', '260', '7',
 
                 logger.info({
                     'action': 'gen_self_link_info',
@@ -2951,11 +2966,13 @@ def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_i
                 Person  作品    -1
                 Person  作品    -1
     note
-        tag_info
+        tag_info (with header
             format
                 cat     pid     line_id html_text_start html_text_end   html_text       title
             sample
-                City    3692278 34      148     150     日本    日本
+                cat     pid     line_id html_text_start html_text_end   html_text       title
+                Insect  2524837 54      136     138     分類    生物の分類
+                Insect  2524837 69      145     146     界      界 (分類学)
         gold_file
             sample
             Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
@@ -2978,6 +2995,9 @@ def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_i
     })
     with open(html_info, 'r', encoding='utf-8') as f:
         reader = csv.reader(f, delimiter='\t')
+        # cat     pid     line_id html_text_start html_text_end   html_text       title
+        # Insect  2524837 54      136     138     分類    生物の分類
+        # Insect  2524837 69      145     146     界      界 (分類学)
 
         cat_pid_title_dic = {}
         check_cat_pid_title_line = {}
@@ -3014,7 +3034,8 @@ def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_i
         ene_cat = ''
         with open(gfile, 'r', encoding='utf-8') as g:
             greader = csv.reader(g, delimiter='\t')
-
+            # Person	1061108	松田秀知	作品	ぼくの夏休み	89	1	89	7	2589292	ぼくの夏休み	['1.7.13.2']
+            # ['Broadcast_Program']
             for grow in greader:
                 # g_org_pid = grow[0]
                 # g_org_title = grow[1]

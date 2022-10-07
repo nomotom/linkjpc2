@@ -852,13 +852,16 @@ def ljc_main(common_data_dir,
                 })
             cf.diff_info_ca_forward = gw.reg_mention_gold_distance_ca(data_info.wl_lines_forward_ca_file, log_info)
     # slink
-    if opt_info.slink_prob == 'raw' and 's' not in opt_info.mod:
-        logger.error({
-            'action': 'ljc_main',
-            'mod': 'missing mod s (slink_prob is specified)'
-        })
-        sys.exit()
-    elif 's' in opt_info.mod:
+
+    if 's' in opt_info.mod:
+        if not opt_info.slink_prob:
+            logger.error({
+                'action': 'ljc_main',
+                'msg': 'missing slink_prob',
+                'mod': opt_info.mod
+            })
+            sys.exit()
+
         logger.info({
             'action': 'ljc_main',
             'run': 'sl.check_slink_info',
@@ -993,17 +996,13 @@ def ljc_main(common_data_dir,
         if not opt_info.attr_rng_tgt:
             logger.error({
                 'action': 'ljc_main',
-                'missing attr_rng_tgt': 'attr is specified, but missing attr_rng_tgt'
+                'msg': 'missing attr_rng_tgt'
             })
             sys.exit()
-        elif ('m' not in opt_info.attr_rng_tgt and
-              't' not in opt_info.attr_rng_tgt and
-              'w' not in opt_info.attr_rng_tgt and
-              's' not in opt_info.attr_rng_tgt and
-              'l' not in opt_info.attr_rng_tgt):
+        elif not opt_info.attr_rng_type:
             logger.error({
                 'action': 'ljc_main',
-                'illegal attr_rng_tgt': 'attr is specified, but illegal attr_rng_tgt'
+                'msg': 'missing attr_rng_type'
             })
             sys.exit()
         else:
@@ -1034,6 +1033,7 @@ def ljc_main(common_data_dir,
             'option combination error': 'nil_tgt is set, but missing filtering option n'
         })
         sys.exit()
+
     elif 'n' in opt_info.filtering:
         if not opt_info.nil_tgt:
             logger.error({
@@ -1080,6 +1080,7 @@ def ljc_main(common_data_dir,
                 'illegal len_desc_text_min': 'nil detection is specified, but illegal len_desc_text_min'
             })
             sys.exit()
+
 
         logger.info({
             'action': 'ljc_main',

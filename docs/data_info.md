@@ -171,17 +171,10 @@ The directories are specified as command line arguments or options when you try 
  - available from: SHINRA homepage
  - used in: (linkjpc_prep) gen_disambiuation_file, gen_incoming_link_file
 
-### CD2 (f_title2pid_org_default)
- - filename: '**jawiki-20210820-title2pageid.jsonl**'
- - based on: Wikipedia 20210820
- - description: Title to pageid conversion info list
- - available from: SHINRA homepage???
- - sample: 
-   - `{"page_id": 302067, "title": "イギリス語", "is_redirect": true,
- "redirect_to": {"page_id": 3377, "title": "英語", "is_redirect": false}}`
-   - `{"page_id": 311957, "title": "風と共に去りぬ_(宝塚歌劇)", "is_redirect": false}`
- - used in: (linkjpc_prep) linkedjson2tsv, gen_redirect_info_file
-
+### CD2 (f_ene_def_for_task_default)
+ - filename: '**ene_definition_v9.0.0-with-attributes-and-shinra-tasks-20220714.jsonl**'
+ - description: ENE definition for SHINRA task.
+ - available from: SHINRA homepage
 
 ### CD3 (f_enew_org_default)  
  - filename: '**shinra2022_Categorization_train_20220616.jsonl**'
@@ -192,19 +185,16 @@ The directories are specified as command line arguments or options when you try 
    - `{"page_id":"1478897","title":"スキマスイッチ ARENA TOUR'07 \"W-ARENA\"THE MOVIE","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.7.13.6"}]}}`
  　- `{"page_id":"1715611","title":"虹 〜もうひとつの夏〜","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.7.13.5"}]}}` 
    - `{"page_id":"72942","title":"バックス (ローマ神話)","ENEs":{"HAND.AIP.202204":[{"prob":1,"ENE":"1.2"}]}}` 
+ - available from: SHINRA homepage
  - used in: (linkjpc_prep) gen_enew_info_file
 
-### CD4 (f_ene_def_for_task_default)
- - filename: '**ene_definition_v9.0.0-with-attributes-and-shinra-tasks-20220714.jsonl**'
- - description: ENE definition for SHINRA task.
- - available from: SHINRA homepage
+
 ## (2) manually created data (common_data_dir)
 
 Download the data listed below from _URL(to be prepared)_ .  
 (Or you might create them by yourself :)
 
 ### CM1 (f_disambiguation_pat_default)
- - (SHINRA2021: Wikipedia2019)
  - filename: '**wikipat_dis.tsv**'
  - description: Disambiguation page judgment rules list.
  - format: target, position, expression (*.tsv)
@@ -213,61 +203,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: manually
  - used in: (linkjpc_prep) gen_disambiguation_file
 
-### CM2 (f_enew_mod_list_default)
- - filename: '**ENEW_ENEtag_20200427_stoplist.tsv**'
- - description: ENEW modification list 
- - format: ENEID, pid, title (*.tsv)
- - sample: 
-   - `1.5.1.3 1419479 フランス陸軍参謀総長`
- - created by: manually
- - used in: (linkjpc_prep) gen_enew_info_file
-
-### CM3 (f_back_link_dump_default) 
- - (SHINRA2021: Wikipedia2019)
- - filename: '**jawiki-20190120-pagelinks_dmp.tsv**'
- - description: Back link dump file converted from jawiki-20190120-pagelinks.sql.
- - format: back link pid, org_title (*.tsv)
- notice: 
- - The original sql file is available from: project SHINRA data distribution, [SHINRA2021-LinkJP](http://shinra-project.info/shinra2021linkjp/) (公開データ/コード,  [リンク先のWikipediaデータ(WikiDump)](https://drive.google.com/drive/folders/1emH81ac0e1kYKAF4mvpCslRAgBKCN_Ah?usp=sharing)))
- - created by: 
- ```mysql -u root -D pagelink < jawiki-20190120-pagelinks.sql```
- - used in: (linkjpc_prep) gen_back_link_info_file
- - (SHINRA2022: Wikipedia2019)
-
-
-### CM4 (f_wl_lines_backward_ca_default)
- - filename: '**wl_lines_backward_ca.tsv**'
- - description: The file to specify maximum number of line to backward-search Wikipedia links in the page for each category-attribute pair.
- - notice: 
-   - The default file contains just one example and should be modified. 
- - format:
-   - ene_label_en, attribute_name, distance (*.tsv)
- - sample:
-   - `Person  作品    -3`
- - used in: (linkjpc) gw.reg_mention_gold_distance_ca
-
-### CM5 (f_wl_lines_forward_ca_default)
- - filename: '**wl_lines_forward_ca.tsv**'
- - description: The file to specify maximum number of line to forward-search Wikipedia links in the page for each category-attribute pair.
- - notice: 
-   - The default file contains just one example and should be modified.  
- - format:
-   - ene_label_en, attribute_name, distance (*.tsv)
- - sample:
-   - `Person  作品    1`
- - used in: (linkjpc) gw.reg_mention_gold_distance_ca
-
-### CM6 (f_attr_rng_man_org_default)
- - filename: '**attr_rng_man_org_ene90_20221002.tsv**'
- - format: ene_label_en, attribute_name, range, probability (*.tsv)
-   - (range):    'ene':eneid
- - sample:
-   - `Military_Ship   乗船者  1.1 1`
- - created by: manually
- - used in: (linkjpc)gen_attr_rng
-
-
-### CM9 (f_self_link_pat_default)
+### CM2 (f_self_link_pat_default)
  - filename: '**self_link_pat.tsv**'
  - format: pos, pat (*.tsv)
  - sample:
@@ -276,7 +212,27 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: manually
  - used in: (linkjpc_prep)gen_self_link_by_attr_name
 
-### CM11 (f_redirect_dump_org_default)
+### CM3 (f_attr_rng_man_org_default)
+ - filename: '**attr_rng_man_org_ene90_20221002.tsv**'
+ - format: ene_label_en, attribute_name, range, probability (*.tsv)
+   - (range):    'ene':eneid
+ - sample:
+   - `Military_Ship   乗船者  1.1 1`
+ - created by: manually
+ - used in: (linkjpc)gen_attr_rng
+
+### CM4 (f_back_link_dump_default) 
+ - filename: '**jawiki-20210820-pagelinks_dmp.tsv**'
+ - description: Back link dump file converted from jawiki-20210820-pagelinks.sql.
+ - format: back link pid, org_title (*.tsv)
+ notice: 
+ - created by: 
+ `mysql -u root -D pagelink < jawiki-20210820-pagelinks.sql`
+ `...`
+ `select pl_from, pl_title from pagelinks into jawiki-20210820-pagelinks_dmp.tsv`
+ - used in: (linkjpc_prep) gen_back_link_info_file
+
+### CM5 (f_redirect_dump_org_default)
  - filename:'***jawiki-20210820-redirect_dmp.tsv***'
  - description: Wikipedia redirect dump 
  - format: rd_from, rd_title, rd_namespace
@@ -288,7 +244,7 @@ Download the data listed below from _URL(to be prepared)_ .
 　
  - based on: jawiki-20210820-redirect.sql.gz)
 
-### CM12 (f_redirect_dump_default)
+### CM6 (f_redirect_dump_default)
  - filename:'***jawiki-20210820-redirect_dmp_rev.tsv***'
  - description: Wikipedia redirect dump modified version<br>
    -- deleted: (a) titles with single punctuation symbols, (b) 'redirects to' titles in namespaces other than zero are omitted<br>
@@ -305,7 +261,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - notice: 
   -- punctuation symbols in awk(!"#$%&'-=^~\|@`...)
 
-### CM13 (f_page_dump_org_default)
+### CM7 (f_page_dump_org_default)
  - filename:'***jawiki-20210820-page_dmp.tsv***'
  - description: Wikipedia page dump<br>
  - format:  page_id, page_title, page_is_redirect, page_namespace
@@ -323,8 +279,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - notice:
  -- based on: jawiki-20220820-page.sql.gz
 
-
-### CM14 (f_page_dump_default)
+### CM8 (f_page_dump_default)
  - filename:'***jawiki-20210820-page_dmp_rev.tsv***'
  - description: Wikipedia page dump<br>
    -- deleted: titles with single punctuation symbols<br>
@@ -353,7 +308,7 @@ Download the data listed below from _URL(to be prepared)_ .
   -- pageid: 2021 
   -- punctuation symbols in awk(!"#$%&'-=^~\|@`...)
 
-## CM15 (f_page_dump_old_org_default)
+## CM9 (f_page_dump_old_org_default)
  - filename:'***jawiki-20190120-page_dmp.tsv***'
  - description: Wikipedia page dump (20190120)<br>
    -- deleted: titles with single punctuation symbols<br>
@@ -372,7 +327,7 @@ Download the data listed below from _URL(to be prepared)_ .
   -- pageid: 2021 
   -- punctuation symbols in awk(!"#$%&'-=^~\|@`...)
 
-## CM16 (f_lang_link_dump_org_default)
+## CM10 (f_lang_link_dump_org_default)
 
  - filename:'***jawiki-20210820-langlinks_dmp.tsv***'
  - description: Langlinks dump (20210820)
@@ -386,7 +341,46 @@ Download the data listed below from _URL(to be prepared)_ .
  -- `102349	el	Chanel`
  -- `102349	en	Chanel`
  - based on: jawiki-20210820-langlinks.sql.gz<br>
+ - 
+### CM11 (f_enew_mod_list_default)
+ - filename: '**shinra2022_Categorization_train_20220616_stoplist.tsv**'
+ - description: ENEW modification list 
+ - format: ENEID, pid, title (*.tsv)
+ - sample: 
+   - `1.5.1.3 1419479 フランス陸軍参謀総長`
+ - created by: manually
+ - used in: (linkjpc_prep) gen_enew_info_file
 
+### CM12 (f_wl_lines_backward_ca_default)
+ - filename: '**wl_lines_backward_ca.tsv**'
+ - description: The file to specify maximum number of line to backward-search Wikipedia links in the page for each category-attribute pair.
+ - notice: 
+   - The default file contains just one example and should be modified. 
+ - format:
+   - ene_label_en, attribute_name, distance (*.tsv)
+ - sample:
+   - `Person  作品    -3`
+ - used in: (linkjpc) gw.reg_mention_gold_distance_ca
+
+### CM13 (f_wl_lines_forward_ca_default)
+ - filename: '**wl_lines_forward_ca.tsv**'
+ - description: The file to specify maximum number of line to forward-search Wikipedia links in the page for each category-attribute pair.
+ - notice: 
+   - The default file contains just one example and should be modified.  
+ - format:
+   - ene_label_en, attribute_name, distance (*.tsv)
+ - sample:
+   - `Person  作品    1`
+ - used in: (linkjpc) gw.reg_mention_gold_distance_ca
+
+### CM20 (f_sample_gold_mod_list_default)
+ - filename: '**train-link-20220712_stoplist_all.tsv**'
+ - description: Linking training data (20220712) modification list. Delete records with specified combination of 
+ - category(ENE_label_en), pid, attribute, and mention
+ - format:
+ - ene_label_en, pageid, title, attribute_name,  mention, start_line_id, start_offset, end_line_id, end_offset`
+ - sample:
+ - `Airport 4013648 シモン・ボリバル国際空港        別名    シモン・ボリーバル国際空港      82      17      82      30`
 
 ## (3) data created by preprocessing tools
 ## (3-1) (sample_gold_dir)
@@ -485,7 +479,8 @@ Download the data listed below from _URL(to be prepared)_ .
  - format: ene_label_en, attribute_name, ratio (*.tsv)
  - sample:
    - `City	合併市区町村	0.47	156	333`
- - note: The ratio is based on SHINRA2021-LinkJP sample data (ver.20210428).
+   - `Person	居住地	0.0	0	347`
+ - note: The ratio is based on SHINRA2022-LinkJP sample data. Not all the target categories are included. (eg. Island)
  - created by: (linkjpc_prep --gen_slink) gen_self_link_info
  - used in: (linkjpc) sl.check_slink_info
 
@@ -539,6 +534,7 @@ Download the data listed below from _URL(to be prepared)_ .
  - created by: (linkjpc_prep --gen_nil) gen_nil_info
  - used in: (linkjpc) 
 
+
 ~~### CP14 (f_self_link_attr_info_default)   
     -- filename:'***self_link_attr_info_file***'
     - format: attribute name, self_link ratio, self_link num, freq
@@ -552,12 +548,15 @@ Download the data listed below from _URL(to be prepared)_ .
  - format: cat, attr, rng_eneid, rng_cat, ratio
  - sample: <br>
  - `School  理事長  1.1 Person      1.0`
+ - `Island	別名・旧称	1.5.3.3	Island	1`
 
 ### CP15 (f_attr_rng_auto_default)
  - filename: '***cat_attr_rng_auto.tsv***'
  - format: cat, attr, eneid, ratio, freq', sum(cat*attr)
  - sample: <br>
  - `Music   プロデューサー  1.1   Person  1.0  10   10`
+ - `Island	観光地	1.6.4.11	Park	0.13	1	8`
+ - `Island	観光地	1.6.4.18	Worship_Place	0.13	1	8`
 
 ### CP16 (f_lang_link_info_default) 
  - filename: '***jawiki-20210820-langlinks_info.tsv***'
@@ -606,6 +605,19 @@ Download the data listed below from _URL(to be prepared)_ .
    - 合併市区町村
  - created by: gen_self_link_by_attr_name
  - used in: (linkjpc_prep)gen_self_link_by_attr_name
+
+### CP20 (f_title2pid_org_default)  cf. CD2
+ - filename: '**jawiki-20210820-title2pageid.jsonl**'
+ - based on: Wikipedia 20210820
+ - description: Title to pageid conversion info list
+ - format: see [title2pageid_for_entitylinking_dataset](https://github.com/k141303/title2pageid_for_entitylinking_dataset)
+ - sample: 
+   - `{"page_id": 302067, "title": "イギリス語", "is_redirect": true,
+ "redirect_to": {"page_id": 3377, "title": "英語", "is_redirect": false}}`
+   - `{"page_id": 311957, "title": "風と共に去りぬ_(宝塚歌劇)", "is_redirect": false}`
+ - created by: (linkjpc_prep)gen_title2pid_file
+ - used in: (linkjpc_prep) linkedjson2tsv, gen_redirect_info_file
+
 
 ## (3-3) (tmp_data_dir)
 

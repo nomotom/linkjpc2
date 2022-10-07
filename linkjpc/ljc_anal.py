@@ -284,12 +284,12 @@ def ljc_anal_main(gold_dir,
                             if sys_ans not in all_reg[sys_out_common_str]['ng']:
                                 all_reg[sys_out_common_str]['ng'][sys_ans] = set()
                             all_reg[sys_out_common_str]['ng'][sys_ans].add(s_name)
-            else:
-                logger.warning({
-                    'action': 'ljc_anal.py',
-                    'msg': 'not found s_fname',
-                    's_fname': s_fname
-                })
+            # else:
+            #     logger.warning({
+            #         'action': 'ljc_anal.py',
+            #         'msg': 'not found s_fname',
+            #         's_fname': s_fname
+            #     })
 
     check_ene_label = {}
     with open(anal_data_info.all_cat_info_file, 'r', encoding='utf-8') as ac:
@@ -337,7 +337,7 @@ def ljc_anal_main(gold_dir,
                         ot_sys_ans_cat = ''
                         if ot_sys_ans == 'null':
                             ot_sys_ans_title = ot_sys_ans
-                            logger.info({
+                            logger.debug({
                                 'action': 'ljc_anal',
                                 'ot_sys_ans(null)': ot_sys_ans,
                             })

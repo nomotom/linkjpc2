@@ -136,12 +136,13 @@ WikipediaのダンプデータによるページID変更等、元データのバ
                      A-8-4) gen_nil
                      A-8-5) gen_attr_rng
                     
- (B) (after A-0 is over)
+ (B) (after A-0 (gen_change_wikipedia_info) is over)
      B-1) gen_common_html /gen_html_conv_year
-       -> B-2) gen_link_dist
+       -> (after A-7-3 (gen_sample_gold_tsv) is over)
+          B-2) gen_link_dist
      B-2) gen_html /gen_html_conv_year
 ```
-### 処理時間
+### 処理時間 (旧情報)
 
 前処理は時間がかかりますのでご注意ください。  
 参考： _test_ ディレクトリのスクリプト ( _linkjpc_prep_all_test.sh_) 例を全て実行する場合、以下の環境での所要時間は約34時間です。

@@ -38,11 +38,11 @@ class OptInfo(object):
     mint_default = 'n'
     tinm_default = 'n'
     tinm_min_default = 0.5
-    mint_min_default = 0.2
+    mint_min_default = 0.5
     title_matching_mint_default = 'full'
     title_matching_tinm_default = 'full'
     char_match_cand_num_max_default = 1000
-    char_match_min_default = 0.1
+    char_match_min_default = 0.3
     # lang_link_min_default = 0.5
     multi_lang_default = 'm'
     # slink
@@ -243,62 +243,33 @@ class DataInfo(object):
     # f_cirrus_content_default = 'jawiki-20190121-cirrussearch-content.json.gz'
     # 20220822
     f_cirrus_content_default = 'wikipedia-ja-20210823-json.gz'
+    #
+    # [CD2]
+    # f_ene_definition_for_task
+    f_ene_def_for_task_default = 'ene_definition_v9.0.0-with-attributes-and-shinra-tasks-20220714.jsonl'
 
     # [CD3]
     # f_enew_org_default = 'ENEW_ENEtag_20200427.json'
     f_enew_org_default = 'shinra2022_Categorization_train_20220616.jsonl'
 
-    #
-    # [CD2]
-    # f_title2pid_org_default = 'jawiki-20210823_title2pageid_20220501.jsonl'
-    f_title2pid_org_default = 'jawiki-20210820-title2pageid.jsonl'
-    # f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
-    # sample:
-    # {"page_id": "242283", "title": "\"人間と性\"教育研究協議会", "is_redirect": false}
-    # {"page_id": "434856", "title": "人間と性教育研究協議会", "is_redirect": true, "redirect_to": {"page_id": "242283",
-    # "title": "\"人間と性\"教育研究協議会", "is_redirect": false}}
-    # {"page_id": "434857", "title": "CESHS", "is_redirect": true, "redirect_to": {"page_id": "242283",
-    # "title": "\"人間と性\"教育研究協議会", "is_redirect": false}}
-    #
-    # {"page_id": "3475368", "title": "PJ:NY", "is_redirect": true, "redirect_to": {"page_id": "10664",
-    # "title": "ニューヨーク市", "is_redirect": false}}
-
-    # [CD4]
-    # f_ene_definition_for_task
-    f_ene_def_for_task_default = 'ene_definition_v9.0.0-with-attributes-and-shinra-tasks-20220714.jsonl'
-
-    #
-    #
     # (1) manually created data (common_data_dir)
     # [CM1]
     # f_disambiguation_pat_default = 'jawiki-20190121-cirrussearch-content_wikipat_dis.tsv'
     f_disambiguation_pat_default = 'wikipat_dis.tsv'
-
-    #
     # [CM2]
-    # f_enew_mod_list_default = 'ENEW_ENEtag_20200427_stoplist.tsv'
-    f_enew_mod_list_default = 'shinra2022_Categorization_train_20220616_stoplist.tsv'
-    #
+    f_self_link_pat_default = 'self_link_pat.tsv'
+
     # [CM3]
-    # f_back_link_dump_default = 'jawiki-20190120-pagelinks_dmp.tsv'
-    f_back_link_dump_org_default = 'jawiki-20210820-pagelinks_dmp.tsv'
-    #
-    # [CM4]
-    f_wl_lines_backward_ca_default = 'wl_lines_backward_ca.tsv'
-    #
-    # [CM5]
-    f_wl_lines_forward_ca_default = 'wl_lines_forward_ca.tsv'
-    #
-    # [CM6]
     # f_attr_rng_default = 'attr_def.tsv'
     # f_attr_rng_default = 'attr_def_20220823.tsv'
     # f_attr_rng_default = 'attr_def_20220829.tsv'
     f_attr_rng_man_org_default = 'attr_rng_man_org_ene90_20221004.tsv'
     #
-    # [CM9]
-    f_self_link_pat_default = 'self_link_pat.tsv'
+     # [CM4]
+    # f_back_link_dump_default = 'jawiki-20190120-pagelinks_dmp.tsv'
+    f_back_link_dump_org_default = 'jawiki-20210820-pagelinks_dmp.tsv'
 
-    # [CM11]
+    # [CM5]
     # 20220903
     # f_redirect_dump_default = 'jawiki-20220501-redirect_dmp_no_punct.tsv'
     #
@@ -316,7 +287,7 @@ class DataInfo(object):
     # 1466960 "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
     # based on: 'jawiki-20210820-redirect.sql'
 
-    # [CM12]
+    # [CM6]
     f_redirect_dump_default = 'jawiki-20210820-redirect_dmp_rev.tsv'
     # 1699304	広瀬香美_THE_BEST_""Love_Winters""	0
     # format: rd_from, rd_title, rd_namespace(転送先)
@@ -335,7 +306,7 @@ class DataInfo(object):
     # -- deleted: info of punctuation (titles with single character defined as symbols in awk
     # (!"#$%&'-=^~\|@`...)
 
-    # [CM13]
+    # [CM7]
     # 20220903
     # f_page_dump_default = 'jawiki-20220501-page_dmp_no_punct.tsv'
     # f_page_dump_default = 'jawiki-20210820-page_dmp_no_punct.tsv'
@@ -349,7 +320,7 @@ class DataInfo(object):
     # 434856	人間と性教育研究協議会	1	0
     # based on: f_page_dump_sql_default = 'jawiki-20210820-page.sql'
 
-    # [CM14]
+    # [CM8]
     f_page_dump_default = 'jawiki-20210820-page_dmp_rev.tsv'
 
     # format: page_id, page_title, page_is_redirect, page_namespace
@@ -370,10 +341,10 @@ class DataInfo(object):
     #     111.107.139.79\t0\t3\n2423644\t111.107.159.137\t0\t3\n2423645\t211.3.67.88\t0\t3\n2423646\tサリバンス川...
     #
 
-    # [CM15]
+    # [CM9]
     f_page_dump_old_org_default = 'jawiki-20190120-page_dmp.tsv'
 
-    # [CM16]
+    # [CM10]
     # 20220926
     f_lang_link_dump_org_default = 'jawiki-20210820-langlinks_dmp.tsv'
     # format: page_id, page_title, page_is_redirect, page_namespace
@@ -381,6 +352,21 @@ class DataInfo(object):
 
     # based on: f_page_dump_sql_default = 'jawiki-20210820-langlinks.sql'
 
+    # [CM11]
+    # f_enew_mod_list_default = 'ENEW_ENEtag_20200427_stoplist.tsv'
+    f_enew_mod_list_default = 'shinra2022_Categorization_train_20220616_stoplist.tsv'
+    #
+
+    #
+    # [CM12]
+    f_wl_lines_backward_ca_default = 'wl_lines_backward_ca.tsv'
+    #
+    # [CM13]
+    f_wl_lines_forward_ca_default = 'wl_lines_forward_ca.tsv'
+    #
+    #
+
+    # [CM20]
     f_sample_gold_mod_list_default = 'train-link-20220712_stoplist_all.tsv'
 
     # (2) preprocessing
@@ -408,6 +394,7 @@ class DataInfo(object):
     # 夏の夜の夢	318229
     # 真夏の夜の夢	318229
     # 眞夏の夜の夢	318229
+    # 安倍晋三/log20200516	4136738
     #
     #
     # [CP4]
@@ -486,6 +473,11 @@ class DataInfo(object):
 
     # [CP19]
     f_self_link_by_attr_name_default = 'self_link_by_attr_name.txt'
+
+    # [CP20] cf. CD2
+    # f_title2pid_org_default = 'jawiki-20210823_title2pageid_20220501.jsonl'
+    f_title2pid_org_default = 'jawiki-20210820-title2pageid.jsonl'
+    # f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
 
 
     # (2-3) tmp_data_dir

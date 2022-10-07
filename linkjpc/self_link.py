@@ -44,8 +44,9 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
     })
     slink_cand_list = []
 
-    self_link_attr_list = []
+    self_link_attr_set = set()
     with open(self_link_by_attr_name_file, mode='r', encoding='utf-8') as sp:
+        self_link_attr_list = []
         for tmp_a in sp:
             tmp_a = tmp_a.rstrip()
             self_link_attr_list.append(tmp_a)
@@ -62,40 +63,71 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
     #             'msg': 'should be cand++++++++++++++++++++++++++++',
     #         })
 
+    # if cat_attr in d_self_link:
+    #     logger.debug({
+    #         'action': 'estimate_self_link',
+    #         'msg': 'before',
+    #         'slink_prob': slink_prob,
+    #         'd_self_link[cat_attr]': d_self_link[cat_attr],
+    #         'cat_attr': cat_attr,
+    #         't_mention': mention_info.t_mention,
+    #         'slink_cand_list': slink_cand_list,
+    #     })
+
+    # 'd_self_link[cat_attr]': {'ratio': 0.0},
 
     if (cat_attr not in d_self_link) or ('ca_no_show' in d_self_link[cat_attr]):
-
         if 'est' in slink_prob:
             (cat, attr) = cat_attr.split(':')
             logger.debug({
                 'action': 'estimate_self_link',
+                'msg': 'cat_attr not in d_self_link or ca_no_show',
+                'cat': cat,
                 'attr': attr,
             })
             if attr in self_link_attr_set:
                 slink_cand_list = [(mention_info.pid, 's', slink_min)]
                 logger.debug({
                     'action': 'estimate_self_link',
-                    'msg': 'applicable',
+                    'msg': 'cat_attr not in d_self_link or ca_no_show but attr is defined in self_link_attr_set',
                     'slink_min': slink_min,
                     'slink_prob': slink_prob,
                     'attr': attr,
                     'slink_cand_list': slink_cand_list,
                 })
-            # else:
-            #     logger.info({
-            #         'action': 'estimate_self_link',
-            #         'msg': 'not applicable',
-            #         'slink_prob': slink_prob,
-            #         'cat_attr': cat_attr,
-            #         'slink_cand_list': slink_cand_list,
-            #     })
-        # else:
-        #     logger.info({
-        #         'action': 'estimate_self_link',
-        #         'msg': 'not est',
-        #     })
+            else:
+                logger.debug({
+                    'action': 'estimate_self_link',
+                    'msg': 'cat_attr not in d_self_link or ca_no_show, and self_link_attr_set is not applicable',
+                    'slink_min': slink_min,
+                    'slink_prob': slink_prob,
+                    'attr': attr,
+                    'slink_cand_list': slink_cand_list,
+                })
+        else:
+            if cat_attr not in d_self_link:
+                logger.debug({
+                    'action': 'estimate_self_link',
+                    'msg': 'cat_attr not in d_self_link',
+                    'cat_attr': cat_attr,
+                })
+            elif 'ca_no_show' in d_self_link[cat_attr]:
+                logger.debug({
+                    'action': 'estimate_self_link',
+                    'msg': 'ca_no_show',
+                    'cat_attr': cat_attr,
+                })
 
-    else:
+            logger.debug({
+                'action': 'estimate_self_link',
+                'msg': 'cat_attr not in d_self_link or ca_no_show and est is not specified',
+                'cat_attr': cat_attr,
+                'slink_cand_list': slink_cand_list
+            })
+            return slink_cand_list
+
+    elif d_self_link[cat_attr]['ratio'] > 0:
+
         if slink_prob == 'fixed' or slink_prob == 'f_est':
             slink_cand_list = [(mention_info.pid, 's', 1.0)]
         elif slink_prob == 'raw' or slink_prob == 'r_est':
@@ -116,6 +148,8 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
                     'slink_cand_list': slink_cand_list,
                 })
         elif slink_prob == 'mid' or slink_prob == 'm_est':
+            if cat_attr == 'Person:居住地':
+                print('here')
             score = (1 + d_self_link[cat_attr]['ratio'])/2
 
             if score > 1.0:
@@ -141,7 +175,12 @@ def estimate_self_link(cat_attr, slink_prob, mention_info, slink_min, self_link_
             'd_self_link[cat_attr][ratio]': d_self_link[cat_attr]['ratio'],
             'slink_cand_list': slink_cand_list,
         })
-
+    logger.debug({
+        'action': 'estimate_self_link',
+        'cat_attr': cat_attr,
+        't_mention': mention_info.t_mention,
+        'slink_cand_list': slink_cand_list,
+    })
     return slink_cand_list
 
 def check_slink_info(slink_file, log_info):

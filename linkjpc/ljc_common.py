@@ -1163,7 +1163,7 @@ def reg_all_cat_info(all_cat_info, log_info):
             en_label = ta_line[2]
             eid = ta_line[0]
             ene_dict[eid] = en_label
-            logging.info({
+            logging.debug({
                 'action': 'reg_all_cat_info',
                 'eid': eid,
                 'en_label': en_label
