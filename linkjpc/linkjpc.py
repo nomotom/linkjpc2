@@ -160,12 +160,12 @@ def set_logging(log_info, logger_name):
               help='maximum number of lines to forward-search wikipedia links in the page')
 @click.option('--wl_lines_backward_ca', '-wl_bca', type=click.Choice(['f', 'r', 'fr',  'n']),
               default=cf.OptInfo.wl_lines_backward_ca_default, show_default=True,
-              help='how to specify the maximum number to backward-search Wikipedia links for each category-attribute. '
+              help='how to specify the maximum number of lines to backward-search Wikipedia links for each category-attribute. '
                    'f: the number specified in f_wl_lines_backward_max_ca, r: the number estimated using the ratio '
                    'specified by wl_lines_backward_ca_ratio, fr: both f and r (f takes precedence), n: N/A')
 @click.option('--wl_lines_forward_ca', '-wl_fca', type=click.Choice(['f', 'r', 'fr',  'n']),
               default=cf.OptInfo.wl_lines_forward_ca_default, show_default=True,
-              help='how to specify the maximun number to forward-search Wikipedia links for each category-attribute. '
+              help='how to specify the maximun number of lines to forward-search Wikipedia links for each category-attribute. '
                    'f: the number specified in f_wl_lines_forward_max_ca, r: the number estimated using the ratio '
                    'specified by wl_lines_forward_ca_ratio, fr: both f and r (f takes precedence), n: N/A')
 @click.option('--f_wl_lines_backward_ca', '-f_wl_bca', type=click.STRING,

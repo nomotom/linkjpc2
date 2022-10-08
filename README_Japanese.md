@@ -117,30 +117,35 @@ WikipediaのダンプデータによるページID変更等、元データのバ
  ( _linkjpc_prep_all_test.sh_) を参考にしてください。
 ```
 
- (A)A-0) (gen_change_wikipedia_info)
-    A-1) conv_sample_json_pageid
-    A-2) gen_target_attr
-    A-3) gen_enew/gen_enew_rev_year
- 　　 ->A-3) gen_title2pid 
-       -> A-4-1) gen_redirect 
-        - A-4-2) gen_incoming_link
-          -> A-5) gen_title2pid_ext 
-            -> A-6-1  gen_lang_link_info
-              -> A-7-1) pre_matching 
+先に以下のダンプファイルを準備してから前処理を実行してください
+- redirect dump
+- page dump
+- langlinks dump　
 
-            -> A-6-2) gen_back_link, 
-               -> A-7-3) gen_sample_gold_tsv 
-                  -> A-8-1) gen_link_prob, 
-                     A-8-2) gen_slink, 
-                     A-8-3) gen_linkable,
-                     A-8-4) gen_nil
-                     A-8-5) gen_attr_rng
+ (A)A-0) gen_change_wikipedia_info (CP2)
+    A-1) conv_sample_json_pageid (*SI1*, *SP1*)
+    A-2) gen_target_attr (CP14, CP15)
+    A-3) gen_enew/gen_enew_rev_year (CP6)
+ 　　 ->A-3) gen_title2pid (CP19)
+       -> A-4-1) gen_incoming_link (CP5)
+          A-4-2) gen_redirect (CP3)(CP4)
+          -> A-5) gen_title2pid_ext (CP17)
+            -> A-6-1  gen_lang_link_info (CP16)
+              -> A-7-1) pre_matching (*TP3*)(*TP4*)(*TP5*)(*TP6*)
+
+            -> A-6-2) gen_back_link (*TP1*)(*TP2*)
+               -> A-7-3) gen_sample_gold_tsv (*SP1*)
+                  -> A-8-1) gen_link_prob (CP9)
+                     A-8-2) gen_slink (CP7)
+                     A-8-3) gen_linkable (CP10)
+                     A-8-4) gen_nil  ->  廃止予定(現状はgen_linkableのみでOK)
+                     A-8-5) gen_attr_rng (CP13)(CP14)
                     
- (B) (after A-0 (gen_change_wikipedia_info) is over)
-     B-1) gen_common_html /gen_html_conv_year
+ (B) (after A-0 (gen_change_wikipedia_info)(CP2) is over)
+     B-1) gen_common_html /gen_html_conv_year (CP1)
        -> (after A-7-3 (gen_sample_gold_tsv) is over)
-          B-2) gen_link_dist
-     B-2) gen_html /gen_html_conv_year
+          B-2) gen_link_dist (CP11)
+     B-2) gen_html /gen_html_conv_year (*TP7*)
 ```
 ### 処理時間 (旧情報)
 

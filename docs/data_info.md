@@ -395,7 +395,6 @@ Download the data listed below from _URL(to be prepared)_ .
  - filename: **xx.jsonl**
  - description: sample input json (year converted)
  - created by: conv_input_pageid
- - 
 
 ## (3-2) (sample_gold_dir)
 
