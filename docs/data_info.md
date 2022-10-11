@@ -388,6 +388,15 @@ Download the data listed below from _URL(to be prepared)_ .
  - sample:
    - `Airport 4013648 シモン・ボリバル国際空港        別名    シモン・ボリーバル国際空港      82      17      82      30   12345678`
 
+### CM15 (f_nil_cand_man_default)
+  - filename: '**nil_cand_man.tsv**'
+  - description: list of category(ENE en label)-attributes pairs which might be applied nil detection.
+  - format:
+    - en_label_en, attribute_name (*.tsv)
+  - sample:
+    - Video_Work 製作者
+
+
 ## (3) data created by preprocessing tools
 ## (3-1) (sample_input_dir)
 

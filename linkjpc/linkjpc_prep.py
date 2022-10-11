@@ -2451,6 +2451,9 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info, 
     sdf.to_csv(linkable_info_file, sep='\t', header=False, index=False)
 
 
+
+
+
 def gen_nil_info(gold_dir, nil_info_file, log_info):
     """Generate nil info
     args:

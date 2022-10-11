@@ -2,10 +2,110 @@ import linkjpc as ljc
 import logging
 
 
-def estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable):
-    """Create a list of nil candidates based on nil(unlinkable) cat-attr info, mention length, and mention pattern
+def check_nil_stop(attr, log_info, **nil_stop_dict):
+    """
+    :param attr:
+    :param log_info:
+    :param nil_stop_dict:
+    :return: nil_stop_res
+     1: nil stop,
+     0: not nil stop
+    """
+    logger = ljc.set_logging(log_info, 'myLogger')
+    logger.setLevel(logging.INFO)
+    nil_stop_res = 0
+    if attr in nil_stop_dict:
+        nil_stop_res = 1
+        logger.debug({
+            'action': 'check_nil_exception_cand',
+            'attr': attr,
+            'stat': 'stop',
+        })
+    return nil_stop_res
+
+def check_cand_man(cat_attr, log_info, **cand_man_dict):
+    """
+    :param cat_attr:
+    :param log_info:
+    :param cand_man_dict:
+    :return: exception_res
+     1: candidate of nil detection,
+     0: not candidate
+    """
+    logger = ljc.set_logging(log_info, 'myLogger')
+    logger.setLevel(logging.INFO)
+    candidate_res = 0
+    if cat_attr in cand_man_dict:
+        candidate_res = 1
+        logger.debug({
+            'action': 'check_nil_exception_cand',
+            'cat_attr': cat_attr,
+            'stat': 'cand',
+            'candidate_res': candidate_res
+        })
+    return candidate_res
+
+def check_nil_stop_attr(nil_stop_file, log_info):
+    """
+    Register candidate category-attribute pairs to dict
+    :param nil_stop_file:
+    :param log_info:
+    :return: nil_stop_dict:
+    """
+    import csv
+    logger = ljc.set_logging(log_info, 'myLogger')
+    logger.setLevel(logging.INFO)
+
+    nil_stop_dict = {}
+    with open(nil_stop_file, mode='r', encoding='utf-8') as ns:
+        ns_reader = csv.reader(ns, delimiter='\t')
+        for attr in ns_reader:
+            if '#' in attr:
+                continue
+            nil_stop_dict[attr] = 1
+
+            logger.debug({
+                'action': 'check_nil_stop_attr',
+                'attr': attr,
+            })
+
+    return nil_stop_dict
+
+
+def reg_nil_cand_man(cand_man_file, log_info):
+    """
+    Register candidate category-attribute pairs to dict
+    :param cand_man_file:
+    :param log_info:
+    :return: nil_cand_dict:
+    """
+    import csv
+    logger = ljc.set_logging(log_info, 'myLogger')
+    logger.setLevel(logging.INFO)
+
+    nil_cand_dict = {}
+    with open(cand_man_file, mode='r', encoding='utf-8') as ne:
+        ne_reader = csv.reader(ne, delimiter='\t')
+        for line in ne_reader:
+            if '#' in line:
+                continue
+            cat_attr = ':'.join(line)
+            logger.debug({
+                'action': 'check_nil_cand_man',
+                'cat_attr': cat_attr,
+            })
+            nil_cand_dict[cat_attr] = 1
+
+    return nil_cand_dict
+
+
+def estimate_nil(cat_attr, cand_res, stop_attr_res, mention_info, opt_info, log_info, **d_linkable):
+    """Create a list of nil candidates based on nil(unlinkable) cat-attr info, nil cand res, nil stop res,
+    mention length, and mention pattern
     Args:
         cat_attr
+        cand_res
+        stop_attr_res
         mention_info
         opt_info
         log_info
@@ -22,7 +122,7 @@ def estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable):
                    'category-attribute pairs based on sample data), len(minimum length of mention), and desc '
                    '(descriptiveness of mentions).
         nil_desc_exception
-            exception of nil -desc- condition. If 'person_works' is specified, desc condition is not evaluated
+            exception to nil -desc- condition. If 'person_works' is specified, desc condition is not evaluated
             for the category attribute pairs(Person:works(作品)).
         len_desc_text_min (int)
             minimum length of mention text regarded as descriptive
@@ -32,6 +132,7 @@ def estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable):
             the mention might be judged as 'unlinkable'.
     """
     import sys
+    import csv
     logger = ljc.set_logging(log_info, 'myLogger')
     logger.setLevel(logging.INFO)
 
@@ -67,6 +168,27 @@ def estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable):
         if len(tmp_text) >= len_desc_text_min:
             res_len_cond = 1
 
+    res_cman = 0
+    if 'cman' in nil_cond:
+        if cand_res:
+            res_cman = 1
+            logger.debug({
+                'action': 'estimate_nil',
+                'res_cman': res_cman,
+                'cand_res': cand_res,
+                'cat_attr': cat_attr
+            })
+
+    res_nostop = 1
+    if 'nostop' in nil_cond:
+        if stop_attr_res:
+            res_nostop = 0
+            logger.debug({
+                'action': 'estimate_nil',
+                'res_nostop(on attr)': res_nostop,
+                'cat_attr': cat_attr
+            })
+
     res_desc_cond = 0
     check_exception_keyword = 0
     if 'desc' in nil_cond:
@@ -78,38 +200,80 @@ def estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable):
             res_desc_cond = evaluate_descriptiveness(tmp_text, log_info)
 
     if nil_cond == 'and_prob_len_desc':
-        if (res_prob_cond == 1) and (res_len_cond == 1) and (res_desc_cond == 1):
+        if res_prob_cond and res_len_cond and res_desc_cond:
             res_nil = 1
     elif nil_cond == 'and_prob_or_len_desc':
-        if res_prob_cond == 1:
-            if (res_len_cond == 1) or (res_desc_cond == 1):
+        if res_prob_cond:
+            if res_len_cond or res_desc_cond:
                 res_nil = 1
     elif nil_cond == 'and_len_or_prob_desc':
-        if res_len_cond == 1:
-            if (res_prob_cond == 1) or (res_desc_cond == 1):
+        if res_len_cond:
+            if res_prob_cond or res_desc_cond:
                 res_nil = 1
     elif nil_cond == 'and_desc_or_prob_len':
-        if res_desc_cond == 1:
+        if res_desc_cond:
             if (res_prob_cond == 1) or (res_len_cond == 1):
                 res_nil = 1
     elif nil_cond == 'two_of_prob_len_desc':
-        if ((res_prob_cond == 1 and res_len_cond == 1) or
-                (res_prob_cond == 1 and res_desc_cond == 1) or
-                (res_len_cond == 1 and res_desc_cond == 1)):
+        if (res_prob_cond and res_len_cond) or (res_prob_cond and res_desc_cond) or (res_len_cond and res_desc_cond):
             res_nil = 1
+    # 20221009
+    elif nil_cond == 'and_prob_len_desc_cman':
+        if res_prob_cond and res_len_cond and res_desc_cond and res_cman:
+            res_nil = 1
+    elif nil_cond == 'and_prob_cman_or_len_desc':
+        if res_prob_cond and res_cman:
+            if res_len_cond or res_desc_cond:
+                res_nil = 1
+    elif nil_cond == 'and_len_cman_or_prob_desc':
+        if res_len_cond and res_cman:
+            if res_prob_cond or res_desc_cond:
+                res_nil = 1
+    elif nil_cond == 'and_desc_cman_or_prob_len':
+        if res_desc_cond and res_cman:
+            if res_prob_cond or res_len_cond:
+                res_nil = 1
+    elif nil_cond == 'and_cman_two_of_prob_len_desc':
+        if res_cman:
+            if (res_prob_cond and res_len_cond) or (res_prob_cond and res_desc_cond) or (res_len_cond and res_desc_cond):
+                res_nil = 1
+    elif nil_cond == 'cman':
+        if res_cman:
+            res_nil = 1
+    elif nil_cond == 'and_prob_len_desc_nostop':
+        if res_prob_cond and res_len_cond and res_desc_cond and res_nostop:
+            res_nil = 1
+    elif nil_cond == 'and_prob_nostop_or_len_desc':
+        if res_prob_cond and res_nostop:
+            if res_len_cond or res_desc_cond:
+                res_nil = 1
+    elif nil_cond == 'and_len_nostop_or_prob_desc':
+        if res_len_cond and res_nostop:
+            if res_prob_cond or res_desc_cond:
+                res_nil = 1
+    elif nil_cond == 'and_desc_nostop_or_prob_len':
+        if res_desc_cond and res_nostop:
+            if res_prob_cond or res_len_cond:
+                res_nil = 1
+    elif nil_cond == 'and_nostop_two_of_prob_len_desc':
+        if res_nostop:
+            if (res_prob_cond and res_len_cond) or (res_prob_cond and res_desc_cond) or (res_len_cond and res_desc_cond):
+                res_nil = 1
 
-    logger.debug({
-        'action': 'estimate_nil',
-        'mention': tmp_text,
-        'res_nil': res_nil,
-        'cat_attr': cat_attr,
-        'res_prob_cond': res_prob_cond,
-        'link_prob_cat_attr':  link_prob_cat_attr,
-        'res_len_cond': res_len_cond,
-        'len(tmp_text)': len(tmp_text),
-        'res_desc_cond': res_desc_cond,
-    })
-
+    if res_nil:
+        logger.debug({
+            'action': 'estimate_nil',
+            'cat_attr': cat_attr,
+            'mention': tmp_text,
+            'nil_cond': nil_cond,
+            'res_nil': res_nil,
+            'res_cman': res_cman,
+            'res_prob_cond': res_prob_cond,
+            'link_prob_cat_attr':  link_prob_cat_attr,
+            'res_len_cond': res_len_cond,
+            'len(tmp_text)': len(tmp_text),
+            'res_desc_cond': res_desc_cond,
+        })
     return res_nil
 
 

@@ -128,7 +128,7 @@ class OptInfo(object):
     nil_cat_attr_max_default = 0.01
     len_desc_text_min_default = 7
     nil_cond_default = 'and_prob_or_len_desc'
-    nil_desc_exception_default = 'person_works'
+    nil_desc_exception_default = 'n'
     nil_desc_exception_def = {'person_works':'Person:作品', 'company_trade_names':'Company:商品名'}
 
     min_illegal_title_len = 500
@@ -263,9 +263,9 @@ class DataInfo(object):
     # f_attr_rng_default = 'attr_def.tsv'
     # f_attr_rng_default = 'attr_def_20220823.tsv'
     # f_attr_rng_default = 'attr_def_20220829.tsv'
-    f_attr_rng_man_org_default = 'attr_rng_man_org_ene90_20221004.tsv'
+    f_attr_rng_man_org_default = 'attr_rng_man_org_ene90_20221010.tsv'
     #
-     # [CM4]
+    # [CM4]
     # f_back_link_dump_default = 'jawiki-20190120-pagelinks_dmp.tsv'
     f_back_link_dump_org_default = 'jawiki-20210820-pagelinks_dmp.tsv'
 
@@ -367,6 +367,12 @@ class DataInfo(object):
     # [CM14]
     # f_sample_gold_mod_list_default = 'train-link-20220712_stoplist_all.tsv'
     f_sample_gold_mod_list_default = 'train-link-20221004_stoplist_all.tsv'
+    #
+    # [CM15]
+    f_nil_cand_man_default = 'cat_attr_nil_cand_man.tsv'
+
+    # [CM16]
+    f_nil_stop_attr_default = 'nil_stop_attr_man.tsv'
 
     # (2) preprocessing
     # (2-1) sample_gold_data_dir
@@ -513,6 +519,7 @@ class DataInfo(object):
                  f_mint_partial=f_mint_partial_default,
                  f_mint_trim_partial=f_mint_trim_partial_default,
                  f_nil=f_nil_default,
+                 f_nil_cand_man=f_nil_cand_man_default,
                  # f_page_dump_sql=f_page_dump_sql_default,
                  f_page_dump=f_page_dump_default,
                  f_page_dump_org=f_page_dump_org_default,
@@ -560,6 +567,7 @@ class DataInfo(object):
         self.mention_gold_link_dist_info_file = common_data_dir + f_mention_gold_link_dist_info
         self.mention_gold_link_dist_file = common_data_dir + f_mention_gold_link_dist
         self.nil_file = common_data_dir + f_nil
+        self.nil_cand_man_file = common_data_dir + f_nil_cand_man
         self.page_dump_file = common_data_dir + f_page_dump
         self.page_dump_org_file = common_data_dir + f_page_dump_org
         # self.page_dump_sql_file = common_data_dir + f_page_dump_sql
@@ -703,13 +711,11 @@ class AnalDataInfo(object):
                  f_ok_freq_info=f_ok_freq_info_default,
                  f_ng_freq_info=f_ng_freq_info_default,
                  f_eval_info=f_eval_info_default):
-        self.gold_dir=gold_dir
-        self.sys_dir_common=sys_dir_common
-        self.sys_dir_version=sys_dir_version
-        self.f_target=f_target
-        self.f_diff_judge=f_diff_judge
-        self.f_ok_freq_info=f_ok_freq_info
-        self.f_ng_freq_info=f_ng_freq_info
-        self.f_eval_info=f_eval_info
-
-
+        self.gold_dir = gold_dir
+        self.sys_dir_common = sys_dir_common
+        self.sys_dir_version = sys_dir_version
+        self.f_target = f_target
+        self.f_diff_judge = f_diff_judge
+        self.f_ok_freq_info = f_ok_freq_info
+        self.f_ng_freq_info = f_ng_freq_info
+        self.f_eval_info = f_eval_info

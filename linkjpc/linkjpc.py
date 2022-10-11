@@ -206,10 +206,6 @@ def set_logging(log_info, logger_name):
               default=cf.DataInfo.f_self_link_by_attr_name_default, show_default=True,
               help='filename of self link by attribute name file. ')
 # module: lp
-@click.option('--nil_all_freq_min', '-n_af_min', type=click.FLOAT,
-              default=cf.OptInfo.nil_all_freq_min_default, show_default=True,
-              help='minimum freq of category-attribute to consider category-attribute-mention link probability '
-                   'in the link prob file (f_link_prob). (0.1-1.0)')
 @click.option('--lp_min', '-l_min', type=click.FLOAT,
               default=cf.OptInfo.lp_min_default, show_default=True,
               help='minimum category-attribute-mention link probability in the link prob file (f_link_prob). (0.1-1.0)')
@@ -274,7 +270,8 @@ def set_logging(log_info, logger_name):
                    'am: adjusted matching ratio + modified depth (modify the adjusted depth to diminish its influence)')
 @click.option('--attr_rng_type', '-art', type=click.Choice(['a', 'm', 'ma', 'am']),
               default=cf.OptInfo.attr_rng_type_default, show_default=True,
-              help='attribute range estimation type. m: use attribute range definition manually specified'
+              help='attribute range estimation type. '
+                   'm: use attribute range definition manually specified'
                    'a: use attribute range definition automatically generated based on sample data'
                    'ma: m + a (m > a) (m is preferred when conflict arises on the ratio),'
                    'am: a + m (a > m) (a is preferred when conflict arises on the ratio)')
@@ -287,6 +284,9 @@ def set_logging(log_info, logger_name):
 @click.option('--back_link_ng', '-bl_ng', type=click.FLOAT,
               default=cf.OptInfo.back_link_ng_default, show_default=True,
               help='score for not back link')
+@click.option('--back_link_ok', '-bl_ok', type=click.FLOAT,
+              default=cf.OptInfo.back_link_ok_default, show_default=True,
+              help='score for back link')
 # filtering: detect_nil
 @click.option('--nil_tgt', '-n_tgt', type=click.STRING,
               default=cf.OptInfo.back_link_tgt_default, show_default=True,
@@ -294,27 +294,67 @@ def set_logging(log_info, logger_name):
                    'specified as the combination of the following characters'
                    'm: mint, t: tinm, w: wlink, s: slink, l: link_prob, n: N/A')
 @click.option('--nil_cond', '-n_cond',
-              type=click.Choice(['and_prob_len_desc', 'and_prob_or_len_desc', 'and_len_or_prob_desc',
-                                 'and_desc_or_prob_len', 'two_of_prob_len_desc']),
+              type=click.Choice([
+                  'and_prob_len_desc',
+                  'and_prob_or_len_desc',
+                  'and_len_or_prob_desc',
+                  'and_desc_or_prob_len',
+                  'two_of_prob_len_desc',
+                  'and_prob_len_desc_cman',
+                  'and_prob_cman_or_len_desc',
+                  'and_len_cman_or_prob_desc',
+                  'and_desc_cman_or_prob_len',
+                  'and_cman_two_of_prob_len_desc',
+                  'cman',
+                  'and_prob_len_desc_nostop',
+                  'and_prob_nostop_or_len_desc',
+                  'and_len_nostop_or_prob_desc',
+                  'and_desc_nostop_or_prob_len',
+                  'and_nostop_two_of_prob_len_desc'
+              ]),
               default=cf.OptInfo.nil_cond_default, show_default=True,
-              help='how to evaluate nil (unlinkable) for each mention using prob (estimated linkable ratio for '
-                   'category-attribute pairs based on sample data), len(minimum length of mention), and desc '
-                   '(descriptiveness of mentions). '
-                   'and_prob_len_desc: judge as nil if all conditions (prob, len, desc) are satisfied. '
-                   'and_prob_or_len_desc: judge as nil if prob condition is satisfied and either len condition or desc '
+              help='how to evaluate nil (unlinkable) for each mention using '
+                   'prob (estimated linkable ratio for category-attribute pairs based on sample data), '
+                   'len(minimum length of mention), '
+                   'and desc (descriptiveness of mentions),'
+                   'cman (manually created nil cand category attribute pairs), '
+                   '(apld) and_prob_len_desc: judge as nil if all conditions (prob, len, desc) are satisfied. '
+                   '(apold) and_prob_or_len_desc: judge as nil if prob condition is satisfied and either len condition or desc '
                    'condition is satisfied. '
-                   'and_len_or_prob_desc: judge as nil if len condition is satisfied and either prob condition or desc '
+                   '(alopd) and_len_or_prob_desc: judge as nil if len condition is satisfied and either prob condition or desc '
                    'condition is satisfied. '
-                   'and_desc_or_prob_len: judge as nil if desc condition is satisfied and either prob condition or len '
+                   '(adopl) and_desc_or_prob_len: judge as nil if desc condition is satisfied and either prob condition or len '
                    'condition is satisfied.'
-                   'two_of_prob_len_desc: judge as nil if at least two of the conditions(prob, len, and desc) are '
-                   'satisfied. ')
+                   '(tpld) two_of_prob_len_desc: judge as nil if at least two of the conditions(prob, len, and desc) are satisfied.' 
+                   '(apldc) and_prob_len_desc_cman: judge as nil if all conditions (prob, len, desc, cman) are satisfied.'
+                   '(apcold) and_prob_cman_or_len_desc: judge as nil if prob and cman condition are satisfied and either len condition or desc '
+                   'condition is satisfied. '
+                   '(alcopd) and_len_cman_or_prob_desc: judge as nil if len condition and cman are satisfied and either prob condition or desc '
+                   'condition is satisfied. '
+                   '(adcopl) and_desc_cman_or_prob_len: judge as nil if desc condition and cman are satisfied and either prob condition or len '
+                   'condition is satisfied.'
+                   '(actpld) and_cman_two_of_prob_len_desc: judge as nil if cman is satisfied and at least two of the conditions(prob, len, and desc) are '
+                   'satisfied. '
+                   '(c) cman'
+                   '(apnold) and_prob_nostop_or_len_desc: judge as nil if prob and nostop condition are satisfied and either len condition or desc '
+                   'condition is satisfied. '
+                   '(alnopd) and_len_nostop_or_prob_desc: judge as nil if len condition and nostop are satisfied and either prob condition or desc '
+                   'condition is satisfied. '
+                   '(adnopl) and_desc_nostop_or_prob_len: judge as nil if desc condition and nostop are satisfied and either prob condition or len '
+                   'condition is satisfied.'
+                   '(antpld) and_nostop_two_of_prob_len_desc: judge as nil if nostop is satisfied and at least two of the conditions(prob, len, and desc) are '
+                   'satisfied. '
+              )
+@click.option('--nil_all_freq_min', '-n_af_min', type=click.FLOAT,
+              default=cf.OptInfo.nil_all_freq_min_default, show_default=True,
+              help='minimum freq of category-attribute to consider category-attribute-mention link probability '
+                   'in the link prob file (f_link_prob). (0.1-1.0)')
 @click.option('--nil_desc_exception', '-n_exc', type=click.STRING,
               default=cf.OptInfo.nil_desc_exception_default, show_default=True,
               help='a colon-separated exception list of exception of nil -desc- condition. If any of the following is '
                    'specified, desc condition is not evaluated for the corresponding category attribute pairs. '
                    'eg. person_works:company_trade_names'
-                   'person_works: (Person:作品)'
+                   'notice. person_works: (Person:作品)'
                    'company_trade_names: (Company:商品名)'
                    'Specify n (N/A) for no exception.')
 @click.option('--nil_cat_attr_max', '-n_max', type=click.FLOAT,
@@ -328,6 +368,12 @@ def set_logging(log_info, logger_name):
 @click.option('--f_linkable_info', type=click.STRING,
               default=cf.DataInfo.f_linkable_info_default, show_default=True,
               help='filename of linkable ratio info file.')
+@click.option('--f_nil_cand_man', type=click.STRING,
+              default=cf.DataInfo.f_nil_cand_man_default, show_default=True,
+              help='filename of nil cand file (manually created).')
+@click.option('--f_nil_stop_attr', type=click.STRING,
+              default=cf.DataInfo.f_nil_stop_attr_default, show_default=True,
+              help='filename of nil stop attribute file (manually created).')
 # ljc_main
 def ljc_main(common_data_dir,
              tmp_data_dir,
@@ -344,6 +390,7 @@ def ljc_main(common_data_dir,
              attr_rng_type,
              back_link_tgt,
              back_link_ng,
+             back_link_ok,
              char_match_cand_num_max,
              f_all_cat_info,
              f_attr_rng_auto,
@@ -354,6 +401,8 @@ def ljc_main(common_data_dir,
              f_mention_gold_link_dist_info,
              f_mint,
              f_mint_trim,
+             f_nil_cand_man,
+             f_nil_stop_attr,
              f_slink,
              f_self_link_by_attr_name,
              f_wl_lines_backward_ca,
@@ -418,6 +467,7 @@ def ljc_main(common_data_dir,
     :param attr_rng_tgt:
     :param back_link_tgt:
     :param back_link_ng:
+    :param back_link_ok:
     :param char_match_cand_num_max:
     :param f_all_cat_info:
     :param f_attr_rng_auto:
@@ -428,6 +478,8 @@ def ljc_main(common_data_dir,
     :param f_mention_gold_link_dist_info:
     :param f_mint:
     :param f_mint_trim:
+    :param f_nil_cand_man:
+    :param f_nil_stop_attr:
     :param f_slink:
     :param f_self_link_by_attr_name:
     :param f_wl_lines_backward_ca:
@@ -492,6 +544,7 @@ def ljc_main(common_data_dir,
     opt_info.incoming_link_tgt = incl_tgt
     opt_info.back_link_tgt = back_link_tgt
     opt_info.back_link_ng = back_link_ng
+    opt_info.back_link_ok = back_link_ok
     opt_info.mod_w = mod_w
     opt_info.ans_max = ans_max
     opt_info.title_matching_mint = title_matching_mint
@@ -590,6 +643,9 @@ def ljc_main(common_data_dir,
     data_info.linkable_info_file = data_info.common_data_dir + f_linkable_info
     data_info.link_prob_file = data_info.common_data_dir + f_link_prob
     data_info.mention_gold_link_dist_info_file = data_info.common_data_dir + f_mention_gold_link_dist_info
+    data_info.nil_cand_man_file = data_info.common_data_dir + f_nil_cand_man
+    data_info.nil_stop_attr_file = data_info.common_data_dir + f_nil_stop_attr
+
     data_info.slink_file = data_info.common_data_dir + f_slink
     data_info.self_link_by_attr_name_file = data_info.common_data_dir + f_self_link_by_attr_name
     data_info.target_attr_info_file = data_info.common_data_dir + f_target_attr_info
@@ -661,6 +717,9 @@ def ljc_main(common_data_dir,
     d_back_link = {}
     diff_info = {}
     d_linkable = {}
+    d_nil_cand_man = {}
+    d_nil_stop_attr = {}
+
     # d_target_eneid2enlabel = {}
     # d_target_eneid2enlabel = lc.reg_target_attr_info(data_info.target_attr_info_file, log_info)
 
@@ -1051,11 +1110,23 @@ def ljc_main(common_data_dir,
                 'illegal nil_tgt': 'nil detection is specified, but illegal nil_tgt'
             })
             sys.exit()
-        elif ('and_prob_len_desc' not in opt_info.nil_cond and
-              'and_prob_or_len_desc' not in opt_info.nil_cond and
-              'and_len_or_prob_desc' not in opt_info.nil_cond and
-              'and_desc_or_prob_len' not in opt_info.nil_cond and
-              'two_of_prob_len_desc' not in opt_info.nil_cond):
+        elif (opt_info.nil_cond != 'and_prob_len_desc' and
+              opt_info.nil_cond != 'and_prob_or_len_desc' and
+              opt_info.nil_cond != 'and_len_or_prob_desc' and
+              opt_info.nil_cond != 'and_desc_or_prob_len' and
+              opt_info.nil_cond != 'two_of_prob_len_desc' and
+              opt_info.nil_cond != 'and_prob_len_desc_cman' and
+              opt_info.nil_cond != 'and_prob_cman_or_len_desc' and
+              opt_info.nil_cond != 'and_len_cman_or_prob_desc' and
+              opt_info.nil_cond != 'and_desc_cman_or_prob_len' and
+              opt_info.nil_cond != 'and_cman_two_of_prob_len_desc' and
+              opt_info.nil_cond != 'cman' and
+              opt_info.nil_cond != 'and_prob_len_desc_nostop' and
+              opt_info.nil_cond != 'and_prob_nostop_or_len_desc' and
+              opt_info.nil_cond != 'and_len_nostop_or_prob_desc' and
+              opt_info.nil_cond != 'and_desc_nostop_or_prob_len' and
+              opt_info.nil_cond != 'and_nostop_two_of_prob_len_desc'
+        ):
             logger.error({
                 'action': 'ljc_main',
                 'illegal nil_cond': 'nil detection is specified, but illegal nil_cond'
@@ -1081,7 +1152,6 @@ def ljc_main(common_data_dir,
             })
             sys.exit()
 
-
         logger.info({
             'action': 'ljc_main',
             'run': 'dn.check_linkable_info',
@@ -1091,6 +1161,8 @@ def ljc_main(common_data_dir,
             'linkable_file': data_info.linkable_info_file,
         })
         d_linkable = dn.check_linkable_info(data_info.linkable_info_file, log_info)
+        d_nil_cand_man = dn.reg_nil_cand_man(data_info.nil_cand_man_file, log_info)
+        d_nil_stop_attr = dn.reg_nil_cand_man(data_info.nil_stop_attr_file, log_info)
 
         logger.debug({
             'action': 'ljc_main',
@@ -1193,7 +1265,11 @@ def ljc_main(common_data_dir,
                     wlink_cand_list = []
                     # nil detection
                     if 'n' in opt_info.filtering and 'w' in opt_info.nil_tgt:
-                        dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
+                        cand_man_res = dn.check_cand_man(cat_attr, log_info, **d_nil_cand_man)
+                        stop_attr_res = dn.check_nil_stop(mention_info.attr_label, log_info, **d_nil_stop_attr)
+
+                        dn_res = dn.estimate_nil(
+                            cat_attr, cand_man_res, stop_attr_res, mention_info, opt_info, log_info, **d_linkable)
                         if not dn_res:
                             wlink_cand_list = gw.check_wlink(mention_info, opt_info, log_info, **diff_info)
                     else:
@@ -1236,7 +1312,13 @@ def ljc_main(common_data_dir,
                     slink_cand_list = []
                     if 'n' in opt_info.filtering and 's' in opt_info.nil_tgt:
                         # nil detection
-                        dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
+                        cand_man_res = dn.check_cand_man(cat_attr, log_info, **d_nil_cand_man)
+                        stop_attr_res = dn.check_nil_stop(mention_info.attr_label, log_info, **d_nil_stop_attr)
+
+                        dn_res = dn.estimate_nil(
+                            cat_attr, cand_man_res, stop_attr_res, mention_info, opt_info, log_info, **d_linkable)
+
+                        # dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
                         if not dn_res:
                             slink_cand_list = sl.estimate_self_link(cat_attr, opt_info.slink_prob, mention_info,
                                                                     opt_info.slink_min,
@@ -1308,9 +1390,12 @@ def ljc_main(common_data_dir,
                     # 'mention_info.pid': '3974281'}
                     if 'n' in opt_info.filtering and 'm' in opt_info.nil_tgt:
                         # nil detection
-                        dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
-                        if not dn_res:
+                        cand_man_res = dn.check_cand_man(cat_attr, log_info, **d_nil_cand_man)
+                        stop_attr_res = dn.check_nil_stop(mention_info.attr_label, log_info, **d_nil_stop_attr)
 
+                        dn_res = dn.estimate_nil(
+                            cat_attr, cand_man_res, stop_attr_res, mention_info, opt_info, log_info, **d_linkable)
+                        if not dn_res:
                             mint_cand_list = mc.match_mention_title(mod, opt_info, mention_info.t_mention, log_info,
                                                                     **d_mint_mention_pid_ratio)
                     else:
@@ -1384,7 +1469,11 @@ def ljc_main(common_data_dir,
 
                     if 'n' in opt_info.filtering and 't' in opt_info.nil_tgt:
                         # nil detection
-                        dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
+                        cand_man_res = dn.check_cand_man(cat_attr, log_info, **d_nil_cand_man)
+                        stop_attr_res = dn.check_nil_stop(mention_info.attr_label, log_info, **d_nil_stop_attr)
+
+                        dn_res = dn.estimate_nil(
+                            cat_attr, cand_man_res, stop_attr_res, mention_info, opt_info, log_info, **d_linkable)
                         if not dn_res:
                             tinm_cand_list = mc.match_mention_title(mod, opt_info, mention_info.t_mention, log_info,
                                                                     **d_tinm_mention_pid_ratio)
@@ -1427,7 +1516,11 @@ def ljc_main(common_data_dir,
                     lp_cand_list = []
                     if 'n' in opt_info.filtering and 'l' in opt_info.nil_tgt:
                         # nil detection
-                        dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
+                        cand_man_res = dn.check_cand_man(cat_attr, log_info, **d_nil_cand_man)
+                        stop_attr_res = dn.check_nil_stop(mention_info.attr_label, log_info, **d_nil_stop_attr)
+
+                        dn_res = dn.estimate_nil(
+                            cat_attr, cand_man_res, stop_attr_res, mention_info, opt_info, log_info, **d_linkable)
                         if not dn_res:
                             lp_cand_list = lp.check_link_prob(opt_info.link_prob_min, mention_info, log_info,
                                                               **d_link_prob)
@@ -1541,6 +1634,8 @@ def ljc_main(common_data_dir,
     d_back_link.clear()
     diff_info.clear()
     d_linkable.clear()
+    d_nil_cand_man.clear()
+    d_nil_stop_attr.clear()
     # d_target_eneid2enlabel.clear()
 
     # lc.linkedjson2tsv_add_linked_title_ene(out_dir, data_info.title2pid_ext_file, log_info)
