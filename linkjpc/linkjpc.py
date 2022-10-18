@@ -79,7 +79,11 @@ def set_logging(log_info, logger_name):
               help='maximum number of candidate link pages for one mention in each string matching module (mint/tinm)')
 # @click.option('--lang_link_min', default=cf.OptInfo.lang_link_min_default, show_default=True, type=click.FLOAT)
 @click.option('--multi_lang', default=cf.OptInfo.multi_lang_default, type=click.Choice(['j', 'je', 'm']),
-              show_default=True)
+              show_default=True,
+              help='specify if foreign language titles based on interlanguage links should be used for matching.'
+                   'j: use original titles.'
+                   'je: add English titles. '
+                   'm: add all the foreign language titles.')
 # module: mint
 @click.option('--mint', type=click.Choice(['e', 'p', 'n']),
               default=cf.OptInfo.mint_default, show_default=True,

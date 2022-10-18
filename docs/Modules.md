@@ -5,6 +5,26 @@
 
 ## 主要モジュールとオプション
 
+### **モジュール共通**
+
+#### 概要
+- モジュール共通の設定
+
+#### 主な変更点
+
+| option             | 説明                       | 変更点 |
+|--------------------|--------------------------|-----|
+| mod                | 利用モジュール（優先度によりグルーピング）    |     |
+| mod_w              | モジュールの優先度グループ別の重み        ||
+| filtering          | 利用フィルタリング                ||
+| ans_max            | 出力数                      ||
+| score_type         | スコアタイプ                   ||
+| f__titl2pid_ext    | title2pageid を元に拡張した情報ファイル ||
+| f_target_attr_info | メンションの属性のファイル名           ||
+|f_all_cat_info||
+
+
+
 
 ### **matching.py(ma):文字列マッチ**
 
@@ -12,22 +32,22 @@
 - メンションと候補ページのタイトルの文字列マッチ
 
 #### 主な変更点
-- 外国語表記対応（言語間リンク利用）
+- 外国語タイトルも利用（言語間リンク利用）
 
-| option                         | 説明         | 変更点      |
-|------|--------|----------|
-| char_match_cand_num_max/-c_max | リンク先候補数の最大値             |          |
-| multi_lang                     | 外国語表記のメンションに対応（言語間リンク使用)| 新規追加     |
-| mint                           | (mint)タイトルにメンション文字列を含むページへのマッチング(mention in title)方法(完全一致/部分一致)  |          |
-| mint_min                       | (mint)文字列一致率の最小値                                                    | デフォルト値UP |
-| title_matching_mint/tmm        | (mint)タイトルの丸括弧の扱い(full/trim(括弧を外す))    ||
-| f_mint                         | (mint)文字列一致情報ファイル(full)           ||
-| f_mint_trim                    | (mint)文字列一致情報ファイル(trim)')     ||
+| option                         | 説明                                                                  | 変更点                      |
+|------|---------------------------------------------------------------------|--------------------------|
+| char_match_cand_num_max/-c_max | リンク先候補数の最大値                                                         |                          |
+| multi_lang                     | 外国語のタイトルも利用（言語間リンク使用)                                               | optionを追加<br>デフォルト：全言語利用 |
+| mint                           | (mint)タイトルにメンション文字列を含むページへのマッチング(mention in title)方法(完全一致/部分一致)     |                          |
+| mint_min                       | (mint)文字列一致率の最小値                                                    | デフォルト：値UP                |
+| title_matching_mint/tmm        | (mint)タイトルの丸括弧の扱い(full/trim(括弧を外す))                                 ||
+| f_mint                         | (mint)文字列一致情報ファイル(full)                                             ||
+| f_mint_trim                    | (mint)文字列一致情報ファイル(trim)')                                           ||
 | tinm                           | (tinm)メンション文字列に含まれるタイトルをもつページへのマッチング(title in mention)方法(完全一致/部分一致) ||
 | tinm_min/t_min                 | (tinm)文字列一致の最小値                                                     ||
-| title_matching_tinm/tmt        | (tinm)タイトルの丸括弧の扱い(full/trim(括弧を外す))  ||
-| f_tinm                         | (tinm)文字列一致情報ファイル(full)                  |          |
-| f_tinm_trim                    | (tinm)文字列一致情報ファイル(trim)                                |          |
+| title_matching_tinm/tmt        | (tinm)タイトルの丸括弧の扱い(full/trim(括弧を外す))                                 ||
+| f_tinm                         | (tinm)文字列一致情報ファイル(full)                                             |                          |
+| f_tinm_trim                    | (tinm)文字列一致情報ファイル(trim)                                             |                          |
 
 ### **self_link.py(sl):再帰リンク推定** 
 
@@ -36,14 +56,14 @@
 
 #### 主な変更点
 - スコアの計算方法
-  - 統計情報の不足（サンプルデータに出現しない属性等）を補うためルールベースのスコアリングを追加
+  - 統計情報の不足（サンプルデータに出現しない属性等）を補うためスコアリング方法(slink_prob)にルールベースのスコアリング(*_est)を追加
 
-| option                   | 説明                                | 変更点  |
-|--------------------------|-----------------------------------|------|
-| slink_min      | 再帰リンクの判定基準とする再帰リンク率の最小値           |      |
-| slink_prob               | 再帰リンクのスコアリング（オプション追加：*_est） | 新規追加 |
-| f_slink                  | 再帰リンク率情報ファイル                      |      |
-| f_self_link_by_attr_name | 再帰リンク用属性名リスト（属性名から推定する場合に利用）      | 新規追加 |
+| option                   | 説明                                | 変更点              |
+|--------------------------|-----------------------------------|------------------|
+| slink_min      | 再帰リンクの判定基準とする再帰リンク率の最小値           |                  |
+| slink_prob               | 再帰リンクのスコアリング | optionの値を追加(*_est） |
+| f_slink                  | 再帰リンク率情報ファイル                      |                  |
+| f_self_link_by_attr_name | 再帰リンク用属性名リスト（属性名から推定する場合に利用）      | optionを追加        |
 
 ### **get_wlink.py(gw)** 
 
@@ -52,35 +72,35 @@
 #### 主な変更点
 - 
 
-| option                 | 説明                                                                                       | 主な変更点 |
-|------------------------|------------------------------------------------------------------------------------------|-------|
-| wlink             | Wikipediaリンクのスコアリング方法(どの環境に現れたタグに加点するか)                                                  |       |
-| f_html_info            | htmlタグ情報ファイル                                                                             |       | 
-| wf_score               | メンション内の最初のWikipediaリンクに与えるスコア  (cf. wlink:f)                                             |       |
-| wr_score               | メンション内の最右のWikipediaリンクに与えるスコア (cf. wlink:r)                                              |       |  
-| wp_score               | ページ内で前出のメンションのWikipediaリンクに与えるスコア (cf. wlink:p)                                          |       |
-| wl_score_sam           | メンション周辺（同一行）にあるWikipediaリンクに与えるスコア (wlink:l)                                             |       |                  |
-| wl_score_backward      | メンション周辺（後の行）にあるWikipediaリンクに与えるスコア(wlink:l)                                              |       |  
-| wl_score_forward       | メンション周辺（前の行）にあるWikipediaリンクに与えるスコア  (wlink:l)                                            |       |
-| wl_break   | 候補のリンクが見つかったら探索をやめるかどうかのフラグ                                                              |       | 
-| wl_lines_backward_max  | メンションを含むから遡ってWikipediaリンクを探す行数の最大値                                                       |       |
-| wl_lines_forward_max | メンションを含む行以降でWikipediaリンクを探す行数の最大値                                                        |       |
-| wl_lines_backward_ca   | 各カテゴリ-属性のペアについてメンションから遡ってWikipediaリンクを探す際の行数？の最大値の決定方法                                   |       | 
-| wl_lines_forward_ca | 各カテゴリ-属性のペアについてメンション以降でWikipediaリンクを探す際の行数？の最大値の決定方法                                     |       |
-| f_wl_lines_backward_ca | 各カテゴリ-属性のペアについてメンションから遡ってWikipediaリンクを探す際の行数？の最大値の指定ファイル(cf. wl_lines_backward_ca:f)     |       |    
-| wl_lines_forward_ca    | 各カテゴリ-属性のペアについてメンション以降でWikipediaリンクを探す際の行数？の最大値の指定ファイル (cf. wl_lines_lines_forward_ca:f) |       |
-| wl_lines_backward_ca_ratio | 各属性についてメンションから遡ってWikipediaリンクを探す際の行のratioの最大値（サンプルデータの統計から推定）)                           |       |
-| wl_lines_forward_ca_ratio | 各属性についてメンション以降でWikipediaリンクを探す際の行のratioの最大値（サンプルデータの統計から推定）                              |       |
-| f_mention_gold_link_dist_info | サンプルデータのメンションと正解Wikipediaリンクの距離に関する統計情報の出力ファイル名                                          |       |
+| option                         | 説明                                                                                                                                                                               | 主な変更点 |
+|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
+| wlink /wl                      | Wikipediaリンクのスコアリング方法(どの環境に現れたタグに加点するか) <br>f: メンション内の最初のリンクを優先<br> r: メンション内の最右のリンクを優先<br>m: メンション内の全てのリンクに同等に加点<br>p: ページ内で既出の(メンションの)リンクに加点<br>l: メンション周辺の行のリンクに加点<br>n: N/A. |       |
+| f_html_info                    | htmlタグ情報ファイル                                                                                                                                                                     |       | 
+| wf_score   /wf                 | メンション内の最初のWikipediaリンクに与えるスコア  (cf. wlink:f)                                                                                                                                     |       |
+| wr_score /wr                   | メンション内の最右のWikipediaリンクに与えるスコア (cf. wlink:r)                                                                                                                                      |       |  
+| wp_score  /wp                  | ページ内で前出の(メンションの)Wikipediaリンクに与えるスコア (cf. wlink:p)                                                                                                                                |       |
+| wl_score_same  /wls            | メンション周辺（同一行）にあるWikipediaリンクに与えるスコア (wlink:l)                                                                                                                                     |       |                  |
+| wl_score_backward  /wlb        | メンション周辺（後の行）にあるWikipediaリンクに与えるスコア(wlink:l)                                                                                                                                      |       |  
+| wl_score_forward /wlf          | メンション周辺（前の行）にあるWikipediaリンクに与えるスコア  (wlink:l)                                                                                                                                    |       |
+| wl_break                       | 候補のリンクが見つかったら探索をやめるかどうかのフラグ                                                                                                                                                      |       | 
+| wl_lines_backward_ca /wl_bca   | 各カテゴリ-属性のペアについてメンションから遡ってWikipediaリンクを探す際の行数の最大値の決定方法                                                                                                                            |       | 
+| wl_lines_forward_ca /wl_fca    | 各カテゴbcaリ-属性のペアについてメンション以降でWikipediaリンクを探す際の行数の最大値の決定方法                                                                                                                           |       |
+| wl_lines_backward_max /wl_bmax | メンションを含む行から遡ってWikipediaリンクを探す行数の最大値 (cf.wl_lines_backward_ca)                                                                                                                    |       |
+| wl_lines_forward_max /wl_fmax  | メンションを含む行以降でWikipediaリンクを探す行数の最大値 (cf.wl_lines_forward_ca)                                                                                                                       |       |
+| f_wl_lines_backward_ca         | 各カテゴリ-属性のペアについてメンションから遡ってWikipediaリンクを探す際の行数の最大値の指定ファイル(cf. wl_lines_backward_ca)                                                                                                |       |    
+| wl_lines_forward_ca            | 各カテゴリ-属性のペアについてメンション以降でWikipediaリンクを探す際の行数の最大値の指定ファイル (cf. wl_lines_lines_forward_ca)                                                                                            |       |
+| wl_lines_backward_ca_ratio     | 各属性についてメンションから遡ってWikipediaリンクを探す際の行のratioの最大値（候補行数は各属性についてサンプルデータの統計から推定）                                                                                                        |       |
+| wl_lines_forward_ca_ratio      | 各属性についてメンション以降でWikipediaリンクを探す際の行のratioの最大値（候補行数は各属性についてサンプルデータの統計から推定）                                                                                                          |       |
+| f_mention_gold_link_dist_info  | サンプルデータのメンションと正解Wikipediaリンクの距離に関する統計情報の出力ファイル名                                                                                                                                  |       |
 
 
 ### **link_prob.py(lp):リンク確率** 
 #### 概略
    - メンションとページのリンク確率をサンプルデータ正解の統計情報から推定。
 
-| option  | 説明   |変更点|
-|---------|------|----|
-|lp_min/l_min|カテゴリ-属性-メンションの組に対してリンク確率情報ファイルに記載するリンク確率の最小値||
+| option | 説明   |変更点|
+|------|------|----|
+|lp_min|カテゴリ-属性-メンションの組に対してリンク確率情報ファイルに記載するリンク確率の最小値||
 |f_link_prob|リンク確率情報ファイルのファイル名||
 
 ## フィルタリング 

@@ -35,7 +35,7 @@ common_data_dir="${base_data_dir_ljp2022}ljc_data/common/"
 # 20220909
 #in_dir="${base_data_dir_ljp2022}ljc_data/train-link-20220712/"
 ## tmp_data_dir="${base_data_dir_ljp2022}ljc_data/test_training/"
-## out_dir_base="${base_dir_shinra2022}test_out_training/out_training_20220909/"
+#out_dir_base="${base_dir_shinra2022}test_out_training/out_training_20220909/"
 #out_dir_base="${base_dir_shinra2022}test_out_training/out_training_20220909_test/"
 
 # sample_gold_dir_ljp2022="${base_dir_shinra2022}Download/ljc_data/train-link-20220712/"
@@ -51,15 +51,26 @@ tmp_data_dir="${base_data_dir_ljp2022}ljc_data/test_leaderboard/"
 #out_dir_base="${base_dir_shinra2022}test_out_leaderboard/out_leaderboard_20220907/"
 # out_dir_base="${base_dir_shinra2022}test_out_leaderboard/out_leaderboard_20220917/"
 # 20220923
-out_dir_base="${base_dir_shinra2022}test_out_leaderboard/out_leaderboard_20220925/"
-sample_gold_dir_ljp2022="${base_dir_shinra2022}Download/ljc_data/train-link-20220712/"
+out_dir_base="${base_dir_shinra2022}test_out_leaderboard/out_leaderboard_20221009/"
+# sample_gold_dir_ljp2022="${base_dir_shinra2022}Download/ljc_data/train-link-20220712/"
+sample_gold_dir_ljp2022="${base_dir_shinra2022}Download/ljc_data/train-link-20221004/"
+
 
 sample_gold_dir="${sample_gold_dir_ljp2022}"
 # sample_input_dir="${base_dir_ljp2022}Download/ljc_data/train-link-20220712/ene_annotation/"
 # 20220822
-sample_input_dir="${base_dir_shinra2022}Download/ljc_data/train-link-20220712/conv/"
-#########################################################################################
+# sample_input_dir="${base_dir_shinra2022}Download/ljc_data/train-link-20220712/conv/"
+sample_input_dir="${base_dir_shinra2022}Download/ljc_data/train-link-20221004/conv/"
 
+#########################################################################################
+# 9/7リーダーボード投稿分
+
+# wlink wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_al_am_bl_w
+
+
+
+# test
+# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a/ --mod w -f a --wlink rp -ar_tgt w -art a -al a
 
 # tmp_data_dir="${base_data_dir_shinra2022}ljc_data/test/"
 
@@ -81,13 +92,13 @@ sample_input_dir="${base_dir_shinra2022}Download/ljc_data/train-link-20220712/co
 # python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_frpl_bmax_5_attr_w_art_a_al_am_bl_w/ --mod s:m:w -f ab --mint e -s_min 0.5 -s_prb mid --wlink frpl -wl_bmax 5 -ar_tgt w -al am -bl_tgt w
 
 # 20220818
-# python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
-# python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+# python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+# python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
 
 # 20220819
 #
-#python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
 
 
 # 昨年改良
@@ -98,55 +109,74 @@ sample_input_dir="${base_dir_shinra2022}Download/ljc_data/train-link-20220712/co
 
 # leaderboard1
 ## （１）9/5リーダーボード投稿分と一緒に実行　ここから
-## leaderboard-1: 1位：full nil判定 Wのみ：9/6　1回目投稿分
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#
-### leaderboard-2: 1位：full nil判定 Wのみ, exc_woなし: 9/6 2回目投稿分　→　現在のベース
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
+### leaderboard-1: 1位：full nil判定 Wのみ：9/6　1回目投稿分
+
+# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_ma_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art ma -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_m_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art m -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_am_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art am -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+
+##
+# 9/29 test
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_ma_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art ma -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_m_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art m -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_am_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art am -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+
+##
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_8_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_8_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_ma_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_8_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art ma -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_am_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_8_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art am -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8 -n_exc person_works
+
+##
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_a_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art a -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_ma_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art ma -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_m_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art m -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_am_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art am -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+
+##
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_ma_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art ma -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_m_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art m -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_am_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art am -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+
+##
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_a_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_8_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art a -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_8_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_ma_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_8_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art ma -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_am_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_8_exc_wo/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art am -al r -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8 -n_exc person_works
+
+##
+###
+##### leaderboard-2: 1位：full nil判定 Wのみ, exc_woなし: 9/6 2回目投稿分　→　現在のベース
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_ma_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art ma -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+
 #
 ##
 ## 被リンク
-##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_ncond_w_two_of_pld_02_7_exc_wo_incl_m_imax1_o/ --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_ncond_w_two_of_pld_02_7_exc_wo_incl_m_imax1_o/ --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+# 9/27 結合テスト用
+
 #　9/25ここから整理
-# 1 module ###
+# 1 module (フィルタなし) ## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # (m)
-# (mint -e) 2022/9/25
-## no filtering
+
+# (mint -p + tinm -p)
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_tinm_p_tm_09/ --mod mt --mint p --tinm p -m_min 0.9 -t_min 0.8 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_tinm_p_tm_09/ --mod mt --mint p --tinm p -m_min 0.9 -t_min 0.8 -f x
+
+
+# (mint -e)
+# no filtering
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e/ --mod m --mint e -f x
-## nil filtering
-## n_cond
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
-### ld_min
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 8
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 8
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 8
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_02_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 8
-
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_02_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 9
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_02_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 9
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_02_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 9
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_02_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 9
-
-### n_max
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.1 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.1 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.1 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.1 -ld_min 7
-#
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_03_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.3 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_03_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.3 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_03_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.3 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_03_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.3 -ld_min 7
 
 # (mint -p)
 # no filtering
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02/ --mod m --mint p -m_min 0.2 -f x
+
 # m_min
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03/ --mod m --mint p -m_min 0.3 -f x
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04/ --mod m --mint p -m_min 0.4 -f x
@@ -155,327 +185,828 @@ python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_i
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07/ --mod m --mint p -m_min 0.7 -f x
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08/ --mod m --mint p -m_min 0.8 -f x
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09/ --mod m --mint p -m_min 0.9 -f x
+#
 
-## nil filtering
-## n_cond
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
+# (tinm -e)
+### no filtering
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_e/ --mod t --tinm e -f x
+#
+## (tinm -p)
+## no filtering
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_02/ --mod t --tinm p -t_min 0.2 -f x
+##
+### m_min
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_03/ --mod t --tinm p -t_min 0.3 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_04/ --mod t --tinm p -t_min 0.4 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_05/ --mod t --tinm p -t_min 0.5 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_06/ --mod t --tinm p -t_min 0.6 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_07/ --mod t --tinm p -t_min 0.7 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_08/ --mod t --tinm p -t_min 0.8 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09/ --mod t --tinm p -t_min 0.9 -f x
+##
 
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
-
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
-
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
-
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
-
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
-
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
-
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_topld_nm_02_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_apld_nm_02_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_alopd_nm_02_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.2 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_adopl_nm_02_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.2 -ld_min 7
-
-## ld_min
-
-
-
-
-
-
-
-
-## n_max
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_topld_nm_01_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.1 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_apld_nm_01_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.1 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_alopd_nm_01_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.1 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_adopl_nm_01_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.1 -ld_min 7
-
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_topld_nm_03_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.3 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_apld_nm_03_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.3 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_alopd_nm_03_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.3 -ld_min 7
-python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_adopl_nm_03_ld_7/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.3 -ld_min 7
-
-
-# (l)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}l_06/ --mod l -l_min 0.6 -f x
-# (s)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid/ --mod s -s_min 0.5 -s_prb mid -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_fixed/ --mod s -s_min 0.5 -s_prb fixed -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_raw/ --mod s -s_min 0.5 -s_prb raw -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est/ --mod s -s_min 0.5 -s_prb r_est -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est/ --mod s -s_min 0.5 -s_prb m_est -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_f_est/ --mod s -s_min 0.5 -s_prb f_est -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_mid/ --mod s -s_min 0.6 -s_prb mid -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_fixed/ --mod s -s_min 0.6 -s_prb fixed -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_raw/ --mod s -s_min 0.6 -s_prb raw -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_r_est/ --mod s -s_min 0.6 -s_prb r_est -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_m_est/ --mod s -s_min 0.6 -s_prb m_est -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_f_est/ --mod s -s_min 0.6 -s_prb f_est -f x
-
-# 1 module (フィルタあり) ###
-# (m)
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e/ --mod m --mint -f x
-
-# (m) + nil
-# (l)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}l_06/ --mod l -l_min 0.6 -f x
-# (s)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid/ --mod s -s_min 0.5 -s_prb mid -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_fixed/ --mod s -s_min 0.5 -s_prb fixed -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_raw/ --mod s -s_min 0.5 -s_prb raw -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est/ --mod s -s_min 0.5 -s_prb r_est -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est/ --mod s -s_min 0.5 -s_prb m_est -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_f_est/ --mod s -s_min 0.5 -s_prb f_est -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_mid/ --mod s -s_min 0.6 -s_prb mid -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_fixed/ --mod s -s_min 0.6 -s_prb fixed -f x
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_raw/ --mod s -s_min 0.6 -s_prb raw -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_r_est/ --mod s -s_min 0.6 -s_prb r_est -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_m_est/ --mod s -s_min 0.6 -s_prb m_est -f x
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_f_est/ --mod s -s_min 0.6 -s_prb f_est -f x
-
-
-# (w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod w -f abn --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_m_al_am_bl_w/ --mod w -f abn --wlink rp -ar_tgt w -art m -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_ma_al_am_bl_w/ --mod w -f abn --wlink rp -ar_tgt w -art ma -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-
-#   ## 3 module
-#   ### self linkなし (m:lw)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod m:lw -f abn --mint e --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ### リンク確率なし (s:m:w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:w -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ### wlinkなし (s:m:l)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__l_06/ --mod s:m:l --mint e -s_min 0.5 -s_prb m_est -l_min 0.6 -f x
-#   ### mintなし (s:lw)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:lw -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ## 2 module ここから
-#   ## (m:l)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__l_06/ --mod m:l --mint e -l_min 0.6 -f x
-#   ## (m:w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod m:w -f abn --mint e --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ## (lw)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod lw -f abn --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ### (s:m)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e/ --mod s:m --mint e -s_min 0.5 -s_prb m_est -f x
-#   ### (s:w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:w -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ### (s:l)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__l_06/ --mod s:l -s_min 0.5 -s_prb m_est -l_min 0.6 -f x
-#   #
-
-
-
-   ## (w)(attrなし)
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_bl_w/ --mod w -f bn --wlink rp -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -n_exc person_works -ld_min 7
-   ## (w)(blなし)
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am/ --mod w -f an --wlink rp -ar_tgt w -art a -al am -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-
-## 9/7
-#### leaderboard1ベース ###################################
+### (l)
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}l_06/ --mod l -l_min 0.6 -f x
+##
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}l_05/ --mod l -l_min 0.5 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}l_07/ --mod l -l_min 0.7 -f x
 ###
-#### (1)
-#### leaderboard-1: 1位：full nil判定 Wのみ, exc_woあり：9/6　1回目投稿分 exact match
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-# 比較：slink オプション
-#   ## slink 新オプション　m_est
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   #
-#   ## slink 新オプション　r_est
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb r_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   #
-#   #
-# 比較用
+#
+### (s)
+### no filtering
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid/ --mod s -s_min 0.5 -s_prb mid -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_fixed/ --mod s -s_min 0.5 -s_prb fixed -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_raw/ --mod s -s_min 0.5 -s_prb raw -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est/ --mod s -s_min 0.5 -s_prb r_est -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est/ --mod s -s_min 0.5 -s_prb m_est -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_f_est/ --mod s -s_min 0.5 -s_prb f_est -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_mid/ --mod s -s_min 0.6 -s_prb mid -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_fixed/ --mod s -s_min 0.6 -s_prb fixed -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_raw/ --mod s -s_min 0.6 -s_prb raw -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_r_est/ --mod s -s_min 0.6 -s_prb r_est -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_m_est/ --mod s -s_min 0.6 -s_prb m_est -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_f_est/ --mod s -s_min 0.6 -s_prb f_est -f x
+#
+## (w)
+## no filtering
+## f
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_f/ --mod w --wlink f -f x
+#
+## r
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_r/ --mod w --wlink r -f x
+#
+## l
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_l_bmax_3/ --mod w --wlink l -wl_bmax 3 -f x
+#
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_l_fmax_2/ --mod w --wlink l -wl_fmax 2 -f x
+#
+## rp
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp/ --mod w --wlink rp -f x
+#
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_wl_bca_r_05/ --mod w --wlink rp -wl_bca r -wl_bca_ratio 0.5 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_wl_fca_r_05/ --mod w --wlink rp -wl_fca r -wl_fca_ratio 0.5 -f x
+#
+## frp
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_frp/ --mod w --wlink frp -f x
+#
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_frp_wl_bca_r_05/ --mod w --wlink frp -wl_bca r -wl_bca_ratio 0.5 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_frp_wl_fca_r_05/ --mod w --wlink frp -wl_fca r -wl_fca_ratio 0.5 -f x
+#
+## rpl
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rpl_bmax_2/ --mod w --wlink rpl -wl_bmax 2 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rpl_bmax_3/ --mod w --wlink rpl -wl_bmax 3 -f x
+#
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rpl_fmax_2/ --mod w --wlink rpl -wl_fmax 2 -f x
+#
+## frpl
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_frpl_bmax_2/ --mod w --wlink frpl -wl_bmax 2 -f x
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_frpl_bmax_3/ --mod w --wlink frpl -wl_bmax 3 -f x
 
-# 比較用  filterなし
-# nil判定なし
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f ab --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6
-#   ### blなし
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am/ --mod s:m:lw -f an --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -n_exc person_works -ld_min 7　
-#   ### attrなし
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_bl_w/ --mod s:m:lw -f bn --mint e -s_min 0.5 -s_prb m_est --wlink rp -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -n_exc person_works -ld_min 7　
-#   ##
-#   ## nil判定の対象モジュールのバリエーション　
-#   ## full nil判定 M, S, W, L
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_smwl_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt smwl -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   #
-#   ### full nil判定 M, S, Wのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_msw_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt msw -l_min 0.6 -n_tgt msw -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 S, W, Lのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_swl_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt msw -l_min 0.6 -n_tgt swl -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 M, Wのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_mw_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt mw -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 S, Wのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_sw_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt sw -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 L, Wのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_lw_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt lw -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 Mのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_m_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 Sのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_s_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 Lのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_l_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt l -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   #
-#  module ablation
-  #
-   ####
-   # attr_rng_type: auto
-   # (1)
-   # leaderboard-1: 1位：full nil判定 Wのみ, exc_woあり：9/6　1回目投稿分 exact match
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   #
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   #
-#   ## slink 新オプション　m_est
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   #
-#   ## slink 新オプション　r_est
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb r_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   #
-#   #
-#   ### nil判定なし
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f ab --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6
-#   ### 実施済　ここまで
-#   #
-#   ## filterなし
-#   ### blなし
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am/ --mod s:m:lw -f an --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   ##
-#   ## nil判定の対象モジュールのバリエーション　
-#   ## full nil判定 M, S, W, L
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_smwl_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt smwl -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   #
-#   ### full nil判定 M, S, Wのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_msw_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt msw -l_min 0.6 -n_tgt msw -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 S, W, Lのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_swl_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt msw -l_min 0.6 -n_tgt swl -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 M, Wのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_mw_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt mw -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 S, Wのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_sw_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt sw -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 L, Wのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_lw_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt lw -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 Mのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_m_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 Sのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_s_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ### full nil判定 Lのみ
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_l_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt l -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   #
-### module ablation
-### 3 module
-#### self linkなし (m:lw)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod m:lw -f abn --mint e --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
+python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_frpl_fmax_2/ --mod w --wlink frpl -wl_fmax 2 -f x
+#
+#
+### 1 module (フィルタあり) # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+### (m) + nil
+### nil filtering
+### (mint -e)
+## 20221007 14:37- リーダーボードデータ最新版　ここから
+#### n_cond
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+#### ld_min
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_8/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_8/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_8/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_8/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+##
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 9
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 9
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 9
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_9/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 9
+#
+### n_max
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.1 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.1 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.1 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_01_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.1 -ld_min 7
+##
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_03_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.3 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_03_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.3 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_03_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.3 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_03_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.3 -ld_min 7
+#
+## n_afm
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_5_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 5 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_5_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 5 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_5_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 5 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_5_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 5 -ld_min 7
+##
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_topld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_apld_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_alopd_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_nc_adopl_nm_001_nafm_7_ld_7/ --mod m --mint e -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## ld_min
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_topld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_apld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_alopd_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_02_nc_adopl_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.2 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_topld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_apld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_alopd_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_03_nc_adopl_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.3 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+##
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_topld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_apld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_alopd_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_04_nc_adopl_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.4 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_topld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_apld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_alopd_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_05_nc_adopl_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.5 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_topld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_apld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_alopd_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_06_nc_adopl_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.6 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_topld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_apld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_alopd_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_07_nc_adopl_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.7 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_topld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_apld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_alopd_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_08_nc_adopl_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.8 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_topld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_apld_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_alopd_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_adopl_nm_001_nafm_7_ld_8/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+## n_max
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_topld_nm_01_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.1 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_apld_nm_01_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.1 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_alopd_nm_01_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.1 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_adopl_nm_01_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.1 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_topld_nm_001_nafm_7_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_apld_nm_001_nafm_7_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_alopd_nm_001_nafm_7_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_adopl_nm_001_nafm_7_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_topld_nm_03_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.3 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_apld_nm_03_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.3 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_alopd_nm_03_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.3 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_mm_09_nc_adopl_nm_03_ld_7/ --mod m --mint p -m_min 0.9 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.3 -ld_min 7
+##
+##
+### n_max
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_topld_nm_01_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.1 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_apld_nm_01_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.1 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_alopd_nm_01_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.1 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_adopl_nm_01_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.1 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_topld_nm_001_nafm_7_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_apld_nm_001_nafm_7_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_alopd_nm_001_nafm_7_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_adopl_nm_001_nafm_7_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_topld_nm_03_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.3 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_apld_nm_03_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond and_prob_len_desc -n_max 0.3 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_alopd_nm_03_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond and_len_or_prob_desc -n_max 0.3 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}tinm_p_tm_09_nc_adopl_nm_03_ld_7/ --mod t --tinm p -t_min 0.9 -f n -n_tgt m -n_cond and_desc_or_prob_len -n_max 0.3 -ld_min 7
+###
+### (l)
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}l_06_nc_topld_nm_001_nafm_7_ld_7/ --mod l -l_min 0.6 -f n -n_tgt l -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}l_06_nc_apld_nm_001_nafm_7_ld_7/ --mod l -l_min 0.6 -f n -n_tgt l -n_cond and_prob_len_des -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}l_06_nc_alopd_nm_001_nafm_7_ld_7/ --mod l -l_min 0.6 -f n -n_tgt l -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}l_06_nc_adopl_nm_001_nafm_7_ld_7/ --mod l -l_min 0.6 -f n -n_tgt l -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+##
+### (s)
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.5 -s_prb mid -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_fixed_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.5 -s_prb fixed -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_raw_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.5 -s_prb raw -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.5 -s_prb r_est -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.5 -s_prb m_est -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_f_est_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.5 -s_prb f_est -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_mid_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.6 -s_prb mid -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_fixed_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.6 -s_prb fixed -f n -n_tgt s -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_raw_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.6 -s_prb raw -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_r_est_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.6 -s_prb r_est -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_m_est_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.6 -s_prb m_est -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_f_est_nc_topld_nm_001_nafm_7_ld_7/ --mod s -s_min 0.6 -s_prb f_est -f n -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## (w)
+#
+### a    art(attr_rng_type), al(attr_len: ['a', 'r', 'ar', 'am', 'n'])   art: ['a', 'm', 'ma', 'am']
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a/ --mod w -f a --wlink rp -ar_tgt w -art a -al a
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_a/ --mod w -f a --wlink rp -ar_tgt w -art m -al a
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a/ --mod w -f a --wlink rp -ar_tgt w -art ma -al a
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a/ --mod w -f a --wlink rp -ar_tgt w -art ma -al a
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r/ --mod w -f a --wlink rp -ar_tgt w -art a -al r
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_r/ --mod w -f a --wlink rp -ar_tgt w -art m -al r
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r/ --mod w -f a --wlink rp -ar_tgt w -art ma -al r
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r/ --mod w -f a --wlink rp -ar_tgt w -art ma -al r
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_ar/ --mod w -f a --wlink rp -ar_tgt w -art a -al ar
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_ar/ --mod w -f a --wlink rp -ar_tgt w -art m -al ar
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_ar/ --mod w -f a --wlink rp -ar_tgt w -art ma -al ar
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_ar/ --mod w -f a --wlink rp -ar_tgt w -art ma -al ar
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am/ --mod w -f a --wlink rp -ar_tgt w -art a -al am
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_am/ --mod w -f a --wlink rp -ar_tgt w -art m -al am
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am/ --mod w -f a --wlink rp -ar_tgt w -art ma -al am
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am/ --mod w -f a --wlink rp -ar_tgt w -art ma -al am
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_n/ --mod w -f a --wlink rp -ar_tgt w -art a -al n
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_n/ --mod w -f a --wlink rp -ar_tgt w -art m -al n
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_n/ --mod w -f a --wlink rp -ar_tgt w -art ma -al n
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_n/ --mod w -f a --wlink rp -ar_tgt w -art ma -al n
+#
+## ab     art(attr_rng_type), al(attr_len), bl
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art a -al a -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_a_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art m -al a -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art ma -al a -bl_tgt w
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art a -al r -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_r_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art m -al r -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art ma -al r -bl_tgt w
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art a -al am -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_am_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art m -al am -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art ma -al am -bl_tgt w
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_ar_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art a -al ar -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_ar_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art m -al ar -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_ar_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art ma -al ar -bl_tgt w
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_n_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art a -al n -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_m_al_n_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art m -al n -bl_tgt w
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_n_bl_w/ --mod w -f ab --wlink rp -ar_tgt w -art ma -al n -bl_tgt w
+#
+### b     bl
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_bl_w/ --mod w -f b --wlink rp -bl_tgt w
+#
+##20221007 14:37- リーダーボードデータ最新版　ここまで
+#
+##ここから10/6夜
+## n
+##nm001
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+# nm002
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_topld_nm_002_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.02 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_apld_nm_002_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_prob_len_desc -n_max 0.02 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_alopd_nm_002_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.02 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_adopl_nm_002_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.02 -n_af_min 7 -ld_min 7
+##
+##
+### nm005
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_topld_nm_005_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.05 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_apld_nm_005_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_prob_len_desc -n_max 0.05 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_alopd_nm_005_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.05 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_adopl_nm_005_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.05 -n_af_min 7 -ld_min 7
+###
+#### nm01
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_topld_nm_01_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.1 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_apld_nm_01_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_prob_len_desc -n_max 0.1 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_alopd_nm_01_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.1 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_adopl_nm_01_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.1 -n_af_min 7 -ld_min 7
+#
+##nm002
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_topld_nm_002_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.02 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_apld_nm_002_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_prob_len_desc -n_max 0.02 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_alopd_nm_002_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.02 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_adopl_nm_002_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.02 -n_af_min 7 -ld_min 7
+#
+#
+## nm005
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_topld_nm_005_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.05 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_apld_nm_005_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_prob_len_desc -n_max 0.05 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_alopd_nm_005_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.05 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_adopl_nm_005_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.05 -n_af_min 7 -ld_min 7
+##
+### nm01
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_topld_nm_01_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.1 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_apld_nm_01_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_prob_len_desc -n_max 0.1 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_alopd_nm_01_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.1 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_adopl_nm_01_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.1 -n_af_min 7 -ld_min 7
+##
+#### nm02
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_topld_nm_02_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_apld_nm_02_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_prob_len_desc -n_max 0.2 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_alopd_nm_02_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.2 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_adopl_nm_02_nafm_7_ld_7/ --mod w --wlink rp -f n -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.2 -n_af_min 7 -ld_min 7
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_topld_nm_001_nafm_7_ld_7_exc_wo/ --mod w --wlink rp -f n -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_apld_nm_001_nafm_7_ld_7_exc_wo/ --mod w --wlink rp -f n -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_alopd_nm_001_nafm_7_ld_7_exc_wo/ --mod w --wlink rp -f n -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_nc_adopl_nm_001_nafm_7_ld_7_exc_wo/ --mod w --wlink rp -f n -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+### an
+### art:a al:a
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al a -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al a -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al a -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al a -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+##
+## art:a al:r
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## art:a,al:am
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al am -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al am -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al am -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art a -al am -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## art:am, al:a
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_a_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al a -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_a_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al a -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_a_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al a -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_a_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al a -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## art:am, al:r
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_r_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_r_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_r_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_r_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## art:am: al:am
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_am_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al am -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_am_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al am -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_am_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al am -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_am_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art am -al am -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+##art:ma, al:a
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al a -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al a -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al a -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al a -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+##art:ma, al:r
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+##art:ma al:am
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al am -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al am -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al am -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al am -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## abn
+## art:a al:a
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al a -n_tgt w -bl_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a_bl_w_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al a -n_tgt w -bl_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a_bl_w_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al a -n_tgt w -bl_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_a_bl_w_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al a -n_tgt w -bl_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## art:a al:r
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al r -n_tgt w -bl_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r_bl_w_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al r -n_tgt w -bl_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r_bl_w_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al r -n_tgt w -bl_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_r_bl_w_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al r -n_tgt w -bl_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## art:a,al:am
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al am -n_tgt w -bl_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am_bl_w_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al am -n_tgt w -bl_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am_bl_w_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al am -n_tgt w -bl_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_a_al_am_bl_w_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art a -al am -n_tgt w -bl_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## art:am, al:a
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_a_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al a -n_tgt w -bl_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_a_bl_w_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al a -n_tgt w -bl_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_a_bl_w_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al a -n_tgt w -bl_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_a_bl_w_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al a -n_tgt w -bl_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## art:am, al:r
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al r -n_tgt w -bl_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_r_bl_w_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al r -n_tgt w -bl_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_r_bl_w_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al r -n_tgt w -bl_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_r_bl_w_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al r -n_tgt w -bl_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+## art:am: al:am
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al am -n_tgt w -bl_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_am_bl_w_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al am -n_tgt w -bl_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_am_bl_w_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al am -n_tgt w -bl_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_am_al_am_bl_w_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art am -al am -n_tgt w -bl_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+##
+###art:ma, al:a # ここから
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al a -n_tgt w -bl_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a_bl_w_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al a -n_tgt w -bl_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a_bl_w_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al a -n_tgt w -bl_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_a_bl_w_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al a -n_tgt w -bl_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+##art:ma, al:r
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al r -n_tgt w -bl_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_bl_w_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al r -n_tgt w -bl_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_bl_w_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al r -n_tgt w -bl_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_bl_w_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al r -n_tgt w -bl_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+#
+##art:ma al:am
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am_bl_w_nc_topld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al am -n_tgt w -bl_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am_bl_w_nc_apld_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al am -n_tgt w -bl_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am_bl_w_nc_alopd_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al am -n_tgt w -bl_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_am_bl_w_nc_adopl_nm_001_nafm_7_ld_7/ --mod w --wlink rp -f abn -ar_tgt w -art ma -al am -n_tgt w -bl_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 7
+##
+##nafm 6
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_topld_nm_001_nafm_6_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 6 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apld_nm_001_nafm_6_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 6 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alopd_nm_001_nafm_6_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 6 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_6_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 6 -ld_min 7
+#
+##nafm
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_topld_nm_001_nafm_8_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 8 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apld_nm_001_nafm_8_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 8 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alopd_nm_001_nafm_8_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 8 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_8_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 8 -ld_min 7
+#
+##nafm
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_topld_nm_001_nafm_9_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 9 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apld_nm_001_nafm_9_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 9 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alopd_nm_001_nafm_9_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 9 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_9_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 9 -ld_min 7
+#
+##nafm
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_topld_nm_001_nafm_10_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 10 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apld_nm_001_nafm_10_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 10 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alopd_nm_001_nafm_10_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 10 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_10_ld_7/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 10 -ld_min 7
+#
+##ld
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_topld_nm_001_nafm_7_ld_6/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 6
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apld_nm_001_nafm_7_ld_6/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 6
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alopd_nm_001_nafm_7_ld_6/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 6
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_6/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 6
+#
+###ld
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_topld_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apld_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alopd_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+#
+##ld
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_topld_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apld_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alopd_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 10
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_topld_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apld_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alopd_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 12
+#
+##
+###n_cond
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apldc_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc_cman -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apcold_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_cman_or_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alcopd_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_cman_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adcopl_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_cman_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_actpld_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_cman_two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_c_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond cman -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apldc_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc_cman -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apcold_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_cman_or_len_desc -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alcopd_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_cman_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adcopl_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_cman_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_actpld_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_cman_two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_c_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond cman -n_max 0.01 -n_af_min 7 -ld_min 10
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apldc_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc_cman -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apcold_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_cman_or_len_desc -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alcopd_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_cman_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adcopl_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_cman_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_actpld_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_cman_two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_c_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond cman -n_max 0.01 -n_af_min 7 -ld_min 12
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apldn_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc_nostop -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apnold_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_nostop_or_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alnopd_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_nostop_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adnopl_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_nostop_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_antpld_nm_001_nafm_7_ld_8/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_nostop_two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apldn_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc_nostop -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apnold_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_nostop_or_len_desc -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alnopd_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_nostop_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adnopl_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_nostop_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 10
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_antpld_nm_001_nafm_7_ld_10/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_nostop_two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 10
+#
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apldn_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_len_desc_nostop -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_apnold_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_prob_nostop_or_len_desc -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_alnopd_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_nostop_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adnopl_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_nostop_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 12
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_antpld_nm_001_nafm_7_ld_12/ --mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_nostop_two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 12
+#
+#
+##### +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+###　組み合わせ
+###  slink_05 + mint_p_09
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_p_09/ --mod s:m -f x --mint p -m_min 0.9 -s_min 0.5 -s_prb m_est
+###  slink_06 + mint_p_09
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_m_est__mint_p_09/ --mod s:m -f x --mint p -m_min 0.9 -s_min 0.6 -s_prb m_est
+#
+###  slink_06 + mint_p_09 + wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_m_est__mint_p_09__wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8/ --mod s:m:w -f an --mint p -m_min 0.9 -s_min 0.6 -s_prb m_est --wlink rp -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8
+#
+###
+#
+####  slink_06 + mint_p_09 + wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8,l_06
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_m_est__mint_p_09__wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8_l_05/ --mod s:m:wl -f an --mint p -m_min 0.9 -s_min 0.6 -s_prb m_est --wlink rp -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8 -l_min 0.5
+##
+#### swml slink_06 + wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8 + mint_p_09,l_05
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_06_m_est__wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8__mint_p_09_l_05/ --mod s:w:ml -f an -s_min 0.6 -s_prb m_est --wlink rp -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8  --mint p -m_min 0.9 -l_min 0.5
+##
+#### wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8 + slink_06 + mint_p_09,l_05
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8__slink_06_m_est__mint_p_09_l_05/ --mod w:s:ml -f an --wlink rp -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8 -s_min 0.6 -s_prb m_est --mint p -m_min 0.9 -l_min 0.5
+##
+#### wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8 + mint_p_09 + slink_06,l_05
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8__mint_p_09__slink_06_m_est_l_05/ --mod w:m:sl -f an --wlink rp -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8 --mint p -m_min 0.9 -s_min 0.6 -s_prb m_est -l_min 0.5
+##
+#mint_p_09 + wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8 + slink_06,l+05
+# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_09__wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8__slink_06_m_est_l_05/ --mod m:w:sl -f an --mint p -m_min 0.9 --wlink rp -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8  -s_min 0.6 -s_prb m_est -l_min 0.5
+
+## mint_p_09 + slink_06 + wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8,l_05
+# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_p_09__slink_06_m_est__wlink_rp_attr_w_art_ma_al_r_nc_adopl_nm_001_nafm_7_ld_8_l_05/ --mod m:s:wl -f an --mint p -m_min 0.9 -s_min 0.6 -s_prb m_est --wlink rp -ar_tgt w -art ma -al r -n_tgt w -n_cond and_desc_or_prob_len -n_max 0.01 -n_af_min 7 -ld_min 8 -l_min 0.5
+
+
+#### +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++## +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+##
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+###   ## 3 module
+###   ### self linkなし (m:lw)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod m:lw -f abn --mint e --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
+###   ### リンク確率なし (s:m:w)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:w -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
+###   ### wlinkなし (s:m:l)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__l_06/ --mod s:m:l --mint e -s_min 0.5 -s_prb m_est -l_min 0.6 -f x
+###   ### mintなし (s:lw)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:lw -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
+###   ##
+###   ## 2 module ここから
+###   ## (m:l)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__l_06/ --mod m:l --mint e -l_min 0.6 -f x
+###   ## (m:w)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod m:w -f abn --mint e --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
+###   ## (lw)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod lw -f abn --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
+###   ### (s:m)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e/ --mod s:m --mint e -s_min 0.5 -s_prb m_est -f x
+###   ### (s:w)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:w -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
+###   ### (s:l)
+###python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__l_06/ --mod s:l -s_min 0.5 -s_prb m_est -l_min 0.6 -f x
+###   #
+#
+## ここまで10/6夜
+#
+### (w)(attrなし)
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_bl_w/ --mod w -f bn --wlink rp -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -n_exc person_works -ld_min 7
+### (w)(blなし)
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am/ --mod w -f an --wlink rp -ar_tgt w -art a -al am -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+#
+### 9/7
+##### leaderboard1ベース ###################################
+####
+##### (1)
+##### leaderboard-1: 1位：full nil判定 Wのみ, exc_woあり：9/6　1回目投稿分 exact match
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+## 比較：slink オプション
+##   ## slink 新オプション　m_est
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   #
+##   ## slink 新オプション　r_est
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb r_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   #
+##   #
+## 比較用
+#
+## 比較用  filterなし
+## nil判定なし
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f ab --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6
+##   ### blなし
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am/ --mod s:m:lw -f an --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -n_exc person_works -ld_min 7　
+##   ### attrなし
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_bl_w/ --mod s:m:lw -f bn --mint e -s_min 0.5 -s_prb m_est --wlink rp -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -n_exc person_works -ld_min 7　
+##   ##
+##   ## nil判定の対象モジュールのバリエーション　
+##   ## full nil判定 M, S, W, L
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_smwl_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt smwl -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   #
+##   ### full nil判定 M, S, Wのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_msw_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt msw -l_min 0.6 -n_tgt msw -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 S, W, Lのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_swl_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt msw -l_min 0.6 -n_tgt swl -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 M, Wのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_mw_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt mw -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 S, Wのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_sw_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt sw -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 L, Wのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_lw_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt lw -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 Mのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_m_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 Sのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_s_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 Lのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_l_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt l -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   #
+##  module ablation
+#  #
+#   ####
+#   # attr_rng_type: auto
+#   # (1)
+#   # leaderboard-1: 1位：full nil判定 Wのみ, exc_woあり：9/6　1回目投稿分 exact match
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   #
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   #
+##   ## slink 新オプション　m_est
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   #
+##   ## slink 新オプション　r_est
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb r_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   #
+##   #
+##   ### nil判定なし
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f ab --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6
+##   ### 実施済　ここまで
+##   #
+##   ## filterなし
+##   ### blなし
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am/ --mod s:m:lw -f an --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   ##
+##   ## nil判定の対象モジュールのバリエーション　
+##   ## full nil判定 M, S, W, L
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_smwl_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt smwl -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   #
+##   ### full nil判定 M, S, Wのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_msw_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt msw -l_min 0.6 -n_tgt msw -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 S, W, Lのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_swl_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt msw -l_min 0.6 -n_tgt swl -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 M, Wのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_mw_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt mw -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 S, Wのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_sw_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt sw -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 L, Wのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_lw_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt lw -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 Mのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_m_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt m -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 Sのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_s_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt s -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ### full nil判定 Lのみ
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_l_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt l -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   #
+#### module ablation
+#### 3 module
+##### self linkなし (m:lw)
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod m:lw -f abn --mint e --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ### リンク確率なし (s:m:w)
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:w -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ### mintなし (s:lw)
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:lw -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ##
+##   ## 2 module ここから
+##   ## (m:w)
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod m:w -f abn --mint e --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ## (lw)
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod lw -f abn --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ### (s:w)
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:w -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   #
+##   ## 1 module
+##   ## (w)
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod w -f abn --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   ## (w)(blなし)
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am/ --mod w -f an --wlink rp -ar_tgt w -art a -art a -al am -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7 -n_exc person_works
+##   #
+##   #
+##   ## leaderboard2ベース###################################
+##   ## (1)
+##   ### leaderboard-2: 1位：full nil判定 Wのみ, exc_woなし: 9/6 2回目投稿分　→　現在のベース
+##   #
+##   #9/14 exact match
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   #
+##   ##9/14
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   #
+##   ##slink 新オプション　m_est
+##   ##9/14
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   #
+##   ##slink 新オプション　r_est
+##   ##9/14
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb r_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   #
+##   #
+##   ### nil判定なし
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f ab --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6
+##   ### 実施済　ここまで
+##   #
+##   ## filterなし
+##   ### blなし
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am/ --mod s:m:lw -f an --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   ### attrなし
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_bl_w/ --mod s:m:lw -f bn --mint e -s_min 0.5 -s_prb m_est --wlink rp -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   ##
+##   ### module ablation
+##   ## 3 module
+##   ### self linkなし (m:lw)
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod m:lw -f abn --mint e --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
 #   ### リンク確率なし (s:m:w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:m:w -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ### mintなし (s:lw)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:lw -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ##
-#   ## 2 module ここから
-#   ## (m:w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod m:w -f abn --mint e --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ## (lw)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod lw -f abn --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ### (s:w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod s:w -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   #
-#   ## 1 module
-#   ## (w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am_bl_w/ --mod w -f abn --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   ## (w)(blなし)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_art_a_art_a_al_am/ --mod w -f an --wlink rp -ar_tgt w -art a -art a -al am -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works
-#   #
-#   #
-#   ## leaderboard2ベース###################################
-#   ## (1)
-#   ### leaderboard-2: 1位：full nil判定 Wのみ, exc_woなし: 9/6 2回目投稿分　→　現在のベース
-#   #
-#   #9/14 exact match
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   #
-#   ##9/14
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   #
-#   ##slink 新オプション　m_est
-#   ##9/14
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   #
-#   ##slink 新オプション　r_est
-#   ##9/14
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_r_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb r_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   #
-#   #
-#   ### nil判定なし
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_attr_w_art_a_al_am_bl_w/ --mod s:m:lw -f ab --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6
-#   ### 実施済　ここまで
-#   #
-#   ## filterなし
-#   ### blなし
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am/ --mod s:m:lw -f an --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   ### attrなし
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_bl_w/ --mod s:m:lw -f bn --mint e -s_min 0.5 -s_prb m_est --wlink rp -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   ##
-#   ### module ablation
-#   ## 3 module
-#   ### self linkなし (m:lw)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod m:lw -f abn --mint e --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   ### リンク確率なし (s:m:w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:w -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:m:w -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
 #   ### wlinkなし (s:m:l)
 #python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__l_06/ --mod s:m:l --mint e -s_min 0.5 -s_prb m_est -l_min 0.6 -f x
 #   ### mintなし (s:lw)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:lw -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   ##
-#   ## 2 module ここから
-#   ## (m:l)
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:lw -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   ##
+##   ## 2 module ここから
+##   ## (m:l)
 #python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__l_06/ --mod m:l --mint e -l_min 0.6 -f x
-#   ## (m:w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod m:w -f abn --mint e --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   ## (lw)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod lw -f abn --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
-#   ### (s:m)
+##   ## (m:w)
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e__wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod m:w -f abn --mint e --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   ## (lw)
+##python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod lw -f abn --wlink rp -ar_tgt w -art a -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
+##   ### (s:m)
 #python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e/ --mod s:m --mint e -s_min 0.5 -s_prb m_est -f x
 #   ### (s:w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:w -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod s:w -f abn -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7
 #   ### (s:l)
 #python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__l_06/ --mod s:l -s_min 0.5 -s_prb m_est -l_min 0.6 -f x
 #   #
@@ -488,15 +1019,15 @@ python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_i
 #python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est/ --mod s -s_min 0.5 -s_prb m_est -f x
 #
 #   ## (w)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod w -f abn --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am_bl_w/ --mod w -f abn --wlink rp -ar_tgt w -art a -al am -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
 #
 #
 #
 #
 #   ## (w)(attrなし)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_bl_w/ --mod w -f bn --wlink rp -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_bl_w/ --mod w -f bn --wlink rp -bl_tgt w -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
 #   ## (w)(blなし)
-#python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am/ --mod w -f an --wlink rp -ar_tgt w -art a -al am -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}wlink_rp_ncond_w_two_of_pld_02_7_attr_w_art_a_al_am/ --mod w -f an --wlink rp -ar_tgt w -art a -al am -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7
 #   #
 #   #
 #   ## (5) 9/7 追加　leaderboard-2(exec_woなし)のnil判定の対象モジュールのバリエーション　
@@ -608,65 +1139,65 @@ python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_i
 #   ##
 #   ### full nil判定 Lのみ
 #python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_m_est__mint_e__wlink_rp_l_06_ncond_l_two_of_pld_02_7_attr_w_art_a_art_a_al_am_bl_w/ -n_tgt l -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7  --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art a -art a -al am -bl_tgt w -l_min 0.6
-#   ##
-
-
-
-
-
-
-
-
-
-
-
-# training
-# full
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
-# exc_woなし
+##   ##
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+## training
+## full
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+## exc_woなし
 # python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 --mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
-# nil判定なし
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_al_am_bl_w/ --mod s:m:lw -f ab --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
-# blなし
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:lw -f an --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -l_min 0.6
-# attrなし
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:lw -f bn --mint e -s_min 0.5 -s_prb mid --wlink rp -bl_tgt w -l_min 0.6
-# module ablation
-# self linkなし
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod m:lw -f abn --mint e --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
-# リンク確率なし
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:w -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w
-# wlinkなし（attrもなし)
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__l_06_ncond_w_two_of_pld_02_7_exc_wo_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:l -f abn --mint e -s_min 0.5 -s_prb mid -l_min 0.6
-# mintなし
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:lw -f abn -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
-
-
-
-# 被リンク
-# 20220827
-# 20220829
-# full
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_ncond_w_two_of_pld_02_7_exc_wo_incl_m_imax1_o/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o
-# exc_woなし
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_ncond_w_two_of_pld_02_7_incl_m_imax1_o/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o
-# 20220830
-# n_maxなし
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_ncond_w_two_of_pld_7_exc_wo_incl_m_imax1_o/ -n_tgt w -n_cond two_of_prob_len_desc -ld_min 7 -n_exc person_works --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o
-# nil判定なし
-# python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_incl_m_imax1_o/ --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o
-
-
-## 実験 #############################
-##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_09_fcar_09/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.9 -wl_fca r -wl_fca_ratio 0.9
-##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_08_fcar_08/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.8 -wl_fca r -wl_fca_ratio 0.8
-##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_07_fcar_07/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.7 -wl_fca r -wl_fca_ratio 0.7
-##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_06_fcar_06/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.6 -wl_fca r -wl_fca_ratio 0.6
-##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_05_fcar_05/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.5 -wl_fca r -wl_fca_ratio 0.5
-##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_04_fcar_04/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.4 -wl_fca r -wl_fca_ratio 0.4
-##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_03_fcar_03/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.3 -wl_fca r -wl_fca_ratio 0.3
-##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_02_fcar_02/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.2 -wl_fca r -wl_fca_ratio 0.2
-##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_01_fcar_01/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.1 -wl_fca r -wl_fca_ratio 0.1
+## nil判定なし
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_attr_w_al_am_bl_w/ --mod s:m:lw -f ab --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+## blなし
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:lw -f an --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -l_min 0.6
+## attrなし
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:lw -f bn --mint e -s_min 0.5 -s_prb mid --wlink rp -bl_tgt w -l_min 0.6
+## module ablation
+## self linkなし
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mid__mint_e__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod m:lw -f abn --mint e --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+## リンク確率なし
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__wlink_rp_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:w -f abn --mint e -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w
+## wlinkなし（attrもなし)
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__mint_e__l_06_ncond_w_two_of_pld_02_7_exc_wo_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:m:l -f abn --mint e -s_min 0.5 -s_prb mid -l_min 0.6
+## mintなし
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}slink_05_mid__wlink_rp_l_06_ncond_w_two_of_pld_02_7_exc_wo_attr_w_al_am_bl_w/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod s:lw -f abn -s_min 0.5 -s_prb mid --wlink rp -ar_tgt w -al am -bl_tgt w -l_min 0.6
+#
+#
+#
+## 被リンク
+## 20220827
+## 20220829
+## full
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_ncond_w_two_of_pld_02_7_exc_wo_incl_m_imax1_o/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 -n_exc person_works --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o
+## exc_woなし
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_ncond_w_two_of_pld_02_7_incl_m_imax1_o/ -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.2 -ld_min 7 --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o
+## 20220830
+## n_maxなし
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_ncond_w_two_of_pld_7_exc_wo_incl_m_imax1_o/ -n_tgt w -n_cond two_of_prob_len_desc -ld_min 7 -n_exc person_works --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o
+## nil判定なし
+## python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir ${out_dir_base}mint_e_incl_m_imax1_o/ --mod m -f in --mint e -i_tgt m -i_max 1 -i_type o
+#
+#
+### 実験 #############################
+###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_09_fcar_09/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.9 -wl_fca r -wl_fca_ratio 0.9
+###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_08_fcar_08/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.8 -wl_fca r -wl_fca_ratio 0.8
+###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_07_fcar_07/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.7 -wl_fca r -wl_fca_ratio 0.7
+###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_06_fcar_06/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.6 -wl_fca r -wl_fca_ratio 0.6
+###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_05_fcar_05/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.5 -wl_fca r -wl_fca_ratio 0.5
+###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_04_fcar_04/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.4 -wl_fca r -wl_fca_ratio 0.4
+###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_03_fcar_03/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.3 -wl_fca r -wl_fca_ratio 0.3
+###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_02_fcar_02/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.2 -wl_fca r -wl_fca_ratio 0.2
+###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_01_fcar_01/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.1 -wl_fca r -wl_fca_ratio 0.1
 ##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_09_fcar_01/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.9 -wl_fca r -wl_fca_ratio 0.9
 ##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_08_fcar_01/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.8 -wl_fca r -wl_fca_ratio 0.8
 ##python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}wlink_l_bcar_07_fcar_01/ --mod w -f n --wlink l -wl_bca r -wl_bca_ratio 0.7 -wl_fca r -wl_fca_ratio 0.7
@@ -839,7 +1370,7 @@ python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_i
 ###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_04_mid/ --mod s -f n -s_min 0.4 -s_prb mid
 ###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_04_raw/ --mod s -f n -s_min 0.4 -s_prb raw
 #python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05/ --mod s -f n -s_min 0.5
-#python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid/ --mod s -f n -s_min 0.5 -s_prb mid
+# python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_mid/ --mod s -f n -s_min 0.5 -s_prb mid
 #python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_05_raw/ --mod s -f n -s_min 0.5 -s_prb raw
 ###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_06/ --mod s -f n -s_min 0.6
 ###python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}slink_06_mid/ --mod s -f n -s_min 0.6 -s_prb mid
@@ -1180,7 +1711,7 @@ python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_i
 ####
 ########mint_e_tinm_p, frp
 ###### mint_e_tinm_　＋　attr: ok
-###### timp_p + incl: ng > 要検討
+###### tinm_p + incl: ng > 要検討
 ####python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}mint_e_tinm_p_slink_05_wlink_frp_attr_w/ --mod mtsw -f ab --mint e --tinm p -s_min 0.5 --wlink frp -ar_tgt w
 ####python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}mint_e_tinm_p_slink_05_wlink_frp_attr_w_al_am/ --mod mtsw -f ab --mint e --tinm p -s_min 0.5 --wlink frp -ar_tgt w -al am
 ####python $script $common_data_dir $tmp_data_dir $in_dir ${out_dir_base}mint_e_tinm_p_slink_05_wlink_frp_attr_w_al_am_bl_tw/ --mod mtsw -f ab --mint e --tinm p -s_min 0.5 --wlink frp -ar_tgt w -al am -bl_tgt tw

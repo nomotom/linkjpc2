@@ -4122,9 +4122,9 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_auto_file, log_info):
     # :param d_cnv:
     :return:
     :output:
-        attr_rng_info_file:
-        City    産業    ene:0   0.5     50      100
-
+        attr_rng_info_file
+        - Music	プロデューサー	1.1	Person	0.5	1	2
+        - Music	プロデューサー	1.4.2	Show_Organization	0.5	1	2
     :notice:   リンク先がカテゴリに変更されている！
        gold_tsv
             sample:
