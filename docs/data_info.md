@@ -512,7 +512,7 @@ end_offset, gold_pageid, gold_title, gold_eneid, gold_ene_category (*.tsv)
  - filename: '**cat_attr_self_link.tsv**'
  - description: Self link info file to estimate the probability of linking to the original article for each category-attribute pair. 
  - format: 
-    - ene_label_en, attribute_name, ratio (*.tsv)
+    - ene_label_en, attribute_name, ratio, self_link_freq, cat_attr_freq (*.tsv)
  - sample:
     - `City	合併市区町村	0.47	156	333`
     - `Person	居住地	0.0	0	347`
