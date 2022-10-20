@@ -158,18 +158,22 @@ def set_logging(log_info, logger_name):
               help='flag to stop searching candidate wikilinks at the line in which nearest candidate link is found')
 @click.option('--wl_lines_backward_max', '-wl_bmax', type=click.INT,
               default=cf.OptInfo.wl_lines_backward_max_default, show_default=True,
-              help='maximum number of lines to backward-search wikipedia links in the page')
+              help='maximum number of lines to backward-search wikipedia links in the page (when l is specified in '
+                   'wlink)')
 @click.option('--wl_lines_forward_max', '-wl_fmax', type=click.INT,
               default=cf.OptInfo.wl_lines_forward_max_default, show_default=True,
-              help='maximum number of lines to forward-search wikipedia links in the page')
+              help='maximum number of lines to forward-search wikipedia links in the page (when l is specified in '
+                   'wlink)')
 @click.option('--wl_lines_backward_ca', '-wl_bca', type=click.Choice(['f', 'r', 'fr',  'n']),
               default=cf.OptInfo.wl_lines_backward_ca_default, show_default=True,
-              help='how to specify the maximum number of lines to backward-search Wikipedia links for each category-attribute. '
+              help='how to specify the maximum number of lines to backward-search Wikipedia links for each '
+                   'category-attribute (when l is specified in wlink).'
                    'f: the number specified in f_wl_lines_backward_max_ca, r: the number estimated using the ratio '
                    'specified by wl_lines_backward_ca_ratio, fr: both f and r (f takes precedence), n: N/A')
 @click.option('--wl_lines_forward_ca', '-wl_fca', type=click.Choice(['f', 'r', 'fr',  'n']),
               default=cf.OptInfo.wl_lines_forward_ca_default, show_default=True,
-              help='how to specify the maximun number of lines to forward-search Wikipedia links for each category-attribute. '
+              help='how to specify the maximun number of lines to forward-search Wikipedia links for each '
+                   'category-attribute (when l is specified in wlink). '
                    'f: the number specified in f_wl_lines_forward_max_ca, r: the number estimated using the ratio '
                    'specified by wl_lines_forward_ca_ratio, fr: both f and r (f takes precedence), n: N/A')
 @click.option('--f_wl_lines_backward_ca', '-f_wl_bca', type=click.STRING,
@@ -292,6 +296,9 @@ def set_logging(log_info, logger_name):
               default=cf.OptInfo.back_link_ok_default, show_default=True,
               help='score for back link')
 # filtering: detect_nil
+@click.option('--f_linkable_info', type=click.STRING,
+              default=cf.DataInfo.f_linkable_info_default, show_default=True,
+              help='filename of linkable ratio info file.')
 @click.option('--nil_tgt', '-n_tgt', type=click.STRING,
               default=cf.OptInfo.back_link_tgt_default, show_default=True,
               help='target module of nil detection filtering,'
@@ -369,9 +376,6 @@ def set_logging(log_info, logger_name):
 @click.option('--len_desc_text_min', '-ld_min', type=click.INT,
               default=cf.OptInfo.len_desc_text_min_default, show_default=True,
               help='minimum length of mention text regarded as descriptive. used for nil detection.')
-@click.option('--f_linkable_info', type=click.STRING,
-              default=cf.DataInfo.f_linkable_info_default, show_default=True,
-              help='filename of linkable ratio info file.')
 @click.option('--f_nil_cand_man', type=click.STRING,
               default=cf.DataInfo.f_nil_cand_man_default, show_default=True,
               help='filename of nil cand file (manually created).')

@@ -2827,7 +2827,7 @@ def gen_back_link_info_file(ptitle_list, back_link, back_link_dump_org, ext_file
 
 def gen_link_prob_file(gold_dir, link_prob_file, log_info):
     """
-    create probability info file based on link statistics in sample gold file
+    create link probability info file based on link statistics in sample gold file
     :param:gold_dir (eg. sample_gold_linked_dir)
     :param:link_prob_file
     :param:log_info
