@@ -30,7 +30,6 @@ def filter_by_back_link(module_cand_list, opt_info, mention_info, log_info, **d_
                 score = val * opt_info.back_link_ok
             else:
                 score = val * opt_info.back_link_ng
-
             new_module_cand_list.append([cand_pid, mod, score])
     return new_module_cand_list
 

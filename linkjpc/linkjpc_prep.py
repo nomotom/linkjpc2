@@ -40,10 +40,8 @@ def set_logging_pre(log_info, logger_name):
 @click.option('--gen_enew_rev_year', is_flag=True, default=False, show_default=True)
 @click.option('--gen_lang_link', is_flag=True, default=False, show_default=True)
 @click.option('--gen_sample_gold_tsv', is_flag=True, default=False, show_default=True)
-# @click.option('--gen_sample_gold_tsv_cnv_year', is_flag=True, default=False, show_default=True)
 @click.option('--gen_title2pid', is_flag=True, default=False, show_default=True)
 @click.option('--gen_redirect', is_flag=True, default=False, show_default=True)
-# @click.option('--gen_redirect2', is_flag=True, default=False, show_default=True)
 @click.option('--pre_matching', type=click.Choice(['mint', 'tinm', 'n']), default=cf.OptInfo.pre_matching_default,
               show_default=True)
 @click.option('--title_matching_mint', '-tmm', type=click.Choice(['trim', 'full']),
@@ -51,7 +49,6 @@ def set_logging_pre(log_info, logger_name):
 @click.option('--title_matching_tinm', '-tmt', type=click.Choice(['trim', 'full']),
               default=cf.OptInfo.title_matching_tinm_default, show_default=True)
 @click.option('--char_match_min', default=cf.OptInfo.char_match_min_default, show_default=True, type=click.FLOAT)
-# @click.option('--cnv_dump_file', is_flag=True, default=False, show_default=True)
 @click.option('--gen_title2pid_ext', is_flag=True, default=False, show_default=True)
 @click.option('--gen_html', is_flag=True, default=False, show_default=True)
 @click.option('--gen_html_conv_year', is_flag=True, default=False, show_default=True)
@@ -59,12 +56,10 @@ def set_logging_pre(log_info, logger_name):
 @click.option('--gen_common_html_conv_year', is_flag=True, default=False, show_default=True)
 @click.option('--gen_link_prob', is_flag=True, default=False, show_default=True)
 @click.option('--gen_linkable', is_flag=True, default=False, show_default=True)
-@click.option('--gen_nil', is_flag=True, default=False, show_default=True)
 @click.option('--gen_slink', is_flag=True, default=False, show_default=True)
 @click.option('--gen_back_link', is_flag=True, default=False, show_default=True)
 @click.option('--gen_link_dist', is_flag=True, default=False, show_default=True)
 @click.option('--gen_incoming_link', is_flag=True, default=False, show_default=True)
-# @click.option('--page_conv', is_flag=True, default=False, show_default=True)
 @click.option('--f_self_link_by_attr_name', default=cf.DataInfo.f_self_link_by_attr_name_default, show_default=True,
               type=click.STRING, help='lists of attributes whose values are supposed to refer to the original entity, '
                                       'judging from the name of attributes.')
@@ -73,7 +68,6 @@ def set_logging_pre(log_info, logger_name):
 @click.option('--f_title2pid_ext', default=cf.DataInfo.f_title2pid_ext_default, show_default=True, type=click.STRING,
               help='from_title_to_pageid_extended_information. Filter out disambiguation, management, '
                    'or format-error pages, and add eneid, incoming link num info.')
-# 20220916
 @click.option('--f_title2pid_ext_obs', default=cf.DataInfo.f_title2pid_ext_obs_default, show_default=True,
               type=click.STRING,
               help='from_title_to_pageid_extended_information based on obsolete Wikipedia. Filter out disambiguation, '
@@ -121,18 +115,12 @@ def set_logging_pre(log_info, logger_name):
 @click.option('--f_linkable_info', type=click.STRING,
               default=cf.DataInfo.f_linkable_info_default, show_default=True,
               help='filename of linkable ratio info file.')
-@click.option('--f_nil', default=cf.DataInfo.f_nil_default, show_default=True, type=click.STRING,
-              help='f_nil')
 @click.option('--f_attr_rng_auto', default=cf.DataInfo.f_attr_rng_auto_default, show_default=True, type=click.STRING,
               help='f_attr_rng_auto')
 @click.option('--f_attr_rng_man_org', default=cf.DataInfo.f_attr_rng_man_org_default, show_default=True,
               type=click.STRING, help='f_attr_rng_man_org')
 @click.option('--f_attr_rng_man', default=cf.DataInfo.f_attr_rng_man_default, show_default=True, type=click.STRING,
               help='f_attr_rng_man')
-# @click.option('--f_attr_rng_merged', default=cf.DataInfo.f_attr_rng_merged_default, show_default=True,
-# type=click.STRING, help='f_attr_rng_merged')
-# @click.option('--f_attr_rng_man', default=cf.DataInfo.f_attr_rng_man_default, show_default=True, type=click.STRING,
-#               help='f_attr_rng_man')
 @click.option('--f_slink', default=cf.DataInfo.f_slink_default, show_default=True, type=click.STRING,
               help='f_slink')
 @click.option('--f_input_title', default=cf.DataInfo.f_input_title_default, show_default=True, type=click.STRING,
@@ -165,7 +153,6 @@ def ljc_prep_main(common_data_dir,
                   sample_gold_dir,
                   sample_input_dir,
                   char_match_min,
-                  # cnv_dump_file,
                   conv_year,
                   conv_sample_json_pageid,
                   gen_attr_rng,
@@ -182,23 +169,19 @@ def ljc_prep_main(common_data_dir,
                   gen_linkable,
                   gen_link_dist,
                   gen_link_prob,
-                  gen_nil,
                   gen_slink,
                   gen_target_attr,
                   gen_title2pid,
                   gen_title2pid_ext,
                   gen_sample_gold_tsv,
-                  # gen_sample_gold_tsv_cnv_year,
                   pre_matching,
                   gen_redirect,
-                  # page_conv,
                   title_matching_mint,
                   title_matching_tinm,
                   f_all_cat_info,
                   f_back_link,
                   f_back_link_dump_org,
                   f_attr_rng_auto,
-                  # f_attr_rng_merged,
                   f_attr_rng_man,
                   f_attr_rng_man_org,
                   f_cirrus_content,
@@ -219,7 +202,6 @@ def ljc_prep_main(common_data_dir,
                   f_mention_gold_link_dist,
                   f_mint_partial,
                   f_mint_trim_partial,
-                  f_nil,
                   f_page_dump,
                   f_page_dump_old_org,
                   f_page_dump_org,
@@ -250,7 +232,6 @@ def ljc_prep_main(common_data_dir,
                      prep_f_attr_rng_man_org=f_attr_rng_man_org,
                      prep_f_attr_rng_man=f_attr_rng_man,
                      prep_f_attr_rng_auto=f_attr_rng_auto,
-                     # prep_f_attr_rng_merged=f_attr_rng_merged,
                      prep_f_cirrus_content=f_cirrus_content,
                      prep_f_common_html_info=f_common_html_info,
                      prep_f_disambiguation=f_disambiguation,
@@ -269,14 +250,13 @@ def ljc_prep_main(common_data_dir,
                      prep_f_mention_gold_link_dist=f_mention_gold_link_dist,
                      prep_f_mint_partial=f_mint_partial,
                      prep_f_mint_trim_partial=f_mint_trim_partial,
-                     prep_f_nil=f_nil,
                      prep_f_page_dump=f_page_dump,
                      prep_f_page_dump_old_org=f_page_dump_old_org,
                      prep_f_page_dump_org=f_page_dump_org,
                      prep_f_redirect_dump=f_redirect_dump,
                      prep_f_redirect_dump_org=f_redirect_dump_org,
                      prep_f_redirect_info=f_redirect_info,
-                     pref_f_sample_gold_mod_list=f_sample_gold_mod_list,
+                     prep_f_sample_gold_mod_list=f_sample_gold_mod_list,
                      prep_f_self_link_by_attr_name=f_self_link_by_attr_name,
                      prep_f_self_link_pat=f_self_link_pat,
                      prep_f_slink=f_slink,
@@ -297,7 +277,6 @@ def ljc_prep_main(common_data_dir,
             self.attr_rng_auto_file = prep_common_data_dir + prep_f_attr_rng_auto
             self.attr_rng_man_file = prep_common_data_dir + prep_f_attr_rng_man
             self.attr_rng_man_org_file = prep_common_data_dir + prep_f_attr_rng_man_org
-            # self.attr_rng_merged_file = prep_common_data_dir + prep_f_attr_rng_merged
 
             self.all_cat_info_file = prep_common_data_dir + prep_f_all_cat_info
             self.cirrus_content_file = prep_common_data_dir + prep_f_cirrus_content
@@ -313,18 +292,16 @@ def ljc_prep_main(common_data_dir,
             self.lang_link_dump_org_file = prep_common_data_dir + prep_f_lang_link_dump_org
             self.linkable_file = prep_common_data_dir + prep_f_linkable
             self.link_prob_file = prep_common_data_dir + prep_f_link_prob
-            self.nil_file = prep_common_data_dir + prep_f_nil
             self.mention_gold_link_dist_file = prep_common_data_dir + prep_f_mention_gold_link_dist
             self.page_dump_file = prep_common_data_dir + prep_f_page_dump
             self.page_dump_old_org_file = prep_common_data_dir + prep_f_page_dump_old_org
             self.page_dump_org_file = prep_common_data_dir + prep_f_page_dump_org
+            self.sample_gold_mod_list_file = prep_common_data_dir + prep_f_sample_gold_mod_list
             self.redirect_dump_file = prep_common_data_dir + prep_f_redirect_dump
-            # self.redirect_dump_old_org_file = prep_common_data_dir + prep_f_redirect_dump_old_org
             self.redirect_dump_org_file = prep_common_data_dir + prep_f_redirect_dump_org
             self.title2pid_ext_file = prep_common_data_dir + prep_f_title2pid_ext
             self.title2pid_ext_obs_file = prep_common_data_dir + prep_f_title2pid_ext_obs
             self.title2pid_org_file = prep_common_data_dir + prep_f_title2pid_org
-            # self.title2pid_dbase_file = prep_common_data_dir + prep_f_title2pid_dbase
             self.redirect_info_file = prep_common_data_dir + prep_f_redirect_info
             self.slink_file = prep_common_data_dir + prep_f_slink
             self.self_link_pat_file = prep_common_data_dir + prep_f_self_link_pat
@@ -346,8 +323,6 @@ def ljc_prep_main(common_data_dir,
 
     # common_data_dir
     data_info_prep.attr_rng_auto_file = data_info_prep.common_data_dir + f_attr_rng_auto
-    # data_info_prep.attr_rng_man_file = data_info_prep.common_data_dir + f_attr_rng_man
-    # data_info_prep.attr_rng_merged_file = data_info_prep.common_data_dir + f_attr_rng_merged
     data_info_prep.back_link_dump_org_file = data_info_prep.common_data_dir + f_back_link_dump_org
     data_info_prep.cirrus_content_file = data_info_prep.common_data_dir + f_cirrus_content
     data_info_prep.disambiguation_file = data_info_prep.common_data_dir + f_disambiguation
@@ -358,18 +333,15 @@ def ljc_prep_main(common_data_dir,
     data_info_prep.enew_mod_list_file = data_info_prep.common_data_dir + f_enew_mod_list
     data_info_prep.common_html_info_file = data_info_prep.common_data_dir + f_common_html_info
     data_info_prep.incoming_file = data_info_prep.common_data_dir + f_incoming
-    # data_info_prep.lang_link_dump_file = data_info_prep.common_data_dir + f_lang_link_dump
     data_info_prep.lang_link_dump_org_file = data_info_prep.common_data_dir + f_lang_link_dump_org
     data_info_prep.linkable_file = data_info_prep.common_data_dir + f_linkable_info
     data_info_prep.link_prob_file = data_info_prep.common_data_dir + f_link_prob
     data_info_prep.mention_gold_link_dist_file = data_info_prep.common_data_dir + f_mention_gold_link_dist
-    data_info_prep.nil_file = data_info_prep.common_data_dir + f_nil
     data_info_prep.sample_gold_mod_list_file = data_info_prep.common_data_dir + f_sample_gold_mod_list
 
     data_info_prep.title2pid_ext_file = data_info_prep.common_data_dir + f_title2pid_ext
     data_info_prep.title2pid_ext_obs_file = data_info_prep.common_data_dir + f_title2pid_ext_obs
     data_info_prep.title2pid_org_file = data_info_prep.common_data_dir + f_title2pid_org
-    # data_info_prep.title2pid_dbase_file = data_info_prep.common_data_dir + f_title2pid_dbase
     data_info_prep.redirect_info_file = data_info_prep.common_data_dir + f_redirect_info
     data_info_prep.slink_file = data_info_prep.common_data_dir + f_slink
     data_info_prep.self_link_pat_file = data_info_prep.common_data_dir + f_self_link_pat
@@ -380,7 +352,7 @@ def ljc_prep_main(common_data_dir,
     data_info_prep.page_dump_file = data_info_prep.common_data_dir + f_page_dump
     data_info_prep.page_dump_org_file = data_info_prep.common_data_dir + f_page_dump_org
 
-    # [tmp_data_dir] ############################################################################
+    # tmp_data_dir
     data_info_prep.back_link_file = data_info_prep.tmp_data_dir + f_back_link
     data_info_prep.html_info_file = data_info_prep.tmp_data_dir + f_html_info
     data_info_prep.input_title_file = data_info_prep.tmp_data_dir + f_input_title
@@ -389,8 +361,7 @@ def ljc_prep_main(common_data_dir,
     data_info_prep.tinm_partial_file = data_info_prep.tmp_data_dir + f_tinm_partial
     data_info_prep.tinm_trim_partial_file = data_info_prep.tmp_data_dir + f_tinm_trim_partial
 
-    # sample_gold_data
-    # 20220822
+    # sample_gold_dir
     sample_gold_linked_dir = data_info_prep.sample_gold_dir + 'link_annotation/'
     sample_gold_linked_dir_conv = data_info_prep.sample_gold_dir + 'link_annotation/conv/'
 
@@ -399,9 +370,6 @@ def ljc_prep_main(common_data_dir,
 
     data_info_prep.in_ene_dir = data_info_prep.in_dir + 'ene_annotation/'
     data_info_prep.in_html_dir = data_info_prep.in_dir + 'html/'
-    # 20220926
-    tmp_input_ene_dir = ''
-    tmp_sample_input_ene_dir = ''
 
     if conv_year:
         tmp_input_ene_dir = data_info_prep.in_ene_dir + 'conv/'
@@ -412,9 +380,7 @@ def ljc_prep_main(common_data_dir,
         tmp_sample_input_ene_dir = sample_input_ene_dir
         tmp_sample_gold_linked_dir = sample_gold_linked_dir
 
-    # 20220822 till here
     sample_input_html_dir = data_info_prep.sample_input_dir + 'html/'
-    sample_input_html_dir_conv = data_info_prep.sample_input_dir + 'html/conv/'
 
     logger.info({
         'action': 'ljc_prep_main',
@@ -422,7 +388,6 @@ def ljc_prep_main(common_data_dir,
         'tmp_sample_input_ene_dir': tmp_sample_input_ene_dir,
         'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
         'sample_input_html_dir': sample_input_html_dir,
-        'sample_input_html_dir_conv': sample_input_html_dir_conv,
     })
 
     if gen_target_attr:
@@ -435,7 +400,6 @@ def ljc_prep_main(common_data_dir,
             data_info_prep.all_cat_info_file,
             log_info)
 
-    # # 20220920
     if conv_sample_json_pageid:
         logger.info({
             'action': 'conv_sample_pageid',
@@ -451,7 +415,6 @@ def ljc_prep_main(common_data_dir,
             data_info_prep.wikipedia_page_change_info_file,
             log_info)
 
-    # 20220920
     if gen_change_wikipedia_info:
         logger.info({
             'action': 'gen_change_wikipedia_info',
@@ -460,60 +423,17 @@ def ljc_prep_main(common_data_dir,
                                  data_info_prep.wikipedia_page_change_info_file, log_info)
 
     if gen_sample_gold_tsv:
-        # logger.info({
-        #     'action': 'gen_sample_gold_tsv',
-        #     'sample_gold_linked_dir': sample_gold_linked_dir,
-        #     'title2pid_org_file': data_info_prep.title2pid_org_file,
-        # })
-        d_eneid2enlabel = {}
-        # d_eneid2enlabel = lc.reg_target_attr_info(data_info_prep.target_attr_info_file, log_info)
         d_eneid2enlabel = lc.reg_all_cat_info(data_info_prep.all_cat_info_file, log_info)
-        # 暫定対応　20220824
         logger.info({
             'action': 'gen_sample_gold_tsv',
             'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
         })
-        # 20220926
         gen_linked_tsv_mod(
             tmp_sample_gold_linked_dir,
             data_info_prep.title2pid_ext_file,
             data_info_prep.sample_gold_mod_list_file,
             log_info,
             **d_eneid2enlabel)
-
-        # # 20220921 修正
-        # if conv_year:
-        #     linkedjson2tsv_add_linked_title_ene(sample_gold_linked_dir_conv, data_info_prep.title2pid_ext_file,
-        #     log_info)
-        # else:
-        #     linkedjson2tsv_add_linked_title_ene(sample_gold_linked_dir, data_info_prep.title2pid_ext_file, log_info)
-
-        # linkedjson2tsv_simple(sample_gold_linked_dir, data_info_prep.title2pid_ext_file, log_info)
-
-        # linkedjson2tsv(sample_gold_linked_dir, data_info_prep.title2pid_org_file, log_info)
-
-    # if gen_redirect2:
-    #
-    #     logger.info({
-    #         'action': 'gen_redirect2',
-    #         'disambiguation_pat_file': data_info_prep.disambiguation_pat_file,
-    #         'cirrus_content_file': data_info_prep.cirrus_content_file,
-    #     })
-    #     gen_disambiguation_file(data_info_prep.disambiguation_pat_file, data_info_prep.cirrus_content_file,
-    #                             data_info_prep.disambiguation_file, log_info)
-    #     logger.info({
-    #         'action': 'ljc_prep_main',
-    #         'run': 'gen_redirect_info_file',
-    #         'incoming_file': data_info_prep.incoming_file,
-    #         'title2pid_org_file': data_info_prep.title2pid_org_file,
-    #         'disambiguation_file': data_info_prep.disambiguation_file,
-    #         'redirect_info_file': data_info_prep.redirect_info_file,
-    #     })
-    #     gen_redirect_info_file2(
-    #         data_info_prep.incoming_file,
-    #         data_info_prep.title2pid_org_file,
-    #         data_info_prep.disambiguation_file,
-    #         data_info_prep.redirect_info_file, log_info)
 
     if gen_redirect:
         logger.info({
@@ -522,8 +442,6 @@ def ljc_prep_main(common_data_dir,
             'cirrus_content_file': data_info_prep.cirrus_content_file,
             'disambiguation_file': data_info_prep.disambiguation_file,
         })
-        # print(datetime.datetime.now())
-
         gen_disambiguation_file(data_info_prep.disambiguation_pat_file, data_info_prep.cirrus_content_file,
                                 data_info_prep.disambiguation_file, log_info)
         logger.info({
@@ -533,7 +451,6 @@ def ljc_prep_main(common_data_dir,
             'disambiguation_file': data_info_prep.disambiguation_file,
             'redirect_info_file': data_info_prep.redirect_info_file,
         })
-        # print(datetime.datetime.now())
 
         gen_redirect_info_file(data_info_prep.title2pid_org_file, data_info_prep.disambiguation_file,
                                data_info_prep.redirect_info_file, log_info)
@@ -546,45 +463,14 @@ def ljc_prep_main(common_data_dir,
         })
         gen_incoming_link_file(data_info_prep.cirrus_content_file, data_info_prep.incoming_file, log_info)
 
-    # if cnv_dump_file:
-    # #     # 20220919
-    #     cnv_dump(data_info_prep.redirect_dump_org_file, data_info_prep.redirect_dump_file, log_info)
-    # #
-    # #     # 20220919
-    #     cnv_dump(data_info_prep.page_dump_org_file, data_info_prep.page_dump_file, log_info)
-
-    # if merge_title2pid:
-    #     logger.info({
-    #         'run': 'merge_title2pid',
-    #         'title2pid_obs_file': data_info_prep.title2pid_merge_file,
-    #
-    #         'title2pid_file': data_info_prep.title2pid_merge_file,
-    #     })
-
-        # gen_title2pid_file(data_info_prep.redirect_dump_file, data_info_prep.page_dump_file,
-        #                    data_info_prep.title2pid_org_file, log_info)
-
-        # gen_title2pid_file(data_info_prep.redirect_dump_file, data_info_prep.page_dump_file,
-        #                    data_info_prep.title2pid_org_file, cf.OptInfo.min_illegal_title_len, log_info)
-
     if gen_title2pid:
         logger.info({
             'run': 'gen_title2pid',
             'title2pid_org_file': data_info_prep.title2pid_org_file,
-            # 'incoming_file': data_info_prep.incoming_file,
-            # 'enew_info_file': data_info_prep.enew_info_file,
-            # 'redirect_info_file': data_info_prep.redirect_info_file,
         })
-
-        # gen_title2pid_file(data_info_prep.redirect_dump_file, data_info_prep.page_dump_file,
-        #                    data_info_prep.title2pid_org_file, log_info)
 
         gen_title2pid_file(data_info_prep.redirect_dump_file, data_info_prep.page_dump_file,
                            data_info_prep.title2pid_org_file, cf.OptInfo.min_illegal_title_len, log_info)
-
-    # 2022/9/21
-    # if conv_year gen_enew_info_rev_file
-    # else gen_enew
 
     if gen_enew:
         gen_enew_info_file(data_info_prep.enew_org_file, data_info_prep.enew_mod_list_file,
@@ -626,17 +512,12 @@ def ljc_prep_main(common_data_dir,
     if gen_back_link:
         logger.info({
             'run': 'gen_back_link',
-            # 20220822
             'tmp_input_ene_dir': tmp_input_ene_dir,
             'input_title_file': data_info_prep.input_title_file,
             'back_link_dump_org': data_info_prep.back_link_dump_org_file,
             'back_link_file': data_info_prep.back_link_file,
         })
-        # if conv_year:
-        #     gen_input_title_file(input_ene_dir_conv, data_info_prep.input_title_file, log_info)
-        # else:
-        #     gen_input_title_file(input_ene_dir, data_info_prep.input_title_file, log_info)
-        # 20220926
+
         gen_input_title_file(tmp_input_ene_dir, data_info_prep.input_title_file, log_info)
         logger.info({
             'action': 'ljc_prep_main',
@@ -650,32 +531,22 @@ def ljc_prep_main(common_data_dir,
         gen_back_link_info_file(data_info_prep.input_title_file, data_info_prep.back_link_file,
                                 data_info_prep.back_link_dump_org_file, data_info_prep.title2pid_ext_file, log_info)
 
-    # if conv_year:
-    # gen_common_html_conv_year
-    # else
-    # gen_common_html
-
     if gen_common_html:
         logger.info({
             'run': 'gen_common_html',
-            # 20220822
             'sample_input_html_dir': sample_input_html_dir,
             'common_html_info_file': data_info_prep.common_html_info_file
         })
-        # 20220822
         gen_html_info_file(sample_input_html_dir, data_info_prep.common_html_info_file, log_info)
 
     if gen_common_html_conv_year:
         logger.info({
             'run': 'gen_common_html_cnv_year',
-            # 20220822
-            'sample_input_html_dir_conv': sample_input_html_dir_conv,
+            'sample_input_html_dir': sample_input_html_dir,
             'common_html_info_cnv_year_file': data_info_prep.common_html_info_file
         })
-        # 20220822
-        # 20220926
         gen_html_info_file_conv_year(
-            sample_input_html_dir_conv,
+            sample_input_html_dir,
             data_info_prep.common_html_info_file,
             data_info_prep.wikipedia_page_change_info_file, log_info)
 
@@ -703,13 +574,6 @@ def ljc_prep_main(common_data_dir,
             })
             sys.exit()
         else:
-            # 20220822
-            logger.debug({
-                'action': 'ljc_prep_main',
-                'run': 'prematch_mention_title',
-                'tmp_input_ene_dir': tmp_input_ene_dir
-            })
-
             prematch_mention_title(
                 tmp_input_ene_dir,
                 data_info_prep,
@@ -771,15 +635,6 @@ def ljc_prep_main(common_data_dir,
         })
         gen_link_prob_file(tmp_sample_gold_linked_dir, data_info_prep.link_prob_file, log_info)
 
-    if gen_nil:
-
-        logger.info({
-            'run': 'gen_nil',
-            'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
-            'nil_file': data_info_prep.nil_file
-        })
-        gen_nil_info(tmp_sample_gold_linked_dir, data_info_prep.nil_file, log_info)
-
     if gen_attr_rng:
         logger.info({
             'run': 'gen_attr_rng',
@@ -788,8 +643,6 @@ def ljc_prep_main(common_data_dir,
         })
         d_eneid2enlabel = lc.reg_all_cat_info(data_info_prep.all_cat_info_file, log_info)
 
-        # gen_attr_rng_info(tmp_sample_gold_linked_dir, data_info_prep.attr_rng_auto_file, log_info, **d_eneid2enlabel)
-        # gen_attr_rng_auto(tmp_sample_gold_linked_dir, data_info_prep.attr_rng_auto_file, log_info, **d_eneid2enlabel)
         gen_attr_rng_auto(tmp_sample_gold_linked_dir, data_info_prep.attr_rng_auto_file, log_info)
 
         gen_attr_rng_man(data_info_prep.attr_rng_man_org_file, data_info_prep.attr_rng_man_file, log_info,
@@ -811,7 +664,6 @@ def ljc_prep_main(common_data_dir,
 
     if gen_linkable:
         d_eneid2enlabel = {}
-        # d_eneid2enlabel = lc.reg_target_attr_info(data_info_prep.target_attr_info_file, log_info)
         d_eneid2enlabel = lc.reg_all_cat_info(data_info_prep.all_cat_info_file, log_info)
         logger.info({
             'run': 'gen_linkable',
@@ -875,7 +727,6 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
     logger.info({
         'action': 'gen_linked_tsv_mod',
         'linked_json_dir': linked_json_dir,
-        # 'title2pid_org_file': title2pid_org_file,
     })
     get_title = {}
     get_eneid_set = {}
@@ -884,11 +735,9 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
     with open(mod_list_file, 'r', encoding='utf-8') as ml:
         ml_reader = csv.reader(ml, delimiter='\t')
         for ml_line in ml_reader:
-            # Person  463121  峰さを理        作品    誰がために鐘は鳴る      105     1       105     10
             cat = ml_line[0]
             pid = ml_line[1]
             attr = ml_line[3]
-            # 20221006
             mention = ml_line[4]
             link_pid = ml_line[9]
 
@@ -899,32 +748,13 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
     with open(title2pid_ext_file, mode='r', encoding='utf-8') as f:
 
         reader = csv.reader(f, delimiter='\t')
-        # VIAF    2503159 バーチャル国際典拠ファイル      212754  {'1.7.0'}
-        # フジデジタルテレビジョン        4058860 フジテレビジョン        38288   {'1.7.24.1', '1.4.6.2'}
         for rows in reader:
             to_title = rows[2]
             to_pid_str = rows[1]
 
-            # 20221003
-            # to_eneid_set_pre1 = rows[4]
-            # to_eneid_set_pre2 = re.sub('[{}\' ]', '', to_eneid_set_pre1)
-            # to_eneid_list = to_eneid_set_pre2.split(',')
-
-            # to_eneid_setstr = lc.setstr2list(rows[4], log_info)
-            # to_eneid_list = lc.setstr2list(rows[4], log_info)
-
             get_title[rows[1]] = rows[2]
             get_eneid_set[rows[1]] = rows[4]
-            logger.debug({
-                'action': 'gen_linked_tsv_mod',
-                'to_pid_str(rows[1]': rows[1],
-                'to_title(rows[2])': rows[2],
-                't_eneid_set_str(rows[4])': rows[4],
-                'type(rows[4])': type(rows[4]),
-            })
-            # # 20220916
-            # get_pid[to_title] = to_pid_str
-    # linked_json_files = linked_json_dir + '*.json'
+
     linked_json_files = linked_json_dir + '*.jsonl'
 
     for linked_json in glob(linked_json_files):
@@ -935,135 +765,56 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
             })
             sys.exit()
         go_list = []
-        # linked_tsv = linked_json.replace('.json', '.tsv')
         if '_dist.jsonl' in linked_json:
             linked_tsv = linked_json.replace('_dist.jsonl', '.tsv')
         else:
             linked_tsv = linked_json.replace('.jsonl', '.tsv')
-        # 20220825
-        # 20220929
-        # cat_pre = linked_tsv.replace(linked_json_dir, '')
-        # cat = cat_pre.replace('.tsv', '')
 
         with open(linked_json, mode='r', encoding='utf-8') as g, open(linked_tsv, 'w', encoding='utf-8') as o:
             for g_line in g:
                 g_key_list = []
                 d_gline = json.loads(g_line)
                 g_key_list = lc.get_key_list_with_ene_title(log_info, **d_gline)
-                # eneid, pid, title, at, text, start_line_id, start_offset, end_line_id, end_offset, link_id
-
-                logger.debug({
-                    'action': 'gen_linked_tsv_mod',
-                    'g_key_list(org)': g_key_list
-                })
-                # 'g_key_list(org)': ['1.6.4.16', '725957', '西鉄香椎花園', 'アトラクション', 'ふわふわぞうさん',
-                # '94', '0', '94', '8', None]}
 
                 ene_label = ''
                 cat = ''
                 g_link_title = ''
                 g_link_ene = ''
                 lc.check_dic_key(g_key_list[0], log_info, **d_cnv)
-                # if g_key_list[0] in d_cnv:
                 cat = d_cnv[g_key_list[0]]
                 g_key_list[0] = cat
 
-                logger.debug({
-                    'action': 'gen_linked_tsv_mod',
-                    'cat': cat,
-                    'g_key_list[0]': g_key_list[0],
-                    'g_key_list': g_key_list
-                })
-                # ['Company_Group', '1240793', 'リング・テムコ・ボート', 'もとになった組織', '1947年にジェームズ・リングによって、
-                # ic Company ）を創業したことに起源を発する', '49', '0', '49', '81', None]}
-
-                # in case of multiple lines
-                # text_pre = g_key_list[4]
                 text_pre = g_key_list[4]
                 g_key_list[4] = '\\n'.join(text_pre.splitlines())
 
-                tmp_cat_pid_attr_mention= ':'.join([cat, g_key_list[1], g_key_list[3], g_key_list[4]])
+                tmp_cat_pid_attr_mention = ':'.join([cat, g_key_list[1], g_key_list[3], g_key_list[4]])
 
-                # ng
-                # 20220826
                 g_link_pageid = g_key_list[9]
-                logger.debug({
-                    'action': 'gen_linked_tsv_mod',
-                    'g_link_pageid': g_link_pageid
-                })
 
                 if tmp_cat_pid_attr_mention in check_mod:
                     if check_mod[tmp_cat_pid_attr_mention] == g_link_pageid:
-                        logger.info({
-                            'action': 'gen_linked_tsv_mod',
-                            'msg': 'skipped based on mod_list',
-                            'tmp_cat_pid_attr_mention': tmp_cat_pid_attr_mention,
-                            'g_link_pageid': g_link_pageid
-                        })
                         continue
 
                 if get_title.get(g_link_pageid):
                     g_link_title = get_title[g_link_pageid]
-                    logger.debug({
-                        'action': 'gen_linked_tsv_mod',
-                        'g_link_title': g_link_title,
-                        'g_link_pageid': g_link_pageid
-                    })
-                    # 'g_link_title': 'ミサイル巡洋艦', 'g_link_pageid': '742148'}
-                logger.debug({
-                    'action': 'gen_linked_tsv_mod',
-                    'g_key_list(2)': g_key_list
-                })
-                g_key_list.insert(10, g_link_title)
-                logger.debug({
-                    'action': 'gen_linked_tsv_mod',
-                    'g_key_list(2-1)': g_key_list
-                })
-                # 'g_link_title': '指令誘導', 'g_key_list': ['Weapon_Other', '1223107', 'シーウルフ (ミサイル)', 'CLOS',
-                # 'CLOS', '110', '8', '110', '12', '2598129', '指令誘導']}
-                # 20220921
-                # g_link_cat = ''
-                # g_link_ecat_set= set()
-                g_link_ecat_list = []
 
-                # g_link_eneid_set = set()
+                g_key_list.insert(10, g_link_title)
+
+                g_link_ecat_list = []
                 g_link_eneid_list = []
                 if g_link_pageid:
                     if get_eneid_set.get(g_link_pageid):
                         g_link_eneid_list = lc.setstr2list(get_eneid_set[g_link_pageid], log_info)
 
-                        logger.debug({
-                            'action': 'gen_linked_tsv_mod',
-                            'g_link_pageid': g_link_pageid,
-                            'g_link_eneid_list': g_link_eneid_list,
-                            'type(g_link_eneid_list)': type(g_link_eneid_list)
-                        })
                         for g_link_eneid in g_link_eneid_list:
-                            logger.debug({
-                                'action': 'gen_linked_tsv_mod',
-                                'g_link_eneid': g_link_eneid
-                            })
-
                             lc.check_dic_key(g_link_eneid, log_info, **d_cnv)
 
                             g_link_ecat = d_cnv[g_link_eneid]
-                            # g_link_ecat_set.add(g_link_ecat)
                             g_link_ecat_list.append(g_link_ecat)
 
-                # g_key_list.insert(11, g_link_ecat_set)
                 g_key_list.insert(11, g_link_ecat_list)
-                # g_key_list.insert(11, g_link_eneid_set)
                 g_key_list.insert(11, g_link_eneid_list)
 
-                # 20220825
-                # g_key_list.insert(0, cat)
-
-                logger.debug({
-                    'action': 'gen_linked_tsv_mod',
-                    'g_key_list': g_key_list,
-                })
-                #  'g_key_list': ['Constellation', '47047', 'へびつかい座', '隣接する星座', 'へび座',
-                #  '110', '0', '110', '3', '47046', 'へび座', {'1.5.4.5'}, {'Constellation'} ]}
                 go_list.append(g_key_list)
 
             df_go = pd.DataFrame(go_list)
@@ -1072,7 +823,7 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
 
 def gen_lang_link_info(langlinks_dump, title2pid_ext, lang_link_info, log_info):
     """
-
+    generate language link info
     :param langlinks_dump:
     :param title2pid_ext:
     :param lang_link_info:
@@ -1102,60 +853,6 @@ def gen_lang_link_info(langlinks_dump, title2pid_ext, lang_link_info, log_info):
             if ja_pid_str in check:
                 writer = csv.writer(o, delimiter='\t', lineterminator='\n')
                 writer.writerow(ld_line)
-
-# def mod_sample_gold_file(sample_gold_dir, sample_gold_mod_list_file, log_info):
-#     """
-#
-#     :param sample_gold_dir:
-#     :param sample_gold_mod_list_file:
-#     :param log_info:
-#     :return:
-#     """
-#     check_mod = {}
-#     with open(mod_list_file, 'r', encoding='utf-8') as ml:
-#         ml_reader = csv.reader(ml, delimiter='\t')
-#         for ml_line in ml_reader:
-#             cat = ml_line[0]
-#             pid = ml_line[1]
-#             attr = ml_line[2]
-#             mention = ml_line[3]
-#             tmp_key = ':'.join([cat, pid, attr, mention])
-#             if tmp_key not in check_mod:
-#                 check_mod[tmp_key] = 1
-#         logger.info({
-#             'run': 'gen_linkable',
-#             'tmp_sample_input_ene_dir': tmp_sample_input_ene_dir,
-#             'tmp_sample_gold_linked_dir': tmp_sample_gold_linked_dir,
-#             'linkable_file': data_info_prep.linkable_file
-#         })
-#
-#     gold_files = sample_gold_dir + '*.tsv'
-#     for g_fname in glob(gold_files):
-#         prt_list = []
-#         with open(g_fname, mode='r', encoding='utf-8') as f:
-#
-#             greader = csv.reader(f, delimiter='\t')
-#             for gline in greader:
-#                 # Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
-#                 # ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
-#
-#                 # 20220929
-#                 g_cat = gline[0]
-#                 g_pid = gline[1]
-#                 g_attr = gline[2]
-#                 g_mention = gline[3]
-#                 g_key = ':'.join([g_cat, g_pid, g_attr, g_mention])
-#                 if g_key in check_mod:
-#
-#                     continue
-#                 prt_list.append(gline)
-#
-#         if hit:
-#
-#
-#         with open(target_attr_info_file, mode='w', encoding='utf8') as ta:
-#             t_writer = csv.writer(ta, delimiter='\t', lineterminator='\n')
-#             t_writer.writerows(target_attr_prt_list)
 
 
 def conv_link_pageid(linked_dir, conv_dir, page_change_list, log_info):
@@ -1237,12 +934,6 @@ def gen_target_attr_info(def_file, target_attr_info_file, all_cat_info_file, log
             ja_label = ''
             attr_label = ''
             lc.check_dic_key('ENE_id', log_info, **d)
-            # if 'ENE_id' not in d:
-            #     logger.error({
-            #         'action': 'gen_target_attr_info',
-            #         'msg': 'ENE_id not found',
-            #     })
-            #     sys.exit()
 
             eneid = d['ENE_id']
             if 'en' in d['name']:
@@ -1357,39 +1048,6 @@ def gen_input_title_file(tmp_in_dir, input_title_file, log_info):
     df = pd.DataFrame(title_list)
     df.to_csv(input_title_file, sep='\t', header=False, index=False)
 
-# def gen_sample_pid_title_file(sample_in_ene_dir, sample_pid_title_file, log_info):
-#     """extract pageid and page titles from sample files
-#     args:
-#         sample_in_ene_dir
-#         input_title_file
-#         log_info
-#     output:
-#         input_title_file
-#     """
-#     import pandas as pd
-#
-#     logger = set_logging_pre(log_info, 'myPreLogger')
-#     logger.setLevel(logging.INFO)
-#
-#     in_files = in_ene_dir + '*.jsonl'
-#     check = {}
-#     for in_file in glob(in_files):
-#         logger.info({
-#             'action': 'extract_input_title',
-#             'in_file': in_file,
-#         })
-#         with open(in_file, mode='r', encoding='utf-8') as i:
-#             for i_line in i:
-#                 rec = json.loads(i_line)
-#                 title = rec['title']
-#                 if not check.get(title):
-#                     check[title] = 1
-#
-#     title_list = list(check.keys())
-#     df = pd.DataFrame(title_list)
-#     df.to_csv(input_title_file, sep='\t', header=False, index=False)
-
-
 def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_matching, char_match_min,
                            lang_link_info, log_info):
     """Pre-matching mention title.
@@ -1430,8 +1088,6 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
-    # in_files = data_info_prep.in_dir + '*.jsonl'
-
     if not os.path.exists(in_ene_dir):
         logger.error({
             'action': 'prematch_mention_title',
@@ -1439,17 +1095,12 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
             'in_ene_dir': in_ene_dir
         })
 
-    # 202208222
     in_files = in_ene_dir + '*.jsonl'
     logger.info({
         'action': 'prematch_mention_title',
         'in_files': in_files,
     })
     d_pid2fromtitle = reg_pid2title(data_info_prep.title2pid_ext_file, lang_link_info, log_info)
-
-    # # 20220929
-    # d_eneid2enlabel = {}
-    # d_eneid2enlabel = lc.reg_target_attr_info(data_info_prep.target_attr_info_file, log_info)
 
     tinm_partial_file = ''
     mint_partial_file = ''
@@ -1496,16 +1147,6 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
         })
         with open(in_file, mode='r', encoding='utf-8') as i:
             fname = in_file.replace(in_ene_dir, '')
-            # fname = in_file.replace(data_info_prep.in_dir, '')
-            # ene_cat = fname.replace('.json', '')
-
-            # ene_cat = lc.extract_cat(fname, log_info)
-            # if ene_cat == '':
-            #     logger.error({
-            #         'action': 'prematch_mention_title',
-            #         'msg': 'illegal file name',
-            #         'fname': fname
-            #     })
 
             for i_line in i:
                 rec = json.loads(i_line)
@@ -1522,13 +1163,6 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
                                 title_trimmed = title_trimmed.replace(' (', '\t')
                                 trimmed_list = re.split('\t', title_trimmed)
                                 if trimmed_list[-1].endswith('年'):
-                                    logger.debug({
-                                        'action': 'prematch_mention_title',
-                                        'title_matching': title_matching,
-                                        'org_title': title,
-                                        'warning': 'title has multiple pairs of braces but ignored for it ends with 年',
-                                        'title_list': trimmed_list,
-                                    })
                                     pass
                                 else:
                                     trimmed_list.pop()
@@ -1538,15 +1172,6 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
                                         continue
                                     else:
                                         if len(trimmed_list) > 2:
-                                            logger.debug({
-                                                'action': 'prematch_mention_title',
-                                                'mention': mention,
-                                                'debug': 'title has multiple pairs of braces'
-                                                         ' (only the last has deleted)',
-                                                'org_title': title,
-                                                'tmp_title (trimmed for ratio)': tmp_title,
-                                                'title_list': trimmed_list
-                                            })
                                             pass
                         ratio = 0.0
                         if pre_matching == 'tinm' and tmp_title in mention:
@@ -1629,20 +1254,8 @@ def gen_html_info_file_conv_year(html_dir, html_info_file, change_id_list, log_i
         fname = cat_pre[1]
         fname = fname.replace('.html', '')
 
-        logger.info({
-            'action': 'gen_html_info_file_conv_year',
-            'filename': filename,
-            'fname': fname,
-        })
-
         if fname in check_new_id:
             fname = check_new_id[fname]
-            logger.info({
-                'action': 'gen_html_info_file_conv_year',
-                'msg': 'pageid changed',
-                'filename': filename,
-                'fname(new_pageid)': fname,
-            })
 
         with open(filename, 'r', encoding='utf-8') as f:
             logger.info({
@@ -1653,7 +1266,6 @@ def gen_html_info_file_conv_year(html_dir, html_info_file, change_id_list, log_i
 
             line_num = 0
             for line in f:
-
                 line_num += 1
                 line_id = line_num - 1
 
@@ -1663,92 +1275,32 @@ def gen_html_info_file_conv_year(html_dir, html_info_file, change_id_list, log_i
                 except(NameError, ValueError):
                     continue
 
-                # start = 0
                 for link in links:
                     tmp_title = ''
-                    logger.debug({
-                        'action': 'gen_html_info_file_conv_year',
-                        'link': link,
-                    })
                     try:
-                        # href_char = link.get('href_char')
                         href_char = link.get('href')
-
                         if href_char:
-                            logger.debug({
-                                'action': 'gen_html_info_file_conv_year',
-                                'href_char(before)': href_char
-                            })
-                            # 20220819 tag for edition
-                            # <a href="/w/index.php?title=%E7%89%B9%E5%88%A5:
-                            # %E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E4%BD%9C%E6%88%90&amp;
-                            # returnto=.tw&amp;returntoquery=curid%3D1357468" class="vector-menu-content-item
-                            # user-links-collapsible-item"
-                            # title="アカウントを作成してログインすることをお勧めしますが、必須ではありません">
                             if ('action=edit' in href_char) or ('returntoquery' in href_char) or (
                                     'en.wikipedia.org' in href_char):
                                 continue
-                            # elif 'index' not in href_char:
-                            #     logger.info({
-                            #         'action': 'gen_html_info_file_conv_year',
-                            #         'no index in href_char': href_char
-                            #     })
-                            #     continue
-                            # included in action=edit
-                            # elif 'redlink' in href_char:
-                            #     continue
-                            logger.debug({
-                                'action': 'gen_html_info_file_conv_year',
-                                'href_char(after)': href_char
-                            })
 
                     except(NameError, ValueError):
                         continue
 
                     if 'rel' in link.attrs and 'nofollow' in link.attrs['rel']:
-                        logger.debug({
-                            'action': 'gen_html_info_file_conv_year',
-                            'attrs(rel)': link.attrs,
-                            'rel(nofollow)': link.attrs['rel']
-                        })
                         continue
                     if 'accesskey' in link.attrs:
-                        logger.debug({
-                            'action': 'gen_html_info_file_conv_year',
-                            'attrs(accesskey)': link.attrs,
-                        })
                         continue
                     if 'class' in link.attrs:
                         tmp_class = link.attrs['class']
                         if len(tmp_class[0]) > 0 and 'mw-redirect' not in tmp_class[0]:
-                            logger.debug({
-                                'action': 'gen_html_info_file_conv_year',
-                                'not mw-redirect': tmp_class[0],
-                            })
                             continue
                     if 'title' not in link.attrs:
-                        logger.debug({
-                            'action': 'gen_html_info_file_conv_year',
-                            'attrs(no title)': link.attrs,
-                        })
                         continue
                     tmp_title = link.attrs['title']
-                    logger.debug({
-                        'action': 'gen_html_info_file_conv_year',
-                        'tmp_title': tmp_title,
-                    })
                     if len(tmp_title) == 0:
-                        logger.debug({
-                            'action': 'gen_html_info_file_conv_year',
-                            'len(tmp_title) zero': len(tmp_title),
-                            'tmp_title': tmp_title
-                        })
                         continue
                     elif tmp_title.startswith(dis_pat_title_head):
-                        logger.debug({
-                            'action': 'gen_html_info_file_conv_year',
-                            'tmp_title(start)': tmp_title
-                        })
                         continue
                     else:
                         check_hit = 0
@@ -1766,7 +1318,6 @@ def gen_html_info_file_conv_year(html_dir, html_info_file, change_id_list, log_i
                         continue
                     elif link.text not in line:
                         continue
-                    # wikipedia link pattern (including symbols)
                     regex_pat = re.escape('>' + link.text + '<')
 
                     try:
@@ -1774,11 +1325,6 @@ def gen_html_info_file_conv_year(html_dir, html_info_file, change_id_list, log_i
                     except ValueError:
                         continue
                     for tag in taglist:
-                        logger.debug({
-                            'action': 'gen_html_info_file_conv_year',
-                            'tag': tag
-                        })
-                        # excluding symbols
                         text_start = tag.start() + 1
                         text_end = tag.end() - 1
                         if text_start >= 1:
@@ -1789,16 +1335,6 @@ def gen_html_info_file_conv_year(html_dir, html_info_file, change_id_list, log_i
                             if not check_elm.get(elm):
                                 check_elm[elm] = 1
                                 html_info_list.append(tmp_dict)
-                                logger.debug({
-                                    'action': 'gen_html_info_file_conv_year',
-                                    'cat': cat,
-                                    'pid': fname,
-                                    'line_id': str(line_id),
-                                    'html_text_start': str(text_start),
-                                    'html_text_end': str(text_end),
-                                    'html_text': link.text,
-                                    'title': tmp_title
-                                })
 
     labels = ['cat', 'pid', 'line_id', 'html_text_start', 'html_text_end', 'html_text', 'title']
 
@@ -1881,89 +1417,32 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
                 # start = 0
                 for link in links:
                     tmp_title = ''
-                    logger.debug({
-                        'action': 'gen_html_info_file',
-                        'link': link,
-                    })
                     try:
-                        # href_char = link.get('href_char')
                         href_char = link.get('href')
 
                         if href_char:
-                            logger.debug({
-                                'action': 'gen_html_info_file',
-                                'href_char(before)': href_char
-                            })
-                            # 20220819 tag for edition
-                            # <a href="/w/index.php?title=
-                            # %E7%89%B9%E5%88%A5:%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E4%BD%9C%E6%88%90&amp;
-                            # returnto=.tw&amp;returntoquery=curid%3D1357468" class="vector-menu-content-item
-                            # user-links-collapsible-item" title="アカウントを作成してログインすることをお勧めしますが、
-                            # 必須ではありません">
                             if ('action=edit' in href_char) or ('returntoquery' in href_char) or (
                                     'en.wikipedia.org' in href_char):
                                 continue
-                            # elif 'index' not in href_char:
-                            #     logger.info({
-                            #         'action': 'gen_html_info_file',
-                            #         'no index in href_char': href_char
-                            #     })
-                            #     continue
-                            # included in action=edit
-                            # elif 'redlink' in href_char:
-                            #     continue
-                            logger.debug({
-                                'action': 'gen_html_info_file',
-                                'href_char(after)': href_char
-                            })
 
                     except(NameError, ValueError):
                         continue
 
                     if 'rel' in link.attrs and 'nofollow' in link.attrs['rel']:
-                        logger.debug({
-                            'action': 'gen_html_info_file',
-                            'attrs(rel)': link.attrs,
-                            'rel(nofollow)': link.attrs['rel']
-                        })
                         continue
                     if 'accesskey' in link.attrs:
-                        logger.debug({
-                            'action': 'gen_html_info_file',
-                            'attrs(accesskey)': link.attrs,
-                        })
                         continue
                     if 'class' in link.attrs:
                         tmp_class = link.attrs['class']
                         if len(tmp_class[0]) > 0 and 'mw-redirect' not in tmp_class[0]:
-                            logger.debug({
-                                'action': 'gen_html_info_file',
-                                'not mw-redirect': tmp_class[0],
-                            })
                             continue
                     if 'title' not in link.attrs:
-                        logger.debug({
-                            'action': 'gen_html_info_file',
-                            'attrs(no title)': link.attrs,
-                        })
                         continue
                     tmp_title = link.attrs['title']
-                    logger.debug({
-                        'action': 'gen_html_info_file',
-                        'tmp_title': tmp_title,
-                    })
+
                     if len(tmp_title) == 0:
-                        logger.debug({
-                            'action': 'gen_html_info_file',
-                            'len(tmp_title) zero': len(tmp_title),
-                            'tmp_title': tmp_title
-                        })
                         continue
                     elif tmp_title.startswith(dis_pat_title_head):
-                        logger.debug({
-                            'action': 'gen_html_info_file',
-                            'tmp_title(start)': tmp_title
-                        })
                         continue
                     else:
                         check_hit = 0
@@ -1981,7 +1460,6 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
                         continue
                     elif link.text not in line:
                         continue
-                    # wikipedia link pattern (including symbols)
                     regex_pat = re.escape('>' + link.text + '<')
 
                     try:
@@ -1989,11 +1467,7 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
                     except ValueError:
                         continue
                     for tag in taglist:
-                        logger.debug({
-                            'action': 'gen_html_info_file',
-                            'tag': tag
-                        })
-                        # excluding symbols
+
                         text_start = tag.start() + 1
                         text_end = tag.end() - 1
                         if text_start >= 1:
@@ -2004,16 +1478,6 @@ def gen_html_info_file(html_dir, html_info_file, log_info):
                             if not check_elm.get(elm):
                                 check_elm[elm] = 1
                                 html_info_list.append(tmp_dict)
-                                logger.debug({
-                                    'action': 'gen_html_info_file',
-                                    'cat': cat,
-                                    'pid': fname,
-                                    'line_id': str(line_id),
-                                    'html_text_start': str(text_start),
-                                    'html_text_end': str(text_end),
-                                    'html_text': link.text,
-                                    'title': tmp_title
-                                })
 
     labels = ['cat', 'pid', 'line_id', 'html_text_start', 'html_text_end', 'html_text', 'title']
 
@@ -2053,14 +1517,11 @@ def reg_pid2title(title2pid_ext_file, lang_link_info, log_info):
 
     with open(title2pid_ext_file, mode='r', encoding='utf-8') as f:
         reader = csv.reader(f, delimiter='\t')
-        # フジデジタルテレビジョン        4058860 フジテレビジョン        38288   {'1.7.24.1', '1.4.6.2'}
         for rows in reader:
             from_title = rows[0]
             to_pid_str = rows[1]
             if not d_pid2fromtitle.get(to_pid_str):
                 d_pid2fromtitle[to_pid_str] = []
-            # d_pid2fromtitle[to_pid_str].append(from_title)
-            # 20220926
             d_pid2fromtitle[to_pid_str].append((from_title, 'ja'))
 
     with open(lang_link_info, mode='r', encoding='utf-8', errors='replace') as ll:
@@ -2070,21 +1531,10 @@ def reg_pid2title(title2pid_ext_file, lang_link_info, log_info):
             ja_pid_str = l_line[0]
             lang_code = l_line[1]
             f_title = l_line[2]
-            logger.debug({
-                'action': 'reg_pid2title',
-                'ja_pid_str': ja_pid_str,
-                'lang_code': lang_code,
-                'f_title': f_title
-            })
 
             if not d_pid2fromtitle.get(ja_pid_str):
                 d_pid2fromtitle[ja_pid_str] = []
             d_pid2fromtitle[ja_pid_str].append((f_title, lang_code))
-            logger.debug({
-                'action': 'reg_pid2title',
-                'd_pid2fromtitle[ja_pid_str]': d_pid2fromtitle[ja_pid_str],
-            })
-
     return d_pid2fromtitle
 
 
@@ -2149,8 +1599,7 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
 
     with open(enew_info) as e:
         reader = csv.reader(e, delimiter='\t')
-        # 15088	1.1	聖徳太子
-        # 20221001
+
         for row in reader:
             try:
                 to_pid = row[0]
@@ -2169,10 +1618,7 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
             get_to_eneid[to_pid].add(to_eneid)
             if to_pid not in get_to_title:
                 get_to_title[to_pid] = to_title
-            logger.debug({
-                'action': 'gen_title2pid_ext_file',
-                'get_to_eneid[to_pid]': get_to_eneid[to_pid]
-            })
+
     get_to_incoming = {}
     with open(incoming, mode='r', encoding='utf-8') as i:
         reader = csv.reader(i, delimiter='\t')
@@ -2193,18 +1639,12 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
                 sys.exit()
             get_to_incoming[to_pid] = to_incoming
 
-            # Complement titles for ENEW file lacks some pages.
             if not get_to_title.get(to_pid):
                 get_to_title[to_pid] = to_title
-            # if to_pid not in  get_to_title:
-            #     get_to_title[to_pid] = set()
-            # get_to_title[to_pid].add(to_title)
 
     with open(redirect_info, mode='r', encoding='utf-8') as e:
         reader = csv.reader(e, delimiter='\t')
-        # 安倍晋三/log20200516	4136738
         rec_list = []
-        # Some pages lack incoming or ENEW information
         for row in reader:
             rec = []
             from_title = ''
@@ -2224,15 +1664,8 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
                     'missing to_pid': row
                 })
                 sys.exit()
-            # Complement titles for ENEW file lacks some pages.
             if get_to_title.get(to_pid):
                 to_title = get_to_title[to_pid]
-
-                if not to_title:
-                    logger.debug({
-                        'action': 'gen_title2pid_ext_file',
-                        'missing to_title': to_pid
-                    })
 
             if get_to_incoming.get(to_pid):
                 to_incoming = get_to_incoming[to_pid]
@@ -2271,7 +1704,6 @@ def get_category(fname, dname, ext, log_info):
     :param log_info
     :return: cat
     """
-    # import logging
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
@@ -2291,21 +1723,10 @@ def check_self(row, log_info):
        'ドイツ', 'Country']}
 
     """
-    # import logging
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
-    logger.debug({
-        'action': 'check_self',
-        'row[1]': row[1],
-        'row[9]': row[9],
-        'row': row
-    })
-
-    # 20220825 from here
     if row[1] == row[9]:
-        # if row[0] == row[8]:
-        # till here
         return 1
     else:
         return 0
@@ -2330,9 +1751,6 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info, 
                 Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
                 ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
     """
-    # import logging
-    # import ljc_common as lc
-
     import pandas as pd
     import re
     logger = set_logging_pre(log_info, 'myPreLogger')
@@ -2344,9 +1762,6 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info, 
         'linkable_info_file': linkable_info_file
     })
     prt_list = []
-
-    # d_eneid2enlabel = {}
-    # d_eneid2enlabel = lc.reg_target_attr_info(target_attr_info_file, log_info)
 
     ene = sample_e_dir + '*.jsonl'
     gold = sample_g_dir + '*.jsonl'
@@ -2363,23 +1778,13 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info, 
             continue
         with open(ene_file, mode='r', encoding='utf-8') as ef:
             e_fname = ene_file.replace(sample_e_dir, '')
-            # e_cat = e_fname.replace('.json', '')
-            logger.debug({
-                'action': 'gen_linkable_info',
-                # 'ene_cat': e_cat,
-                'e_fname': e_fname,
-            })
 
             e_cat = ''
             for e_line in ef:
                 erec = json.loads(e_line)
-                logger.debug({
-                    'action': 'gen_linkable_info',
-                    'erec': erec,
-                })
+
                 lc.check_dic_key('attribute', log_info, **erec)
                 e_attr = erec['attribute']
-                # 20221001
                 lc.check_dic_key('ENE', log_info, **erec)
                 e_cat = d_cnv[erec['ENE']]
                 e_cat_attr = e_cat + ':' + e_attr
@@ -2400,36 +1805,21 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info, 
             g_cat = ''
             g_fname = g_file.replace(sample_g_dir, '')
 
-            logger.debug({
-                'action': 'gen_linkable_info',
-                # 'g_cat': g_cat,
-                'g_fname': g_fname,
-            })
-
             for g_line in gf:
                 grec = json.loads(g_line)
                 lc.check_dic_key('attribute', log_info, **grec)
 
                 g_attr = grec['attribute']
-                # 20221001
                 lc.check_dic_key('ENE', log_info, **grec)
-
                 g_cat = d_cnv[grec['ENE']]
-
                 g_cat_attr = g_cat + ':' + g_attr
 
-                # 20220831
-                # check if link_pageid exists
                 if grec['link_page_id']:
                     if not count_g_cat_attr.get(g_cat_attr):
                         count_g_cat_attr[g_cat_attr] = 1
                     else:
                         count_g_cat_attr[g_cat_attr] += 1
-                    logger.debug({
-                        'action': 'gen_linkable_info',
-                        # 'g_cat': g_cat,
-                        'grec[link_page_id]': grec['link_page_id'],
-                    })
+
     for cat_attr in count_e_cat_attr:
         (t_cat, t_attr) = re.split(':', cat_attr)
         linked_freq = 0
@@ -2442,136 +1832,12 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info, 
         else:
             t_ratio = 0.0
 
-        # prt_list.append([t_cat, t_attr, t_ratio])
-
-        # 2022/10/3
         prt_list.append([t_cat, t_attr, t_ratio, linked_freq, all_freq])
 
     sdf = pd.DataFrame(prt_list, columns=['cat', 'attr', 'ratio', 'linked_freq', 'all_freq'])
     sdf.to_csv(linkable_info_file, sep='\t', header=False, index=False)
 
 
-
-
-
-def gen_nil_info(gold_dir, nil_info_file, log_info):
-    """Generate nil info
-    args:
-        gold_dir
-        nil_info_file:
-        log_info:
-    return:
-    output:
-        nil_info_file
-    Note:
-        gold file
-            Gold files (eg. sample gold files) used for self link estimation should be located in gold_dir.
-            sample
-                Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
-                ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
-    """
-    # import logging
-
-    import pandas as pd
-    import re
-    logger = set_logging_pre(log_info, 'myPreLogger')
-    logger.setLevel(logging.INFO)
-    logger.info({
-        'run': 'gen_nil_info',
-        'gold_dir': gold_dir,
-        'nil_info_file': nil_info_file
-    })
-    prt_list = []
-    ext = '.tsv'
-
-    gold = gold_dir + '*.tsv'
-    logger.debug({
-        'action': 'gen_nil_info',
-        'gold': gold,
-    })
-    sumup_cat_attr = {}
-    sumup_nil_cat_attr = {}
-
-    for g_fname in glob(gold):
-
-        check_gold = {}
-        check_nil_gold = {}
-        cat = ''
-        with open(g_fname, mode='r', encoding='utf-8') as f:
-            greader = csv.reader(f, delimiter='\t')
-
-            cat = ''
-            for grow in greader:
-                # Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
-                # ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
-                # Person	1061108	松田秀知	作品	ぼくの夏休み	89	1	89	7	2589292	ぼくの夏休み	['1.7.13.2']
-                # ['Broadcast_Program']
-
-                # 20220929
-                cat = grow[0]
-
-                # 20220825 from here
-                gold_key = '\t'.join(grow[1:9])
-                # 1061108	松田秀知	所属組織	フジテレビ	36	52	36	57
-                logger.debug({
-                    'action': 'gen_nil_info',
-                    'gold_key': gold_key,
-                })
-                if not check_gold.get(gold_key):
-                    check_gold[gold_key] = 1
-
-                # nil
-                if grow[9] == '':
-                    if not check_nil_gold.get(gold_key):
-                        check_nil_gold[gold_key] = 1
-                    else:
-                        check_nil_gold[gold_key] += 1
-
-        for common_key in check_gold:
-            common_key_list = re.split('\t', common_key)
-            cat_attr = cat + '\t' + common_key_list[2]
-            logger.debug({
-                'action': 'gen_nil_info',
-                'cat_attr': cat_attr,
-                'common_key': common_key
-            })
-            #  'cat_attr': 'Academic\t種類', 'common_key': '10807\t工学\t種類\t学問\t65\t74\t65\t76'}
-
-            if not sumup_cat_attr.get(cat_attr):
-                sumup_cat_attr[cat_attr] = check_gold[common_key]
-            else:
-                sumup_cat_attr[cat_attr] += check_gold[common_key]
-
-            if check_nil_gold.get(common_key):
-                if not sumup_nil_cat_attr.get(cat_attr):
-                    sumup_nil_cat_attr[cat_attr] = check_nil_gold[common_key]
-                else:
-                    sumup_nil_cat_attr[cat_attr] += check_nil_gold[common_key]
-
-    for t_cat_attr in sumup_cat_attr:
-        (t_cat, t_attr) = re.split('\t', t_cat_attr)
-        nil_freq = 0
-        all_freq = 0
-        if sumup_nil_cat_attr.get(t_cat_attr):
-            t_ratio_str = sumup_nil_cat_attr[t_cat_attr]/sumup_cat_attr[t_cat_attr]
-            t_ratio = float(Decimal(t_ratio_str).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
-            nil_freq = sumup_nil_cat_attr[t_cat_attr]
-            all_freq = sumup_cat_attr[t_cat_attr]
-        else:
-            t_ratio = 0.0
-        logger.debug({
-            'action': 'gen_nil_info',
-            't_cat': t_cat,
-            't_attr': t_attr,
-            't_ratio': t_ratio
-        })
-        prt_list.append([t_cat, t_attr, t_ratio, nil_freq, all_freq])
-
-    sdf = pd.DataFrame(prt_list, columns=['cat', 'attr', 'ratio', 'nil_freq', 'all_freq'])
-    sdf.to_csv(nil_info_file, sep='\t', header=False, index=False)
-
-
-# def gen_self_link_info(gold_dir, target_cat_attr_file, self_link_info_file, self_link_attr_info_file, log_info):
 def gen_self_link_info(gold_dir, self_link_info_file, log_info):
 
     """Generate self link info
@@ -2595,30 +1861,20 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
                 ['Galaxy', '1243163', 'M61 (天体)', '属する天体', 'おとめ座銀河団', '260', '0', '260', '7', '279791',
                 'おとめ座銀河['Galaxy']"]}
     """
-    # import logging
 
     import pandas as pd
     import re
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
-    logger.debug({
-        'run': 'gen_self_link_info',
-        'gold_dir': gold_dir,
-        # 'target_cat_attr_file': target_cat_attr_file,
-        'self_link_info_file': self_link_info_file
-    })
+
     prt_list = []
     ext = '.tsv'
 
     gold = gold_dir + '*.tsv'
-    logger.debug({
-        'action': 'gen_self_link_info',
-        'gold': gold,
-    })
+
     sumup_cat_attr = {}
     sumup_self_cat_attr = {}
 
-    # 20220905
     sumup_self_attr = {}
 
     for g_fname in glob(gold):
@@ -2629,28 +1885,13 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
             greader = csv.reader(f, delimiter='\t')
 
             for grow in greader:
-                logger.debug({
-                    'action': 'gen_self_link_info',
-                    'grow': grow,
-                })
-                # ['Galaxy', '1243163', 'M61 (天体)', '種類', 'フェイスオン銀河', '259', '45', '259', '53', '', '',
-                # '[]', '[]']}
-                # ['Galaxy', '1243163', 'M61 (天体)', '属する天体', 'おとめ座銀河団', '260', '0', '260', '7', '279791',
-                # 'おとめ座銀河['Galaxy']"]}
+
                 cat = grow[0]
                 gold_key = '\t'.join(grow[1:9])
-                # '1243163', 'M61 (天体)', '属する天体', 'おとめ座銀河団', '260', '0', '260', '7',
-
-                logger.info({
-                    'action': 'gen_self_link_info',
-                    'gold_key': gold_key,
-                })
-                # 'gold_key': '1507542\tたばこの規制に関する世界保健機関枠組条約\t言語\t英語\t33\t10\t33\t12'}
 
                 if not check_gold.get(gold_key):
                     check_gold[gold_key] = 1
 
-                # self-link
                 if check_self(grow, log_info):
                     if not check_self_gold.get(gold_key):
                         check_self_gold[gold_key] = 1
@@ -2658,20 +1899,10 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
                         check_self_gold[gold_key] += 1
 
         for common_key in check_gold:
-            # '1507542\tたばこの規制に関する世界保健機関枠組条約\t言語\t英語\t33\t10\t33\t12'}
-
             common_key_list = re.split('\t', common_key)
 
-            # 20221001
             attr = common_key_list[2]
             cat_attr = cat + '\t' + attr
-            logger.debug({
-                'action': 'gen_self_link_info',
-                'cat_attr': cat_attr,
-                'common_key': common_key
-            })
-            # 'cat_attr': 'Racehorse\t母',
-            # 'common_key': '889899\tヒシマサル (1989年生)\t母\tクリームンクリムズン\t560\t2\t560\t12'}
 
             if not sumup_cat_attr.get(cat_attr):
                 sumup_cat_attr[cat_attr] = check_gold[common_key]
@@ -2679,23 +1910,11 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
                 sumup_cat_attr[cat_attr] += check_gold[common_key]
 
             if check_self_gold.get(common_key):
-                # sumup (cat, attr)
                 if not sumup_self_cat_attr.get(cat_attr):
                     sumup_self_cat_attr[cat_attr] = check_self_gold[common_key]
                 else:
                     sumup_self_cat_attr[cat_attr] += check_self_gold[common_key]
 
-                # 20220905
-                # sumup (attr)
-                # if not sumup_self_attr.get(attr):
-                #     sumup_self_attr[attr] = check_gold[common_key]
-                # else:
-                #     sumup_self_attr[attr] += check_gold[common_key]
-                logger.debug({
-                    'action': 'gen_self_link_info',
-                    'check_self_gold[common_key]': check_self_gold[common_key],
-                    'sumup_self_cat_attr[cat_attr](after)': sumup_self_cat_attr[cat_attr]
-                })
     for t_cat_attr in sumup_cat_attr:
         (t_cat, t_attr) = re.split('\t', t_cat_attr)
         self_link_freq = 0
@@ -2706,26 +1925,7 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
             t_ratio_str = sumup_self_cat_attr[t_cat_attr]/sumup_cat_attr[t_cat_attr]
             t_ratio = float(Decimal(t_ratio_str).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
 
-        logger.debug({
-            'action': 'gen_self_link_info',
-            't_cat': t_cat,
-            't_attr': t_attr,
-            't_ratio': t_ratio,
-            'self_link_freq': self_link_freq,
-            'cat_attr_freq': cat_attr_freq
-        })
-        # 'action': 'gen_self_link_info', 't_cat': 'Market', 't_attr': '旧称・前身', 't_ratio': 0.0}
-        # prt_list.append([t_cat, t_attr, t_ratio])
-        # 20220905
-        tmp_cat_attr = t_cat + '\t' + t_attr
-
-        # prt_list.append([t_cat, t_attr, t_ratio, sumup_self_cat_attr[tmp_cat_attr], sumup_cat_attr[tmp_cat_attr]])
         prt_list.append([t_cat, t_attr, t_ratio, self_link_freq, cat_attr_freq])
-
-    # for target_cat, target_attr in check_target_cat_attr.items():
-    #     target_cat_attr = target_cat + '\t' + target_attr
-    #     if target_cat_attr not in sumup_cat_attr:
-    #         prt_list.append([target_cat, target_attr, '', 0, 0 ])
 
     sdf = pd.DataFrame(prt_list, columns=['cat', 'attr', 'ratio', 'freq', 'sum'])
     sdf.to_csv(self_link_info_file, sep='\t', header=False, index=False)
@@ -2816,7 +2016,6 @@ def gen_back_link_info_file(ptitle_list, back_link, back_link_dump_org, ext_file
             from_pageid = drow[0]
             if d_title.get(org_title):
                 from_title = ''
-                # notice: not all pageids are found in d_pid_title_incoming_eneid (eg.template pages)
                 if d_pid_title_incoming_eneid.get(from_pageid):
                     from_title = d_pid_title_incoming_eneid[from_pageid][0]
                 back_link_list.append([org_title, from_pageid, from_title])
@@ -2861,16 +2060,10 @@ def gen_link_prob_file(gold_dir, link_prob_file, log_info):
     d = {}
     for gname in glob(gold_files):
         with open(gname, mode='r', encoding='utf-8') as g:
-            # 20220825 fromhere
-            # cat = gname.replace(gold_dir, '')
-            # cat = cat.replace('.tsv', '')
-            # till here
+
             cat = ''
             reader = csv.reader(g, delimiter='\t')
-            #  - `Person	1058520	竹内えり	作品	白い巨塔	79	0	79	4	29582
-            # 白い巨塔 (2003年のテレビドラマ)	['1.7.13.2']　['Broadcast_Program']`
-            #  - `Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']
-            # ['Character', 'Broadcast_Program']`
+
             for line in reader:
                 if len(line) < 10:
                     logger.warning({
@@ -2884,7 +2077,6 @@ def gen_link_prob_file(gold_dir, link_prob_file, log_info):
                 attr_name = line[3]
                 attr_value = line[4]
                 link_pid = line[9]
-                # till here
                 cat_attname_attval = cat + '\t' + attr_name + '\t' + attr_value
                 if not d.get(cat_attname_attval):
                     d[cat_attname_attval] = {}
@@ -2892,44 +2084,23 @@ def gen_link_prob_file(gold_dir, link_prob_file, log_info):
                     d[cat_attname_attval][link_pid] = 1
                 else:
                     d[cat_attname_attval][link_pid] += 1
-                logger.debug({
-                    'action': 'gen_link_prob_file',
-                    'line': line,
-                    'cat_attname_attval': cat_attname_attval,
-                    'link_pid': link_pid,
-                    'd[cat_attname_attval][link_pid]': d[cat_attname_attval][link_pid]
-                })
 
     d_new = {}
     for cat_attr_val, link_pid_info in d.items():
         if cat_attr_val not in d_new:
             d_new[cat_attr_val] = []
         link_pid_info_sorted = sorted(link_pid_info.items(), key=lambda x: x[1], reverse=True)
-        logger.debug({
-            'action': 'gen_link_prob_file',
-            'link_pid_info_sorted': link_pid_info_sorted
-        })
+
         if len(link_pid_info_sorted) >= 1:
             link_sum = 0
             for tmp_lpinfo in link_pid_info_sorted:
                 link_sum += tmp_lpinfo[1]
-                logger.debug({
-                    'action': 'gen_link_prob_file',
-                    'tmp_lpinfo': tmp_lpinfo,
-                    'tmp_lpinfo[1]': tmp_lpinfo[1]
-                })
 
             for tmp_lpinfo in link_pid_info_sorted:
                 ratio_str = str(tmp_lpinfo[1] / link_sum)
                 ratio = float(Decimal(ratio_str).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
                 link_pid_info_string = tmp_lpinfo[0] + ':' + str(ratio) + ':' + str(tmp_lpinfo[1])
                 d_new[cat_attr_val].append(link_pid_info_string)
-                logger.debug({
-                    'action': 'gen_link_prob_file',
-                    'ratio_str': ratio_str,
-                    'link_sum': link_sum,
-                    'link_pid_info_string': link_pid_info_string
-                })
         else:
             logger.error({
                 'action': 'gen_link_prob_file',
@@ -2996,9 +2167,6 @@ def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_i
     })
     with open(html_info, 'r', encoding='utf-8') as f:
         reader = csv.reader(f, delimiter='\t')
-        # cat     pid     line_id html_text_start html_text_end   html_text       title
-        # Insect  2524837 54      136     138     分類    生物の分類
-        # Insect  2524837 69      145     146     界      界 (分類学)
 
         cat_pid_title_dic = {}
         check_cat_pid_title_line = {}
@@ -3014,12 +2182,6 @@ def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_i
             cat_pid_title_line = ':'.join([cat, pid, title, line_start])
             cat_pid_title = ':'.join([cat, pid, title])
 
-            logger.debug({
-                'action': 'gen_mention_gold_link_dist',
-                'line_start': line_start,
-                'cat_pid_title': cat_pid_title,
-            })
-
             if not check_cat_pid_title_line.get(cat_pid_title_line):
                 cat_pid_title_dic[cat_pid_title] = []
             cat_pid_title_dic[cat_pid_title].append(int(line_start))
@@ -3028,63 +2190,23 @@ def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_i
     out_raw_list = []
     for gfile in glob(gold_files):
         list_rec_out = []
-        # 20220825 from here
-        # gfile_part = gfile.replace(sample_gold_linked_dir, '')
-        # ene_cat = gfile_part.replace('.tsv', '')
-        # till here
+
         ene_cat = ''
         with open(gfile, 'r', encoding='utf-8') as g:
             greader = csv.reader(g, delimiter='\t')
-            # Person	1061108	松田秀知	作品	ぼくの夏休み	89	1	89	7	2589292	ぼくの夏休み	['1.7.13.2']
-            # ['Broadcast_Program']
+
             for grow in greader:
-                # g_org_pid = grow[0]
-                # g_org_title = grow[1]
-                # g_attr = grow[2]
-                # g_mention_line_start = grow[4]
-                # g_gold_title = grow[9]
-                # 20220825 fromhere
                 ene_cat = grow[0]
                 g_org_pid = grow[1]
                 g_org_title = grow[2]
                 g_attr = grow[3]
                 g_mention_line_start = grow[5]
                 g_gold_title = grow[10]
-                # till here
-                logger.debug({
-                    'action': 'gen_mention_gold_link_dist',
-                    'ene_cat': ene_cat,
-                    'g_org_title': g_org_title,
-                    'g_attr': g_attr,
-                    'g_mention_line_start': g_mention_line_start,
-                    'g_gold_title': g_gold_title,
-                    'msg': 'skipped',
-                })
-
-                # skip if no link title
-                # 20220819
-                # if g_gold_title == '':
-                #     logger.debug({
-                #         'action': 'gen_mention_gold_link_dist',
-                #         'g_gold_title': g_gold_title,
-                #         'msg': 'skipped',
-                #     })
-                #     continue
                 g_cat_pid_title = ':'.join([ene_cat, g_org_pid, g_gold_title])
-
-                # check 20210819
-                logger.debug({
-                    'action': 'gen_mention_gold_link_dist',
-                    'g_org_tile': g_org_title,
-                    'g_cat_pid_title': g_cat_pid_title,
-                    'g_mention_line_start': g_mention_line_start
-                })
 
                 if cat_pid_title_dic.get(g_cat_pid_title):
                     tmp_lineid_list = cat_pid_title_dic[g_cat_pid_title]
                     found = 0
-                    # 20220819
-                    # if len(tmp_lineid_list) > 0:
                     diff_min = 0
                     for lineid in tmp_lineid_list:
                         if int(g_mention_line_start) == lineid:
@@ -3100,14 +2222,7 @@ def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_i
                             elif abs(lineid - int(g_mention_line_start)) < abs(diff_min):
                                 diff_min = lineid - int(g_mention_line_start)
                                 found = 1
-
                     out_raw_list.append([ene_cat, g_attr, diff_min])
-                    logger.debug({
-                        'action': 'gen_mention_gold_link_dist',
-                        'found': found,
-                        'lineid': lineid,
-                        'diff_min': diff_min
-                    })
 
     df = pd.DataFrame(out_raw_list, columns=['cat', 'attr', 'diff_min'])
     df.to_csv(outfile, sep='\t',  index=False)
@@ -3161,21 +2276,9 @@ def check_pageid(pageid, **d_dis):
         0: disambiguation
         -1: ng
     """
-    # logger = set_logging_pre(log_info, 'myPreLogger')
-    # logger.setLevel(logging.INFO)
-
     if not pageid:
-        # logging.error({
-        #     'action': 'check_pageid',
-        #     'judge': 'ng (pageid null)'
-        # })
         return -1
     elif not str(pageid).isdigit():
-        # logging.error({
-        #     'action': 'check_pageid',
-        #     'pageid': pageid,
-        #     'judge': 'ng (not digit)'
-        # })
         return -1
     elif d_dis.get(str(pageid)):
         return 0
@@ -3243,136 +2346,47 @@ def gen_title2pid_file(redirect_dump, page_dump, title2pageid_org, illegal_title
     Notice:
     delete one letter punctuation title
     """
-    # min_illegal_title_len = 500
 
     from_pid_to_title = {}
     with open(redirect_dump, mode='r', encoding='utf-8') as rd:
-        # cnt += 1
         r_reader = csv.reader(rd, delimiter='\t')
         for r_row in r_reader:
-            # if cnt == 1000:
-            #     break
             from_pid_str = str(r_row[0])
             to_title = r_row[1]
             namespace_char = str(r_row[2])
 
-            # 20220914
             if len(to_title) >= illegal_title_len:
                 if namespace_char == '0':
-                    logging.debug({
-                        'action': 'gen_title2pid',
-                        'mesg': 'illegal long redirect title ( equal to or more than 500)',
-                        'to_title': to_title,
-                    })
                     sys.exit()
 
-            # many to one
-            logging.debug({
-                'action': 'gen_title2pid',
-                'from_pid_str': from_pid_str,
-                'to_title': to_title,
-                'namespace_char': namespace_char,
-                'r_row': r_row
-            })
-
             if namespace_char != '0':
-                logging.debug({
-                    'action': 'gen_title2pid',
-                    'mesg': 'name space (redirect_to) not zero',
-                    'r_row': r_row,
-                })
-                if from_pid_str == '3475368':
-                    logging.info({
-                        'action': 'gen_title2pid',
-                        'from_pid_str': from_pid_str,
-                        'to_title': to_title,
-                        'namespace_char': namespace_char,
-                        'r_row': r_row
-                    })
-
-                # 20220919 skip
                 continue
-            #
-
-            # 20220919
-            # if '\"' in to_title:
-            #     to_title_pre = to_title
-            #     to_title = to_title_pre.replace('\"', '\"\"')
-            #     logging.info({
-            #         'action': 'gen_title2pid',
-            #         'to_title_pre': to_title_pre,
-            #         'to_title': to_title
-            #     })
 
             from_pid_to_title[from_pid_str] = to_title
-            logging.debug({
-                'action': 'gen_title2pid',
-                'step': 'from_pid_to_title',
-                'from_pid_str': from_pid_str,
-                'to_title': to_title,
-            })
 
     pid2title = {}
     title2pid = {}
     check_namespace = {}
     check_redirect = {}
     with open(page_dump, mode='r', encoding='utf-8') as pd:
-        # for p_line in pd:
-        # cnt += 1
         p_reader = csv.reader(pd, delimiter='\t')
         for p_row in p_reader:
-            # ['126', '液晶', '0', '0']
 
             pid_str = str(p_row[0])
             title = p_row[1]
-            # if '人間と性' in title:
-            #     print(title, p_row)
+
             redirect = str(p_row[2])
-            # redirect = str(p_row[2])
             namespace_char = str(p_row[3])
 
-            # if pid_str == '3475368':
-            #     logging.info({
-            #         'action': 'gen_title2pid',
-            #         'stage': 'before namespace_non_zero',
-            #         'pid_str': pid_str,
-            #         'title': title,
-            #         'namespace_char': namespace_char,
-            #         'p_row': p_row
-            #     })
-            # namespace (redirect_to)
             if namespace_char != '0':
-                logging.debug({
-                    'action': 'gen_title2pid',
-                    'mesg': 'skipped name space not zero',
-                    'p_row': p_row
-                })
-
                 continue
             check_namespace[pid_str] = namespace_char
             if len(title) >= illegal_title_len:
-                logging.debug({
-                    'action': 'gen_title2pid',
-                    'mesg': 'illegal long title ( equal to or more than 500)',
-                    'p_row': p_row,
-                })
                 sys.exit()
-
-            # 20220919
-            # if '"' in title:
-            #     title_pre = title
-            #     title = title_pre.replace('\"', '\"\"')
-            #     logging.info({
-            #         'action': 'gen_title2pid',
-            #         'title_pre': title_pre,
-            #         'title': title
-            #     })
 
             if redirect == '1':
                 check_redirect[pid_str] = 1
 
-            # 20220919
-            # check dupli of pids
             if pid_str in pid2title:
                 logging.error({
                     'action': 'gen_title2pid',
@@ -3384,8 +2398,6 @@ def gen_title2pid_file(redirect_dump, page_dump, title2pageid_org, illegal_title
             else:
                 pid2title[pid_str] = title
 
-            # 20220919
-            # check dupli of titles
             if title in title2pid:
                 logging.error({
                     'action': 'gen_title2pid',
@@ -3400,17 +2412,10 @@ def gen_title2pid_file(redirect_dump, page_dump, title2pageid_org, illegal_title
 
     dic_list = []
     for tmp_id_str, tmp_title in pid2title.items():
-        logging.debug({
-            'tmp_id': tmp_id_str,
-            'tmp_title': tmp_title
-        })
         d = {}
-        # redirect
         tmp_char = ''
         d['page_id'] = tmp_id_str
 
-        # 20220920
-        # There is a page with title '\\'
         if tmp_title != '\\':
             if '\\' in tmp_title:
                 tmp_title_pre = tmp_title
@@ -3418,55 +2423,24 @@ def gen_title2pid_file(redirect_dump, page_dump, title2pageid_org, illegal_title
         d['title'] = tmp_title
 
         if tmp_id_str not in check_redirect:
-            logging.debug({
-                'run': 'gen_title2_pid',
-                'info': 'tmp_id_str not in check_redirect',
-                'tmp_id_str': tmp_id_str,
-                'tmp_title': tmp_title,
-            })
-
             d['is_redirect'] = False
         else:
             d['is_redirect'] = True
 
-            # redirect to
             if tmp_id_str not in from_pid_to_title:
-                logging.debug({
-                    'run': 'gen_title2_pid',
-                    'info': 'tmp_id_str not in from_pid_to_title',
-                    'tmp_id_str': tmp_id_str,
-                    'tmp_title': tmp_title
-                })
-                # 20220920
                 continue
             else:
                 redirect_to_title = from_pid_to_title[tmp_id_str]
 
-                # to title is not registered
                 if redirect_to_title not in title2pid:
-                    # jawiki-20210820-page_dmp.tsv 名前空間0 (redirect)
-                    # 茨城ショッピングタウン -> イオンスタイル新茨城
-                    # 4423080	茨木ショッピングタウン	1	0
-                    # jawiki-20210820-redirect_dmp.tsv
-                    # 4423080	イオンスタイル新茨木	0
-                    logging.debug({
-                        'run': 'gen_title2_pid',
-                        'info': 'tmp_to_title not in title_pid',
-                        'msg': 'skipped',
-                        'tmp_id_str': tmp_id_str,
-                        'tmp_title': tmp_title,
-                        'redirect_to_title': redirect_to_title,
-                    })
                     continue
 
                 else:
                     tmp_to_pid_str = title2pid[redirect_to_title]
-                    # 20220920
                     if tmp_to_pid_str in check_namespace:
                         if check_namespace[tmp_to_pid_str] != '0':
                             continue
-                    # prt_list.append([tmp_id, tmp_from_title, from_pid_from_title[]])
-                    # 20220920
+
                     if '\\' in redirect_to_title:
                         redirect_to_title_pre = redirect_to_title
                         redirect_to_title = re.sub(r'\\', '', redirect_to_title_pre)
@@ -3474,15 +2448,12 @@ def gen_title2pid_file(redirect_dump, page_dump, title2pageid_org, illegal_title
                     d['redirect_to']['page_id'] = tmp_to_pid_str
                     d['redirect_to']['title'] = redirect_to_title
                     d['redirect_to']['is_redirect'] = False
-
         dic_list.append(d)
 
     with open(title2pageid_org, mode='w', encoding='utf-8') as t:
         for dic in dic_list:
             json.dump(dic, t, ensure_ascii=False)
-            # json.dump(dic, t, indent=4, ensure_ascii=False)
             t.write('\n')
-            # t.write(all_char)
 
 
 def gen_change_wikipage_list(old_page_dump_org_file, page_dump_org_file, change_id_list, log_info):
@@ -3491,28 +2462,19 @@ def gen_change_wikipage_list(old_page_dump_org_file, page_dump_org_file, change_
     with open(old_page_dump_org_file, mode='r', encoding='utf-8') as op:
         op_reader = csv.reader(op, delimiter='\t')
         for op_line in op_reader:
-            # page_id, page_title, page_is_redirect, page_namespace
             old_pageid = op_line[0]
             old_title = op_line[1]
             old_namespace = op_line[3]
-            logging.debug({
-                'run': 'gen_change_wikipage_list',
-                'op_line': op_line
-            })
+
             if old_namespace == '0':
                 check_old_pageid[old_title] = old_pageid
 
     with open(page_dump_org_file, mode='r', encoding='utf-8') as np:
         np_reader = csv.reader(np, delimiter='\t')
         for np_line in np_reader:
-            # page_id, page_title, page_is_redirect, page_namespace
             new_pageid = np_line[0]
             new_title = np_line[1]
             new_namespace = np_line[3]
-            logging.debug({
-                'run': 'gen_change_wikipage_list',
-                'np_line': np_line
-            })
             if new_namespace == '0':
                 if new_title in check_old_pageid:
                     if check_old_pageid[new_title] != new_pageid:
@@ -3522,92 +2484,6 @@ def gen_change_wikipage_list(old_page_dump_org_file, page_dump_org_file, change_
         writer = csv.writer(cl, delimiter='\t', lineterminator='\n')
         writer.writerows(prt_list)
 
-
-# def gen_redirect_info_file2(incoming, title2pageid, dis, redirect_info, log_info):
-#     """ get title2pid from incoming file, and remove disambiguation pages and wrong-formatted pages from
-#     title2pageid and
-#     create redirect info default file
-#     Args:
-#         incoming
-#         title2pageid
-#         dis
-#         redirect_info
-#         log_info
-#     Returns:
-#     Output:
-#         redirect_info
-#         Notice:
-#             - In the title2pageid file,some 'redirect-to' pages lack page_ids.
-#                  {"page_id": 1218449, "title": "岡山県の旧制教育機関", "is_redirect": true,
-#                   "redirect_to": {"page_id": null, "title": null, "is_redirect": false}}
-#               - white spaces in Wikipedia titles are replaced by '_'.
-#     """
-#     import csv
-#     import json
-#
-#     logger = set_logging_pre(log_info, 'myPreLogger')
-#     logger.setLevel(logging.INFO)
-#
-#     title_apid = {}
-#     d_dis = get_disambiguation_info(dis, log_info)
-#     logger.debug({
-#         'action': 'gen_redirect_info_file2',
-#         'status': 'read title and pageid from incoming',
-#     })
-#     title_apid = {}
-#     with open(incoming, mode='r', encoding='utf-8') as ic:
-#         # cnt = 0
-#         # for ic_line in ic:
-#             # cnt += 1
-#         ic_reader = csv.reader(ic, delimiter='\t')
-#         for ic_row in ic_reader:
-#             # if cnt == 1000:
-#             #     break
-#             ic_pid = ic_row[0]
-#             ic_title = ic_row[1]
-#             logger.debug({
-#                 'action': 'gen_redirect_info_file2',
-#                 'ic_pid': ic_title,
-#             })
-#             # 20220901
-#             if check_pageid(ic_pid, log_info, **d_dis) != 1:
-#                 continue
-#             else:
-#                 title_apid[ic_title] = str(ic_pid)
-#             title_apid[ic_title] = str(ic_pid)
-#     logger.debug({
-#         'action': 'gen_redirect_info_file2',
-#         'status': 'title2pageid start',
-#         'ic_pid': ic_title,
-#     })
-#     with open(title2pageid, mode='r', encoding='utf-8') as r:
-#         for r_line in r:
-#             rd = json.loads(r_line)
-#
-#             from_pid = rd['page_id']
-#
-#             # disambiguation
-#             if check_pageid(from_pid, log_info, **d_dis) != 1:
-#                 continue
-#             from_title = rd['title'].replace('_', ' ')
-#             # redirect page
-#             if rd['is_redirect']:
-#                 if not rd['redirect_to']['page_id']:
-#                     continue
-#                 else:
-#                     to_pid = rd['redirect_to']['page_id']
-#                     if check_pageid(to_pid, log_info, **d_dis) != 1:
-#                         continue
-#                     else:
-#                         title_apid[from_title] = str(to_pid)
-#             # non-redirect page
-#             else:
-#                 title_apid[from_title] = str(from_pid)
-#
-#         with open(redirect_info, 'w') as o:
-#             writer = csv.writer(o, delimiter='\t', lineterminator='\n')
-#             for k, v in title_apid.items():
-#                 writer.writerow([k, v])
 
 def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
     """ remove disambiguation pages and wrong-formatted pages from title2pageid and
@@ -3639,19 +2515,13 @@ def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
     with open(title2pageid, mode='r', encoding='utf-8') as r:
         for r_line in r:
             rd = json.loads(r_line)
-            # if from_title == '':
-            #     continue
             if not rd['title']:
                 continue
             from_pid = rd['page_id']
-            # disambiguation
-            # if check_pageid(from_pid, log_info, **d_dis) != 1:
             if check_pageid(from_pid, **d_dis) != 1:
                 continue
             from_title = rd['title'].replace('_', ' ')
-            # redirect page
             if rd['is_redirect']:
-                # 20220904
                 if 'redirect_to' not in rd:
                     logging.warning({
                         'run': 'gen_redirect_info_file',
@@ -3662,11 +2532,9 @@ def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
                 if 'page_id' not in rd['redirect_to']:
                     continue
                 to_pid = rd['redirect_to']['page_id']
-                # if check_pageid(to_pid, log_info, **d_dis) != 1:
                 if check_pageid(to_pid, **d_dis) != 1:
                     continue
                 title_apid[from_title] = str(to_pid)
-            # non-redirect page
             else:
                 title_apid[from_title] = str(from_pid)
 
@@ -3674,75 +2542,6 @@ def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
             writer = csv.writer(o, delimiter='\t', lineterminator='\n')
             for k, v in title_apid.items():
                 writer.writerow([k, v])
-
-# def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
-#     """ remove disambiguation pages and wrong-formatted pages from title2pageid and
-#     create redirect info default file
-#     Args:
-#         title2pageid
-#         dis
-#         redirect_info
-#         log_info
-#     Returns:
-#     Output:
-#         redirect_info
-#         Notice:
-#             - In the title2pageid file,some 'redirect-to' pages lack page_ids.
-#                  {"page_id": 1218449, "title": "岡山県の旧制教育機関", "is_redirect": true,
-#                   "redirect_to": {"page_id": null, "title": null, "is_redirect": false}}
-#               - white spaces in Wikipedia titles are replaced by '_'.
-#     """
-#     import csv
-#     import json
-#
-#     logger = set_logging_pre(log_info, 'myPreLogger')
-#     logger.setLevel(logging.INFO)
-#
-#     title_apid = {}
-#     d_dis = get_disambiguation_info(dis, log_info)
-#
-#     title_apid = {}
-#     with open(title2pageid, mode='r', encoding='utf-8') as r:
-#         for r_line in r:
-#             rd = json.loads(r_line)
-#
-#             from_pid = rd['page_id']
-#
-#             # disambiguation
-#             if check_pageid(from_pid, log_info, **d_dis) != 1:
-#                 continue
-#             from_title = rd['title'].replace('_', ' ')
-#
-#             # 20220922
-#             if from_title == '':
-#                 continue
-#
-#             # redirect page
-#             if rd['is_redirect']:
-#                 # 20220904
-#                 if 'redirect_to' not in rd:
-#                     logging.warning({
-#                         'run': 'gen_redirect_info_file',
-#                         'msg': 'redirect_to not found',
-#                         'rd': rd
-#                     })
-#                     continue
-#                 if 'page_id' not in rd['redirect_to']:
-#                     continue
-#                 else:
-#                     to_pid = rd['redirect_to']['page_id']
-#                     if check_pageid(to_pid, log_info, **d_dis) != 1:
-#                         continue
-#                     else:
-#                         title_apid[from_title] = str(to_pid)
-#             # non-redirect page
-#             else:
-#                 title_apid[from_title] = str(from_pid)
-#
-#         with open(redirect_info, 'w') as o:
-#             writer = csv.writer(o, delimiter='\t', lineterminator='\n')
-#             for k, v in title_apid.items():
-#                 writer.writerow([k, v])
 
 
 def gen_self_link_by_attr_name(self_link_patfile, target_attr_file, self_link_by_attr_name_file, log_info):
@@ -3764,18 +2563,10 @@ def gen_self_link_by_attr_name(self_link_patfile, target_attr_file, self_link_by
         for p_line in p_reader:
             pos = p_line[0]
             pat = p_line[1]
-            logger.debug({
-                'action': 'gen_self_link_by_attr_name',
-                'pos': pos,
-                'pat': pat
-            })
             check_pos[pat] = pos
     check_target_attr = {}
     with open(target_attr_file, mode='r', encoding='utf-8') as ta:
         ta_reader = csv.reader(ta, delimiter='\t')
-        # 1.1     人名    Person  別名・旧称
-        # 1.1     人名    Person  国籍
-        # 1.1     人名    Person  地位職業
 
         for ta_line in ta_reader:
             attr_name = ta_line[3]
@@ -3841,12 +2632,7 @@ def gen_disambiguation_file(patfile, cirrus, outfile, log_info):
         for p_line in p:
             p_line_new = p_line.rstrip()
             (field, pos, pat) = re.split('\t', p_line_new)
-            logger.debug({
-                'action': 'gen_disambiguation_file',
-                'field': field,
-                'pos': pos,
-                'pat': pat
-            })
+
             pat_pos = pat + '\t' + pos
             if 'cat' in field:
                 check_cat[pat] = pos
@@ -3856,30 +2642,16 @@ def gen_disambiguation_file(patfile, cirrus, outfile, log_info):
     with gzip.open(cirrus, mode='rt', encoding='utf-8') as c:
 
         id_title = []
-        # cnt = 0
         for c_line in c:
-            # cnt += 1
-            # if cnt == 1000:
-            #     break
             check_dis = 0
             d = json.loads(c_line)
             if 'index' in d:
                 tmp_id = str(d['index']['_id'])
-
-            # information other than index
             else:
                 if 'namespace' in d:
                     if d['namespace'] != 0:
                         continue
-                # if 'title' not in d:
-                #     logger.error({
-                #         'action': 'gen_disambiguation_file',
-                #         'error': 'title not found in d',
-                #         'c_line': c_line
-                #     })
-                #     sys.exit()
                 lc.check_dic_key('title', log_info, **d)
-
                 tmp_title = d['title']
 
                 for tmp_pat, tmp_pos in check_title.items():
@@ -3894,15 +2666,7 @@ def gen_disambiguation_file(patfile, cirrus, outfile, log_info):
                             check_dis = 1
 
                 if check_dis != 1:
-                    # if 'category' not in d:
-                    #     logger.error({
-                    #         'action': 'gen_disambiguation_file',
-                    #         'error': 'category not found in d',
-                    #         'c_line': c_line
-                    #     })
-                    #     sys.exit()
                     lc.check_dic_key('category', log_info, **d)
-
                     d_cat = {cat: 1 for cat in d['category']}
 
                     for tmp_dcat in d_cat:
@@ -3916,7 +2680,6 @@ def gen_disambiguation_file(patfile, cirrus, outfile, log_info):
                                         check_dis = 1
                                 elif tmp_pos == 'middle':
                                     check_dis = 1
-
                 if check_dis == 1:
                     id_title.append([tmp_id, tmp_title])
 
@@ -3957,7 +2720,6 @@ def gen_enew_info_rev_file(enew_org, mod_list, wikipedia_change_list, enew_info,
             check_page_change[old_id] = new_id
 
     plist = []
-
     check_mod = {}
     with open(mod_list, 'r', encoding='utf-8') as ml:
         ml_reader = csv.reader(ml, delimiter='\t')
@@ -3984,14 +2746,10 @@ def gen_enew_info_rev_file(enew_org, mod_list, wikipedia_change_list, enew_info,
             if t['ENEs']:
                 for k, v in t['ENEs'].items():
                     for m in v:
-                        # if 'ENE' in m:
-                        #     # if 'ENE_id' in m:
-                        #     # eid = m['ENE_id']
                         if 'ENE_id' in m:
                             eid = m['ENE_id']
                         elif 'ENE' in m:
                             eid = m['ENE']
-
                         t_key = str(pageid) + ':' + eid
                         if t_key not in check_mod:
                             plist.append([str(pageid), eid, title])
@@ -4033,7 +2791,6 @@ def gen_enew_info_file(enew_org, mod_list, enew_info, log_info):
     with open(enew_org, 'r', encoding="utf-8") as e:
         for line in e:
             t = json.loads(line)
-            # pageid = t['pageid']
             if 'pageid' in t:
                 pageid = t['pageid']
             elif 'page_id' in t:
@@ -4044,10 +2801,7 @@ def gen_enew_info_file(enew_org, mod_list, enew_info, log_info):
                 for k, v in t['ENEs'].items():
                     for m in v:
                         if 'ENE' in m:
-                            # if 'ENE_id' in m:
-                            # eid = m['ENE_id']
                             eid = m['ENE']
-
                             t_key = str(pageid) + ':' + eid
                             if t_key not in check_mod:
                                 plist.append([str(pageid), eid, title])
@@ -4088,22 +2842,9 @@ def gen_incoming_link_file(cirrus_content, outfile, log_info):
                     if d['namespace'] != 0:
                         print('error:namespace', c_line)
                         continue
-                # if 'title' not in d:
-                #     logger.error({
-                #         'action': 'get_incoming_link_file',
-                #         'error': 'title not found',
-                #         'c_line': c_line
-                #     })
-                #     sys.exit()
                 lc.check_dic_key('title', log_info, **d)
                 tmp_title = d['title']
-                # if 'incoming_links' not in d:
-                #     logger.error({
-                #         'action': 'get_incoming_link_file',
-                #         'error': 'incoming links not found',
-                #         'c_line': c_line
-                #         })
-                #     sys.exit()
+
                 lc.check_dic_key('incoming_links', log_info, **d)
                 tmp_link_num = d['incoming_links']
                 id_title_link.append([tmp_id, tmp_title, tmp_link_num])
@@ -4112,7 +2853,7 @@ def gen_incoming_link_file(cirrus_content, outfile, log_info):
         writer = csv.writer(o, delimiter='\t', lineterminator='\n')
         writer.writerows(id_title_link)
 
-# def gen_attr_rng_auto(gold_tsv_dir, attr_rng_auto_file, log_info, **d_cnv):
+
 def gen_attr_rng_auto(gold_tsv_dir, attr_rng_auto_file, log_info):
     """
     generate attribute range info (auto)
@@ -4149,10 +2890,6 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_auto_file, log_info):
             ar_reader = csv.reader(ar, delimiter='\t')
             cat = ''
             for ar_line in ar_reader:
-                # Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']
-                # ['Character', 'Broadcast_Program']
-                # if ar_line[0] in d_cnv:
-                #     cat = d_cnv[ar_line[0]]
                 cat = ar_line[0]
                 attr = ar_line[3]
                 cat_attr = cat + '\t' + attr
@@ -4160,30 +2897,14 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_auto_file, log_info):
                     cnt_cat_attr[cat_attr] = 0
                 cnt_cat_attr[cat_attr] += 1
 
-                # eneid = ar_line[11]
                 linked_eneid_list = lc.liststr2list(ar_line[11], log_info)
                 linked_cat_list = lc.liststr2list(ar_line[12], log_info)
-
-                logger.debug({
-                    'action': 'gen_attr_rng_auto',
-                    'ar_line': ar_line,
-                    'cat': cat,
-                    'attr': attr,
-                    'ar_line[12]': ar_line[12],
-                    'linked_eneid_list': linked_eneid_list,
-                    'type(linked_eneid_list)': type(linked_eneid_list),
-                    'linked_cat_list': linked_cat_list,
-                    'type(linked_cat_list)': type(linked_cat_list)
-                })
 
                 cat_attr_linked_eneid_cat = ''
                 for i in range(len(linked_eneid_list)):
                     linked_eneid = linked_eneid_list[i]
                     linked_cat = linked_cat_list[i]
                     cat_attr_linked_eneid_cat = '\t'.join([cat, attr, linked_eneid, linked_cat])
-                    # if cat_attr_eneid not in cnt_cat_attr_eneid:
-                    #     cnt_cat_attr_eneid[cat_attr_eneid] = 0
-                    # cnt_cat_attr_eneid[cat_attr_eneid] += 1
                     if cat_attr_linked_eneid_cat not in cnt_cat_attr_linked_eneid_cat:
                         cnt_cat_attr_linked_eneid_cat[cat_attr_linked_eneid_cat] = 0
                     cnt_cat_attr_linked_eneid_cat[cat_attr_linked_eneid_cat] += 1
@@ -4196,13 +2917,7 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_auto_file, log_info):
                     continue
 
                 t_cat_attr = t_cat + '\t' + t_attr
-                logger.debug({
-                    'action': 'gen_attr_rng_auto',
-                    't_cat': t_cat,
-                    't_attr': t_attr,
-                    't_cat_attr': t_cat_attr,
-                    't_linked_eneid': t_linked_eneid
-                })
+
                 cat_attr_freq = 0
                 if t_cat_attr in cnt_cat_attr:
                     cat_attr_freq = cnt_cat_attr[t_cat_attr]
@@ -4211,32 +2926,10 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_auto_file, log_info):
                     t_ratio = float(Decimal(t_ratio_str).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
                 else:
                     t_ratio = 0.0
-
-                # lc.check_dic_key(t_linked_eneid, log_info, **d_cnv)
-
-                # t_ene_label = d_cnv[t_linked_eneid]
-
-                logger.debug({
-                    'action': 'gen_attr_rng_auto',
-                    't_cat': t_cat,
-                    't_attr': t_attr,
-                    't_eneid': t_linked_eneid,
-                    't_ratio': t_ratio,
-                    'cat_attr_eneid_freq': cat_attr_eneid_cat_freq,
-                    'cat_attr_freq': cat_attr_freq
-                })
-                prt_list.append([t_cat, t_attr, t_linked_eneid, t_linked_cat, t_ratio, cat_attr_eneid_cat_freq, cat_attr_freq])
-
-            # for target_cat, target_attr in check_target_cat_attr.items():
-            #     target_cat_attr = target_cat + '\t' + target_attr
-            #     if target_cat_attr not in sumup_cat_attr:
-            #         prt_list.append([target_cat, target_attr, '', 0, 0 ])
+                prt_list.append([t_cat, t_attr, t_linked_eneid, t_linked_cat, t_ratio, cat_attr_eneid_cat_freq,
+                                 cat_attr_freq])
 
     sdf = pd.DataFrame(prt_list, columns=['cat', 'attr', 'eneid', 'en_label', 'ratio', 'freq', 'sum'])
-    logger.debug({
-        'action': 'gen_attr_rng_info',
-        'prt_list': prt_list
-    })
     sdf.to_csv(attr_rng_auto_file, sep='\t', header=False, index=False)
 
 
@@ -4262,54 +2955,22 @@ def gen_attr_rng_man(attr_rng_man_org_file, attr_rng_man_file, log_info, **d_cnv
     logger = set_logging_pre(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
-    # get_en_label = {}
-    # with open(all_cat_info_file, mode='r', encoding='utf-8') as al:
-    #     al_reader = csv.reader(al, delimiter='\t')
-    #     for al_line in al_reader:
-    #         ene_id = al_line[0]
-    #         ene_en_label = al_line[2]
-    #         get_en_label[ene_id] = ene_en_label
-
     prt_list = []
     with open(attr_rng_man_org_file, mode='r', encoding='utf-8') as am:
         am_reader = csv.reader(am, delimiter='\t')
         for am_line in am_reader:
-            # Brand   デザイナー      1.1     1
-            # new_am_line = am_line.insert
             cat = am_line[0]
             attr = am_line[1]
             rng_eneid = am_line[2]
             rng_ratio = am_line[3]
-            logger.info({
-                'action': 'gen_attr_rng_man',
-                'am_line': am_line
-            })
             lc.check_dic_key(rng_eneid, log_info, **d_cnv)
-
-            # if rng_eneid not in d_cnv:
-            #     logger.error({
-            #         'action': 'gen_attr_rng_man',
-            #         'msg': 'illegal eneid in attr_rng_man_org_file',
-            #         'rng_eneid': rng_eneid
-            #     })
-            #     sys.exit()
             rng_en_label = d_cnv[rng_eneid]
 
             prt_list.append([cat, attr, rng_eneid, rng_en_label, rng_ratio])
 
     sdm = pd.DataFrame(prt_list, columns=['cat', 'attr', 'eneid', 'en_label', 'ratio'])
-    logger.debug({
-        'action': 'gen_attr_rng_man',
-        'prt_list': prt_list
-    })
     sdm.to_csv(attr_rng_man_file, sep='\t', header=False, index=False)
 
 
-# def cnv_dump(dump_org, dump_rev, log_info):
-#     import re
-#     with open(dump_org, mode='r', encoding='utf-8') as do, open(dump_rev, mode='w', encoding='utf-8') as dr:
-#         for dline in do:
-#             dline = re.sub(r'"', '""', dline)
-#             dr.write(dline)
 if __name__ == '__main__':
     ljc_prep_main()

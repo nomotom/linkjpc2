@@ -330,31 +330,33 @@ def set_logging(log_info, logger_name):
                    'and desc (descriptiveness of mentions),'
                    'cman (manually created nil cand category attribute pairs), '
                    '(apld) and_prob_len_desc: judge as nil if all conditions (prob, len, desc) are satisfied. '
-                   '(apold) and_prob_or_len_desc: judge as nil if prob condition is satisfied and either len condition or desc '
-                   'condition is satisfied. '
-                   '(alopd) and_len_or_prob_desc: judge as nil if len condition is satisfied and either prob condition or desc '
-                   'condition is satisfied. '
-                   '(adopl) and_desc_or_prob_len: judge as nil if desc condition is satisfied and either prob condition or len '
-                   'condition is satisfied.'
-                   '(tpld) two_of_prob_len_desc: judge as nil if at least two of the conditions(prob, len, and desc) are satisfied.' 
-                   '(apldc) and_prob_len_desc_cman: judge as nil if all conditions (prob, len, desc, cman) are satisfied.'
-                   '(apcold) and_prob_cman_or_len_desc: judge as nil if prob and cman condition are satisfied and either len condition or desc '
-                   'condition is satisfied. '
-                   '(alcopd) and_len_cman_or_prob_desc: judge as nil if len condition and cman are satisfied and either prob condition or desc '
-                   'condition is satisfied. '
-                   '(adcopl) and_desc_cman_or_prob_len: judge as nil if desc condition and cman are satisfied and either prob condition or len '
-                   'condition is satisfied.'
-                   '(actpld) and_cman_two_of_prob_len_desc: judge as nil if cman is satisfied and at least two of the conditions(prob, len, and desc) are '
-                   'satisfied. '
+                   '(apold) and_prob_or_len_desc: judge as nil if prob condition is satisfied and either len condition '
+                   'or desc condition is satisfied. '
+                   '(alopd) and_len_or_prob_desc: judge as nil if len condition is satisfied and either prob condition '
+                   'or desc condition is satisfied. '
+                   '(adopl) and_desc_or_prob_len: judge as nil if desc condition is satisfied and either prob '
+                   'condition or len condition is satisfied.'
+                   '(tpld) two_of_prob_len_desc: judge as nil if at least two of the conditions(prob, len, and desc) '
+                   'are satisfied.' 
+                   '(apldc) and_prob_len_desc_cman: judge as nil if all conditions (prob, len, desc, cman) are '
+                   'satisfied.'
+                   '(apcold) and_prob_cman_or_len_desc: judge as nil if prob and cman condition are satisfied and '
+                   'either len condition or desc condition is satisfied. '
+                   '(alcopd) and_len_cman_or_prob_desc: judge as nil if len condition and cman are satisfied and '
+                   'either prob condition or desc condition is satisfied. '
+                   '(adcopl) and_desc_cman_or_prob_len: judge as nil if desc condition and cman are satisfied and '
+                   'either prob condition or len condition is satisfied.'
+                   '(actpld) and_cman_two_of_prob_len_desc: judge as nil if cman is satisfied and at least two of the '
+                   'conditions(prob, len, and desc) are satisfied. '
                    '(c) cman'
-                   '(apnold) and_prob_nostop_or_len_desc: judge as nil if prob and nostop condition are satisfied and either len condition or desc '
-                   'condition is satisfied. '
-                   '(alnopd) and_len_nostop_or_prob_desc: judge as nil if len condition and nostop are satisfied and either prob condition or desc '
-                   'condition is satisfied. '
-                   '(adnopl) and_desc_nostop_or_prob_len: judge as nil if desc condition and nostop are satisfied and either prob condition or len '
-                   'condition is satisfied.'
-                   '(antpld) and_nostop_two_of_prob_len_desc: judge as nil if nostop is satisfied and at least two of the conditions(prob, len, and desc) are '
-                   'satisfied. '
+                   '(apnold) and_prob_nostop_or_len_desc: judge as nil if prob and nostop condition are satisfied and '
+                   'either len condition or desc condition is satisfied. '
+                   '(alnopd) and_len_nostop_or_prob_desc: judge as nil if len condition and nostop are satisfied and '
+                   'either prob condition or desc condition is satisfied. '
+                   '(adnopl) and_desc_nostop_or_prob_len: judge as nil if desc condition and nostop are satisfied and '
+                   'either prob condition or len condition is satisfied.'
+                   '(antpld) and_nostop_two_of_prob_len_desc: judge as nil if nostop is satisfied and at least two of '
+                   'the conditions(prob, len, and desc) are satisfied. '
               )
 @click.option('--nil_all_freq_min', '-n_af_min', type=click.FLOAT,
               default=cf.OptInfo.nil_all_freq_min_default, show_default=True,
@@ -425,7 +427,6 @@ def ljc_main(common_data_dir,
              incl_max,
              incl_tgt,
              incl_type,
-             # lang_link_min,
              len_desc_text_min,
              nil_all_freq_min,
              lp_min,
@@ -502,7 +503,6 @@ def ljc_main(common_data_dir,
     :param incl_max:
     :param incl_tgt:
     :param incl_type:
-    # :param lang_link_min:
     :param len_desc_text_min:
     :param nil_all_freq_min:
     :param lp_min:
@@ -558,7 +558,6 @@ def ljc_main(common_data_dir,
     opt_info.title_matching_mint = title_matching_mint
     opt_info.title_matching_tinm = title_matching_tinm
     opt_info.char_match_cand_num_max = char_match_cand_num_max
-    # opt_info.lang_link_min = lang_link_min
     opt_info.len_desc_text_min = len_desc_text_min
     opt_info.nil_cat_attr_max = nil_cat_attr_max
     opt_info.nil_cond = nil_cond
@@ -637,28 +636,25 @@ def ljc_main(common_data_dir,
     logger.info({
         'back_link_ng': opt_info.back_link_ng,
     })
-    # data_info = cf.DataInfo(common_data_dir, tmp_data_dir, in_dir, out_dir)
+
     data_info = cf.DataInfo(common_data_dir, tmp_data_dir, in_dir, sample_gold_dir, sample_input_dir, out_dir)
-    # files in common data dir
+
     data_info.common_data_dir = common_data_dir
     data_info.all_cat_info_file = data_info.common_data_dir + f_all_cat_info
     data_info.attr_rng_auto_file = data_info.common_data_dir + f_attr_rng_auto
     data_info.attr_rng_man_file = data_info.common_data_dir + f_attr_rng_man
     data_info.attr_rng_merged_file = data_info.common_data_dir + f_attr_rng_merged
-
-    data_info.title2pid_ext_file = data_info.common_data_dir + f_title2pid_ext
     data_info.enew_info_file = data_info.common_data_dir + f_enew_info
     data_info.linkable_info_file = data_info.common_data_dir + f_linkable_info
     data_info.link_prob_file = data_info.common_data_dir + f_link_prob
     data_info.mention_gold_link_dist_info_file = data_info.common_data_dir + f_mention_gold_link_dist_info
     data_info.nil_cand_man_file = data_info.common_data_dir + f_nil_cand_man
     data_info.nil_stop_attr_file = data_info.common_data_dir + f_nil_stop_attr
-
     data_info.slink_file = data_info.common_data_dir + f_slink
     data_info.self_link_by_attr_name_file = data_info.common_data_dir + f_self_link_by_attr_name
     data_info.target_attr_info_file = data_info.common_data_dir + f_target_attr_info
+    data_info.title2pid_ext_file = data_info.common_data_dir + f_title2pid_ext
 
-    # files in tmp data dir
     data_info.tmp_data_dir = tmp_data_dir
     data_info.in_dir = in_dir
     data_info.out_dir = out_dir
@@ -668,24 +664,17 @@ def ljc_main(common_data_dir,
     data_info.tinm_partial_match_file = data_info.tmp_data_dir + f_tinm
     data_info.tinm_trim_partial_match_file = data_info.tmp_data_dir + f_tinm_trim
 
-    # 20220822
     data_info.in_ene_dir = in_dir + 'ene_annotation/'
-    # 20220822
-    # data_info.in_html_dir = in_dir + 'html/'
 
     logger.info({
         'common_data_dir': data_info.common_data_dir,
         'tmp_data_dir': data_info.tmp_data_dir,
         'in_dir': data_info.in_dir,
         'in_ene_dir': data_info.in_ene_dir,
-        # 20220822
-        # 'in_html_dir': data_info.in_html_dir,
         'out_dir': data_info.out_dir,
         'title2pid_ext_file': data_info.title2pid_ext_file,
     })
 
-    # 20220829
-    # check if directory exists
     if not os.path.isdir(data_info.common_data_dir):
         logger.error({
             'msg': 'illegal common_data_dir',
@@ -705,7 +694,6 @@ def ljc_main(common_data_dir,
         })
         sys.exit()
 
-    # 20220822
     in_files = data_info.in_ene_dir + '*.jsonl'
     os.makedirs(out_dir, exist_ok=True)
 
@@ -727,9 +715,6 @@ def ljc_main(common_data_dir,
     d_linkable = {}
     d_nil_cand_man = {}
     d_nil_stop_attr = {}
-
-    # d_target_eneid2enlabel = {}
-    # d_target_eneid2enlabel = lc.reg_target_attr_info(data_info.target_attr_info_file, log_info)
 
     d_eneid2enlabel = {}
     d_eneid2enlabel = lc.reg_all_cat_info(data_info.all_cat_info_file, log_info)
@@ -857,7 +842,6 @@ def ljc_main(common_data_dir,
                     'error': 'illegal title_matching_tinm value'
                 })
                 sys.exit()
-
     # wikilink
     if ('r' in opt_info.wikilink
             or 'f' in opt_info.wikilink
@@ -919,7 +903,6 @@ def ljc_main(common_data_dir,
                 })
             cf.diff_info_ca_forward = gw.reg_mention_gold_distance_ca(data_info.wl_lines_forward_ca_file, log_info)
     # slink
-
     if 's' in opt_info.mod:
         if not opt_info.slink_prob:
             logger.error({
@@ -935,7 +918,6 @@ def ljc_main(common_data_dir,
             'slink_min': opt_info.slink_min,
             'slink_file': data_info.slink_file,
         })
-        # d_self_link = sl.check_slink_info(data_info.slink_file, opt_info.slink_min, log_info)
         d_self_link = sl.check_slink_info(data_info.slink_file, log_info)
 
     # link_prob
@@ -1079,8 +1061,6 @@ def ljc_main(common_data_dir,
                 'attr_rng_type': opt_info.attr_rng_type,
                 'enew_info_file:': data_info.enew_info_file,
             })
-            # 20221003
-            # cf.d_pid2eneid = ar.reg_enew_info(data_info.enew_info_file, log_info)
             d_cat_attr2eneid_prob = ar.get_attr_range(data_info.attr_rng_man_file,
                                                       data_info.attr_rng_auto_file,
                                                       data_info.attr_rng_merged_file,
@@ -1118,22 +1098,23 @@ def ljc_main(common_data_dir,
                 'illegal nil_tgt': 'nil detection is specified, but illegal nil_tgt'
             })
             sys.exit()
-        elif (opt_info.nil_cond != 'and_prob_len_desc' and
-              opt_info.nil_cond != 'and_prob_or_len_desc' and
-              opt_info.nil_cond != 'and_len_or_prob_desc' and
-              opt_info.nil_cond != 'and_desc_or_prob_len' and
-              opt_info.nil_cond != 'two_of_prob_len_desc' and
-              opt_info.nil_cond != 'and_prob_len_desc_cman' and
-              opt_info.nil_cond != 'and_prob_cman_or_len_desc' and
-              opt_info.nil_cond != 'and_len_cman_or_prob_desc' and
-              opt_info.nil_cond != 'and_desc_cman_or_prob_len' and
-              opt_info.nil_cond != 'and_cman_two_of_prob_len_desc' and
-              opt_info.nil_cond != 'cman' and
-              opt_info.nil_cond != 'and_prob_len_desc_nostop' and
-              opt_info.nil_cond != 'and_prob_nostop_or_len_desc' and
-              opt_info.nil_cond != 'and_len_nostop_or_prob_desc' and
-              opt_info.nil_cond != 'and_desc_nostop_or_prob_len' and
-              opt_info.nil_cond != 'and_nostop_two_of_prob_len_desc'
+        elif (
+            opt_info.nil_cond != 'and_prob_len_desc' and
+            opt_info.nil_cond != 'and_prob_or_len_desc' and
+            opt_info.nil_cond != 'and_len_or_prob_desc' and
+            opt_info.nil_cond != 'and_desc_or_prob_len' and
+            opt_info.nil_cond != 'two_of_prob_len_desc' and
+            opt_info.nil_cond != 'and_prob_len_desc_cman' and
+            opt_info.nil_cond != 'and_prob_cman_or_len_desc' and
+            opt_info.nil_cond != 'and_len_cman_or_prob_desc' and
+            opt_info.nil_cond != 'and_desc_cman_or_prob_len' and
+            opt_info.nil_cond != 'and_cman_two_of_prob_len_desc' and
+            opt_info.nil_cond != 'cman' and
+            opt_info.nil_cond != 'and_prob_len_desc_nostop' and
+            opt_info.nil_cond != 'and_prob_nostop_or_len_desc' and
+            opt_info.nil_cond != 'and_len_nostop_or_prob_desc' and
+            opt_info.nil_cond != 'and_desc_nostop_or_prob_len' and
+            opt_info.nil_cond != 'and_nostop_two_of_prob_len_desc'
         ):
             logger.error({
                 'action': 'ljc_main',
@@ -1199,38 +1180,14 @@ def ljc_main(common_data_dir,
             continue
         with open(in_file, mode='r', encoding='utf-8') as i:
 
-            # # fname = in_file.replace(in_dir, '')
             fname = in_file.replace(data_info.in_ene_dir, '')
 
-            # 20220929
-            # # ene_cat = fname.replace('.json', '')
-            # ene_cat = lc.extract_cat(fname, log_info)
-            # if ene_cat == '':
-            #     logger.error({
-            #         'action': 'ljc_main',
-            #         'msg': 'illegal file name',
-            #         'fname': fname
-            #     })
-            #     sys.exit()
-
-            # 20220816
-            # outfile = out_dir + fname
             outfile_pre = out_dir + fname
             if '_dist' in fname:
                 outfile = outfile_pre.replace('_dist', '')
             else:
                 outfile = outfile_pre
-
-            # 20220829
             out_tsv = outfile.replace('.jsonl', '.tsv')
-
-            logger.debug({
-                'action': 'ljc_main',
-                # 'ene_cat': ene_cat,
-                'in_file': in_file,
-                'outfile': outfile,
-                'out_tsv': out_tsv
-            })
 
             for i_line in i:
                 rec = json.loads(i_line)
@@ -1239,7 +1196,6 @@ def ljc_main(common_data_dir,
 
                 mention_info = cf.MentionInfo(
                     rec['page_id'],
-                    # ene_cat,
                     '',
                     rec['attribute'],
                     rec['text_offset']['start']['line_id'],
@@ -1254,25 +1210,19 @@ def ljc_main(common_data_dir,
                     rec['html_offset']['text'],
                     ''
                 )
-                logger.debug({
-                    'action': 'ljc_main',
-                    'rec[ENE]': rec['ENE'],
-                    'type(rec[ENE])': type(rec['ENE'])
-                })
+
                 if rec['ENE'] in d_eneid2enlabel:
                     mention_info.ene_cat = d_eneid2enlabel[rec['ENE']]
 
-                # ene_cat = d_target_eneid2enlabel[rec['ENE_id']]
-
                 mod_info = cf.ModInfo()
                 cat_attr = mention_info.ene_cat + ':' + mention_info.attr_label
-                # modules (+ filtering)
 
+                # modules (+ filtering)
                 # wlink
                 if 'w' in opt_info.mod:
                     wlink_cand_list = []
-                    # nil detection
                     if 'n' in opt_info.filtering and 'w' in opt_info.nil_tgt:
+                        # nil detection
                         cand_man_res = dn.check_cand_man(cat_attr, log_info, **d_nil_cand_man)
                         stop_attr_res = dn.check_nil_stop(mention_info.attr_label, log_info, **d_nil_stop_attr)
 
@@ -1313,7 +1263,6 @@ def ljc_main(common_data_dir,
                         # filtered candidates
                         if w_tmp_cand_list:
                             cl.append_filtering_cand_info(w_tmp_cand_list, link_info, log_info)
-                            # check_w = 1
 
                 # slink
                 if 's' in opt_info.mod:
@@ -1326,33 +1275,21 @@ def ljc_main(common_data_dir,
                         dn_res = dn.estimate_nil(
                             cat_attr, cand_man_res, stop_attr_res, mention_info, opt_info, log_info, **d_linkable)
 
-                        # dn_res = dn.estimate_nil(cat_attr, mention_info, opt_info, log_info, **d_linkable)
                         if not dn_res:
                             slink_cand_list = sl.estimate_self_link(cat_attr, opt_info.slink_prob, mention_info,
                                                                     opt_info.slink_min,
                                                                     data_info.self_link_by_attr_name_file,
                                                                     log_info, **d_self_link)
-
                     else:
                         slink_cand_list = sl.estimate_self_link(cat_attr, opt_info.slink_prob, mention_info,
                                                                 opt_info.slink_min,
                                                                 data_info.self_link_by_attr_name_file,
                                                                 log_info, **d_self_link)
 
-                    logger.debug({
-                        'action': 'ljc_main',
-                        'mention_info.attr_label': mention_info.attr_label,
-                        'mention_info.t_start_line_id': mention_info.t_start_line_id,
-                        'mention_info.t_start_offset': mention_info.t_start_offset,
-                        'mention_info.pid': mention_info.pid,
-                        'slink_cand_list': slink_cand_list
-                    })
-
                     # filtering
                     if len(slink_cand_list) > 0:
                         s_tmp_cand_list = copy.deepcopy(slink_cand_list)
 
-                        # filtering
                         if 'a' in opt_info.filtering and 's' in opt_info.attr_rng_tgt:
                             slink_cand_list_attr_checked = ar.filter_by_attr_range(s_tmp_cand_list,
                                                                                    mention_info,
@@ -1380,22 +1317,11 @@ def ljc_main(common_data_dir,
                         # filtered candidates
                         if s_tmp_cand_list:
                             cl.append_filtering_cand_info(s_tmp_cand_list, link_info, log_info)
-                            # check_s = 1
                 # mint
                 if 'm' in opt_info.mod:
                     mint_cand_list = []
                     mod = 'm'
-                    # if mention_info.t_mention == '千葉':
-                    #     logger.info({
-                    #         'action': 'ljc_main',
-                    #         'mention_info.attr_label': mention_info.attr_label,
-                    #         'mention_info.t_start_line_id': mention_info.t_start_line_id,
-                    #         'mention_info.t_start_offset': mention_info.t_start_offset,
-                    #         'mention_info.pid': mention_info.pid,
-                    #     })
-                    # {'action': 'ljc_main', 'mention_info.attr_label': '居住地（地域）',
-                    # 'mention_info.t_start_line_id': 88, 'mention_info.t_start_offset': 0,
-                    # 'mention_info.pid': '3974281'}
+
                     if 'n' in opt_info.filtering and 'm' in opt_info.nil_tgt:
                         # nil detection
                         cand_man_res = dn.check_cand_man(cat_attr, log_info, **d_nil_cand_man)
@@ -1410,27 +1336,10 @@ def ljc_main(common_data_dir,
                         mint_cand_list = mc.match_mention_title(mod, opt_info, mention_info.t_mention, log_info,
                                                                 **d_mint_mention_pid_ratio)
 
-                    # if mention_info.t_mention == '千葉':
-                    # if mention_info.pid == '4255444' and mention_info.t_mention == '首長':
-                    # logger.info({
-                    #     'action': 'ljc_main',
-                    #     'mint_cand_list': mint_cand_list,
-                    #     'mention_info.pid': mention_info.pid,
-                    # })
-
                     # filtering
                     if len(mint_cand_list) > 0:
                         m_tmp_cand_list = copy.deepcopy(mint_cand_list)
-                        # if mention_info.t_mention == '千葉':
-                        #     logger.info({
-                        #         'action': 'ljc_main',
-                        #         'mint_cand_list': mint_cand_list,
-                        #         'm_tmp_cand_list': m_tmp_cand_list,
-                        #         'mention_info.attr_label': mention_info.attr_label,
-                        #         'mention_info.t_start_line_id': mention_info.t_start_line_id,
-                        #         'mention_info.t_start_offset': mention_info.t_start_offset,
-                        #         'mention_info.pid': mention_info.pid,
-                        #     })
+
                         if 'a' in opt_info.filtering and 'm' in opt_info.attr_rng_tgt:
                             mint_cand_list_attr_checked = ar.filter_by_attr_range(m_tmp_cand_list,
                                                                                   mention_info,
@@ -1458,17 +1367,6 @@ def ljc_main(common_data_dir,
                         if m_tmp_cand_list:
 
                             cl.append_filtering_cand_info(m_tmp_cand_list, link_info, log_info)
-                            # check_m = 1
-                        # if mention_info.t_mention == '千葉':
-                        #     logger.info({
-                        #         'action': 'ljc_main',
-                        #         'mint_cand_list': mint_cand_list,
-                        #         'm_tmp_cand_list': m_tmp_cand_list,
-                        #         'mention_info.attr_label': mention_info.attr_label,
-                        #         'mention_info.t_start_line_id': mention_info.t_start_line_id,
-                        #         'mention_info.t_start_offset': mention_info.t_start_offset,
-                        #         'mention_info.pid': mention_info.pid,
-                        #     })
 
                 # tinm
                 if 't' in opt_info.mod:
@@ -1518,7 +1416,6 @@ def ljc_main(common_data_dir,
                         # filtered candidates
                         if t_tmp_cand_list:
                             cl.append_filtering_cand_info(t_tmp_cand_list, link_info, log_info)
-                            # check_t = 1
                 # link prob
                 if 'l' in opt_info.mod:
                     lp_cand_list = []
@@ -1567,27 +1464,10 @@ def ljc_main(common_data_dir,
                         # filtered candidates
                         if l_tmp_cand_list:
                             cl.append_filtering_cand_info(l_tmp_cand_list, link_info, log_info)
-                            # check_l = 1
 
                 # scoring link candidates for tmp mention
                 final_cand_list = gs.scoring(opt_info, link_info, mention_info, mod_info, log_info)
-                # if mention_info.t_mention == '千葉':
-                #     logger.info({
-                #         'action': 'ljc_main',
-                #         'mention_info.t_mention': mention_info.t_mention,
-                #         'mention_info.ene_cat': mention_info.ene_cat,
-                #         'mention_info.attr_label':  mention_info.attr_label,
-                #         'mention_info.t_start_line_id':  mention_info.t_start_line_id,
-                #         'mention_info.t_start_offset': mention_info.t_start_offset,
-                #         'mention_info.pid': mention_info.pid,
-                #         'mod_info.mint_weight': mod_info.mint_weight,
-                #         'mod_info.tinm_weight': mod_info.tinm_weight,
-                #         'mod_info.slink_weight': mod_info.slink_weight,
-                #         'mod_info.wlink_weight': mod_info.wlink_weight,
-                #         'mod_info.link_prob_weight': mod_info.link_prob_weight,
-                #         'final_cand_list': final_cand_list
-                #     })
-                # else:
+
                 logger.debug({
                     'action': 'ljc_main',
                     'mention_info.h_mention': mention_info.h_mention,
@@ -1607,8 +1487,6 @@ def ljc_main(common_data_dir,
                 final_cand_cnt = 0
 
                 if len(final_cand_list) == 0:
-                    # 20220818
-                    # rec['link_page_id'] = ''
                     rec['link_page_id'] = None
                     list_rec_out.append(copy.deepcopy(rec))
                 else:
@@ -1644,9 +1522,7 @@ def ljc_main(common_data_dir,
     d_linkable.clear()
     d_nil_cand_man.clear()
     d_nil_stop_attr.clear()
-    # d_target_eneid2enlabel.clear()
 
-    # lc.linkedjson2tsv_add_linked_title_ene(out_dir, data_info.title2pid_ext_file, log_info)
     lc.gen_linked_tsv(out_dir, data_info.title2pid_ext_file, log_info, **d_eneid2enlabel)
 
 

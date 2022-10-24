@@ -23,6 +23,7 @@ def check_nil_stop(attr, log_info, **nil_stop_dict):
         })
     return nil_stop_res
 
+
 def check_cand_man(cat_attr, log_info, **cand_man_dict):
     """
     :param cat_attr:
@@ -37,13 +38,8 @@ def check_cand_man(cat_attr, log_info, **cand_man_dict):
     candidate_res = 0
     if cat_attr in cand_man_dict:
         candidate_res = 1
-        logger.debug({
-            'action': 'check_nil_exception_cand',
-            'cat_attr': cat_attr,
-            'stat': 'cand',
-            'candidate_res': candidate_res
-        })
     return candidate_res
+
 
 def check_nil_stop_attr(nil_stop_file, log_info):
     """
@@ -63,12 +59,6 @@ def check_nil_stop_attr(nil_stop_file, log_info):
             if '#' in attr:
                 continue
             nil_stop_dict[attr] = 1
-
-            logger.debug({
-                'action': 'check_nil_stop_attr',
-                'attr': attr,
-            })
-
     return nil_stop_dict
 
 
@@ -148,18 +138,10 @@ def estimate_nil(cat_attr, cand_res, stop_attr_res, mention_info, opt_info, log_
     tmp_text = mention_info.t_mention
     if d_linkable.get(cat_attr):
         link_prob_info_list = d_linkable[cat_attr]
-        # link_prob_cat_attr = d_linkable[cat_attr]
-
         all_freq = int(link_prob_info_list[2])
         link_prob_cat_attr = float(link_prob_info_list[0])
 
-        if all_freq < opt_info.nil_all_freq_min:
-            logger.debug({
-                'action': 'estimate_nil',
-                'msg': 'skipped sample is too small',
-                'nil_all_freq_min': opt_info.nil_all_freq_min,
-            })
-        else:
+        if all_freq >= opt_info.nil_all_freq_min:
             if link_prob_cat_attr <= nil_cat_attr_max:
                 res_prob_cond = 1
 
@@ -172,22 +154,11 @@ def estimate_nil(cat_attr, cand_res, stop_attr_res, mention_info, opt_info, log_
     if 'cman' in nil_cond:
         if cand_res:
             res_cman = 1
-            logger.debug({
-                'action': 'estimate_nil',
-                'res_cman': res_cman,
-                'cand_res': cand_res,
-                'cat_attr': cat_attr
-            })
 
     res_nostop = 1
     if 'nostop' in nil_cond:
         if stop_attr_res:
             res_nostop = 0
-            logger.debug({
-                'action': 'estimate_nil',
-                'res_nostop(on attr)': res_nostop,
-                'cat_attr': cat_attr
-            })
 
     res_desc_cond = 0
     check_exception_keyword = 0
@@ -217,7 +188,6 @@ def estimate_nil(cat_attr, cand_res, stop_attr_res, mention_info, opt_info, log_
     elif nil_cond == 'two_of_prob_len_desc':
         if (res_prob_cond and res_len_cond) or (res_prob_cond and res_desc_cond) or (res_len_cond and res_desc_cond):
             res_nil = 1
-    # 20221009
     elif nil_cond == 'and_prob_len_desc_cman':
         if res_prob_cond and res_len_cond and res_desc_cond and res_cman:
             res_nil = 1
@@ -260,20 +230,6 @@ def estimate_nil(cat_attr, cand_res, stop_attr_res, mention_info, opt_info, log_
             if (res_prob_cond and res_len_cond) or (res_prob_cond and res_desc_cond) or (res_len_cond and res_desc_cond):
                 res_nil = 1
 
-    if res_nil:
-        logger.debug({
-            'action': 'estimate_nil',
-            'cat_attr': cat_attr,
-            'mention': tmp_text,
-            'nil_cond': nil_cond,
-            'res_nil': res_nil,
-            'res_cman': res_cman,
-            'res_prob_cond': res_prob_cond,
-            'link_prob_cat_attr':  link_prob_cat_attr,
-            'res_len_cond': res_len_cond,
-            'len(tmp_text)': len(tmp_text),
-            'res_desc_cond': res_desc_cond,
-        })
     return res_nil
 
 
@@ -292,12 +248,8 @@ def evaluate_descriptiveness(text, log_info):
     logger.setLevel(logging.INFO)
 
     # 1)substring
-
     # symbols (punctuation, colon, reference)
     symbol_list = [',', '。', '、', ':', '\[', '\]']
-
-    # particles (adnominal)
-    # adnominal_list = ['[^ぁ-ん]の']
 
     # particles (parallel)
     parallel_list = ['[^ぁ-ん]と', '[^ぁ-ん]や', 'および', '及び']
@@ -311,9 +263,6 @@ def evaluate_descriptiveness(text, log_info):
 
     # location expressions
     location_list = ['の一部', '囲まれた', '挟まれた', '突き出した', '面した', 'に位置',  'の全域', 'のあたり', '近く', '近郊']
-
-    # conjunctive
-    # conjunctive_list = ['し、', 'され、']
 
     # demostrative
     demonstrative_list = ['ここ', 'そこ', 'あそこ', 'どこ', 'この', 'その', 'あの', 'どの', 'これ', 'それ', 'あの', 'どの']
@@ -338,28 +287,10 @@ def evaluate_descriptiveness(text, log_info):
     res = 0
     if re.search(subpat_p, text) is not None:
         res = 1
-        logger.debug({
-            'action': 'estimate_nil',
-            'text': text,
-            'subpat_p_judge': 'yes',
-            'subpat_p': subpat_p,
-        })
     elif re.search(prefix_p, text) is not None:
         res = 1
-        logger.debug({
-            'action': 'estimate_nil',
-            'text': text,
-            'prefix_p_judge': 'yes',
-            'prefix_p': prefix_p,
-        })
     elif re.search(suffix_p, text) is not None:
         res = 1
-        logger.debug({
-            'action': 'estimate_nil',
-            'text': text,
-            'suffix_p_judge': 'yes',
-            'suffix_p': suffix_p,
-        })
     return res
 
 

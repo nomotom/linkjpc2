@@ -58,30 +58,11 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
     keys_slink = list(link_info.cand_dic_slink.keys())
     keys_link_prob = list(link_info.cand_dic_link_prob.keys())
 
-    # if mention_info.t_mention == "千葉":
-    #     logger.info({
-    #         'action': 'scoring',
-    #         'mention': mention_info.t_mention,
-    #         'keys_tinm': keys_tinm,
-    #         'keys_mint': keys_mint,
-    #         'keys_wlink': keys_wlink,
-    #         'keys_slink': keys_slink,
-    #         'keys_link_prob': keys_link_prob
-    #     })
     keys_all = keys_tinm + keys_mint + keys_wlink + keys_slink + keys_link_prob
-    #  {'action': 'scoring', 'mention': '千葉', 'keys_mint': []}
     new_keys_all = list(dict.fromkeys(keys_all))
-    logger.debug({
-        'action': 'scoring',
-        'new_keys_all(original)': new_keys_all,
-    })
+
     if opt_info.score_type == 'id':
         new_keys_all.sort(key=int)
-        logger.debug({
-            'action': 'scoring',
-            'new_keys_all(sorted)': new_keys_all,
-        })
-    # The order of candidate pids is unstable
 
     for pid in new_keys_all:
         if pid in link_info.cand_dic_tinm:
@@ -173,16 +154,7 @@ def scoring(opt_info, link_info, mention_info, mod_info, log_info):
                 })
                 sys.exit()
             link_prob_score = link_info.cand_dic_link_prob[pid] * mod_info.link_prob_weight
-        logger.debug({
-            'action': 'scoring',
-            'pid': pid,
-            'mention': mention_info.t_mention,
-            'mint_score': mint_score,
-            'tinm_score': tinm_score,
-            'wlink_score': wlink_score,
-            'slink_score': slink_score,
-            'link_prob_score': link_prob_score,
-        })
+
         total_score = mint_score + tinm_score + wlink_score + slink_score + link_prob_score
         ext_title = ''
         try:

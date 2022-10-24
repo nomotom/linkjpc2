@@ -14,7 +14,7 @@
 
 ## はじめに
 
-**_linkjpc2_** は日本語Wikipediaを対象としたエンティティリンキングタスク([SHINRA2022 Linking task](http://2022.shinra-project.info/) )用のpythonスクリプトです。
+**_linkjpc2_** は日本語Wikipediaを対象としたエンティティリンキングタスク([SHINRA2022 Linking task](http://2022.shinra-project.info/) )用のpythonスクリプトです。昨年の同タスクのシステム（**_linkjpc_**）を改良したものです。
 
 ### タスク
 
@@ -24,22 +24,23 @@ SHINRA2022 Linking taskはWikipedia記事中の、あるエンティティ(事�
 
 メンションは以下の (a) (c) の例のように別のページを指すことが多いですが、例えば「別名」のような特別の属性の場合には元記事を指す場合もあります。
 
-例 |元記事 (エンティティ) | 属性名|メンション / 属性値 | リンク先のページ(*1)
+例 |元記事 (エンティティ) | 属性名|メンション / 属性値 | リンク先のページ
 :----------------|:------|:---------------|:---------|:----
 (a) |[ヴェネツィア](https://ja.wikipedia.org/wiki/?curid=30053) | 国| イタリア |[イタリア](https://ja.wikipedia.org/wiki/%E3%82%A4%E3%82%BF%E3%83%AA%E3%82%A2) 
 (b) |[ヴェネツィア](https://ja.wikipedia.org/wiki/%E3%83%B4%E3%82%A7%E3%83%8D%E3%83%84%E3%82%A3%E3%82%A2) | 別名 | アドリア海の女王 |[ヴェネツィア](https://ja.wikipedia.org/wiki/%E3%83%B4%E3%82%A7%E3%83%8D%E3%83%84%E3%82%A3%E3%82%A2)
 (c) |[ヴェネツィア](https://ja.wikipedia.org/wiki/%E3%83%B4%E3%82%A7%E3%83%8D%E3%83%84%E3%82%A3%E3%82%A2) | 特産品 | ヴェネツィアン・グラス |[ヴェネツィアン・グラス](https://ja.wikipedia.org/wiki/%E3%83%B4%E3%82%A7%E3%83%8D%E3%83%84%E3%82%A3%E3%82%A2%E3%83%B3%E3%83%BB%E3%82%B0%E3%83%A9%E3%82%B9)
 
-(以下、修正予定)
-*1: リンク先のターゲットページはWikipediaダンプ(2019年1月21日版)のhtmlファイルとして与えられます (Jan 21, 2019)。
-詳細は [data info](https://github.com/nomotom/linkjpc/blob/master/docs/data_info.md#)  をご覧ください。
+
+タスク関連のファイルは[森羅2022のホームページ](http://2022.shinra-project.info/)で配布されています。
+ファイルの配置方法等の詳細はdata_info.md をご覧ください。
+
 
 ### 主な特徴 
 
-***linkjpc***の特徴は以下の通りです。
+***linkjpc2***の特徴は以下の通りです。
 
-- 主要モジュールは組み合わせ可能です。文字列一致（メンションとタイトル）、埋め込みリンクの探索、統計情報に基づく元記事へのリンク(再帰リンク)の推定、テキストからページへのリンク確率の推定を利用することができます。
-- 各モジュールは最大3種類のフィルタリングと組み合わせ可能です。フィルタリングには属性の値として適切なクラス(属性のrange)判定、被リンク数、被リンクを利用するものがあります。
+- 主要モジュールは組み合わせ可能です。文字列一致（メンションとタイトル）、Wikipediaの埋め込みリンクの探索、統計情報に基づく元記事へのリンク(再帰リンク)の推定、テキストからページへのリンク確率の推定を利用することができます。
+- 各モジュールは最大4種類のフィルタリングと組み合わせ可能です。フィルタリングには属性の値として適切なクラス(属性のrange)判定、被リンク数、バックリンク、nil判定（リンク先なしの判定）があります。
 - 前処理は重いです。
 
 ## モジュール
@@ -59,7 +60,7 @@ SHINRA2022 Linking taskはWikipedia記事中の、あるエンティティ(事�
 #### フィルタリング 
 - **attr_range_filtering.py(ar)** (メンション(属性値)のクラスによるフィルタリング)
 - **incl_filtering.py(il)** (被リンク数によるフィルタリング)
-- **back_link.py(bl)** (被リンクによるフィルタリング)
+- **back_link.py(bl)** (バックリンクによるフィルタリング)
 - **detect_nil.py(dn)** (nil detection(リンクなしの判定) によるフィルタリング)
 
 #### その他
@@ -76,42 +77,49 @@ SHINRA2022 Linking taskはWikipedia記事中の、あるエンティティ(事�
 ## エンティティリンキングを試してみる
 
 1) スクリプトデータファイルをダウンロード 
-   - エンティティリンキング (**_linkjpc_**)と前処理（**_linkjpc_prep_**: オプショナル）に必要なデータファイルのリストは[data info](https://github.com/nomotom/linkjpc/blob/master/docs/data_info.md)　の[WHERE TO GET DATA](https://github.com/nomotom/linkjpc/blob/master/docs/data_info.md#where-to-get-data) をご覧ください。 
+   - エンティティリンキング (**_linkjpc_**)と前処理（**_linkjpc_prep_**: オプショナル）に必要なデータファイルのリストはdata_info.mdの[WHERE TO GET DATA]をご覧ください。 
    - 前処理（オプショナル）を試す場合は、以下の[前処理に関する注意](#前処理に関する注意) もご覧ください。
 
 2) ファイルを配置
-   - [data info](https://github.com/nomotom/linkjpc/blob/master/docs/data_info.md) の[WHERE TO PUT DATA](https://github.com/nomotom/linkjpc/blob/master/docs/data_info.md#where-to-put-data) で指定されたディレクトリに配置してください。
+   - data_info.mdの[WHERE TO PUT DATA]で指定されたディレクトリに配置してください。
 
 3) エンティティリンキングを実行  
-   - 以下にエンティティリンキング (**_linkjpc_**)の簡単な実行例を示します。<BR>他の実行例は*tests* ディレクトリのスクリプト例 ( _linkjpc_test.sh_) を参考にしてください。
+   - 以下にエンティティリンキング (**_linkjpc2_**)の簡単な実行例を示します。
    
 ```
 
 [実行例] メンションを同名のWikipediaページにリンクする (完全一致)
 
-$ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir) --mod m --mint e
+$ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir) --mod m --mint e -f x
 
 ```
+|モジュール                     |optionの組み合わせ例  |
+|----|----|
+|mint                         | --mod m --mint e -f x                                                             |
+|tinm                       	|--mod t --tinm p -t_min 0.8 -f x|
+|mint, tinm                   |--mod mt --mint p --tinm p -m_min 0.9 -t_min 0.8 -f x|
+|wlink	                      |--mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 12|
+|slink                        |--mod s -s_min 0.5 -s_prb m_est -f x|
+|link_prob                    |--mod l -l_min 0.5 -f x|
+|slink, mint, wlink, link_prob|--mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art am -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7|
 
-## 前処理に関する注意
 
-上述のように、前処理済のファイルをダウンロードして前処理をスキップすることもできます。
-
-前処理 (**_linkjpc_prep_**) を実施する場合は、**_tests_**ディレクトリのスクリプト例 ( _linkjpc_prep_all_test.sh_) を参考にしてください。
-以下の点に注意してください。
+## 注意
 
 ### 出力ディレクトリ
 
-前処理の出力ファイルは以下のいずれかまたはそのサブディレクトリに出力され、既存の同名ファイルを上書きします。
-- (a) common_data_directory
-- (b) tmp_data_directory
-- (c) sample_gold_directory
+以下のいずれかまたはそのサブディレクトリに出力され、既存の同名ファイルを上書きします。
+- common_data_dir
+- tmp_data_dir
+- in_dir 
+- sample_gold_dir 
+- sample_input_dir
 
-WikipediaのダンプデータによるページID変更等、元データのバージョンによるID変更を解決したファイルはサブディレクトリconvに作成します。
+WikipediaのダンプデータによるページID変更等、元データのバージョンによるID変更を解決したファイルはサブディレクトリ(conv)に作成します。
 
-上記を避けたい場合は、必ず元のファイルを別の場所に保存するか、コマンドラインオプションで (a)(b)として別のディレクトリを指定してください。
+上書きを避けたい場合は、必ず元のファイルを別の場所に保存するか、コマンドラインオプションで別のディレクトリを指定してください。
 
-### 実行順序
+### 前処理の実行順序
 
 前処理( _**linkjpc_prep**_ )のオプションのうち、A, B, Cのグループに分類したものは、以下に示す順序で実行してください。 **_tests_** ディレクトリのスクリプト例
  ( _linkjpc_prep_all_test.sh_) を参考にしてください。
@@ -122,55 +130,38 @@ WikipediaのダンプデータによるページID変更等、元データのバ
 - page dump
 - langlinks dump　
 
- (A)A-0) gen_change_wikipedia_info (CP2)
-    A-1) conv_sample_json_pageid (*SI1*, *SP1*)
-    A-2) gen_target_attr (CP14, CP15)
-    A-3) gen_enew/gen_enew_rev_year (CP6)
- 　　 ->A-3) gen_title2pid (CP19)
-       -> A-4-1) gen_incoming_link (CP5)
-          A-4-2) gen_redirect (CP3)(CP4)
-          -> A-5) gen_title2pid_ext (CP17)
-            -> A-6-1  gen_lang_link_info (CP16)
-              -> A-7-1) pre_matching (*TP3*)(*TP4*)(*TP5*)(*TP6*)
+ (A)A-1) gen_change_wikipedia_info (CP2)
+    A-2) conv_sample_json_pageid (SI1)(SP1)
+    A-3) gen_target_attr (CP14)(CP15)
+    A-4) gen_enew/gen_enew_rev_year (CP6)
+ 　　 -> A-5) gen_title2pid (CP19)
+       -> A-6) gen_incoming_link (CP5)
+          A-7) gen_redirect (CP3)(CP4)
+          -> A-8) gen_title2pid_ext (CP17)
+            -> A-9) gen_lang_link_info (CP16)
+              -> A-10) pre_matching (*TP3*)(*TP4*)(*TP5*)(*TP6*)
 
-            -> A-6-2) gen_back_link (*TP1*)(*TP2*)
-               -> A-7-3) gen_sample_gold_tsv (*SP1*)
-                  -> A-8-1) gen_link_prob (CP9)
-                     A-8-2) gen_slink (CP7)
-                     A-8-3) gen_linkable (CP10)
-                     A-8-4) gen_nil  ->  廃止予定(現状はgen_linkableのみでOK)
-                     A-8-5) gen_attr_rng (CP13)(CP14)
+            -> A-11) gen_back_link (*TP1*)(*TP2*)
+               -> A-12) gen_sample_gold_tsv (*SP1*)
+                  -> A-13) gen_link_prob (CP9)
+                     A-14) gen_slink (CP7)
+                     A-15) gen_linkable (CP10)
+                     A-16) gen_attr_rng (CP13)(CP14)
                     
- (B) (after A-0 (gen_change_wikipedia_info)(CP2) is over)
-     B-1) gen_common_html /gen_html_conv_year (CP1)
-       -> (after A-7-3 (gen_sample_gold_tsv) is over)
+ (B) (after A-1 (gen_change_wikipedia_info)(CP2) is over)
+     B-1) gen_common_html /gen_common_html_conv_year (CP1)
+       -> (after A-12 (gen_sample_gold_tsv) is over)
           B-2) gen_link_dist (CP11)
-     B-2) gen_html /gen_html_conv_year (*TP7*)
+     B-3) gen_html /gen_html_conv_year (*TP7*)
 ```
-### 処理時間 (旧情報)
-
-前処理は時間がかかりますのでご注意ください。  
-参考： _test_ ディレクトリのスクリプト ( _linkjpc_prep_all_test.sh_) 例を全て実行する場合、以下の環境での所要時間は約34時間です。
-
-(環境):  
-OS: Mac OS 10.15.7  
-Memory: 16GB  
-CPU: 2.6 GHz 6-Core Intel Core i7  
-python: 3.8 
 
 ## 今後の課題
 
 - Hyper parameter tuning
-- 開発データ
-  - 現在モジュールで使用している統計情報は小規模なサンプルデータ正解に基づいています。
+- データ更新
+- 高速化
   
-## 参考情報
 
-### データファイル
 
-  - エンティティリンキング (**_linkjpc_**)、前処理(**_linkjpc_prep_**)で使用されるデータファイルについては [data_info](https://github.com/nomotom/linkjpc/blob/master/docs/data_info.md) をご覧ください.
 
-### COMMANDLINE OPTIONS
-  - エンティティリンキング (_linkjpc_):  [linkjpc_commands](https://github.com/nomotom/linkjpc/blob/master/docs/linkjpc_commands)
-  - 前処理 (_linkjpc_prep_):  [linkjpc_prep_commands](https://github.com/nomotom/linkjpc/blob/master/docs/linkjpc_prep_commands)
- 
+

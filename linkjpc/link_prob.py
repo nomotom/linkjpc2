@@ -48,12 +48,6 @@ def get_link_prob_info(link_prob_file, lp_min, log_info):
             sample:
                 key: Compound\t種類\tカルシウム拮抗薬
                 val: [[826886,1.0],[123456,0.5],....]
-    Notice:
-        link_prob_file (sorted in descending order by the probability)
-        (format)
-            <category>\t<attribute>\t<mention>\t<linkcand_pageid>:<ratio in sample data>:<freq in sample data>;....
-        (sample)
-            City	合併市区町村	上村	151917:0.25:1;37423:0.25:1;381057:0.25:1;1872659:0.25:1
     """
 
     import csv

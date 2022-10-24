@@ -43,11 +43,12 @@ class OptInfo(object):
     title_matching_tinm_default = 'full'
     char_match_cand_num_max_default = 1000
     char_match_min_default = 0.3
-    # lang_link_min_default = 0.5
     multi_lang_default = 'm'
+
     # slink
     slink_prob_default = 'fixed'
     slink_min_default = 0.5
+
     # wlink
     wlink_default = 'n'
     wf_score_default = 0.6
@@ -69,6 +70,7 @@ class OptInfo(object):
 
     # filtering
     filtering_default = 'n'
+
     # attr_range
     attr_rng_auto_freq_min_default = 5
     attr_len_max = 4
@@ -78,49 +80,22 @@ class OptInfo(object):
     attr_ok_co_default = 1.0
     attr_na_co_default = 0.9
     attr_ng_co_default = 0.1
-    # cat_set = {'Airport', 'City', 'Company', 'Compound', 'Conference', 'Lake', 'Person'}
-    # cat_set = {'Academic', 'Accommodation', 'Aircraft', 'Airport', 'Amphibia', 'Amusement_Park', 'Animal_Disease',
-    #            'Animal_Part', 'Archaeological_Place_Other', 'Art_Other', 'Arthropod', 'Astronomical_Object_Other',
-    #            'Astronomical_Object_Part', 'Award', 'Bacteria_Virus', 'Bay', 'Bird', 'Book', 'Brand', 'Bridge',
-    #            'Broadcast_Program', 'Cabinet', 'Canal', 'Car', 'Car_Stop', 'Castle', 'Cemetery', 'Channel',
-    #            'Character', 'City', 'Color', 'Company', 'Company_Group', 'Competition', 'Compound', 'Conference',
-    #            'Constellation', 'Continental_Region', 'Country', 'Culture', 'Currency', 'Dam', 'Decoration',
-    #            'Digital_Game', 'Dinosaur', 'Dish', 'Doctrine_Method_Other', 'Doctrine_Thought', 'Domestic_Region',
-    #            'Drug', 'Earthquake', 'Election', 'Ethnic_Group_Other', 'Event_Other', 'Examination', 'Exhibition',
-    #            'FOE_Other', 'Facility_Other', 'Facility_Part', 'Family', 'Fictional_Species', 'Firearms', 'Fish',
-    #            'Flood_Damage', 'Flora', 'Flora_Part', 'Food_Other', 'Fungus', 'GPE_Other', 'Galaxy', 'Game_Other',
-    #            'Geological_Region_Other', 'God', 'Government', 'Incident_Other', 'Individual_Animal_Other',
-    #            'Individual_Flora', 'Information_Appliance', 'Insect', 'International_Organization', 'Island',
-    #            'Lake', 'Language_Other', 'Law', 'Line_Other', 'Living_Thing_Other', 'Living_Thing_Part_Other',
-    #            'Location_Other', 'Magazine', 'Mammal', 'Market', 'Medical_Institution', 'Military',
-    #            'Military_Aircraft', 'Military_Base', 'Military_Ship', 'Military_Vehicle', 'Mineral', 'Mollusk',
-    #            'Money_Form', 'Mountain', 'Movie', 'Museum', 'Music', 'Musical_Instrument', 'National_Language',
-    #            'Nationality', 'Natural_Disaster_Other', 'Natural_Object_Other', 'Natural_Phenomenon', 'Newspaper',
-    #            'Nonprofit_Organization', 'Occasion_Other', 'Offense', 'Organization_Other', 'Painting', 'Palace',
-    #            'Park', 'Person', 'Plan', 'Planet_Satellite', 'Political_Incident', 'Political_Organization_Other',
-    #            'Political_Party', 'Port', 'Position_Vocation', 'Power_Plant', 'Printing_Other', 'Product_Other',
-    #            'Province', 'Public_Institution', 'Racehorse', 'Railroad', 'Railway_Facility', 'Religion',
-    #            'Religious_Festival', 'Reptile', 'Research_Institute', 'River', 'Road', 'Road_Facility', 'Rule_Other',
-    #            'School', 'Sea', 'Service', 'Ship', 'Shopping_Complex', 'Show', 'Show_Organization', 'Software', 'Spa',
-    #            'Spaceship', 'Sport', 'Sports_Facility', 'Sports_Federation', 'Sports_League', 'Sports_Team',
-    #            'Standard', 'Star', 'Station', 'Style', 'System', 'Technology', 'Theater', 'Theory', 'Toy',
-    #            'Traffic_Accident', 'Train', 'Treaty', 'Tunnel', 'Vehicle_Other', 'Video_Work',
-    #            'Virtual_Address_Other','War', 'Water_Route', 'Weapon_Other', 'Worship_Place', 'Zoo'}
-
     # the first layer (string)
     eneid_ignore = '1'
+
     # attr rng
     attr_rng_type_default = 'a'
 
     # back link
     back_link_tgt_default = 'n'
-    # back_link_type_default = 'f'
     back_link_ok_default = 1.0
     back_link_ng_default = 0.7
+
     # incl
     incl_tgt_default = 'n'
     incl_type_default = 'n'
     incl_max_default = 1
+
     # detect nil
     nil_tgt_default = 'n'
     nil_all_freq_min_default = 7
@@ -240,132 +215,55 @@ class OptInfo(object):
 class DataInfo(object):
     # (0) project SHINRA data distribution (common_data_dir)
     # [CD1]
-    # f_cirrus_content_default = 'jawiki-20190121-cirrussearch-content.json.gz'
-    # 20220822
     f_cirrus_content_default = 'wikipedia-ja-20210823-json.gz'
     #
     # [CD2]
-    # f_ene_definition_for_task
     f_ene_def_for_task_default = 'ene_definition_v9.0.0-with-attributes-and-shinra-tasks-20220714.jsonl'
 
     # [CD3]
-    # f_enew_org_default = 'ENEW_ENEtag_20200427.json'
     f_enew_org_default = 'shinra2022_Categorization_train_20220616.jsonl'
 
     # (1) manually created data (common_data_dir)
     # [CM1]
-    # f_disambiguation_pat_default = 'jawiki-20190121-cirrussearch-content_wikipat_dis.tsv'
     f_disambiguation_pat_default = 'wikipat_dis.tsv'
+
     # [CM2]
     f_self_link_pat_default = 'self_link_pat.tsv'
 
     # [CM3]
-    # f_attr_rng_default = 'attr_def.tsv'
-    # f_attr_rng_default = 'attr_def_20220823.tsv'
-    # f_attr_rng_default = 'attr_def_20220829.tsv'
     f_attr_rng_man_org_default = 'attr_rng_man_org_ene90_20221010.tsv'
     #
     # [CM4]
-    # f_back_link_dump_default = 'jawiki-20190120-pagelinks_dmp.tsv'
     f_back_link_dump_org_default = 'jawiki-20210820-pagelinks_dmp.tsv'
 
     # [CM5]
-    # 20220903
-    # f_redirect_dump_default = 'jawiki-20220501-redirect_dmp_no_punct.tsv'
-    #
     f_redirect_dump_org_default = 'jawiki-20210820-redirect_dmp.tsv'
-
-    # format: rd_from, rd_title, rd_namespace
-    # sample:
-    # 2187148 不正利用フィルター      -1
-    # 3516739 固定リンク/62146672     -1
-    # 3820714 投稿記録/119.224.170.248        -1
-    # 4015679 投稿記録/14.133.83.32   -1
-    # 3873861 投稿記録/KD059129118125 -1
-    # 702415  "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
-    # 927756  "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
-    # 1466960 "BLUE"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
-    # based on: 'jawiki-20210820-redirect.sql'
 
     # [CM6]
     f_redirect_dump_default = 'jawiki-20210820-redirect_dmp_rev.tsv'
-    # 1699304	広瀬香美_THE_BEST_""Love_Winters""	0
-    # format: rd_from, rd_title, rd_namespace(転送先)
-    # sample:
-    # 2187148 不正利用フィルター      -1
-    # 3516739 固定リンク/62146672     -1
-    # 3820714 投稿記録/119.224.170.248        -1
-    # 4015679 投稿記録/14.133.83.32   -1
-    # 3873861 投稿記録/KD059129118125 -1
-    # 702415  \"BLUE\"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
-    # 927756  \"BLUE\"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
-    # 1466960 \"BLUE\"_A_TRIBUTE_TO_YUTAKA_OZAKI        0
-    # notice:
-    #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-redirect_dmp.tsv | perl -pe 's/\"/\\"/g;' >
-    #  jawiki-20210820-redirect_dmp_rev.tsv
-    # -- deleted: info of punctuation (titles with single character defined as symbols in awk
-    # (!"#$%&'-=^~\|@`...)
 
     # [CM7]
-    # 20220903
-    # f_page_dump_default = 'jawiki-20220501-page_dmp_no_punct.tsv'
-    # f_page_dump_default = 'jawiki-20210820-page_dmp_no_punct.tsv'
     f_page_dump_org_default = 'jawiki-20210820-page_dmp.tsv'
-    # format: page_id, page_title, page_is_redirect, page_namespace
-    # sample:
-    # 517804	宮下杏菜	0	0
-    # 557692	宮下杏奈	1	0
-    # 557693	広末由依	1	0
-    # 242283	"人間と性"教育研究協議会	0	0
-    # 434856	人間と性教育研究協議会	1	0
-    # based on: f_page_dump_sql_default = 'jawiki-20210820-page.sql'
 
     # [CM8]
     f_page_dump_default = 'jawiki-20210820-page_dmp_rev.tsv'
-
-    # format: page_id, page_title, page_is_redirect, page_namespace
-    # sample:
-    # 517804	宮下杏菜	0	0
-    # 557692	宮下杏奈	1	0
-    # 557693	広末由依	1	0
-    # 242283	\"人間と性\"教育研究協議会	0	0
-    # 434856	人間と性教育研究協議会	1	0
-    # notice:
-    # - original:'jawiki-20220501-page_dmp.tsv'
-    # - modified version
-    #     #  awk 'BEGIN{FS="\t"}$2 !~ /^[[:punct:]]$/{print}' jawiki-20210820-page_dmp.tsv |
-    #     perl -pe 's/\"/\\"/g;' > jawiki-20210820-page_dmp_rev.tsv
-    # -- deleted: page info with punctuation (titles with single character defined as symbols in awk(!"#$%&'-=^~\|@`...)
-    #     to avoid illegal lines(p_row) with namespace zero like:
-    #     eg. ['2423639', "\t1\t10\n2423640\tゾロ_(映画)\t0\t0\n2423641\t高田ほのか\t0\t1\n2423642\tKk0\t3\n2423643\t
-    #     111.107.139.79\t0\t3\n2423644\t111.107.159.137\t0\t3\n2423645\t211.3.67.88\t0\t3\n2423646\tサリバンス川...
-    #
 
     # [CM9]
     f_page_dump_old_org_default = 'jawiki-20190120-page_dmp.tsv'
 
     # [CM10]
-    # 20220926
     f_lang_link_dump_org_default = 'jawiki-20210820-langlinks_dmp.tsv'
-    # format: page_id, page_title, page_is_redirect, page_namespace
-    # sample:
-
-    # based on: f_page_dump_sql_default = 'jawiki-20210820-langlinks.sql'
 
     # [CM11]
-    # f_enew_mod_list_default = 'ENEW_ENEtag_20200427_stoplist.tsv'
     f_enew_mod_list_default = 'shinra2022_Categorization_train_20220616_stoplist.tsv'
-    #
-    #
+
     # [CM12]
     f_wl_lines_backward_ca_default = 'wl_lines_backward_ca.tsv'
-    #
+
     # [CM13]
     f_wl_lines_forward_ca_default = 'wl_lines_forward_ca.tsv'
-    #
-    #
+
     # [CM14]
-    # f_sample_gold_mod_list_default = 'train-link-20220712_stoplist_all.tsv'
     f_sample_gold_mod_list_default = 'train-link-20221004_stoplist_all.tsv'
     #
     # [CM15]
@@ -377,57 +275,51 @@ class DataInfo(object):
     # (2) preprocessing
     # (2-1) sample_gold_data_dir
     # [SP1] (sample gold data info)
-    #
+
     # (2-2) common_data_dir
-    #
+
     # [CP1]
     f_common_html_info_default = 'common_html_tag_info.tsv'
-    #
+
     # [CP2]
-    # Wikipedia pageid change info
     f_wikipedia_page_change_info_default = 'jawiki-20190120_20210820_page_change_info.tsv'
 
     # [CP3]
     f_disambiguation_default = 'jawiki-20210823-cirrussearch-content_disambiguation.tsv'
-    # f_disambiguation_default = 'jawiki-20190121-cirrussearch-content_disambiguation.tsv'
-    #
+
     # [CP4]
-    # f_redirect_info_default = 'jawiki-20210823_title2pageid-20190120_nodis.tsv'
-    # 20220904
-    # f_redirect_info_default = 'jawiki-20210823_title2pageid_20220501_nodis.tsv'
     f_redirect_info_default = 'jawiki-20210823_title2pageid_20210820_nodis.tsv'
-    #
+
     # [CP5]
-    # f_incoming_default = 'jawiki-20190121-cirrussearch-content_incoming_link.tsv'
     f_incoming_default = 'jawiki-20210823-cirrussearch-content_incoming_link.tsv'
-    #
+
     # [CP6]
-    # f_enew_info_default = 'ENEW_ENEtag_20200427_mod.tsv'
     f_enew_info_default = 'shinra2022_Categorization_train_20220616_mod.tsv'
 
     # [CP7]
     f_slink_default = 'cat_attr_self_link.tsv'
-    #
+
     # [CP8]
     f_self_link_by_attr_name_default = 'self_link_by_attr_name.txt'
-    #
+
     # [CP9]
     f_link_prob_default = 'sample_cat_attr_mention_linkcand.tsv'
-    #
+
     # [CP10]
     f_linkable_info_default = 'cat_attr_linkable.tsv'
-    #
+
     # [CP11]
     f_mention_gold_link_dist_default = 'mention_gold_link_dist.tsv'
-    #
+
     # [CP12]
     f_attr_rng_man_default = 'attr_rng_man.tsv'
-    #
+
     # [CP13]
     f_attr_rng_auto_default = 'attr_rng_auto.tsv'
 
     # [CP14]
     f_target_attr_info_default = 'ene_definition_v9.0.0-20220714_target_attr.tsv'
+
     # [CP15]
     f_all_cat_info_default = 'ene_definition_v9.0.0-20220714_all_cat.tsv'
 
@@ -435,51 +327,41 @@ class DataInfo(object):
     f_lang_link_info_default = 'jawiki-20210820-langlinks_info.tsv'
 
     # [CP17]
-    # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
-    # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
     f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20210820_ext.tsv'
 
     # [CP18]
-    # f_title2pid_ext_default = 'jawiki-20190120-title2pageid_ext.tsv'
-    # f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20220501_ext.tsv'
     f_title2pid_ext_obs_default = 'jawiki-20190120-title2pageid_ext.tsv'
 
     # [CP19]
-    # f_title2pid_org_default = 'jawiki-20210823_title2pageid_20220501.jsonl'
     f_title2pid_org_default = 'jawiki-20210820-title2pageid.jsonl'
-    # f_title2pid_org_default = 'jawiki-20190120-title2pageid.json'
-
-    # [CP20]
-    f_nil_default = 'cat_attr_nil.tsv'
 
     # (2-3) tmp_data_dir
     # [TP1]
     f_input_title_default = 'input_title.txt'
-    #
+
     # [TP2]
     f_back_link_default = 'back_link_full.tsv'
-    #
+
     # [TP3]
     f_mint_partial_default = 'mint_partial_match.tsv'
-    #
+
     # [TP4]
     f_mint_trim_partial_default = 'mint_trim_partial_match.tsv'
-    #
+
     # [TP5]
     f_tinm_partial_default = 'tinm_partial_match.tsv'
-    #
+
     # [TP6]
     f_tinm_trim_partial_default = 'tinm_trim_partial_match.tsv'
-    #
+
     # [TP7]
     f_html_info_default = 'html_tag_info.tsv'
-    #
+
     # (3) entity linking
     # (3-1) common_data_dir
-    #
+
     # [CL1]
     f_mention_gold_link_dist_info_default = 'mention_gold_link_dist_info.tsv'
-    # gw.reg_mention_gold_distance
 
     # [CL2]
     f_attr_rng_merged_default = 'attr_rng_merged.tsv'
@@ -488,11 +370,8 @@ class DataInfo(object):
                  common_data_dir,
                  tmp_data_dir,
                  in_dir,
-                 # 20220822
                  sample_gold_dir,
-                 # 20220822
                  sample_input_dir,
-                 # 20220824
                  out_dir,
                  f_attr_rng_man=f_attr_rng_man_default,
                  f_attr_rng_man_org=f_attr_rng_man_org_default,
@@ -518,12 +397,9 @@ class DataInfo(object):
                  f_mention_gold_link_dist=f_mention_gold_link_dist_default,
                  f_mint_partial=f_mint_partial_default,
                  f_mint_trim_partial=f_mint_trim_partial_default,
-                 f_nil=f_nil_default,
                  f_nil_cand_man=f_nil_cand_man_default,
-                 # f_page_dump_sql=f_page_dump_sql_default,
                  f_page_dump=f_page_dump_default,
                  f_page_dump_org=f_page_dump_org_default,
-                 # f_redirect_dump_sql=f_redirect_dump_sql_default,
                  f_redirect_dump=f_redirect_dump_default,
                  f_redirect_dump_org=f_redirect_dump_org_default,
                  f_tinm_partial=f_tinm_partial_default,
@@ -537,14 +413,12 @@ class DataInfo(object):
         self.common_data_dir = common_data_dir
         self.tmp_data_dir = tmp_data_dir
         self.in_dir = in_dir
-        # 20220822
         self.in_ene_dir = in_dir + 'ene_annotation/'
         self.in_html_dir = in_dir + 'html/'
 
         self.out_dir = out_dir
-        # common_data_dir
 
-        # 20220822
+        # common_data_dir
         self.sample_gold_dir = sample_gold_dir
         self.sample_input_dir = sample_input_dir
 
@@ -566,21 +440,19 @@ class DataInfo(object):
         self.linkable_info_file = common_data_dir + f_linkable_info
         self.mention_gold_link_dist_info_file = common_data_dir + f_mention_gold_link_dist_info
         self.mention_gold_link_dist_file = common_data_dir + f_mention_gold_link_dist
-        self.nil_file = common_data_dir + f_nil
         self.nil_cand_man_file = common_data_dir + f_nil_cand_man
         self.page_dump_file = common_data_dir + f_page_dump
         self.page_dump_org_file = common_data_dir + f_page_dump_org
-        # self.page_dump_sql_file = common_data_dir + f_page_dump_sql
         self.redirect_dump_file = common_data_dir + f_redirect_dump
         self.redirect_dump_org_file = common_data_dir + f_redirect_dump_org
-        # self.redirect_dump_sql_file = common_data_dir + f_redirect_dump_sql
         self.redirect_info_file = common_data_dir + f_redirect_info
         self.slink_file = common_data_dir + f_slink
         self.self_link_by_attr_name_file = common_data_dir + f_self_link_by_attr_name
         self.title2pid_ext_file = common_data_dir + f_title2pid_ext
         self.title2pid_org_file = common_data_dir + f_title2pid_org
-        self.wl_lines_forward_ca_file = common_data_dir + f_wl_lines_forward_ca,
-        self.wl_lines_backward_ca_file = common_data_dir + f_wl_lines_backward_ca,
+        self.wl_lines_forward_ca_file = common_data_dir + f_wl_lines_forward_ca
+        self.wl_lines_backward_ca_file = common_data_dir + f_wl_lines_backward_ca
+
         # tmp_data_dir
         self.back_link_file = tmp_data_dir + f_back_link
         self.html_info_file = tmp_data_dir + f_html_info
