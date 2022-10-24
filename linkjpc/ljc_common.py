@@ -4,10 +4,11 @@ import logging
 import csv
 import sys
 
-# def check_dic_key(keyword, **dic):
+
 def check_dic_key(keyword, log_info, **dic):
     """
     :param keyword:
+    :param log_info:
     :param dic:
     :return:
     """
@@ -37,8 +38,6 @@ def linkedjson2tsv(linked_json_dir, title2pid_org_file, log_info):
             format
                 pageid, title, attribute, text, start_line_id, start_offset, end_line_id, end_offset, link_pageid,
                 link_page_title
-            sample
-                2392906	桐谷華	地位職業	声優	38	20	38	22	1192	声優
     notice
         '\n' in text(mention) has been converted to '\\n'.
     """
@@ -367,6 +366,7 @@ def get_key_list(log_info, **tr):
     tmp_list = [pid, at, text, start_line_id, start_offset, end_line_id, end_offset, link_id]
     return tmp_list
 
+
 def setstr2list(set_str, log_info):
     """
     convert set-like string to link
@@ -379,7 +379,7 @@ def setstr2list(set_str, log_info):
     logger = ljc.set_logging(log_info, 'myPreLogger')
     logger.setLevel(logging.INFO)
 
-    new_string  = re.sub('[{}\' ]', '', set_str)
+    new_string = re.sub('[{}\' ]', '', set_str)
     new_list = new_string.split(',')
     return new_list
 
@@ -400,6 +400,7 @@ def liststr2list(list_str, log_info):
     new_list = new_string.split(',')
     return new_list
 
+
 def gen_linked_tsv(linked_json_dir, title2pid_ext_file, log_info, **d_cnv):
     """Convert linked json file (with title) to linked tsv file
        add ene category of page, title of linked page, ene category of linked paged using title2pid_ext_file
@@ -415,27 +416,9 @@ def gen_linked_tsv(linked_json_dir, title2pid_ext_file, log_info, **d_cnv):
             format
                 cat, pageid, title, attribute, text, start_line_id, start_offset, end_line_id, end_offset, link_pageid,
                 link_page_title, linked_cat
-            sample
-                Person 2392906	桐谷華	地位職業	声優	38	20	38	22	1192	声優　　　地位職業名
     notice
     　　basically the same as gen_linked_tsv_mod except filtering by mod_list_file
         '\n' in text(mention) has been converted to '\\n'.
-        f_title2pid_ext
-            format
-                (title(from page))\t(pageid(to page))\t(title(to page)\t(maximum number of incoming links(to page))
-                \t(eneid_set(to_page))
-            sample
-                VIAF    2503159 バーチャル国際典拠ファイル      212754  {'1.7.0'}
-
-        linked_json
-            sample
-            {"page_id": "1008136", "title": "ジェイ・デメリット", "attribute": "国籍", "ENE": "1.1",
-            "text_offset": {"start": {"line_id": 45, "offset": 26}, "end": {"line_id": 45, "offset": 32},
-            "text": "イングランド"}, "html_offset": {"start": {"line_id": 45, "offset": 478},
-            "end": {"line_id": 45, "offset": 484}, "text": "イングランド"}, "link_page_id": "16627",
-            "link_type": {"later_name": false, "part_of": false, "derivation_of": false}}
-
-
     """
 
     import json
@@ -475,7 +458,6 @@ def gen_linked_tsv(linked_json_dir, title2pid_ext_file, log_info, **d_cnv):
             })
             sys.exit()
         go_list = []
-        # linked_tsv = linked_json.replace('.json', '.tsv')
         if '_dist.jsonl' in linked_json:
             linked_tsv = linked_json.replace('_dist.jsonl', '.tsv')
         else:
@@ -671,7 +653,6 @@ def reg_all_cat_info(all_cat_info, log_info):
     :notice:
     all_cat_info
         format: eneid, enlabel_ja, enlabel_en
-        sample: 1.4.4.1 国籍名  Nationality
     """
     import csv
     logger = ljc.set_logging(log_info, 'myLogger')
@@ -743,19 +724,16 @@ def reg_title2pid_ext(title2pid_ext_file, log_info):
     """Register title2pid_info pages info.
     Args:
         title2pid_ext_file
-        #eg. イギリス語      3377    英語    95319   1.7.24.1
         log_info
     Returns:
         d_title2pid
             # format
                 key: from_title
                 val: to_pid
-            # eg: {'イギリス語':'3377'}
         d_pid_title_incoming_eneid
             # format
                 key: to_pid
                 val: to_title, to_incoming, to_eneid
-            # eg: {'3377': ['英語', 95319','1.7.24.1'])
     Notice:
         - title2pid_title_ex
             format: 'from_title'\t'to_pid'\t'to_title'\t'to_incoming\t'to_eneid'

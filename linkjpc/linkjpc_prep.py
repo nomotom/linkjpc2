@@ -7,7 +7,6 @@ from decimal import Decimal, ROUND_HALF_UP
 import logging
 import logging.config
 import sys
-# import string
 import re
 import datetime
 import ljc_common as lc
@@ -68,10 +67,6 @@ def set_logging_pre(log_info, logger_name):
 @click.option('--f_title2pid_ext', default=cf.DataInfo.f_title2pid_ext_default, show_default=True, type=click.STRING,
               help='from_title_to_pageid_extended_information. Filter out disambiguation, management, '
                    'or format-error pages, and add eneid, incoming link num info.')
-@click.option('--f_title2pid_ext_obs', default=cf.DataInfo.f_title2pid_ext_obs_default, show_default=True,
-              type=click.STRING,
-              help='from_title_to_pageid_extended_information based on obsolete Wikipedia. Filter out disambiguation, '
-                   'management or format-error pages, and add eneid, incoming link num info.')
 @click.option('--f_title2pid_org', default=cf.DataInfo.f_title2pid_org_default, show_default=True, type=click.STRING,
               help='from_title_to_pageid_information_original.')
 @click.option('--f_cirrus_content', default=cf.DataInfo.f_cirrus_content_default, show_default=True, type=click.STRING,
@@ -216,7 +211,6 @@ def ljc_prep_main(common_data_dir,
                   f_tinm_partial,
                   f_tinm_trim_partial,
                   f_title2pid_ext,
-                  f_title2pid_ext_obs,
                   f_title2pid_org,
                   f_wikipedia_page_change_info):
     class DataInfoPrep(object):
@@ -264,7 +258,6 @@ def ljc_prep_main(common_data_dir,
                      prep_f_tinm_partial=f_tinm_partial,
                      prep_f_tinm_trim_partial=f_tinm_trim_partial,
                      prep_f_title2pid_ext=f_title2pid_ext,
-                     prep_f_title2pid_ext_obs=f_title2pid_ext_obs,
                      prep_f_title2pid_org=f_title2pid_org,
                      prep_f_wikipedia_page_change_info=f_wikipedia_page_change_info):
             self.common_data_dir = prep_common_data_dir
@@ -300,7 +293,6 @@ def ljc_prep_main(common_data_dir,
             self.redirect_dump_file = prep_common_data_dir + prep_f_redirect_dump
             self.redirect_dump_org_file = prep_common_data_dir + prep_f_redirect_dump_org
             self.title2pid_ext_file = prep_common_data_dir + prep_f_title2pid_ext
-            self.title2pid_ext_obs_file = prep_common_data_dir + prep_f_title2pid_ext_obs
             self.title2pid_org_file = prep_common_data_dir + prep_f_title2pid_org
             self.redirect_info_file = prep_common_data_dir + prep_f_redirect_info
             self.slink_file = prep_common_data_dir + prep_f_slink
@@ -340,7 +332,6 @@ def ljc_prep_main(common_data_dir,
     data_info_prep.sample_gold_mod_list_file = data_info_prep.common_data_dir + f_sample_gold_mod_list
 
     data_info_prep.title2pid_ext_file = data_info_prep.common_data_dir + f_title2pid_ext
-    data_info_prep.title2pid_ext_obs_file = data_info_prep.common_data_dir + f_title2pid_ext_obs
     data_info_prep.title2pid_org_file = data_info_prep.common_data_dir + f_title2pid_org
     data_info_prep.redirect_info_file = data_info_prep.common_data_dir + f_redirect_info
     data_info_prep.slink_file = data_info_prep.common_data_dir + f_slink
@@ -566,7 +557,6 @@ def ljc_prep_main(common_data_dir,
             log_info)
 
     if pre_matching == 'mint':
-
         if not title_matching_mint:
             logger.error({
                 'action': 'ljc_prep_main',
@@ -692,27 +682,8 @@ def gen_linked_tsv_mod(linked_json_dir, title2pid_ext_file, mod_list_file, log_i
             format
                 cat, pageid, title, attribute, text, start_line_id, start_offset, end_line_id, end_offset, link_pageid,
                 link_page_title, linked_cat
-            sample
-                Person 2392906	桐谷華	地位職業	声優	38	20	38	22	1192	声優　　　地位職業名
     notice
         '\n' in text(mention) has been converted to '\\n'.
-        f_title2pid_ext
-            format
-                (title(from page))\t(pageid(to page))\t(title(to page)\t(maximum number of incoming links(to page))
-                \t(eneid_set(to_page))
-            sample
-                VIAF    2503159 バーチャル国際典拠ファイル      212754  {'1.7.0'}
-
-        linked_json
-            sample
-            {"page_id": "1008136", "title": "ジェイ・デメリット", "attribute": "国籍", "ENE": "1.1",
-            "text_offset": {"start": {"line_id": 45, "offset": 26}, "end": {"line_id": 45, "offset": 32},
-            "text": "イングランド"}, "html_offset": {"start": {"line_id": 45, "offset": 478},
-            "end": {"line_id": 45, "offset": 484}, "text": "イングランド"}, "link_page_id": "16627",
-            "link_type": {"later_name": false, "part_of": false, "derivation_of": false}}
-        mod_list_file
-            stoplist
-
     """
 
     import json
@@ -1048,6 +1019,7 @@ def gen_input_title_file(tmp_in_dir, input_title_file, log_info):
     df = pd.DataFrame(title_list)
     df.to_csv(input_title_file, sep='\t', header=False, index=False)
 
+
 def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_matching, char_match_min,
                            lang_link_info, log_info):
     """Pre-matching mention title.
@@ -1064,10 +1036,6 @@ def prematch_mention_title(in_ene_dir, data_info_prep, pre_matching, title_match
         match_info_file
        　　 format:
                 mention(\t)pid(\t)title(\t)ratio
-           sample(mint):
-                湖      401     湖国    0.5
-                湖      9322    琵琶湖  0.33
-                湖      1431634 湖      1.0
     Note:
         pre_matching
             tinm: partial match (title in mention text)
@@ -1499,15 +1467,6 @@ def reg_pid2title(title2pid_ext_file, lang_link_info, log_info):
         d_pid2fromtitle dict
             {pid: [(title1,ja) (title2,en) ....]}
 
-    Notice:
-        - title2pid_ext_file
-            format: 'from_title'\t'to_pid'\t'to_title'\t'to_incoming\t'{to_eneid1, to_eneid2, ...}'
-       　　　sample:
-            ロメオとジュリエット 28783 ロミオとジュリエット 806 {'1.7.13.4', '1.7.13.5'}
-            日本國  1864744 日本    345455  {'1.5.1.3'}
-            フジテレビジョン        4058860 フジテレビジョン        38288   {'1.4.6.2', '1.7.24.1'}
-
-
     """
     import csv
     logger = set_logging_pre(log_info, 'myPreLogger')
@@ -1551,28 +1510,17 @@ def gen_title2pid_ext_file(exfile, incoming, enew_info, redirect_info, log_info)
             format
                 (title(from page))\t(pageid(to page))\t(title(to page)\t(maximum number of incoming links(to page))
                 \t(eneid_set(to_page))
-            sample
-                ユナイテッドステイツ    1698838 アメリカ合衆国  116818  {'1.5.1.3'}
-                VIAF (識別子)   2503159 バーチャル国際典拠ファイル      212754  {'1.7.0'}
-
      Notice:
          - redirect info
             - In the redirect info,
                 - white spaces in Wikipedia titles are replaced by '_'.
                 - Some records with illegal formats (eg. lack of to_pageid) are deleted.
                 - Disambiguation pages are deleted (although not always completely).
-            - sample 安倍晋三/log20200516	4136738
         -incoming: pageid, title, maximum number of incoming_links
                    ('jawiki-20190121-cirrussearch-content_incoming_link.tsv')
             -format: <pageid>\t<title>\t<maximum num of incoming_links>
-            -sample
-                2264978 マーキング      23
-                662923  ノワール        32
         -enew_info: ENEW info(based on slightly modified version of ENEW 20210427）
             - format: <pageid>\t<ENEID>\t<page title>
-            - sample
-                72942  1.2     バックス (ローマ神話)
-                401755  1.1     覚信尼
             - modification list: ENEW_ENEtag_20200427_stoplist.tsv (ENEID, pid, title)
         - Some pages lack incoming info or enew info.
 
@@ -1717,10 +1665,6 @@ def check_self(row, log_info):
     :param row:
     :param log_info:
     :return: 1 (self), 0 (non-self)
-    :notice:
-       sample row
-       'grow': ['Person', '1115527', 'ヴォルフガング・オヴェラート', '国籍', 'ドイツ', '44', '6', '44', '9', '1698878',
-       'ドイツ', 'Country']}
 
     """
     logger = set_logging_pre(log_info, 'myPreLogger')
@@ -1744,12 +1688,7 @@ def gen_linkable_info(sample_e_dir, sample_g_dir, linkable_info_file, log_info, 
     output:
         linkable_info_file
         format: 'cat', 'attr', 'ratio', 'linkable_freq', 'all_freq' (*.tsv)
-    Note:
-        gold file
-            Gold files (eg. sample gold files) used for linkable estimation should be located in gold_dir.
-            sample
-                Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
-                ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
+
     """
     import pandas as pd
     import re
@@ -1849,17 +1788,6 @@ def gen_self_link_info(gold_dir, self_link_info_file, log_info):
     output: (2)
         self_link_info_file
 
-        School  別名    1.0       10    10
-        School  標語    0.0        0     1
-        School  種類    0.0        0     2
-
-    Note:
-        gold file
-            sample
-                ['Galaxy', '1243163', 'M61 (天体)', '種類', 'フェイスオン銀河', '259', '45', '259', '53', '', '', '[]',
-                '[]']}
-                ['Galaxy', '1243163', 'M61 (天体)', '属する天体', 'おとめ座銀河団', '260', '0', '260', '7', '279791',
-                'おとめ座銀河['Galaxy']"]}
     """
 
     import pandas as pd
@@ -1935,19 +1863,12 @@ def get_to_pid_to_title_incoming_eneid(title2pid_ext_file, log_info):
     """Register title2pid_info pages info.
     Args:
         title2pid_ext_file
-        #eg. イギリス語      3377    英語    95319   1.7.24.1
         log_info
     Returns:
         d_pid_title_incoming_eneid
             format
                 key: to_pid
                 val: to_title, to_incoming, to_eneid
-            sample
-                {'3377': ['英語', 95319','1.7.24.1'])
-    Notice:
-        - title2pid_title_ex
-            format: 'from_title'\t'to_pid'\t'to_title'\t'to_incoming\t'to_eneid'
-
     """
     import csv
     logger = set_logging_pre(log_info, 'myPreLogger')
@@ -1981,17 +1902,6 @@ def gen_back_link_info_file(ptitle_list, back_link, back_link_dump_org, ext_file
             based on jawiki-20190120-pagelinks.sql
             lines including characters other than utf-8 are skipped.
             Some records of back_link_file may lack from titles.
-            sample
-                41246	1975年度新人選手選択会議_(日本プロ野球)
-                92044	1975年度新人選手選択会議_(日本プロ野球)
-                95956	1975年度新人選手選択会議_(日本プロ野球)
-                143952	1975年度新人選手選択会議_(日本プロ野球)
-        back_link_file:
-            sample
-                1975年度新人選手選択会議 (日本プロ野球) 41246   プロ野球ドラフト会議
-                1975年度新人選手選択会議 (日本プロ野球) 92044   北別府学
-                1975年度新人選手選択会議 (日本プロ野球) 95956   篠塚和典
-                1975年度新人選手選択会議 (日本プロ野球) 143952  中畑清
     """
     import pandas as pd
     import csv
@@ -2031,15 +1941,6 @@ def gen_link_prob_file(gold_dir, link_prob_file, log_info):
     :param:link_prob_file
     :param:log_info
     :output: link_prob_file
-    :notice
-        gold file
-        (sample)
-         - `Person	1058520	竹内えり	作品	白い巨塔	79	0	79	4	29582
-        白い巨塔 (2003年のテレビドラマ)	['1.7.13.2']　['Broadcast_Program']`
-         - `Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']
-        ['Character', 'Broadcast_Program']`
-        - Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
-        ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
     """
 
     from glob import glob
@@ -2130,25 +2031,10 @@ def gen_mention_gold_link_dist(html_info, sample_gold_linked_dir, outfile, log_i
         mention_gold_link_dist
             format
                 category, attribute, distance between mention and gold embedded link
-
-            sample
-                Person  作品    17
-                Person  作品    81
-                Person  作品    81
-                Person  作品    -1
-                Person  作品    -1
     note
-        tag_info (with header
+        tag_info (with header)
             format
                 cat     pid     line_id html_text_start html_text_end   html_text       title
-            sample
-                cat     pid     line_id html_text_start html_text_end   html_text       title
-                Insect  2524837 54      136     138     分類    生物の分類
-                Insect  2524837 69      145     146     界      界 (分類学)
-        gold_file
-            sample
-            Person	1061108	松田秀知	所属組織	フジテレビ	36	52	36	57	4058860	フジテレビジョン
-            ['1.4.6.2', '1.7.24.1']	['Company', 'Channel']
     """
 
     import csv
@@ -2238,20 +2124,11 @@ def get_disambiguation_info(dis_file, log_info):
     Note:
         dis_file:
             dis_file is created from cirrus dump, using some patterns of category or title of Wikipedia pages
-                eg. Wikipedia category ends with '曖昧さ回避'
-                    Wikipedia category starts with '同名の'
-                    Wikipedia category ends with '（曖昧さ回避）'
-                sample:
-                    2264978     マーキング
-                    662923      ノワール
-                    134999      スコア
-                    ....
+
         d_pid_title:
             format:
                 key: pageid of disambiguation page
                 val: 1
-            sample:
-                {'2264978': 1, '662923': 1, '134999': 1, .....}
     """
     import csv
     logger = set_logging_pre(log_info, 'myPreLogger')
@@ -2265,7 +2142,6 @@ def get_disambiguation_info(dis_file, log_info):
     return d_pid_title
 
 
-# def check_pageid(pageid, log_info, **d_dis):
 def check_pageid(pageid, **d_dis):
     """ check pageid if it can be a candidate link page (disambiguation, isdigit)
     Args:
@@ -2294,56 +2170,12 @@ def gen_title2pid_file(redirect_dump, page_dump, title2pageid_org, illegal_title
     :param illegal_title_len:
     :param log_info:
     :return:
-
-    cf. title2pid(org)
-    {"page_id": 871214, "title": "日就社", "is_redirect": true, "redirect_to": {"page_id": 1526294,
-    "title": "読売新聞", "is_redirect": false}}
-    {"page_id": 2238511, "title": "読売争議", "is_redirect": true, "redirect_to": {"page_id": 1526294,
-    "title": "読売新聞", "is_redirect": false}}
-    {"page_id": 1526294, "title": "読売新聞", "is_redirect": false}
-    {"page_id": 1262543, "title": "読売新聞縮刷版", "is_redirect": true, "redirect_to": {"page_id": 1526294,
-    "title": "読売新聞", "is_redirect": false}}
-    {"page_id": 158932, "title": "讀賣新聞", "is_redirect": true, "redirect_to": {"page_id": 1526294,
-    "title": "読売新聞", "is_redirect": false}}
-
+    :notice:
     redirect.dump:
     (rd from)  (rd title) (namespace)
-    557692	宮下杏菜	0
-    557693	宮下杏菜	0
-    158932	読売新聞  0
-    871214	読売新聞  0
-    1262543	読売新聞  0
-    2238511	読売新聞  0
-    10664	ニューヨーク市	0
-    23829	アメリカ合衆国	0
-    3475368	ニューヨーク市	102
-    2187855	アメリカ合衆国	103
-    10664	ニューヨーク	0
 
     page.dump:
-    # page_id, page_title, page_is_redirect, page_namespace
-    517804	宮下杏菜	0	0
-    557692	宮下杏奈	1	0
-    557693	広末由依	1	0
-    158932	讀賣新聞	1  0
-    871214	日就社	1  0
-    1262543	読売新聞縮刷版	1  0
-    2238511	読売争議	1  0
-
-    379778	読売新聞	0  (ノート:読売新聞)
-    1476808	読売新聞	0  (Category‐ノート:読売新聞)
-    1483425	読売新聞	0  (Category:読売新聞)
-    1526294	読売新聞	0　　　# link to
-
-    3475368	PJ:NY	1	0
-    10664	ニューヨーク市	1	0
-    1698838	アメリカ合衆国	0	0
-    28330	ニューヨーク	0	1
-    507175	ニューヨーク	0	0
-    1124110	ニューヨーク	0	10
-    3099506	ニューヨーク	0	3
-
-    Notice:
+    page_id, page_title, page_is_redirect, page_namespace
     delete one letter punctuation title
     """
 
@@ -2498,9 +2330,7 @@ def gen_redirect_info_file(title2pageid, dis, redirect_info, log_info):
         redirect_info
         Notice:
             - In the title2pageid file,some 'redirect-to' pages lack page_ids.
-                 {"page_id": 1218449, "title": "岡山県の旧制教育機関", "is_redirect": true,
-                  "redirect_to": {"page_id": null, "title": null, "is_redirect": false}}
-              - white spaces in Wikipedia titles are replaced by '_'.
+            - white spaces in Wikipedia titles are replaced by '_'.
     """
     import csv
     import json
@@ -2608,11 +2438,6 @@ def gen_disambiguation_file(patfile, cirrus, outfile, log_info):
                 <match_position>    start|middle|end
                 <pat>
                 Notice: Matching patterns are interpreted as 'OR' conditions
-            sample:
-                cat     end 曖昧さ回避
-                cat     start 同名の
-                 - category: endswith '曖昧さ回避'
-                 - category: startswith '同名の'
         title with one punct character is deleted
 
     """
@@ -2698,12 +2523,7 @@ def gen_enew_info_rev_file(enew_org, mod_list, wikipedia_change_list, enew_info,
         log_info
     output:
         enew_info
-    note:
-        mod_list
-            sample
-                1.5.1.3 1419479 フランス陸軍参謀総長
-                1.5.1.3 2092622 クウェートの首相
-                1.5.1.3 2242121 アディゲの首長
+
     """
     import json
     import csv
@@ -2766,12 +2586,6 @@ def gen_enew_info_file(enew_org, mod_list, enew_info, log_info):
         log_info
     output:
         enew_info
-    note:
-        mod_list
-            sample
-                1.5.1.3 1419479 フランス陸軍参謀総長
-                1.5.1.3 2092622 クウェートの首相
-                1.5.1.3 2242121 アディゲの首長
     """
     import json
     import csv
@@ -2860,17 +2674,10 @@ def gen_attr_rng_auto(gold_tsv_dir, attr_rng_auto_file, log_info):
     :param gold_tsv_dir:
     :param attr_rng_auto_file:
     :param log_info:
-    # :param d_cnv:
     :return:
     :output:
         attr_rng_info_file
-        - Music	プロデューサー	1.1	Person	0.5	1	2
-        - Music	プロデューサー	1.4.2	Show_Organization	0.5	1	2
-    :notice:   リンク先がカテゴリに変更されている！
-       gold_tsv
-            sample:
-            `Person	990044	細井雄二	作品	快傑ズバット	107	1	107	7	130767	快傑ズバット	['1.7.12', '1.7.13.2']
-['Character', 'Broadcast_Program']`
+
     """
     import pandas as pd
     logger = set_logging_pre(log_info, 'myPreLogger')
@@ -2946,9 +2753,6 @@ def gen_attr_rng_man(attr_rng_man_org_file, attr_rng_man_file, log_info, **d_cnv
         header: yes
     attr_rng_man_org_file
     format:  cat, attr, rng_eneid, rng_cat, ratio
-    sample:
-        Music   アーティスト    1.1 Person 1
-        Music   スタッフ        1.1 Person 1
     """
 
     import pandas as pd

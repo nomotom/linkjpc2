@@ -16,11 +16,6 @@ def check_nil_stop(attr, log_info, **nil_stop_dict):
     nil_stop_res = 0
     if attr in nil_stop_dict:
         nil_stop_res = 1
-        logger.debug({
-            'action': 'check_nil_exception_cand',
-            'attr': attr,
-            'stat': 'stop',
-        })
     return nil_stop_res
 
 
@@ -80,10 +75,6 @@ def reg_nil_cand_man(cand_man_file, log_info):
             if '#' in line:
                 continue
             cat_attr = ':'.join(line)
-            logger.debug({
-                'action': 'check_nil_cand_man',
-                'cat_attr': cat_attr,
-            })
             nil_cand_dict[cat_attr] = 1
 
     return nil_cand_dict
@@ -307,10 +298,6 @@ def check_linkable_info(linkable_info_file, log_info):
     Note:
          linkable info file
             format: format: 'cat', 'attr', 'ratio', 'linked_freq', 'all_freq' (*.tsv)
-            sample:
-                Video_Work      別名    1.0     8       8
-                Video_Work      監督    0.92    12      13
-                Video_Work      脚本    0.4     2       5
     """
 
     import csv

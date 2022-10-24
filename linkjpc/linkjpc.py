@@ -1,4 +1,3 @@
-# modules
 import detect_nil as dn
 import incl_filtering as il
 import matching as mc
@@ -77,7 +76,6 @@ def set_logging(log_info, logger_name):
 @click.option('--char_match_cand_num_max', '-c_max', type=click.INT,
               default=cf.OptInfo.char_match_cand_num_max_default, show_default=True,
               help='maximum number of candidate link pages for one mention in each string matching module (mint/tinm)')
-# @click.option('--lang_link_min', default=cf.OptInfo.lang_link_min_default, show_default=True, type=click.FLOAT)
 @click.option('--multi_lang', default=cf.OptInfo.multi_lang_default, type=click.Choice(['j', 'je', 'm']),
               show_default=True,
               help='specify if foreign language titles based on interlanguage links should be used for matching.'
@@ -1152,12 +1150,6 @@ def ljc_main(common_data_dir,
         d_linkable = dn.check_linkable_info(data_info.linkable_info_file, log_info)
         d_nil_cand_man = dn.reg_nil_cand_man(data_info.nil_cand_man_file, log_info)
         d_nil_stop_attr = dn.reg_nil_cand_man(data_info.nil_stop_attr_file, log_info)
-
-        logger.debug({
-            'action': 'ljc_main',
-            'run': 'dn.check_linkable_info',
-            'd_linkable': d_linkable,
-        })
 
     logger.info({
         'action': 'ljc_main',

@@ -87,7 +87,6 @@ def check_slink_info(slink_file, log_info):
     Note:
         slink_file
             (format) cat, attr, self link ratio, self link num, cat_attr_freq (tsv)
-            (sample) School  別名    1.0     4       4
 
     """
 

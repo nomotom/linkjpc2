@@ -154,14 +154,9 @@ def get_attr_range(attr_range_man_file, attr_range_auto_file, attr_range_merged_
         attr_range_man_file
             (format)
                 cat(\t)attribute_label(\t)eneid(\t)probability
-            (sample)
-                Person  国   1.5.1.3 1.0
-                Person  国   1.5.1.0 0.5
         attr_range_auto_file
             (format)
                 cat(\t)attribute_label(\t)eneid(\t)probability(\t)freq(\t)freq_cat_attr(\n)
-            (sample)
-                 City    産業    0   0.5     50      100
     """
     import re
     import csv

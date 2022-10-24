@@ -20,9 +20,6 @@ def check_wlink(mention_info, opt_info, log_info, **diff_info):
         format:
             {'cat_attr': [backward_limit, forward_limit, diff_backward_num, diff_forward_num, diff_same_num,
             diff_all_num],....)
-        sample:
-            {'Person:地位職業': [-3, 10, 18, 24, 45], 'Person:生誕地': [-35, 19, 9, 22, 14, 45],
-
 
     """
     from decimal import Decimal, ROUND_HALF_UP
@@ -171,7 +168,6 @@ def check_wlink(mention_info, opt_info, log_info, **diff_info):
                 l_tmp_tag_info_list = cf.d_tag_info[l_tmp_cat_pid_lineid]
 
                 for l_tmp_tag_info in l_tmp_tag_info_list:
-                    # l_tmp_text = l_tmp_tag_info[2]
                     l_tmp_title = l_tmp_tag_info[3]
 
                     if cf.d_title2pid.get(l_tmp_title):
@@ -324,17 +320,6 @@ def reg_tag_info(html_info_file, log_info):
         log_info
     Returns:
         d_tag_info (dict)
-    Note:
-        html_info_file
-            Currently html info is based on sample data. (70 articles/category)
-            format:
-                header: cat(\t)pid(\t)line_id(\t)text_start(\t)text_end(\t)text(mention)(\t)title(of linked page)(\n)
-            sample:
-                City    1617736 71      200     202     座標    地理座標系
-        d_tag_info
-            format:
-                key: cat_pid_lineid
-                value: [text_start, text_end, text(mention), title(title of linked page)]
     """
     import csv
     logger = ljc.set_logging(log_info, 'myLogger')
@@ -364,12 +349,6 @@ def reg_mention_gold_distance_ca(dist_ca_file, log_info):
         log_info
     Returns:
         diff_info_ca
-    Note:
-        dist_ca_file
-            format
-                cat(\t)attr(\t)diff_min(\n)
-            sample (in case of dist_ca_forward_file)
-                Person  作品        10
     """
     import re
     logger = ljc.set_logging(log_info, 'myLogger')
@@ -402,21 +381,6 @@ def reg_mention_gold_distance(mention_gold_link_dist_file, opt_info, diff_info_f
     Output:
         mention_gold_link_dist_info_file: summary of gold links of mentions by category * attribute
     Note:
-        mention_gold_link_dist_file
-            The distance between mention and nearest gold link (backward/forward) in sample data.
-            format
-                cat(\t)attr(\t)diff_min(\n)
-            sample
-                Person  所属組織        223
-                Person  所属組織        79
-                Person  所属組織        143
-        mention_gold_link_dist_info_file
-            format
-                tmp_cat, tmp_attr, backward_limit, forward_limit, diff_backward_num, diff_forward_num,
-                diff_same_num, diff_all_num (tsv)
-            sample
-                Person  地位職業        -47     7       18      90      -63     45
-                Person  生誕地  -57     6       9       21      15      45
         diff_info
             key: tmp_cat:tmp_attr
             value: [backward_limit, forward_limit, diff_backward_num, diff_forward_num, diff_same_num, diff_all_num]

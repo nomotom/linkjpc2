@@ -45,9 +45,6 @@ def get_link_prob_info(link_prob_file, lp_min, log_info):
             format:
                 key: <cat>\t<attr>\t<mention>
                 val: [[pid,prob],.]
-            sample:
-                key: Compound\t種類\tカルシウム拮抗薬
-                val: [[826886,1.0],[123456,0.5],....]
     """
 
     import csv

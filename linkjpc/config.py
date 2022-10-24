@@ -329,9 +329,6 @@ class DataInfo(object):
     # [CP17]
     f_title2pid_ext_default = 'jawiki-20210823_title2pageid_20210820_ext.tsv'
 
-    # [CP18]
-    f_title2pid_ext_obs_default = 'jawiki-20190120-title2pageid_ext.tsv'
-
     # [CP19]
     f_title2pid_org_default = 'jawiki-20210820-title2pageid.jsonl'
 

@@ -13,11 +13,6 @@ def match_mention_title(mod, opt_info, mention, log_info, **d_mention_pid_ratio)
         **d_mention_pid_ratio
     Returns:
         cand_list
-    Notice:
-        d_mention_pid_ratio
-            sample
-                key: 鎮痛薬
-                val: [('818157', 1.0), ('548022', 0.38)]
     """
     from operator import itemgetter
     import sys
@@ -92,25 +87,9 @@ def reg_matching_info(matching_info_file, ratio_min, multi_lang, log_info):
             format:
                 key: mention
                 val: [(pid, ratio), (pid, ratio), .....)
-            sample:
-                key:'湖'
-                val: [('401', '0.5'), ('132068', '0.33'), ('9322', '0.25'), ('1431634', '1.0'),...]
         matching_info_file
             format: mention(\t)pid(\t)title(\t)ratio(\n)
                 sorted by ratio
-            sample(tinm)
-                エチオピア      1443906 エチオピア      1.0
-                エチオピア北西  1443906 エチオピア      0.71
-            sample(mint)
-                湖      401     湖国    0.5
-                湖      132068  湖南省  0.33
-                勾玉	298108	勾玉	1.0
-                勾玉	1410287	空色勾玉	0.5
-                勾玉	1593456	八坂瓊勾玉	0.4
-                勾玉	1593456	八尺瓊勾玉	0.4
-                勾玉	710567	翡翠製勾玉	0.4
-                勾玉	1593456	八尺瓊の勾玉	0.33
-                勾玉	710567	ヒスイ製勾玉	0.33
     """
     import csv
     import sys
