@@ -77,7 +77,7 @@ SHINRA2022 Linking taskはWikipedia記事中の、あるエンティティ(事�
 ## エンティティリンキングを試してみる
 
 1) スクリプトデータファイルをダウンロード 
-   - エンティティリンキング (**_linkjpc_**)と前処理（**_linkjpc_prep_**: オプショナル）に必要なデータファイルのリストはdata_info.mdの[WHERE TO GET DATA]をご覧ください。 
+   - エンティティリンキング (**_linkjpc_**)と前処理（**_linkjpc_prep_**: オプショナル）に必要なデータファイルのリストは[data_info.md](https://github.com/nomotom/linkjpc2/blob/main/docs/data_info.md)の[WHERE TO GET DATA]をご覧ください。 
    - 前処理（オプショナル）を試す場合は、以下の[前処理に関する注意](#前処理に関する注意) もご覧ください。
 
 2) ファイルを配置
@@ -122,7 +122,7 @@ WikipediaのダンプデータによるページID変更等、元データのバ
 ### 前処理の実行順序
 
 前処理( _**linkjpc_prep**_ )のオプションのうち、A, B, Cのグループに分類したものは、以下に示す順序で実行してください。 **_tests_** ディレクトリのスクリプト例
- ( _linkjpc_prep_all_test.sh_) を参考にしてください。
+ ( _[linkjpc_prep_all_test.sh](https://github.com/nomotom/linkjpc2/blob/main/tests/linkjpc_prep_all_test.sh)_) を参考にしてください。
 ```
 
 先に以下のダンプファイルを準備してから前処理を実行してください
