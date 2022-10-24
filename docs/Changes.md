@@ -79,26 +79,26 @@
 #### 主な変更点
  
 
-| option                         | 説明                                                                                                                                                                               | 主な変更点 |
-|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
-| wlink /wl                      | Wikipediaリンクのスコアリング方法(どの環境に現れたタグに加点するか) <br>f: メンション内の最初のリンクを優先<br> r: メンション内の最右のリンクを優先<br>m: メンション内の全てのリンクに同等に加点<br>p: ページ内で既出の(メンションの)リンクに加点<br>l: メンション周辺の行のリンクに加点<br>n: N/A. |       |
-| f_html_info                    | htmlタグ情報ファイル                                                                                                                                                                     |       | 
-| wf_score   /wf                 | メンション内の最初のWikipediaリンクに与えるスコア  (cf. wlink:f)                                                                                                                                     |       |
-| wr_score /wr                   | メンション内の最右のWikipediaリンクに与えるスコア (cf. wlink:r)                                                                                                                                      |       |  
-| wp_score  /wp                  | ページ内で前出の(メンションの)Wikipediaリンクに与えるスコア (cf. wlink:p)                                                                                                                                |       |
-| wl_score_same  /wls            | メンション周辺（同一行）にあるWikipediaリンクに与えるスコア (wlink:l)                                                                                                                                     |       |                  |
-| wl_score_backward  /wlb        | メンション周辺（後の行）にあるWikipediaリンクに与えるスコア(wlink:l)                                                                                                                                      |       |  
-| wl_score_forward /wlf          | メンション周辺（前の行）にあるWikipediaリンクに与えるスコア  (wlink:l)                                                                                                                                    |       |
-| wl_break                       | 候補のリンクが見つかったら探索をやめるかどうかのフラグ                                                                                                                                                      |       | 
-| wl_lines_backward_ca /wl_bca   | 各カテゴリ-属性のペアについてメンションから遡ってWikipediaリンクを探す際の行数の最大値の決定方法                                                                                                                            |       | 
-| wl_lines_forward_ca /wl_fca    | 各カテゴbcaリ-属性のペアについてメンション以降でWikipediaリンクを探す際の行数の最大値の決定方法                                                                                                                           |       |
-| wl_lines_backward_max /wl_bmax | メンションを含む行から遡ってWikipediaリンクを探す行数の最大値 (cf.wl_lines_backward_ca)                                                                                                                    |       |
-| wl_lines_forward_max /wl_fmax  | メンションを含む行以降でWikipediaリンクを探す行数の最大値 (cf.wl_lines_forward_ca)                                                                                                                       |       |
-| f_wl_lines_backward_ca         | 各カテゴリ-属性のペアについてメンションから遡ってWikipediaリンクを探す際の行数の最大値の指定ファイル(cf. wl_lines_backward_ca)                                                                                                |       |    
-| wl_lines_forward_ca            | 各カテゴリ-属性のペアについてメンション以降でWikipediaリンクを探す際の行数の最大値の指定ファイル (cf. wl_lines_lines_forward_ca)                                                                                            |       |
-| wl_lines_backward_ca_ratio     | 各属性についてメンションから遡ってWikipediaリンクを探す際の行のratioの最大値（候補行数は各属性についてサンプルデータの統計から推定）                                                                                                        |       |
-| wl_lines_forward_ca_ratio      | 各属性についてメンション以降でWikipediaリンクを探す際の行のratioの最大値（候補行数は各属性についてサンプルデータの統計から推定）                                                                                                          |       |
-| f_mention_gold_link_dist_info  | サンプルデータのメンションと正解Wikipediaリンクの距離に関する統計情報の出力ファイル名                                                                                                                                  |       |
+| option                         | 説明                                                                                                                                                                               | 変更点 |
+|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----|
+| wlink /wl                      | Wikipediaリンクのスコアリング方法(どの環境に現れたタグに加点するか) <br>f: メンション内の最初のリンクを優先<br> r: メンション内の最右のリンクを優先<br>m: メンション内の全てのリンクに同等に加点<br>p: ページ内で既出の(メンションの)リンクに加点<br>l: メンション周辺の行のリンクに加点<br>n: N/A. |     |
+| f_html_info                    | htmlタグ情報ファイル                                                                                                                                                                     |     | 
+| wf_score   /wf                 | メンション内の最初のWikipediaリンクに与えるスコア  (cf. wlink:f)                                                                                                                                     |     |
+| wr_score /wr                   | メンション内の最右のWikipediaリンクに与えるスコア (cf. wlink:r)                                                                                                                                      |     |  
+| wp_score  /wp                  | ページ内で前出の(メンションの)Wikipediaリンクに与えるスコア (cf. wlink:p)                                                                                                                                |     |
+| wl_score_same  /wls            | メンション周辺（同一行）にあるWikipediaリンクに与えるスコア (wlink:l)                                                                                                                                     |     |                  |
+| wl_score_backward  /wlb        | メンション周辺（後の行）にあるWikipediaリンクに与えるスコア(wlink:l)                                                                                                                                      |     |  
+| wl_score_forward /wlf          | メンション周辺（前の行）にあるWikipediaリンクに与えるスコア  (wlink:l)                                                                                                                                    |     |
+| wl_break                       | 候補のリンクが見つかったら探索をやめるかどうかのフラグ                                                                                                                                                      |     | 
+| wl_lines_backward_ca /wl_bca   | 各カテゴリ-属性のペアについてメンションから遡ってWikipediaリンクを探す際の行数の最大値の決定方法                                                                                                                            |     | 
+| wl_lines_forward_ca /wl_fca    | 各カテゴbcaリ-属性のペアについてメンション以降でWikipediaリンクを探す際の行数の最大値の決定方法                                                                                                                           |     |
+| wl_lines_backward_max /wl_bmax | メンションを含む行から遡ってWikipediaリンクを探す行数の最大値 (cf.wl_lines_backward_ca)                                                                                                                    |     |
+| wl_lines_forward_max /wl_fmax  | メンションを含む行以降でWikipediaリンクを探す行数の最大値 (cf.wl_lines_forward_ca)                                                                                                                       |     |
+| f_wl_lines_backward_ca         | 各カテゴリ-属性のペアについてメンションから遡ってWikipediaリンクを探す際の行数の最大値の指定ファイル(cf. wl_lines_backward_ca)                                                                                                |     |    
+| wl_lines_forward_ca            | 各カテゴリ-属性のペアについてメンション以降でWikipediaリンクを探す際の行数の最大値の指定ファイル (cf. wl_lines_lines_forward_ca)                                                                                            |     |
+| wl_lines_backward_ca_ratio     | 各属性についてメンションから遡ってWikipediaリンクを探す際の行のratioの最大値（候補行数は各属性についてサンプルデータの統計から推定）                                                                                                        |     |
+| wl_lines_forward_ca_ratio      | 各属性についてメンション以降でWikipediaリンクを探す際の行のratioの最大値（候補行数は各属性についてサンプルデータの統計から推定）                                                                                                          |     |
+| f_mention_gold_link_dist_info  | サンプルデータのメンションと正解Wikipediaリンクの距離に関する統計情報の出力ファイル名                                                                                                                                  |     |
 
 
 ### **link_prob.py(lp):リンク確率** 
