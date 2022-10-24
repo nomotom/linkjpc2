@@ -95,13 +95,13 @@ $ python ./linkjpc/linkjpc.py (common_data_dir) (tmp_data_dir) (in_dir) (out_dir
 ```
 |モジュール                     |optionの組み合わせ例  |
 |----|----|
-|mint                         | --mod m --mint e -f x                                                             |
-|tinm                       	|--mod t --tinm p -t_min 0.8 -f x|
-|mint, tinm                   |--mod mt --mint p --tinm p -m_min 0.9 -t_min 0.8 -f x|
-|wlink	                      |--mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 12|
-|slink                        |--mod s -s_min 0.5 -s_prb m_est -f x|
-|link_prob                    |--mod l -l_min 0.5 -f x|
-|slink, mint, wlink, link_prob|--mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art am -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7|
+|mint                         | `--mod m --mint e -f x`                  |
+|tinm                       	|`--mod t --tinm p -t_min 0.8 -f x`|
+|mint, tinm                   |`--mod mt --mint p --tinm p -m_min 0.9 -t_min 0.8 -f x`|
+|wlink	                      |`--mod w --wlink rp -f an -ar_tgt w -art ma -al r -n_tgt w -n_cond and_len_or_prob_desc -n_max 0.01 -n_af_min 7 -ld_min 12`|
+|slink                        |`--mod s -s_min 0.5 -s_prb m_est -f x`|
+|link_prob                    |`--mod l -l_min 0.5 -f x`|
+|slink, mint, wlink, link_prob|`--mod s:m:lw -f abn --mint e -s_min 0.5 -s_prb m_est --wlink rp -ar_tgt w -art am -al am -bl_tgt w -l_min 0.6 -n_tgt w -n_cond two_of_prob_len_desc -n_max 0.01 -n_af_min 7 -ld_min 7`|
 
 
 ## 注意
