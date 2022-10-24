@@ -9,7 +9,7 @@ tmp_data_dir="XXX/"
 common_data_dir="XXX/"
 sample_gold_dir="XXX"      # link_annotationのparent directory
 sample_input_dir="XXX"     # ene_annotationのparent directory
-#########################################################################################
+
 
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir --gen_change_wikipedia_info
 python $script $common_data_dir $tmp_data_dir $in_dir $sample_gold_dir $sample_input_dir --conv_sample_json_pageid
