@@ -124,7 +124,7 @@ The directories are specified as command line arguments or options when you try 
  - description: Disambiguation page judgment rules list.
  - format: target, position, expression (*.tsv)
  - sample:
-   - cat     end     曖昧さ回避 
+   - `cat     end     曖昧さ回避 `
  - created by: manually
 
 ### CM2 (f_self_link_pat_default)
@@ -132,8 +132,8 @@ The directories are specified as command line arguments or options when you try 
  - format: 
    - pos, pat (*.tsv)
  - sample:
-   - start   別名
-   - start   合併
+   - `start   別名`
+   - `start   合併`
  - created by: manually
 
 ### CM3 (f_attr_rng_man_org_default)
@@ -279,7 +279,7 @@ combination of category(ENE_label_en), pid, attribute, mention, and linked id.
   - format:
     - en_label_en, attribute_name (*.tsv)
   - sample:
-    - Fish    保全状況
+    - `Fish    保全状況`
 
 ### CM16 (f_nil_stop_attr_default)
   - filename: '**nil_stop_attr_man.tsv**'
